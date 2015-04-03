@@ -1,0 +1,118 @@
+html {
+    background-color:#5090e0;
+    /* Disable selection on double click */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
+
+#muffin {
+    width:256px;
+    height:256px;
+    background-size:100% auto;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-image:url('../images/muffin_by_ikillyou121-d4donrs.png');
+    margin-left:auto;
+    margin-right:auto;
+    transition: background-size 0.1s;
+}
+
+#muffin:hover {
+    background-size:  105%;
+}
+
+#muffin.clicked {
+    animation-duration:         0.1s;
+    -moz-animation-duration:    0.1s;
+    -webkit-animation-duration: 0.1s;
+    animation-name:             muffin-clicked;
+    -moz-animation-name:        muffin-clicked;
+    -webkit-animation-name:     muffin-clicked;
+}
+
+@-webkit-keyframes  muffin-clicked { from { background-size:  105%; } 50% { background-size:  100%; } to { background-size:  105%; } }
+
+@-webkit-keyframes  counter-text-flashing {
+    from {
+        color:#ffffff;
+        text-shadow: 0px 0px 32px rgba(255,255,128,1);
+    }
+    to {
+        color:#e0e0e0;
+        text-shadow: 0px 0px 0px rgba(255,255,128,0);
+    }
+}
+
+@-webkit-keyframes  click-pulse {
+    from {
+        width:16px;
+        height:16px;
+        opacity:1;
+        left:-8px;
+        top:-8px;
+    }
+    to {
+        width:160px;
+        height:160px;
+        opacity:0;
+        left:-80px;
+        top:-80px;
+    }
+}
+
+#counter {
+    background-color: #909090;
+    color: #e0e0e0;
+    border-color: #808080;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 4px;
+    font-size:32px;
+    margin-bottom:16px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:16px;
+    padding:16px;
+    text-align:center;
+    width:50%;
+}
+
+#counterText.flashing {
+    -webkit-animation: counter-text-flashing 0.1s;
+}
+
+.clickPulse {
+    position:fixed;
+    background-color: #e0c080;
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+    -webkit-animation: click-pulse 0.5s;
+}
+
+#shop {
+    width:50%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.shopItem {
+    background-color:#e0c080;
+    border-color:#a08030;
+    border-radius:8px;
+    border-style:solid;
+    border-width:4px;
+    padding:16px;
+}
+
+.shopItem.unavailable {
+    opacity:0.5;
+    transition: opacity 0.25s;
+}
+
+.shopItemProgressBar {
+    background-color:#ff0000;
+    transition: background-color 0.1s, transform 0.1s;
+}
