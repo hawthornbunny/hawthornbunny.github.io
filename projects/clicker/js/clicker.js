@@ -159,6 +159,8 @@ $(document).ready(
                 var shopItemProgressBarElement = $(shopItemElement.find('.shopItemProgressBar')[0]);
 
                 if (CURRENT_MUFFINS < shopItem.cost) {
+                    shopItemElement.addClass('unavailable');
+                    shopItemProgressBarElement.show();
                     var shopItemProgressBarCoefficient = CURRENT_MUFFINS / shopItem.cost;
                     var shopItemProgressBarScaleXCoefficient = shopItemProgressBarCoefficient;
                     var shopItemProgressBarTranslateXPercentage = -50 + ((shopItemProgressBarCoefficient * 100) / 2);
