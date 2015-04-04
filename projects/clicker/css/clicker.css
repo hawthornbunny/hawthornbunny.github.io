@@ -105,14 +105,14 @@ html {
     border-style:solid;
     border-width:4px;
     padding:16px;
+    transition: opacity 0.25s;
 }
 
 .shopItem.unavailable {
     opacity:0.5;
-    transition: opacity 0.25s;
 }
 
 .shopItemProgressBar {
-    background-color:#ff0000;
+    background-color:#ffffff;
     transition: background-color 0.1s, transform 0.1s;
 }
