@@ -15,12 +15,19 @@ $(document).ready(
         var UPDATE_INTERVAL = undefined; // will be defined during initialization
 
         var SHOP_ELEMENT = $('#shop');
-        var SHOP_ITEMS = undefined; // will be defined during initialization, after object definitions have been declared
-        var SHOP_ITEM_ELEMENTS = undefined; // will be defined during initialization, after SHOP_ITEMS have been declared
+        var SHOP_ITEM_DEFINITIONS = undefined; // will be defined during initialization, after object definitions have been declared
+        var SHOP_ITEM_ELEMENTS = undefined; // will be defined during initialization, after SHOP_ITEM_DEFINITIONS have been declared
 
         // ----------------------------------------------------------------
         // Objects
         // ----------------------------------------------------------------
+
+        function ShopItemDefinition(id, name, cost, mps) {
+            this.id = id;
+            this.name = name;
+            this.cost = cost;
+            this.mps = mps; // muffins produced per second
+        }
 
         /**
          * A shop item is something that can be bought (to produce more muffins).
@@ -28,12 +35,14 @@ $(document).ready(
          * Every update, the ShopItem's mps will be put into a muffin production variable.
          * The number of whole muffins it has produced since last update will then be added to the muffin count.
          */
-        function ShopItem(id, name, cost, mps) {
+        function ShopItem(id) {
             this.id = id;
-            this.name = name;
-            this.cost = cost;
-            this.mps = mps;
+            this.quantity = 0;
             this.muffinProduction = 0;
+
+            this.increaseQuantity = function(number) {
+                this.quantity += number;
+            }
 
             this.produceMuffins = function(muffinProductionAmount) {
                 var wholeMuffinsProduced = 0;
@@ -59,14 +68,14 @@ $(document).ready(
             // Trigger a refresh of the shop items, to update their progress bars and to see if any have
             // become available since last update
             refreshShopItems();
+
+            // Check every shop item that the player has bought.
             for (var shopItemId in BOUGHT_SHOP_ITEMS) {
-                var numberOfBoughtShopItems = BOUGHT_SHOP_ITEMS[shopItemId];
-                var shopItem = SHOP_ITEMS[shopItemId];
+                var boughtShopItem = BOUGHT_SHOP_ITEMS[shopItemId];
+                var shopItemDefinition = SHOP_ITEM_DEFINITIONS[shopItemId];
                 var muffinsProduced = 0;  
 
-                for (var i = 0; i < numberOfBoughtShopItems; i++) {
-                    muffinsProduced += shopItem.produceMuffins(shopItem.mps * (UPDATE_INTERVAL_DURATION / 1000));
-                }
+                muffinsProduced += boughtShopItem.produceMuffins(boughtShopItem.quantity * shopItemDefinition.mps * (UPDATE_INTERVAL_DURATION / 1000));
 
                 if (muffinsProduced > 0) {
                     increaseMuffins(muffinsProduced);
@@ -78,16 +87,25 @@ $(document).ready(
          * Buys one shop item and updates the muffin count accordingly.
          */
         var buyShopItem = function(shopItemId) {
-            var shopItem = SHOP_ITEMS[shopItemId];
-            if (CURRENT_MUFFINS >= shopItem.cost) {
+            var shopItemDefinition = SHOP_ITEM_DEFINITIONS[shopItemId];
+            if (CURRENT_MUFFINS >= shopItemDefinition.cost) {
                 if (BOUGHT_SHOP_ITEMS[shopItemId] === undefined) {
-                    BOUGHT_SHOP_ITEMS[shopItemId] = 0;
+                    BOUGHT_SHOP_ITEMS[shopItemId] = new ShopItem(shopItemId);
                 }
 
-                increaseMuffins(-shopItem.cost);
-                BOUGHT_SHOP_ITEMS[shopItemId] += 1;
+                decreaseMuffins(shopItemDefinition.cost);
+                BOUGHT_SHOP_ITEMS[shopItemId].increaseQuantity(1);
             }
             return false;
+        }
+
+        /**
+         * Decrease the muffin count. This automatically updates the counter.
+         */
+        var decreaseMuffins = function(numberOfMuffins) {
+            CURRENT_MUFFINS -= numberOfMuffins;
+            COUNTER_TEXT_ELEMENT.html(CURRENT_MUFFINS+' '+'muffins'); 
+            COUNTER_TEXT_ELEMENT.addClass('flashing decrease');
         }
 
         /** 
@@ -144,39 +162,53 @@ $(document).ready(
 
         /**
          * Increase the muffin count. This automatically updates the counter.
+         * Any muffins added this way also get added to BANKED_MUFFINS, which tracks the total number of muffins ever produced.
          */
         var increaseMuffins = function(numberOfMuffins) {
             CURRENT_MUFFINS += numberOfMuffins;
             BANKED_MUFFINS += numberOfMuffins;
             COUNTER_TEXT_ELEMENT.html(CURRENT_MUFFINS+' '+'muffins'); 
-            COUNTER_TEXT_ELEMENT.addClass('flashing');
+            COUNTER_TEXT_ELEMENT.addClass('flashing increase');
         }
 
         var refreshShopItems = function() {
             for (var shopItemId in SHOP_ITEM_ELEMENTS) {
-                var shopItem = SHOP_ITEMS[shopItemId];
+                var shopItem = SHOP_ITEM_DEFINITIONS[shopItemId];
                 var shopItemElement = SHOP_ITEM_ELEMENTS[shopItemId];
                 var shopItemProgressBarElement = $(shopItemElement.find('.shopItemProgressBar')[0]);
+
+                var shopItemProgressBarCoefficient = CURRENT_MUFFINS / shopItem.cost;
+                var shopItemProgressBarScaleXCoefficient = shopItemProgressBarCoefficient;
+                var shopItemProgressBarTranslateXPercentage = -50 + ((shopItemProgressBarCoefficient * 100) / 2);
+                var shopItemProgressBarBackgroundColorR = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
+                var shopItemProgressBarBackgroundColorG = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
+                var shopItemProgressBarBackgroundColorB = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
 
                 if (CURRENT_MUFFINS < shopItem.cost) {
                     shopItemElement.addClass('unavailable');
                     shopItemProgressBarElement.show();
-                    var shopItemProgressBarCoefficient = CURRENT_MUFFINS / shopItem.cost;
-                    var shopItemProgressBarScaleXCoefficient = shopItemProgressBarCoefficient;
-                    var shopItemProgressBarTranslateXPercentage = -50 + ((shopItemProgressBarCoefficient * 100) / 2);
-                    var shopItemProgressBarBackgroundColorR = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
-                    var shopItemProgressBarBackgroundColorG = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
-                    var shopItemProgressBarBackgroundColorB = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
+                    shopItemProgressBarCoefficient = CURRENT_MUFFINS / shopItem.cost;
+                    shopItemProgressBarScaleXCoefficient = shopItemProgressBarCoefficient;
+                    shopItemProgressBarTranslateXPercentage = -50 + ((shopItemProgressBarCoefficient * 100) / 2);
+                    shopItemProgressBarBackgroundColorR = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
+                    shopItemProgressBarBackgroundColorG = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
+                    shopItemProgressBarBackgroundColorB = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
                     //var shopItemProgressBarBackgroundColorR = Math.floor(255 - (255 * shopItemProgressBarCoefficient));
                     //var shopItemProgressBarBackgroundColorG = Math.floor(255 * shopItemProgressBarCoefficient);
                     //var shopItemProgressBarBackgroundColorB = Math.floor(64 * shopItemProgressBarCoefficient);
-                    shopItemProgressBarElement.css('transform', 'translateX('+shopItemProgressBarTranslateXPercentage+'%) scaleX('+shopItemProgressBarScaleXCoefficient+')');
-                    shopItemProgressBarElement.css('background-color', 'rgb('+shopItemProgressBarBackgroundColorR+','+shopItemProgressBarBackgroundColorG+','+shopItemProgressBarBackgroundColorB+')');
                 }
                 else {
                     shopItemElement.removeClass('unavailable');
-                    shopItemProgressBarElement.hide();
+                    //shopItemProgressBarElement.hide();
+                    shopItemProgressBarCoefficient = CURRENT_MUFFINS / shopItem.cost;
+                    shopItemProgressBarScaleXCoefficient = 1;
+                    shopItemProgressBarTranslateXPercentage = 0;
+                    shopItemProgressBarBackgroundColorR = 255;
+                    shopItemProgressBarBackgroundColorG = 255;
+                    shopItemProgressBarBackgroundColorB = 255;
                 }
+                shopItemProgressBarElement.css('transform', 'translateX('+shopItemProgressBarTranslateXPercentage+'%) scaleX('+shopItemProgressBarScaleXCoefficient+')');
+                shopItemProgressBarElement.css('background-color', 'rgb('+shopItemProgressBarBackgroundColorR+','+shopItemProgressBarBackgroundColorG+','+shopItemProgressBarBackgroundColorB+')');
             }
         }
 
@@ -213,8 +245,11 @@ $(document).ready(
         COUNTER_TEXT_ELEMENT.bind(
             getBrowserAnimationEvent('animationend'),
             function (animationEvent) {
-                if (animationEvent.originalEvent.animationName == 'counter-text-flashing') {
-                    COUNTER_TEXT_ELEMENT.removeClass('flashing');
+                if (animationEvent.originalEvent.animationName == 'counter-text-flashing-decrease') {
+                    COUNTER_TEXT_ELEMENT.removeClass('flashing decrease');
+                }
+                if (animationEvent.originalEvent.animationName == 'counter-text-flashing-increase') {
+                    COUNTER_TEXT_ELEMENT.removeClass('flashing increase');
                 }
             }
         );
@@ -225,17 +260,19 @@ $(document).ready(
         UPDATE_INTERVAL = setInterval(update, UPDATE_INTERVAL_DURATION);
 
         // Set data for the shop items
-        //  id                                  id                  name                cost    mps
-        SHOP_ITEMS = {
-            'fillyScout':       new ShopItem(   'fillyScout',      'Trainee baker',       10,     0.1),
-            'apprenticeBaker':  new ShopItem(   'apprenticeBaker', 'Apprentice baker',  20,     0.2)
+        //  id                                            id                  name                  cost    mps
+        SHOP_ITEM_DEFINITIONS = {
+            'fillyScout':       new ShopItemDefinition(   'fillyScout',      'Filly scout',         10,     0.1),
+            'babyDragon':       new ShopItemDefinition(   'babyDragon',      'Baby dragon',         20,     0.2),
+            'apprenticeBaker':  new ShopItemDefinition(   'apprenticeBaker', 'Apprentice baker',    40,     0.4),
+            'masterBaker':      new ShopItemDefinition(   'masterBaker',     'Master baker',        80,     0.8)
         };
 
         // Create the shop item elements
         SHOP_ITEM_ELEMENTS = {};
 
-        for (var shopItemId in SHOP_ITEMS) {
-            var shopItem = SHOP_ITEMS[shopItemId];
+        for (var shopItemId in SHOP_ITEM_DEFINITIONS) {
+            var shopItem = SHOP_ITEM_DEFINITIONS[shopItemId];
             var shopItemHtml = '';
             var showShopItemProgressBar = false;
             if (CURRENT_MUFFINS <= shopItem.cost) {

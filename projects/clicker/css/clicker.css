@@ -34,13 +34,24 @@ html {
 
 @-webkit-keyframes  muffin-clicked { from { background-size:  105%; } 50% { background-size:  100%; } to { background-size:  105%; } }
 
-@-webkit-keyframes  counter-text-flashing {
+@-webkit-keyframes  counter-text-flashing-decrease {
+    from {
+        color:#ff8080;
+        text-shadow: 0px 0px 32px rgba(255,64,64,1);
+    }
+    to {
+        color:#ffffff;
+        text-shadow: 0px 0px 0px rgba(255,0,0,0);
+    }
+}
+
+@-webkit-keyframes  counter-text-flashing-increase {
     from {
         color:#ffffff;
         text-shadow: 0px 0px 32px rgba(255,255,128,1);
     }
     to {
-        color:#e0e0e0;
+        color:#ffffff;
         text-shadow: 0px 0px 0px rgba(255,255,128,0);
     }
 }
@@ -79,8 +90,12 @@ html {
     width:50%;
 }
 
-#counterText.flashing {
-    -webkit-animation: counter-text-flashing 0.1s;
+#counterText.flashing.decrease {
+    -webkit-animation: counter-text-flashing-decrease 0.5s;
+}
+
+#counterText.flashing.increase {
+    -webkit-animation: counter-text-flashing-increase 0.1s;
 }
 
 .clickPulse {
@@ -105,7 +120,11 @@ html {
     border-style:solid;
     border-width:4px;
     padding:16px;
-    transition: opacity 0.25s;
+    transition: opacity 0.25s, background-color:0.25s;
+}
+
+.shopItem:hover {
+    background-color:#ffe0c0;
 }
 
 .shopItem.unavailable {
@@ -114,5 +133,6 @@ html {
 
 .shopItemProgressBar {
     background-color:#ffffff;
+    position: relative;
     transition: background-color 0.1s, transform 0.1s;
 }
