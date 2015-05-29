@@ -4,41 +4,72 @@ $(document).ready(
         // Global variables
         // ----------------------------------------------------------------
 
+        // jQuery selectors for commonly-referenced elements
         var MUFFIN_ELEMENT = $('#muffin');
         var COUNTER_ELEMENT = $('#counter');
         var COUNTER_TEXT_ELEMENT = $('#counterText');
+        var SHOP_ELEMENT = $('#shop');
+        var SHOP_ITEM_ELEMENTS = undefined; // will be defined during initialization, after SHOP_ITEM_DEFINITIONS have been declared
 
+        // Base definitions for the shop items
+        var SHOP_ITEM_DEFINITIONS = undefined; // will be defined during initialization, after object definitions have been declared
+
+        // Player statistics which will change throughout play
         var CURRENT_MUFFINS = 0;
         var BANKED_MUFFINS = 0;
         var BOUGHT_SHOP_ITEMS = [];
+
+        // Technical variables that shouldn't be changed
         var UPDATE_INTERVAL_DURATION = 100;
         var UPDATE_INTERVAL = undefined; // will be defined during initialization
-
-        var SHOP_ELEMENT = $('#shop');
-        var SHOP_ITEM_DEFINITIONS = undefined; // will be defined during initialization, after object definitions have been declared
-        var SHOP_ITEM_ELEMENTS = undefined; // will be defined during initialization, after SHOP_ITEM_DEFINITIONS have been declared
 
         // ----------------------------------------------------------------
         // Objects
         // ----------------------------------------------------------------
 
-        function ShopItemDefinition(id, name, cost, mps) {
+        function ShopItemDefinition(id, name, cost, inflationCoefficient, mps) {
             this.id = id;
             this.name = name;
             this.cost = cost;
+            this.inflationCoefficient = inflationCoefficient;
             this.mps = mps; // muffins produced per second
         }
 
         /**
-         * A shop item is something that can be bought (to produce more muffins).
-         * mps is muffins per second.
-         * Every update, the ShopItem's mps will be put into a muffin production variable.
-         * The number of whole muffins it has produced since last update will then be added to the muffin count.
+         * Represents a quantity of bought shop items of the same type.
+         * For example, if the player has 16 Filly Scouts, they should have a ShopItem with id 'fillyScout' and quantity 16.
+         *
+         * All ShopItems have a muffinProduction variable which stores their current muffin production progress (in numbers of muffins).
+         * This should get read every update. The produceMuffins function will take as many WHOLE muffins out of production that it can
+         * and return them so that they can be added to the muffin count.
          */
         function ShopItem(id) {
             this.id = id;
             this.quantity = 0;
             this.muffinProduction = 0;
+
+            this.getBaseCost = function() {
+                return this.getShopItemDefinition().cost;
+            }
+
+            /**
+             * Gets the current cost of this item after inflation has been applied.
+             * The cost increases depending on how many of this item have previously been bought.
+             */
+            this.getCurrentCost = function() {
+                return this.getBaseCost() * (this.getInflationCoefficient() ^ this.quantity);
+            }
+
+            this.getInflationCoefficient = function() {
+                return this.getShopItemDefinition().inflationCoefficient;
+            }
+
+            /**
+             * Shortcut function to look up the ShopItemDefinition corresponding to this ShopItem.
+             */
+            this.getShopItemDefinition = function() {
+               return SHOP_ITEM_DEFINITIONS[this.id]; 
+            }
 
             this.increaseQuantity = function(number) {
                 this.quantity += number;
@@ -93,7 +124,7 @@ $(document).ready(
                     BOUGHT_SHOP_ITEMS[shopItemId] = new ShopItem(shopItemId);
                 }
 
-                decreaseMuffins(shopItemDefinition.cost);
+                decreaseMuffins(BOUGHT_SHOP_ITEMS[shopItemId].getCurrentCost());
                 BOUGHT_SHOP_ITEMS[shopItemId].increaseQuantity(1);
             }
             return false;
@@ -260,12 +291,12 @@ $(document).ready(
         UPDATE_INTERVAL = setInterval(update, UPDATE_INTERVAL_DURATION);
 
         // Set data for the shop items
-        //  id                                            id                  name                  cost    mps
+        //  id                                            id                  name                  cost    IC   mps
         SHOP_ITEM_DEFINITIONS = {
-            'fillyScout':       new ShopItemDefinition(   'fillyScout',      'Filly scout',         10,     0.1),
-            'babyDragon':       new ShopItemDefinition(   'babyDragon',      'Baby dragon',         20,     0.2),
-            'apprenticeBaker':  new ShopItemDefinition(   'apprenticeBaker', 'Apprentice baker',    40,     0.4),
-            'masterBaker':      new ShopItemDefinition(   'masterBaker',     'Master baker',        80,     0.8)
+            'fillyScout':       new ShopItemDefinition(   'fillyScout',      'Filly scout',         10,     1.5, 0.1),
+            'babyDragon':       new ShopItemDefinition(   'babyDragon',      'Baby dragon',         20,     1.5, 0.2),
+            'apprenticeBaker':  new ShopItemDefinition(   'apprenticeBaker', 'Apprentice baker',    40,     1.5, 0.4),
+            'masterBaker':      new ShopItemDefinition(   'masterBaker',     'Master baker',        80,     1.5, 0.8)
         };
 
         // Create the shop item elements
@@ -273,15 +304,15 @@ $(document).ready(
 
         for (var shopItemId in SHOP_ITEM_DEFINITIONS) {
             var shopItem = SHOP_ITEM_DEFINITIONS[shopItemId];
-            var shopItemHtml = '';
-            var showShopItemProgressBar = false;
-            if (CURRENT_MUFFINS <= shopItem.cost) {
-                var shopItemProgressBarCoefficient = CURRENT_MUFFINS / shopItem.cost;
-                var showShopItemProgressBar = true;
+            var boughtShopItem = BOUGHT_SHOP_ITEMS[shopItemId];
+            var shopItemCurrentCost = shopItem.cost;
+            if (boughtShopItem) {
+                shopItemCurrentCost = boughtShopItem.getCurrentCost();
             }
+            var shopItemHtml = '';
 
             shopItemHtml += '<div id="'+shopItem.id+'" class="shopItem unavailable">\n';
-            shopItemHtml += '    '+shopItem.name+': '+shopItem.cost+'\n';
+            shopItemHtml += '    '+shopItem.name+': '+shopItemCurrentCost+'\n';
             shopItemHtml += '    <div class="shopItemProgressBar">&nbsp;</div>\n';
             shopItemHtml += '    </div>\n';
             shopItemHtml += '</div>\n';
