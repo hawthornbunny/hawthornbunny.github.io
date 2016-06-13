@@ -14,7 +14,7 @@ window.onload = initialize;
 var global = {
     'paths': {
         /** Path to the directory containing all the card sets. */
-        'sets': 'http://hawthornbunny.net/ponymtg/data/sets'
+        'sets': 'data/sets'
     },
     /** Various useful and commonly-used mappings. */
     'mappings': {
