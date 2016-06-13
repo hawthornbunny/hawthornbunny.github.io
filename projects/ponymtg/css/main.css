@@ -1,0 +1,330 @@
+html {
+    background-color:#ffffff;
+    color:#000000;
+    height:100%;
+    font-family:sans-serif;
+}
+
+body {
+    height:100%;
+    margin:32px;
+    padding:0px;
+}
+
+/**
+ * The main container for all application-related things.
+ */
+#container {
+    height:100%;
+    margin:32px;
+    padding:0px;
+    text-align:center;
+}
+
+/**
+ * The large logotype that appears on the home screen.
+ */
+#title {
+    font-size:8em;
+}
+
+/**
+ * The clickable "reference" on the home screen (the asterisk).
+ */
+#titleReference {
+    font-size:1em;
+    color: #0040ff;
+    vertical-align:top;
+}
+
+/**
+ * The tagline that appears under the logotype on the home screen.
+ */
+#tagline {
+    font-size:0.9em;
+    text-align:center;
+}
+
+/**
+ * The card search text field.
+ */
+#search {
+    margin:64px 0px 32px 0px;
+    font-size:2em;
+    width:75%;
+    text-align:center;
+}
+
+/**
+ * The card results container.
+ */
+#results {
+    text-align:center;
+}
+
+/**
+ * The table used to hold a single card result (contains two cells: one for the card, one for the card's info).
+ */
+table.cardTable {
+    width:75%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/**
+ * The table cell which holds information about a card.
+ */
+td.cardInfo {
+    width:75%;
+    vertical-align:top;
+    border:1px solid #808080;
+    border-radius:2px;
+    background-color: #f0f0f0;
+}
+
+/**
+ * The cell containing the name of a particular card property (eg. "Name").
+ */
+td.cardPropertyName {
+    width:25%;
+    font-weight:bold;
+    vertical-align:top;
+    text-align:right;
+    padding:0.25em 1em;
+}
+
+/**
+ * The cell containing the value of a particular card property.
+ */
+td.cardPropertyValue {
+    width:75%;
+    vertical-align:top;
+    text-align:left;
+    padding:0.25em 1em;
+}
+
+/**
+ * A container for a faux-Magic card. Emulates the thick rounded border of a Magic card.
+ */
+.proxy {
+  font-size: 1em;
+  font-family: serif;
+  border: solid #202020;
+  border-radius: 16px;
+  background-color: #e0e0e0;
+  color: #101010;
+  overflow: hidden;
+}
+
+/**
+ * The `cardColor` classes all define appropriate background colors for specific types of card.
+ */
+.cardColorWhite {
+  background-color: #f8f8f0;
+}
+.cardColorBlue {
+  background-color: #60a8f0;
+}
+.cardColorBlack {
+  background-color: #383838;
+}
+.cardColorRed {
+  background-color: #e04840;
+}
+.cardColorGreen {
+  background-color: #90c080;
+}
+.cardColorMulticolored {
+  background-color: #e0b040;
+}
+.cardColorColorless {
+  background-color: #c0c0c0;
+}
+.cardColorHybridWhiteBlue {
+  background: linear-gradient(90deg, #f8f8f8, #60a8f0);
+}
+.cardColorHybridWhiteBlack {
+  background: linear-gradient(90deg, #f8f8f8, #383838);
+}
+.cardColorHybridWhiteRed {
+  background: linear-gradient(90deg, #f8f8f8, #e04840);
+}
+.cardColorHybridWhiteGreen {
+  background: linear-gradient(90deg, #f8f8f8, #90c080);
+}
+.cardColorHybridBlueBlack {
+  background: linear-gradient(90deg, #60a8f0, #383838);
+}
+.cardColorHybridBlueRed {
+  background: linear-gradient(90deg, #60a8f0, #e04840);
+}
+.cardColorHybridBlueGreen {
+  background: linear-gradient(90deg, #60a8f0, #90c080);
+}
+.cardColorHybridBlackRed {
+  background: linear-gradient(90deg, #383838, #e04840);
+}
+.cardColorHybridBlackGreen {
+  background: linear-gradient(90deg, #383838, #90c080);
+}
+.cardColorHybridRedGreen {
+  background: linear-gradient(90deg, #e04840, #90c080);
+}
+.cardColorUndefined {
+  background-color: #808080;
+}
+
+/**
+ * Decoration for a string to make it resemble a mana symbol, ie. rounded border, slight drop shadow. The color is not
+ * decided at this point.
+ */
+.manaDecoration {
+  border: 0px solid #000000;
+  border-radius: 100%;
+  padding:1px 4px;
+  box-shadow: 0px 2px 0px #000000;
+  font-size:0.8em;
+  font-weight:bold;
+}
+
+/**
+ * The next set of styles change the background and foreground colors of something to look like a mana symbol. The color
+ * values are taken directly from the official mana symbols.
+ */
+.manaDecorationWhite {
+  background-color: #fffcd6;
+  color: #211e15;
+}
+.manaDecorationBlue {
+  background-color: #aae2fb;
+  color: #051922;
+}
+.manaDecorationBlack {
+  background-color: #ccc2c0;
+  color: #120c0e;
+}
+.manaDecorationRed {
+  background-color: #faaa8f;
+  color: #200001;
+}
+.manaDecorationGreen {
+  background-color: #9bd3ae;
+  color: #01170b;
+}
+.manaDecorationGeneric {
+  background-color: #cac5c0;
+  color: #0d0f0f;
+}
+.manaDecorationColorless {
+  background-color: #cac5c0;
+  color: #0d0f0f;
+}
+.manaDecorationUndefined {
+  background-color: #808080;
+  color: #000000;
+}
+
+/**
+ * The name-and-cost line of a proxy card (usually appears at the top of a Magic card).
+ */
+.card-name-cost-line {
+  background-color: rgba(240, 240, 240, 0.75);
+  color: #101010;
+  font-weight: bold;
+  border-radius: 8px;
+  border: 1px solid #000000;
+  padding: 2px;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+/**
+ * The name of a proxy card (appears within the name-and-cost line, floated to the left).
+ */
+.card-name {
+  color: #101010;
+  font-weight: bold;
+  float:left;
+}
+
+/**
+ * The mana cost of a proxy card (appears within the name-and-cost line, floated to the right).
+ */
+.card-cost {
+  text-align: right;
+  vertical-align:middle;
+}
+
+/**
+ * The type line of a proxy card, which contains the supertype and subtype, as well as (usually) a set symbol, which
+ * will be colored according to the card's rarity.
+ */
+
+.card-type-line {
+  background-color: rgba(240, 240, 240, 0.75);
+  color:#101010;
+  font-size:0.8em;
+  font-weight: bold;
+  border-radius: 8px;
+  border: 1px solid #000000;
+  padding: 2px;
+  text-align:left;
+  margin: 4px 0px;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+/**
+ * The rules text and flavor text for a proxy card.
+ */
+.card-text {
+  background-color: rgba(240, 240, 240, 0.75);
+  font-size:0.9em;
+  border: 1px solid #000000;
+  border-radius: 2px;
+  padding:8px;
+  text-align:left;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+/**
+ * An alternate style for the card text box, to be used on planeswalker cards.
+ */
+.card-text-planeswalker {
+  border-radius: 0px 32px;
+  font-size:0.8em;
+}
+
+
+/**
+ * The power and toughness box for a proxy card. This is usually a small rounded box containing something like "1/1",
+ * which appears in the bottom-right of a creature card.
+ */
+.card-power-toughness {
+  background-color: rgba(240, 240, 240, 0.75);
+  text-align: center;
+  font-weight: bold;
+  border-radius: 8px;
+  border: 1px solid #000000;
+  float:right;
+  margin:4px;
+  padding:2px 4px;
+  width:15%;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+}
+
+/**
+ * The loyalty box for a proxy card. This is usually a dark, angular box containing an integer, which appears in the
+ * bottom right of a planeswalker card.
+ */
+.card-loyalty {
+  background-color: rgba(16, 16, 16, 1);
+  color: #f0f0f0;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 1px 1px 16px 16px;
+  border: 2px solid #e0e0e0;
+  float:right;
+  margin:4px;
+  padding:2px 4px;
+  width:15%;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+}
