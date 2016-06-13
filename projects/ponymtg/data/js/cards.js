@@ -13204,6 +13204,1380 @@ var CARDS = [
         'creator': 'Shirlendra'
     },
     {
+        'name': 'Acceptance',
+        'image': 'acceptance_by_manasparks-d5e2t8s.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Alicorn Destiny',
+        'image': 'alicorn_destiny_by_manasparks-d5vbjgr.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Alpha Timberwolf',
+        'image': 'alpha_timberwolf_by_manasparks-d5qh5qx.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Amazed',
+        'image': 'amazed_by_manasparks-d5ear7k.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Amethyst Coating',
+        'image': 'amethyst_coating_by_manasparks-d5e2v99.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Amnausea',
+        'image': 'amnausea_by_manasparks-d5kqfu4.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Angel Bunny',
+        'image': 'angel_bunny_by_manasparks-d5ebxzt.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Anger',
+        'image': 'anger_by_manasparks-d5e2sik.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Apple Bloom',
+        'image': 'apple_bloom_by_manasparks-d5e2mmi.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Applebuck Season',
+        'image': 'applebuck_season_by_manasparks-d6d8krg.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Apple Family',
+        'image': 'apple_family_by_manasparks-d5e5miz.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Apple Family Plow',
+        'image': 'apple_family_plow_by_manasparks-d6lbkgp.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Apple Family Values',
+        'image': 'apple_family_values_by_manasparks-d5e328c.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Applejack',
+        'image': 'applejack_by_manasparks-d5duaoq.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Applejack\'s Dress',
+        'image': 'applejack__s_dress_by_manasparks-d5e6jsf.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Appleloosa',
+        'image': 'appleloosa_by_manasparks-d5e7e0d.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Apple Stand',
+        'image': 'apple_stand_by_manasparks-d5e5m99.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Illusion',
+        'image': 'apple_token_1_by_manasparks-d5g7en2.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Illusion',
+        'image': 'apple_token_2_by_manasparks-d5g7ezs.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Avalanche Zone',
+        'image': 'avalanche_zone_by_manasparks-d69dlks.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Baked Bads',
+        'image': 'baked_bads_by_manasparks-d5efyte.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Bargaining',
+        'image': 'bargaining_by_manasparks-d5e2sv9.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Big Macintosh',
+        'image': 'big_macintosh_by_manasparks-d5dx9n6.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Bird',
+        'image': 'bird_by_manasparks-d6d7s00.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Bird Migration',
+        'image': 'bird_migration_by_manasparks-d6d7qfd.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Bite Size',
+        'image': 'bite_size_by_manasparks-d5emivp.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Blair Coy Dance',
+        'image': 'blair_coy_dance_by_manasparks-d5exprc.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Blue Screen',
+        'image': 'blue_screen_derpy_by_manasparks-d6lbdzs.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Brohoof',
+        'image': 'brohoof_by_manasparks-d5g20hb.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Brony Fan Base',
+        'image': 'brony_fan_base_by_manasparks-d5g243a.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Caesium Oxide',
+        'image': 'caesium_oxide_promo_by_manasparks-d5k585r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Canterlot',
+        'image': 'canterlot_by_manasparks-d5e728j.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Carousel Boutique',
+        'image': 'carousel_boutique_by_manasparks-d5e7h0c.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Carrot Top',
+        'image': 'carrot_top_by_manasparks-d5e7fg9.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cautious Cockatrice',
+        'image': 'cautious_cockatrice_by_manasparks-d5e6eet.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cave Dragon',
+        'image': 'cave_dragon_by_manasparks-d6d8j1a.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Chicken Boo',
+        'image': 'chicken_boo_by_manasparks-d5mtsws.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Chicken Run',
+        'image': 'chicken_run_by_manasparks-d5nosyw.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Chrysalis, God of Clones',
+        'image': 'chrysalis_god_of_clones_by_manasparks-d7adryb.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cloudform',
+        'image': 'cloudform_by_manasparks-d5iyptp.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cloudscape Artist',
+        'image': 'cloudkicker__the_weathermare_by_manasparks-d5o9xya.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cloud Nap',
+        'image': 'cloud_nap_by_manasparks-d5hzd8a.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cloudsdale',
+        'image': 'cloudsdale_by_manasparks-d5e7efk.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cloudwalking',
+        'image': 'cloudwalking_by_manasparks-d6d8nk7.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'CMC Initiation',
+        'image': 'cmc_initiation_by_manasparks-d5mwy3a.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'CMC\'s Embrace',
+        'image': 'cmc__s_embrace_by_manasparks-d5m73c1.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Coconut',
+        'image': 'coconut_by_manasparks-d5ebzij.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Conjured Wings',
+        'image': 'conjured_wings_by_manasparks-d5ebzlu.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cranky Doodle Donkey',
+        'image': 'cranky_doodle_donkey_by_manasparks-d5ec4p5.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cruel Ultimatum',
+        'image': 'cruel_ultimatum_by_manasparks-d5j3vcy.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Crystal Librarian',
+        'image': 'crystal_librarian_by_manasparks-d5lgmm7.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Crystal Sheep',
+        'image': 'crystal_sheep_by_manasparks-d5lgmco.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Curtain Call',
+        'image': 'curtain_call_promo_by_manasparks-d5k56fd.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Cutie Mark Crusade',
+        'image': 'cutie_mark_crusade_by_manasparks-d5mbmet.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Dangerous Mission Outfit',
+        'image': 'dangerous_mission_outfit_by_manasparks-d5mvf1c.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Deceptive Cadance',
+        'image': 'deceptive_cadance___queen_chrysalis_by_manasparks-d76vdel_1.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Chrysalis, Changeling Queen',
+        'image': 'deceptive_cadance___queen_chrysalis_by_manasparks-d76vdel_2.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Denial',
+        'image': 'denial_by_manasparks-d5e2sd7.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Depression',
+        'image': 'depression_by_manasparks-d5e2sol.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Derpy Bolt',
+        'image': 'derpy_bolt_by_manasparks-d5e6xac.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Derpy Hooves',
+        'image': 'derpy_hooves_by_manasparks-d5e6x5c.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Diamond Coating',
+        'image': 'diamond_coating_by_manasparks-d5e2uhb.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Diamond Dogs',
+        'image': 'diamond_dogs_by_manasparks-d5ebzbm.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Dinky Hooves',
+        'image': 'dinky_hooves_by_manasparks-d5e7fwo.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Disappearing Act',
+        'image': 'disappearing_act_done_as_custom_card_by_manasparks-d5pja6x.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Discord, God of Chaos',
+        'image': 'discord_god_of_chaos_by_manasparks-d77fr94.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Discord\'s Labyrinth',
+        'image': 'discord__s_labyrinth_by_manasparks-d5eaxw6.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Discord Paradox',
+        'image': 'discord__s_paradox_by_manasparks-d5qq3rd.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Discord, Spirit of Chaos',
+        'image': 'discord__spirit_of_chaos_by_manasparks-d5eaypq.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Discord\'s Realm',
+        'image': 'discord__s_realm_by_manasparks-d5eaywv.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Discord\'s Statue',
+        'image': 'discord__s_statue_by_manasparks-d5eax36.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Doctor Whooves',
+        'image': 'doctor_whooves_by_manasparks-d5e7g6c.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Dream Screams',
+        'image': 'dream_screams_by_manasparks-d5et7w6.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Dr\. Fluttershy\'s Care',
+        'image': 'dr__fluttershys_care_by_manasparks-d6bg3ht.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Earth Pony',
+        'image': 'earth_pony_token_by_manasparks-d5gi3m6.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Element of Generosity',
+        'image': 'element_of_generosity_by_manasparks-d5e5bdx.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Element of Honesty',
+        'image': 'element_of_honesty_by_manasparks-d5e59ft.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Element of Kindness',
+        'image': 'element_of_kindness_by_manasparks-d5e5ats.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Element of Laughter',
+        'image': 'element_of_laughter_by_manasparks-d5e5b1b.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Element of Loyalty',
+        'image': 'element_of_loyalty_by_manasparks-d5e5cjl.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Element of Magic',
+        'image': 'element_of_magic_by_manasparks-d5e5ct2.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Emblem of Discord',
+        'image': 'emblem_of_discord_by_manasparks-d5eaz4j.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Emerald Coating',
+        'image': 'emerald_coating_by_manasparks-d5e2yti.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Equestria',
+        'image': 'equestria_by_manasparks-d5ec5aj.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Everfree Forest',
+        'image': 'everfree_forest_by_manasparks-d5e7e8w.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Face Off',
+        'image': 'face_off_by_manasparks-d5n5420.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Faithful // Strong',
+        'image': 'faithful_and_strong_by_manasparks-d5e8yga_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Family Reunion RSVPs',
+        'image': 'family_reunion_rsvps_by_manasparks-d5oz3n3.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Featherweight',
+        'image': 'featherweight_by_manasparks-d5ebzqy.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Flight Training',
+        'image': 'flight_training_by_manasparks-d5ebzxr.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Fluffle Puff',
+        'image': 'fluffle_puff_by_manasparks-d76vaf9.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Fluttershy Batfriend',
+        'image': 'fluttershy_batfriend_by_manasparks-d6zxisz_1.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Flutterbat',
+        'image': 'fluttershy_batfriend_by_manasparks-d6zxisz_2.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Fluttershy',
+        'image': 'fluttershy_by_manasparks-d5dubwg.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Fluttershy\'s Dress',
+        'image': 'fluttershy_s_dress_by_manasparks-d5e6k1c.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Future Twilight',
+        'image': 'future_twilight_by_manasparks-d5e66bn.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Gatling Fun',
+        'image': 'gatling_fun_by_manasparks-d5lfm3v.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Gilda',
+        'image': 'gilda_by_manasparks-d5e656q.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Granny Smith',
+        'image': 'granny_smith_by_manasparks-d5e65tc.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Grip of Despair',
+        'image': 'grip_of_despair_by_manasparks-d6bq8qu.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Gummy',
+        'image': 'gummy_by_manasparks-d5ebxy3.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Guy-ra, Anthropologist',
+        'image': 'guy_ra_anthropologist_by_manasparks-d5q9404.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Harmony',
+        'image': 'harmony_by_manasparks-d5e6ckx.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Harmony Elemental',
+        'image': 'harmony_elemental_by_manasparks-d5mavk7.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Ignorance // Want',
+        'image': 'ignorance_and_want_by_manasparks-d5eba64_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Insult // Injury',
+        'image': 'insult_to_injury_by_manasparks-d5ebcap_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'King Sombra',
+        'image': 'king_sombra_by_manasparks-d5kqcx5.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Lies // Slander',
+        'image': 'lies_and_slander_by_manasparks-d5eb7o1_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Lightning Dust',
+        'image': 'lightning_dust_by_manasparks-d5o5y0n.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Lord Lexicon',
+        'image': 'lord_lexicon_by_manasparks-d5fehr9.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Lunar Banishment',
+        'image': 'lunar_banishment_by_manasparks-d5mbj9h.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Lunar Base',
+        'image': 'lunar_base_by_manasparks-d5et8nl.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Lunar Inception',
+        'image': 'lunar_inception_by_manasparks-d5np0gm.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Bat',
+        'image': 'luna__s_bat_token_by_manasparks-d5g7git.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Emblem Princess Luna',
+        'image': 'luna_s_emblem_by_manasparks-d5euasb.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Spider',
+        'image': 'luna__s_spider_token_by_manasparks-d5g7g50.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Lyra Heartstrings',
+        'image': 'lyra_hearstrings_by_manasparks-d5e7hq1.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Mana Sparks',
+        'image': 'mana_sparks_by_manasparks-d5n9a68.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Mandatory Participation',
+        'image': 'mandatory_participation_by_manasparks-d5earkj.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Marie Annette',
+        'image': 'marie_annette_by_manasparks-d5eb2ub.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Mirror Pool',
+        'image': 'mirror_pool_by_manasparks-d5lg8or.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Moonrise',
+        'image': 'moonrise_by_manasparks-d5mu20j.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Muffin Bazooka',
+        'image': 'muffin_bazooka_by_manasparks-d5e7glj.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Muffin Button',
+        'image': 'muffin_button_by_manasparks-d5e6wz6.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Nightmare Moon',
+        'image': 'nightmare_moon_and_princess_luna_by_manasparks-d6aiwiq_1.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Princess Luna',
+        'image': 'nightmare_moon_and_princess_luna_by_manasparks-d6aiwiq_2.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Nightmare Moon',
+        'image': 'nightmare_moon_by_manasparks-d5eheg3.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Caesium Oxide',
+        'image': 'nivix_guildmage_ponified_by_wolf_walrus_by_manasparks-d5jm12g.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Opalescence',
+        'image': 'opalescence_by_manasparks-d5ec0pn.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Optimism',
+        'image': 'optimism_by_manasparks-d5l23uu.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Owlowiscious',
+        'image': 'owlowiscious_by_manasparks-d5ec061.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Parasprite Blight',
+        'image': 'parasprite_blight_by_manasparks-d69o012.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pegasister Pair',
+        'image': 'pegasister_pair_by_manasparks-d5no0nj.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pegasus Pony',
+        'image': 'pegasus_pony_by_manasparks-d5gi7uf.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pega Twister',
+        'image': 'pega_twister_by_manasparks-d5o9yud.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Persuasive Offer',
+        'image': 'persuasive_offer_by_manasparks-d5mv81i.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Petrification',
+        'image': 'petrification_by_manasparks-d5e6dyc.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Philomena, Molting',
+        'image': 'philomena_molting___philomena_reborn_by_manasparks-d6bg22q_1.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Philomena, Reborn',
+        'image': 'philomena_molting___philomena_reborn_by_manasparks-d6bg22q_2.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Phoenix Down',
+        'image': 'phoenix_down_by_manasparks-d6bg364.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Photo Finish',
+        'image': 'photo_finish_by_manasparks-d5e6hkw.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Photoplasm Plant',
+        'image': 'photoplasm_plant_by_manasparks-d5ohkyi.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Photo Spectrum',
+        'image': 'photo_spectrum_by_manasparks-d7b0uan.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pinkamena Diane Pie',
+        'image': 'pinkamena_diane_pie_by_manasparks-d5e6h7p.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pinkie Fry',
+        'image': 'pinkie_fry_by_manasparks-d5lf9en.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pinkie Pie',
+        'image': 'pinkie_pie_by_manasparks-d5dub1d.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pinkie Pie\'s Dress',
+        'image': 'pinkie_pie__s_dress_by_manasparks-d5e6iq4.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pinkie Pie\'s Perfect Plan',
+        'image': 'pinkie_pie_s_perfect_plan_by_manasparks-d5prtr0.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pinkie Polka',
+        'image': 'pinkie_polka_by_manasparks-d69obbk.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pinkie\'s Invitation',
+        'image': 'pinkies_invitation_by_manasparks-d6bpxoo.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Poison Joke',
+        'image': 'poison_joke_by_manasparks-d5eberv.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Political Party',
+        'image': 'political_party_by_manasparks-d5n1wso.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Polly Morph',
+        'image': 'polly_morph_by_manasparks-d5e2u0i.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pomp // Circumstance',
+        'image': 'pomp_and_circumstance_by_manasparks-d5e7anw_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Power of Love',
+        'image': 'power_of_love_by_manasparks-d5rnmda.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Power Seal',
+        'image': 'power_seal_by_manasparks-d5lgkjx.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Pride // Prejudice',
+        'image': 'pride_and_predjudice_by_manasparks-d5ebdcp_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Princess Cadance',
+        'image': 'princess_cadance_by_manasparks-d5vbllb.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Princess Celestia',
+        'image': 'princess_celestia_by_manasparks-d5eu4bw.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Princess Luna',
+        'image': 'princess_luna_by_manasparks-d5ehk4h.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Prince Webster Morphling',
+        'image': 'prince_webster_morphling_by_manasparks-d7ay1w1.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Prism Spectacles',
+        'image': 'prism_spectacles_card_by_manasparks-d5fkhb2.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Prism Wings',
+        'image': 'prism_wings_by_manasparks-d5ohl36.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Quick Coaching',
+        'image': 'quick_coaching_by_manasparks-d6a3vwt.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Rainbow Dash',
+        'image': 'rainbow_dash_by_manasparks-d5dub5b.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Rainbow Factory',
+        'image': 'rainbow_factory_by_manasparks-d5e8x4x.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Raise Barn',
+        'image': 'raise_barn_by_manasparks-d5p7en8.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Rarity',
+        'image': 'rarity_by_manasparks-d5duaio.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Rarity\'s Dress',
+        'image': 'rarity__s_dress_by_manasparks-d5e6mm4.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Rarity\'s Seduction',
+        'image': 'rarity__s_seduction_by_manasparks-d5k5aua.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'River\'s Grasp',
+        'image': 'river__s_grasp_by_manasparks-d5njr7n.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Curtain Call',
+        'image': 'rix_maadi_ponified_by_wolf_walrus_by_manasparks-d5k567p.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Royal Canterlot Voice',
+        'image': 'royal_canterlot_voice_by_manasparks-d5mv9bb.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Rubber Chicken',
+        'image': 'rubber_chicken_by_manasparks-d69dop3.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Ruby Coating',
+        'image': 'ruby_coating_by_manasparks-d5e2z2t.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Running of the Leaves',
+        'image': 'running_of_the_leaves_by_manasparks-d6a5nsr.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Sapphire Coating',
+        'image': 'sapphire_coating_by_manasparks-d5e2umz.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Scootaloo',
+        'image': 'scootaloo_by_manasparks-d5e2mqy.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Scorn // Ridicule',
+        'image': 'scorn_and_ridicule_by_manasparks-d5eb8md_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Screw Ball',
+        'image': 'screw_ball_by_manasparks-d5eb06a.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Seapony Lyra',
+        'image': 'seapony_lyra_by_manasparks-d5k6w2q.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Seed of Betrayal',
+        'image': 'seed_of_betrayal_by_manasparks-d5m6zc9.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Singing Telegram',
+        'image': 'singing_telegram_by_manasparks-d6bpxxk.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Sisterhooves Social',
+        'image': 'sisterhood_social_by_manasparks-d5klrwa.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Smile Smile Smile!',
+        'image': 'smile_smile_smile_by_manasparks-d5ebey3.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Smiling',
+        'image': 'smiling_by_manasparks-d5lg7ot.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Snips and Snails',
+        'image': 'snips_and_snails_by_manasparks-d5ec4wd.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Snoring Dragon',
+        'image': 'snoring_dragon_by_manasparks-d69drnn.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Sparkler',
+        'image': 'sparkler_by_manasparks-d5e7fmn.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Spike, Twilight\'s Assistant',
+        'image': 'spike__twilight__s_assistant_by_manasparks-d5e350z.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Spitefilly',
+        'image': 'spitefilly_by_manasparks-d5m5q4r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Stampeding Cows',
+        'image': 'stampeding_cows_by_manasparks-d5efyjd.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Stampeding Rabbits',
+        'image': 'stampeding_rabbits_by_manasparks-d5efyo3.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Sunshine Clique',
+        'image': 'sunshine_clique_by_manasparks-d7agxsk.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Survive // Prosper',
+        'image': 'survive_and_prosper_by_manasparks-d5e79xi_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Sweet // Sour',
+        'image': 'sweet_and_sour_by_manasparks-d5e7bji_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Sweet Apple Acres',
+        'image': 'sweet_apple_acres_by_manasparks-d5e7e4t.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Sweetie Belle',
+        'image': 'sweetie_belle_by_manasparks-d5e2mwr.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Tank',
+        'image': 'tank_by_manasparks-d5ec1zx.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Tardis Core',
+        'image': 'tardis_core_by_manasparks-d5e7gb3.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'The Great and Powerful Trixie',
+        'image': 'the_great_and_powerful_trixie_by_manasparks-d5e7be1.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'This Day // Aria',
+        'image': 'this_day_aria_by_manasparks-d5ebfqs_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Timberwolf Pack',
+        'image': 'timberwolf_pack_by_manasparks-d5pql8a.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'The Great and Powerful Trixie?',
+        'image': 'trixie_edit_by_manasparks-d5e7cs9.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'True // False',
+        'image': 'true_or_false_by_manasparks-d5e7b70_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Turn to Swag',
+        'image': 'turn_to_swag_by_manasparks-d5gfe54.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Twilight Sparkle\'s Dress',
+        'image': 'twilight__s_dress_by_manasparks-d5e6lw7.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Twilight Sparkle',
+        'image': 'twilight_sparkle_by_manasparks-d599bdv.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Twilight Time',
+        'image': 'twilight_time_by_manasparks-d77z0kx.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Twist',
+        'image': 'twist_by_manasparks-d5e64wn.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Tyrant\'s Dome',
+        'image': 'tyrant__s_dome_by_manasparks-d5mvcja.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Ultra Mega Timberwolf',
+        'image': 'ultra_mega_timberwolf_by_manasparks-d5prjgu.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Unicorn Pony',
+        'image': 'unicorn_token_by_manasparks-d5gi3tm.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Vainling',
+        'image': 'vainling_by_manasparks-d5q0kl8.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Vinyl Scratch',
+        'image': 'vinyl_scratch_by_manasparks-d5eblox.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Wax Wayne',
+        'image': 'wax_wayne_by_manasparks-d5emo0m.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Weak // Helpless',
+        'image': 'weak_and_helpless_by_manasparks-d5ebdxz_r.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Webster Book',
+        'image': 'webster_book_by_manasparks-d5e2tn5.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Welcome Wagon',
+        'image': 'welcome_wagon_by_manasparks-d5ec4mg.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Will O\' Wisp',
+        'image': 'will_o__wisp_by_manasparks-d5emj4j.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Windigoes',
+        'image': 'windigoes_by_manasparks-d5ec4ck.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Winona',
+        'image': 'winona_by_manasparks-d5ebxvi.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Winter Wrap-Up',
+        'image': 'winter_wrap_up_by_manasparks-d5klrm0.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Wonderbolt Synchronization',
+        'image': 'wonderbolt_synchronization_by_manasparks-d5o9wkq.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Wonderbolt Trumpeter',
+        'image': 'wonderbolt_trumpeter_by_manasparks-d5o9vf3.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Zameck Guildmage',
+        'image': 'zameck_guildmage_ponified_by_manasparks-d5qq23m.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Zap Apple Overgrowth',
+        'image': 'zap_apple_overgrowth_by_manasparks-d6lbp0o.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Zecora, the Balanced',
+        'image': 'zecora__the_balanced_by_manasparks-d5e8zcp.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
+        'name': 'Zombie Pony',
+        'image': 'zombie_pony_by_manasparks-d5e6yc6.jpg',
+        'set': 'My Little Multiverse: Knowledge is Magic',
+        'creator': 'ManaSparks'
+    },
+    {
         'name': 'Rakdos Guildpony',
         'cost': 'BR',
         'supertype': 'Creature',

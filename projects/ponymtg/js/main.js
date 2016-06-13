@@ -39,6 +39,7 @@ var global = {
             'MTG mlp': 'Modernwater/MTG mlp/cards',
             'Elements of Harmony': 'Shadic-X-Hedgehog/Elements of Harmony/cards',
             'MLP-MTG': 'Shirlendra/MLP-MTG/cards',
+            'My Little Multiverse: Knowledge is Magic': 'ManaSparks/My Little Multiverse: Knowledge is Magic/cards',
         },
         /** Maps the various properties of a card to a more human-readable display name.*/
         'cardPropertiesToDisplayNames': {
@@ -205,6 +206,7 @@ var global = {
                 'Rainbow',
                 'Rarity',
                 'Spike',
+                'Trixie',
                 'Twilight',
                 'Vinyl',
                 'Zecora'
