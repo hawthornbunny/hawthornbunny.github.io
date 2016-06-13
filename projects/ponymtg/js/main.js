@@ -202,9 +202,10 @@ var global = {
                 'Twilight',
                 'Vinyl',
                 'Zecora'
-            ]
+            ],
+            'foundResults': 'Found {NUMBER_OF_RESULTS} cards',
+            'noResults': 'No cards found',
         },
-        'foundResults': 'Found {NUMBER_OF_RESULTS} cards',
     },
     'values': {
         'textMasses': {
@@ -212,6 +213,14 @@ var global = {
             'newline': 35
         },
         'textMassThreshold': 500
+    },
+    'pagination': {
+        'currentPage': 0,
+        'cardsPerPage': 10,
+        'numberOfPages': 1
+    },
+    'search': {
+        'results': []
     }
             
 };
@@ -249,7 +258,6 @@ function initialize() {
         //global.elements.titleReference.innerHTML = '* '+global.text.references.title;
     //};
 
-
     global.elements.title = document.querySelector('#title');
 
     // The title screen has a dynamic tagline which depends on the number of cards, so set that now.
@@ -263,12 +271,10 @@ function initialize() {
     global.elements.search.onkeypress = function(event) {
         if (event.keyCode == 13) {
             var searchRegex = new RegExp(global.elements.search.value, 'i');
-            displayResults(
-                getSearchResults(
-                    searchRegex,
-                    CARDS
-                )
-            );
+            global.search.results = getSearchResults(searchRegex, CARDS);
+            global.pagination.currentPage = 0;
+            global.pagination.numberOfPages = Math.ceil(global.search.results.length/global.pagination.cardsPerPage);
+            displayResults(global.search.results);
         }
     };
 
@@ -325,10 +331,74 @@ function displayResults(cards) {
     // Display the new results.
     // Before the results table, add a quick message to say how many results were found.
     var foundCardsMessageElement = document.createElement('div');
-    foundCardsMessageElement.innerHTML = global.text.foundResults.replace('{NUMBER_OF_RESULTS}', '<strong>'+cards.length+'</strong>') + '.';
+    var foundCardsMessage = global.text.search.noResults+'.';
+    if (cards.length > 0) {
+        foundCardsMessage = global.text.search.foundResults.replace('{NUMBER_OF_RESULTS}', '<strong>'+cards.length+'</strong>') + '.';
+        if (cards.length === 1) {
+            foundCardsMessage = foundCardsMessage.replace('cards.', 'card.');
+        }
+    }
+
+    foundCardsMessageElement.innerHTML = foundCardsMessage;
     foundCardsMessageElement.style.marginBottom = '32px';
+
+    // We only want to display a page of results, not all of them. The application is keeping track of which page the
+    // user is on, so we just need to figure out what subset of the results should be on the current page, generate a
+    // table for those only, and display it.
+    var indexOfFirstCardOnPage = global.pagination.currentPage * global.pagination.cardsPerPage;
+    var indexOfLastCardOnPage = indexOfFirstCardOnPage + global.pagination.cardsPerPage;
+    var currentPageOfCards = cards.slice(indexOfFirstCardOnPage, indexOfLastCardOnPage);
+
     global.elements.results.appendChild(foundCardsMessageElement);
-    global.elements.results.appendChild(generateCardTableElement(cards));
+    if (cards.length > 0) {
+        if (global.pagination.numberOfPages > 1) {
+            global.elements.results.appendChild(generatePaginationControlElement());
+        }
+        global.elements.results.appendChild(generateCardTableElement(currentPageOfCards));
+    }
+}
+
+/**
+ * Generates and returns a DOM element that the user can use to move between pages of the current result set.
+ */
+function generatePaginationControlElement() {
+    var paginationControlTableElement = document.createElement('table');
+    var paginationControlTableRowElement = document.createElement('tr');
+    var previousPageTableCellElement = document.createElement('td');
+    var pageNumberTableCellElement = document.createElement('td');
+    var nextPageTableCellElement = document.createElement('td');
+
+    paginationControlTableElement.className = 'paginationControl';
+
+    previousPageTableCellElement.className = 'paginationPreviousPage';
+    previousPageTableCellElement.innerHTML = '< Previous page';
+    previousPageTableCellElement.onclick = function() {
+        global.pagination.currentPage--;
+        if (global.pagination.currentPage < 0) {
+            global.pagination.currentPage = 0;
+        }
+            
+        displayResults(global.search.results);
+    };
+
+    pageNumberTableCellElement.className = 'paginationPageNumber';
+    pageNumberTableCellElement.innerHTML = 'Page '+(global.pagination.currentPage+1)+' of '+global.pagination.numberOfPages;
+
+    nextPageTableCellElement.className = 'paginationNextPage';
+    nextPageTableCellElement.innerHTML = 'Next page >';
+    nextPageTableCellElement.onclick = function() {
+        global.pagination.currentPage++;
+        if (global.pagination.currentPage >= global.pagination.numberOfPages) {
+            global.pagination.currentPage = global.pagination.numberOfPages - 1;
+        }
+        displayResults(global.search.results);
+    };
+
+    paginationControlTableRowElement.appendChild(previousPageTableCellElement);
+    paginationControlTableRowElement.appendChild(pageNumberTableCellElement);
+    paginationControlTableRowElement.appendChild(nextPageTableCellElement);
+    paginationControlTableElement.appendChild(paginationControlTableRowElement);
+    return paginationControlTableElement;
 }
 
 /**
