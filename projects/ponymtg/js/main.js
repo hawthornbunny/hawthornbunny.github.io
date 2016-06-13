@@ -51,7 +51,9 @@ var global = {
             'text': 'Text',
             'flavorText': 'Flavor text',
             'pt': 'Power/Toughness',
-            'loyalty': 'Loyalty'
+            'loyalty': 'Loyalty',
+            'transformsInto': 'Transforms into',
+            'transformsFrom': 'Transforms from'
         },
         /**
          * Maps mana symbols (in the standard WUBRG form) to the names of the color scheme that would represent that
@@ -146,8 +148,12 @@ var global = {
         'text',
         'flavorText',
         'pt',
-        'loyalty'
+        'loyalty',
+        'transformsInto',
+        'transformsFrom',
     ],
+    /** A list of metacharacters used in regular expressions. We need to escape these when searching. */
+    'regexMetacharacters': ['\\', '.','^','$','*','+','?','(',')','[',']','{','}','|'],
     'dimensions': {
         /** Dimensions for a standard Magic card as produced by Magic Set Editor. */
         'standardCard': {
@@ -212,7 +218,7 @@ var global = {
             'character': 1,
             'newline': 35
         },
-        'textMassThreshold': 500
+        'textMassThreshold': 450
     },
     'pagination': {
         'currentPage': 0,
@@ -221,6 +227,13 @@ var global = {
     },
     'search': {
         'results': []
+    },
+    'statistics': {
+        'counts': {
+            'numberOfCards': undefined,
+            'cardsPerSet': {},
+            'cardsPerCreator': {}
+        }
     }
             
 };
@@ -258,6 +271,11 @@ function initialize() {
         //global.elements.titleReference.innerHTML = '* '+global.text.references.title;
     //};
 
+    var statistics = getStatistics(CARDS);
+    global.statistics.counts.numberOfCards = statistics.counts.numberOfCards;
+    global.statistics.counts.cardsPerSet = statistics.counts.cardsPerSet;
+    global.statistics.counts.cardsPerCreator = statistics.counts.cardsPerCreator;
+
     global.elements.title = document.querySelector('#title');
 
     // The title screen has a dynamic tagline which depends on the number of cards, so set that now.
@@ -270,7 +288,11 @@ function initialize() {
     global.elements.search = document.querySelector('#search');
     global.elements.search.onkeypress = function(event) {
         if (event.keyCode == 13) {
-            var searchRegex = new RegExp(global.elements.search.value, 'i');
+            var searchString = global.elements.search.value;
+            // We do actually want to do a string search and not a regex search, so we need to escape any regex
+            // characters that the user may have entered.
+            searchString = escapeRegex(searchString);
+            var searchRegex = new RegExp(searchString, 'i');
             global.search.results = getSearchResults(searchRegex, CARDS);
             global.pagination.currentPage = 0;
             global.pagination.numberOfPages = Math.ceil(global.search.results.length/global.pagination.cardsPerPage);
@@ -287,6 +309,39 @@ function initialize() {
     // Focus on the search box.
     global.elements.search.focus();
 
+}
+
+/**
+ * Given a set of card data entries, return some statistics about that set.
+ */
+function getStatistics(cards) {
+    var statistics = {};
+    statistics.counts = {};
+
+    // Count the total number of cards.
+    statistics.counts.numberOfCards = cards.length;
+
+    // Count the number of cards in each card set (we mean "set" in the "fan-made set" sense).
+    statistics.counts.cardsPerSet = {};
+    for (var i=0; i < cards.length; i++) {
+        var set = cards[i].set;
+        if (statistics.counts.cardsPerSet[set] === undefined) {
+            statistics.counts.cardsPerSet[set] = 0;
+        }
+        statistics.counts.cardsPerSet[set]++;
+    }
+
+    // Similarly, count the number of cards per creator.
+    statistics.counts.cardsPerCreator = {};
+    for (var i=0; i < cards.length; i++) {
+        var creator = cards[i].creator;
+        if (statistics.counts.cardsPerCreator[creator] === undefined) {
+            statistics.counts.cardsPerCreator[creator] = 0;
+        }
+        statistics.counts.cardsPerCreator[creator]++;
+    }
+
+    return statistics;
 }
 
 /**
@@ -412,6 +467,7 @@ function generateCardTableElement(cards) {
 
     // Preset the height of the table to the expected height of the displayed card. This makes it a bit less jarring
     // when the image is in a half-loaded state, as the table will usually try to resize itself to fit its contents.
+    // (This currently doesn't work).
     cardTable.style.height = getCardHeightFromCardWidth(global.dimensions.displayCard.width)+'px';
 
     for (var i=0; i < cards.length; i++) {
@@ -448,10 +504,14 @@ function generateCardTableElement(cards) {
 
         var cardInfoTable = document.createElement('table');
 
-        var cardPropertyNames = Object.keys(card);
-        for (var j=0; j < cardPropertyNames.length; j++) {
-            var cardPropertyName = cardPropertyNames[j];
+        for (var j=0; j < global.cardPropertiesToDisplay.length; j++) {
+            var cardPropertyName = global.cardPropertiesToDisplay[j];
             var cardPropertyValue = card[cardPropertyName];
+
+            // If the card doesn't have a value defined for this property, skip this property.
+            if (cardPropertyValue === undefined) {
+                continue;
+            }
 
             // Attempt to get a more human-readable display name for this property, if one is available.
             var cardPropertyDisplayName = cardPropertyName;
@@ -881,4 +941,19 @@ function calculateHtmlMass(html) {
  */
 function rnd(max) {
     return Math.floor(Math.random() * max);
+}
+
+/**
+ * Escape any regex metacharacters in `string`.
+ */
+function escapeRegex(string) {
+    var escapedString = string;
+    for (var i=0; i < global.regexMetacharacters.length; i++) {
+        var metacharacter = global.regexMetacharacters[i];
+        // Here's a fun bit of code: in order to replace all regex metacharacters in string with escaped versions, we
+        // need to locate them - and to locate all occurrences of a character in a string, we need to use regex!
+        var metacharacterRegex = new RegExp('\\'+metacharacter, 'g');
+        escapedString = escapedString.replace(metacharacterRegex, '\\'+metacharacter);
+    }
+    return escapedString;
 }

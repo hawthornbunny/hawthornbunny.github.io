@@ -25,7 +25,7 @@ body {
  * The large logotype that appears on the home screen.
  */
 #title {
-    font-size:8em;
+    font-size:6em;
 }
 
 /**
@@ -42,6 +42,7 @@ body {
  */
 #tagline {
     font-size:0.9em;
+    margin:4px;
     text-align:center;
 }
 
@@ -155,71 +156,72 @@ td.cardPropertyValue {
  * A container for a faux-Magic card. Emulates the thick rounded border of a Magic card.
  */
 .proxy {
-  font-size: 1em;
-  font-family: serif;
-  border: solid #202020;
-  border-radius: 16px;
-  background-color: #e0e0e0;
-  color: #101010;
-  overflow: hidden;
+    font-size: 1em;
+    font-family: serif;
+    margin: 0 auto;
+    border: solid #202020;
+    border-radius: 16px;
+    background-color: #e0e0e0;
+    color: #101010;
+    overflow: hidden;
 }
 
 /**
  * The `cardColor` classes all define appropriate background colors for specific types of card.
  */
 .cardColorWhite {
-  background-color: #f8f8f0;
+    background-color: #f8f8f0;
 }
 .cardColorBlue {
-  background-color: #60a8f0;
+    background-color: #60a8f0;
 }
 .cardColorBlack {
-  background-color: #383838;
+    background-color: #383838;
 }
 .cardColorRed {
-  background-color: #e04840;
+    background-color: #e04840;
 }
 .cardColorGreen {
-  background-color: #90c080;
+    background-color: #90c080;
 }
 .cardColorMulticolored {
-  background-color: #e0b040;
+    background-color: #e0b040;
 }
 .cardColorColorless {
-  background-color: #c0c0c0;
+    background-color: #c0c0c0;
 }
 .cardColorHybridWhiteBlue {
-  background: linear-gradient(90deg, #f8f8f8, #60a8f0);
+    background: linear-gradient(90deg, #f8f8f8, #60a8f0);
 }
 .cardColorHybridWhiteBlack {
-  background: linear-gradient(90deg, #f8f8f8, #383838);
+    background: linear-gradient(90deg, #f8f8f8, #383838);
 }
 .cardColorHybridWhiteRed {
-  background: linear-gradient(90deg, #f8f8f8, #e04840);
+    background: linear-gradient(90deg, #f8f8f8, #e04840);
 }
 .cardColorHybridWhiteGreen {
-  background: linear-gradient(90deg, #f8f8f8, #90c080);
+    background: linear-gradient(90deg, #f8f8f8, #90c080);
 }
 .cardColorHybridBlueBlack {
-  background: linear-gradient(90deg, #60a8f0, #383838);
+    background: linear-gradient(90deg, #60a8f0, #383838);
 }
 .cardColorHybridBlueRed {
-  background: linear-gradient(90deg, #60a8f0, #e04840);
+    background: linear-gradient(90deg, #60a8f0, #e04840);
 }
 .cardColorHybridBlueGreen {
-  background: linear-gradient(90deg, #60a8f0, #90c080);
+    background: linear-gradient(90deg, #60a8f0, #90c080);
 }
 .cardColorHybridBlackRed {
-  background: linear-gradient(90deg, #383838, #e04840);
+    background: linear-gradient(90deg, #383838, #e04840);
 }
 .cardColorHybridBlackGreen {
-  background: linear-gradient(90deg, #383838, #90c080);
+    background: linear-gradient(90deg, #383838, #90c080);
 }
 .cardColorHybridRedGreen {
-  background: linear-gradient(90deg, #e04840, #90c080);
+    background: linear-gradient(90deg, #e04840, #90c080);
 }
 .cardColorUndefined {
-  background-color: #808080;
+    background-color: #808080;
 }
 
 /**
@@ -227,12 +229,12 @@ td.cardPropertyValue {
  * decided at this point.
  */
 .manaDecoration {
-  border: 0px solid #000000;
-  border-radius: 100%;
-  padding:1px 4px;
-  box-shadow: 0px 2px 0px #000000;
-  font-size:0.8em;
-  font-weight:bold;
+    border: 0px solid #000000;
+    border-radius: 100%;
+    padding:1px 4px;
+    box-shadow: 0px 2px 0px #000000;
+    font-size:0.8em;
+    font-weight:bold;
 }
 
 /**
@@ -240,66 +242,66 @@ td.cardPropertyValue {
  * values are taken directly from the official mana symbols.
  */
 .manaDecorationWhite {
-  background-color: #fffcd6;
-  color: #211e15;
+    background-color: #fffcd6;
+    color: #211e15;
 }
 .manaDecorationBlue {
-  background-color: #aae2fb;
-  color: #051922;
+    background-color: #aae2fb;
+    color: #051922;
 }
 .manaDecorationBlack {
-  background-color: #ccc2c0;
-  color: #120c0e;
+    background-color: #ccc2c0;
+    color: #120c0e;
 }
 .manaDecorationRed {
-  background-color: #faaa8f;
-  color: #200001;
+    background-color: #faaa8f;
+    color: #200001;
 }
 .manaDecorationGreen {
-  background-color: #9bd3ae;
-  color: #01170b;
+    background-color: #9bd3ae;
+    color: #01170b;
 }
 .manaDecorationGeneric {
-  background-color: #cac5c0;
-  color: #0d0f0f;
+    background-color: #cac5c0;
+    color: #0d0f0f;
 }
 .manaDecorationColorless {
-  background-color: #cac5c0;
-  color: #0d0f0f;
+    background-color: #cac5c0;
+    color: #0d0f0f;
 }
 .manaDecorationUndefined {
-  background-color: #808080;
-  color: #000000;
+    background-color: #808080;
+    color: #000000;
 }
 
 /**
  * The name-and-cost line of a proxy card (usually appears at the top of a Magic card).
  */
 .card-name-cost-line {
-  background-color: rgba(240, 240, 240, 0.75);
-  color: #101010;
-  font-weight: bold;
-  border-radius: 8px;
-  border: 1px solid #000000;
-  padding: 2px;
-  box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    background-color: rgba(240, 240, 240, 0.75);
+    color: #101010;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 1px solid #000000;
+    padding: 2px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 
 /**
  * The name of a proxy card (appears within the name-and-cost line, floated to the left).
  */
 .card-name {
-  color: #101010;
-  font-weight: bold;
-  float:left;
+    color: #101010;
+    font-weight: bold;
+    float:left;
 }
 
 /**
  * The mana cost of a proxy card (appears within the name-and-cost line, floated to the right).
  */
 .card-cost {
-  text-align: right;
-  vertical-align:middle;
+    text-align: right;
+    vertical-align:middle;
 }
 
 /**
@@ -308,37 +310,37 @@ td.cardPropertyValue {
  */
 
 .card-type-line {
-  background-color: rgba(240, 240, 240, 0.75);
-  color:#101010;
-  font-size:0.8em;
-  font-weight: bold;
-  border-radius: 8px;
-  border: 1px solid #000000;
-  padding: 2px;
-  text-align:left;
-  margin: 4px 0px;
-  box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    background-color: rgba(240, 240, 240, 0.75);
+    color:#101010;
+    font-size:0.8em;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 1px solid #000000;
+    padding: 2px;
+    text-align:left;
+    margin: 4px 0px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 
 /**
  * The rules text and flavor text for a proxy card.
  */
 .card-text {
-  background-color: rgba(240, 240, 240, 0.75);
-  font-size:0.9em;
-  border: 1px solid #000000;
-  border-radius: 2px;
-  padding:8px;
-  text-align:left;
-  box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    background-color: rgba(240, 240, 240, 0.75);
+    font-size:0.9em;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    padding:8px;
+    text-align:left;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 
 /**
  * An alternate style for the card text box, to be used on planeswalker cards.
  */
 .card-text-planeswalker {
-  border-radius: 0px 32px;
-  font-size:0.8em;
+    border-radius: 0px 32px;
+    font-size:0.8em;
 }
 
 
@@ -347,16 +349,16 @@ td.cardPropertyValue {
  * which appears in the bottom-right of a creature card.
  */
 .card-power-toughness {
-  background-color: rgba(240, 240, 240, 0.75);
-  text-align: center;
-  font-weight: bold;
-  border-radius: 8px;
-  border: 1px solid #000000;
-  float:right;
-  margin:4px;
-  padding:2px 4px;
-  width:15%;
-  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+    background-color: rgba(240, 240, 240, 0.75);
+    text-align: center;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 1px solid #000000;
+    float:right;
+    margin:4px;
+    padding:2px 4px;
+    width:15%;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
 }
 
 /**
@@ -364,15 +366,15 @@ td.cardPropertyValue {
  * bottom right of a planeswalker card.
  */
 .card-loyalty {
-  background-color: rgba(16, 16, 16, 1);
-  color: #f0f0f0;
-  text-align: center;
-  font-weight: bold;
-  border-radius: 1px 1px 16px 16px;
-  border: 2px solid #e0e0e0;
-  float:right;
-  margin:4px;
-  padding:2px 4px;
-  width:15%;
-  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+    background-color: rgba(16, 16, 16, 1);
+    color: #f0f0f0;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 1px 1px 16px 16px;
+    border: 2px solid #e0e0e0;
+    float:right;
+    margin:4px;
+    padding:2px 4px;
+    width:15%;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
 }

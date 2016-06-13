@@ -9241,7 +9241,7 @@ var CARDS = [
         'set': 'Derpibooru 7220',
     },
     {
-        'name': 'Painbow Dash\'s Cloud House',
+        'name': 'Rainbow Dash\'s Cloud House',
         'image': '146.jpg',
         'set': 'Derpibooru 7220',
     },

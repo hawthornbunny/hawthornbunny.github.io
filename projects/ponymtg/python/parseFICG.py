@@ -301,6 +301,10 @@ def parse_individual_card_dump_into_card_data_entry(individual_card_dump):
             card_data_entry['name'] = name_and_cost_line
             if 'cost' in card_data_entry:
                 del card_data_entry['cost']
+            # We can also record which card this actually transforms from, since we know what the previous card was.
+            # We should be more specific than just the card name (as that is not guaranteed to be unique), but for now
+            # we'll just use the name.
+            card_data_entry['transformsFrom'] = META['previous_card_data_entry']['name']
 
     # We can now use the supertype to make some further decisions:
     if 'Creature' in card_data_entry['supertype']:
@@ -424,6 +428,17 @@ def parse_ficg_dump_into_card_data_entries(ficg_dump):
         card_data_entry = parse_individual_card_dump_into_card_data_entry(individual_card_dump)
         card_data_entries.append(card_data_entry)
 
+    # Before we return it, we can do a second pass on this data; if we identified any "transformsFrom" properties, we
+    # can now also add "transformsInto" on the cards that they transform from.
+    transformsIntoDict = {}
+    for card_data_entry in card_data_entries:
+        if 'transformsFrom' in card_data_entry:
+            transformsIntoDict[card_data_entry['transformsFrom']] = card_data_entry['name']
+
+    for card_data_entry in card_data_entries:
+        if card_data_entry['name'] in transformsIntoDict:
+            card_data_entry['transformsInto'] = transformsIntoDict[card_data_entry['name']]
+
     return card_data_entries
 
 ficg_raw_path = sys.argv[1]
@@ -436,6 +451,6 @@ ficg_raw_dump = ficg_raw_file.read()
 META['set_name'] = set_name
 
 card_data_entries = parse_ficg_dump_into_card_data_entries(ficg_raw_dump)
-card_properties = ['name', 'image', 'set', 'creator', 'cost', 'supertype', 'subtype', 'text', 'flavorText', 'pt', 'loyalty']
+card_properties = ['name', 'image', 'set', 'creator', 'cost', 'supertype', 'subtype', 'text', 'flavorText', 'pt', 'loyalty', 'transformsInto', 'transformsFrom']
 
 print mtgJson.encapsulate_dict_list_in_js_variable(card_data_entries, card_properties, js_variable_name)

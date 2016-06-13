@@ -2483,6 +2483,7 @@ var FICG_CARDS =
         'text': '3UU, T, Tap five untapped artifacts you control: Transform Tinkering Horologist.',
         'flavorText': '"Let\'s get this out of the way: I\'m not an alien, I don\'t have a magic blue box, and I\'m not looking for new companions. Now, how can I help you?"',
         'pt': '1/3',
+        'transformsInto': '"John Smith", Gallopfreyan',
     },
     {
         'name': '"John Smith", Gallopfreyan',
@@ -2493,6 +2494,7 @@ var FICG_CARDS =
         'text': 'If "John Smith", Gallopfreyan would be destroyed, regenerate it.\n\nSkip your combat phase.\n\nAt the beginning of each end step, if it\'s not your turn, take an extra turn after this one.',
         'flavorText': '"Rule One: The Doctor lies."\n—Minuette, temporal operative',
         'pt': '2/5',
+        'transformsFrom': 'Tinkering Horologist',
     },
     {
         'name': 'Overloaded Saddlebags',
@@ -2600,6 +2602,7 @@ var FICG_CARDS =
         'text': 'Whenever you gain life, you may untap and transform Ponyville Vintner.',
         'flavorText': '"The best vintages are those meant to be savored and shared rather than chugged down alone. Not that those don\'t have their own charms."',
         'pt': '1/4',
+        'transformsInto': 'Unruly Oenophile',
     },
     {
         'name': 'Unruly Oenophile',
@@ -2610,6 +2613,7 @@ var FICG_CARDS =
         'text': 'First strike, trample\n\nUnruly Oenophile attacks each turn if able.\n\nWhen Unruly Oenophile attacks, transform it at end of combat.',
         'flavorText': '"I swear to the drunk I\'m not princess."',
         'pt': '4/1',
+        'transformsFrom': 'Ponyville Vintner',
     },
     {
         'name': 'Unlimited Potential',
@@ -5494,6 +5498,7 @@ var FICG_CARDS =
         'cost': '7',
         'supertype': 'Artifact',
         'text': 'If you would lose the game, instead you gain 10 life, shuffle your graveyard into your library, and transform Monument to Victory.\n\nThere is a story and a soul behind every statue in the castle garden. Given the right stimulus, each can be spurred into action.',
+        'transformsInto': 'Avatar of Determination',
     },
     {
         'name': 'Avatar of Determination',
@@ -5503,6 +5508,7 @@ var FICG_CARDS =
         'subtype': 'Pony Avatar',
         'text': 'Vigilance, reach, hexproof\n\nAvatar of Determination can block any number of creatures.\n\nYou can\'t lose the game and your opponents can\'t win the game.\n\nWhen Avatar of Determination leaves the battlefield, its owner loses the game.',
         'pt': '7/7',
+        'transformsFrom': 'Monument to Victory',
     },
     {
         'name': 'Bubble of Sanity',
@@ -5848,6 +5854,7 @@ var FICG_CARDS =
         'cost': '3',
         'supertype': 'Artifact',
         'text': 'Whenever a creature attacks, put a strife counter on Chimeric Sculpture.\n\n1R, Remove all strife counters from Chimeric Sculpture: If at least six counters were removed this way, put four loyalty counters on Chimeric Sculpture and transform it.',
+        'transformsInto': 'Discord Released',
     },
     {
         'name': 'Discord Released',
@@ -5856,6 +5863,7 @@ var FICG_CARDS =
         'supertype': '(R) Planeswalker',
         'subtype': 'Discord',
         'text': '+2: During target player’s next combat, creatures that player controls attack if able and can’t attack Discord Released.\n\n-1: Switch each creature’s power and toughness until your next turn.\n\n-7: You get an emblem with “Whenever a creature attacks, you may discard a card. If you do, draw a card."',
+        'transformsFrom': 'Chimeric Sculpture',
     },
     {
         'name': 'Innocuous Boulder',
@@ -5866,6 +5874,7 @@ var FICG_CARDS =
         'subtype': 'Construct',
         'text': 'R: Transform Innocuous Boulder. Activate this ability only if Innocuous Boulder’s power is 4 or greater.\n\nIt’s just a rock… Isn’t it?',
         'pt': '0/4',
+        'transformsInto': 'Tom, Soul of Continents',
     },
     {
         'name': 'Tom, Soul of Continents',
@@ -5875,6 +5884,7 @@ var FICG_CARDS =
         'subtype': 'Elemental',
         'text': 'Tom, Soul of Continents gets +0/+1 for each Mountain you control.\n\n5RR: Creatures you control get +1/+0 for each Mountain you control until end of turn and can’t be blocked by creatures with flying this turn.',
         'pt': '4/3',
+        'transformsFrom': 'Innocuous Boulder',
     },
     {
         'name': 'Monument to Friendship',
@@ -10789,6 +10799,7 @@ var FICG_CARDS =
         'cost': '2W',
         'supertype': 'Enchantment',
         'text': 'Creatures you control get +0/+1 and have vigilance.\n\nWhenever a player casts a black spell, transform Light of Hope.\n\nThe Empire shines, and all hearts soar.',
+        'transformsInto': 'Shadow of Fear',
     },
     {
         'name': 'Shadow of Fear',
@@ -10796,6 +10807,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'supertype': '(B) Enchantment',
         'text': 'Creatures you control get +1/+0 and have intimidate.\n\nWhenever a player casts a white spell, transform Shadow of Fear.\n\nThe Empire dims, and all knees buckle.',
+        'transformsFrom': 'Light of Hope',
     },
     {
         'name': 'Loving Defense',
@@ -11066,6 +11078,7 @@ var FICG_CARDS =
         'supertype': 'Enchantment',
         'subtype': 'Song',
         'text': 'At the beginning of your upkeep, put a verse counter on "The Failure Song".\n\n(wu), Sacrifice "The Failure Song": Counter target spell or ability unless its controller pays X, where X is the number of verse counters on "The Failure Song". (Mana abilities can\'t be targeted.)\n\nRemove all verse counters from "The Failure Song": If five or more counters were removed this way, transform "The Failure Song".',
+        'transformsInto': '"The Success Song"',
     },
     {
         'name': '"The Success Song"',
@@ -11074,6 +11087,7 @@ var FICG_CARDS =
         'supertype': '(W) Enchantment',
         'subtype': 'Song',
         'text': 'At the beginning of your upkeep, put a verse counter on "The Success Song".\n\nWW, Sacrifice "The Success Song": If your life total is less than X, it becomes X, where X is the number of verse counters on "The Success Song." This turn, you can\'t lose life, you can\'t lose the game, and your opponents can\'t win the game. If X is ten or more, you win the game.',
+        'transformsFrom': '"The Failure Song"',
     },
     {
         'name': 'Foul Encrustation',
@@ -11730,6 +11744,7 @@ var FICG_CARDS =
         'supertype': 'Artifact',
         'subtype': 'Equipment',
         'text': 'Equipped creature gets +2/+2 and can’t attack unless its controller pay 2.\n\nWhenever equipped creature deals combat damage to a player, you may pay 3. If you do, transform Madmare’s Chariot.\n\nEquip 2',
+        'transformsInto': 'Tyrant’s Palanquin',
     },
     {
         'name': 'Tyrant’s Palanquin',
@@ -11738,6 +11753,7 @@ var FICG_CARDS =
         'supertype': 'Artifact',
         'subtype': 'Equipment',
         'text': 'Equipped creature gets +5/+5, can’t block, can’t attack unless its controller pays 5, and has “Other creatures you control can’t attack."\n\nEquip 4',
+        'transformsFrom': 'Madmare’s Chariot',
     },
     {
         'name': 'Trixie’s Banner',
@@ -14355,6 +14371,7 @@ var FICG_CARDS =
         'subtype': 'Pegasus Hero',
         'text': 'Flying, defender\n\nPrevent all combat damage that would be dealt to and dealt by Saddle Rager.\n\nWhenever a source you don\'t control deals damage to another creature you control with power 2 or less, transform Saddle Rager.',
         'pt': '0/5',
+        'transformsInto': 'Rager Enraged',
     },
     {
         'name': 'Rager Enraged',
@@ -14364,6 +14381,7 @@ var FICG_CARDS =
         'subtype': 'Pegasus Hero',
         'text': 'Flying, trample, indestructible\n\nRager Enraged attacks each turn if able.\n\nWhenever Rager Enraged deals combat damage to a player, destroy target artifact or enchantment that player controls.',
         'pt': '6/6',
+        'transformsFrom': 'Saddle Rager',
     },
     {
         'name': 'Zip to the Bakery',
@@ -16142,6 +16160,7 @@ var FICG_CARDS =
         'subtype': 'Pony',
         'text': 'Whenever a player casts a legendary creature spell, put a +1/+1 counter on Adoring Crowd.\n\nWhen a legendary creature dies, transform Adoring Crowd.\n\nThey build up their heroes in their minds until the real thing can\'t compare to the dream.',
         'pt': '2/2',
+        'transformsInto': 'Angered Horde',
     },
     {
         'name': 'Angered Horde',
@@ -16151,6 +16170,7 @@ var FICG_CARDS =
         'subtype': 'Pony Berserker',
         'text': 'Angered Horde attacks each turn if able.\n\nWhenever an opponent casts a spell, put a +1/+1 counter on Angered Horde.\n\nWhen their idols inevitably disappoint them, their love becomes hate, and nothing will ever satisfy them again.',
         'pt': '3/3',
+        'transformsFrom': 'Adoring Crowd',
     },
     {
         'name': 'Acrobutler',
@@ -18278,6 +18298,7 @@ var FICG_CARDS =
         'cost': '2',
         'supertype': 'Artifact',
         'text': 'Spells with targets cost 1 more to cast.\n\nT: Counter target spell you control that targets a permanent, spell, or card you don\'t control. If that spell is countered this way, transform Aegis Blossom.\n\nAny breezie magic that can make them more resilient outside of their home is highly treasured.',
+        'transformsInto': 'Key of Kindness',
     },
     {
         'name': 'Key of Kindness',
@@ -18286,6 +18307,7 @@ var FICG_CARDS =
         'supertype': 'Legendary Artifact',
         'subtype': 'Key',
         'text': 'Keys you control have hexproof.\n\nTap an untapped Key you control: Prevent all damage that would be dealt to and dealt by target creature this turn.\n\nUnlock the sympathy in every heart',
+        'transformsFrom': 'Aegis Blossom',
     },
     {
         'name': 'Rainbow Thread',
@@ -18294,6 +18316,7 @@ var FICG_CARDS =
         'cost': '2',
         'supertype': 'Artifact',
         'text': 'T: Target creature you control becomes all colors until end of turn. You may have target opponent gain control of that creature. If you do, transform Rainbow Thread.\n\nWith the right materials, the ties that bind can be altered like a poorly fitting suit.',
+        'transformsInto': 'Key of Generosity',
     },
     {
         'name': 'Key of Generosity',
@@ -18302,6 +18325,7 @@ var FICG_CARDS =
         'supertype': 'Legendary Artifact',
         'subtype': 'Key',
         'text': 'Keys you control untap during each other player\'s untap step.\n\nTap an untapped Key you control: Reveal the top card of your library. If that card is an artifact, put it into your hand. Otherwise, put it on the bottom of your library.\n\nUnlock the inspiration in every trifle.',
+        'transformsFrom': 'Rainbow Thread',
     },
     {
         'name': 'Wonderbolt Badge',
@@ -18311,6 +18335,7 @@ var FICG_CARDS =
         'supertype': 'Artifact',
         'subtype': 'Equipment',
         'text': 'Equipped creature has first strike and haste.\n\n2: Attach Wonderbolt Badge to target creature you own. If you don\'t control that creature, gain control of it, then unattach and transform Wonderbolt Badge. Activate this ability only any time you could cast a sorcery.',
+        'transformsInto': 'Key of Loyalty',
     },
     {
         'name': 'Key of Loyalty',
@@ -18319,6 +18344,7 @@ var FICG_CARDS =
         'supertype': 'Legendary Artifact',
         'subtype': 'Key',
         'text': 'Other players can\'t control Keys you own.\n\nTap an untapped Key you control: Untap target creature you control. It gains haste until end of turn.\n\nUnlock the determination in every soul.',
+        'transformsFrom': 'Wonderbolt Badge',
     },
     {
         'name': 'Floppy Chicken',
@@ -18328,6 +18354,7 @@ var FICG_CARDS =
         'supertype': 'Artifact',
         'text': '3, T: Target creature loses all abilities until end of turn. If that creature lost no abilities this way, transform Floppy Chicken.',
         'flavorText': '"You can\'t make chocolate without vanilla."\n—Pinkie Pie, Bearer of Laughter',
+        'transformsInto': 'Key of Laughter',
     },
     {
         'name': 'Key of Laughter',
@@ -18336,6 +18363,7 @@ var FICG_CARDS =
         'supertype': 'Legendary Artifact',
         'subtype': 'Key',
         'text': 'Keys you control have lifelink and "4, T: This artifact deals 1 damage to target creature."\n\nUnlock the absurdity in every moment.',
+        'transformsFrom': 'Floppy Chicken',
     },
     {
         'name': 'Symbolic Bit',
@@ -18344,6 +18372,7 @@ var FICG_CARDS =
         'cost': '3',
         'supertype': 'Artifact',
         'text': 'T: Add one mana of any color to your mana pool.\n\nT: Reveal your hand. If you reveal at least one card this way, transform Symbolic Bit.\n\nEven when your word is good as gold, it helps to have some for comparison\'s sake.',
+        'transformsInto': 'Key of Honesty',
     },
     {
         'name': 'Key of Honesty',
@@ -18352,6 +18381,7 @@ var FICG_CARDS =
         'supertype': 'Legendary Artifact',
         'subtype': 'Key',
         'text': 'Spells and abilities your opponents control can\'t cause you to sacrifice Keys.\n\nTap an untapped Key you control: Add 1 to your mana pool.\n\nUnlock the potential in every scrap.',
+        'transformsFrom': 'Symbolic Bit',
     },
     {
         'name': 'Amulet of Scorpan',
@@ -18360,6 +18390,7 @@ var FICG_CARDS =
         'cost': '4',
         'supertype': 'Legendary Artifact',
         'text': 'XX, T: Creatures you control with power X or less gain hexproof until end of turn.\n\nTap five untapped creatures you control: Transform Amulet of Scorpan.\n\nTirek thought it useless, for it is powerful as its bearer\'s compassion.',
+        'transformsInto': 'Key of Magic',
     },
     {
         'name': 'Key of Magic',
@@ -18368,6 +18399,7 @@ var FICG_CARDS =
         'supertype': 'Legendary Artifact',
         'subtype': 'Key',
         'text': 'Keys you control have indestructible.\n\nTap six untapped Keys you control: You win the game.\n\nUnlock the hero in every pony.',
+        'transformsFrom': 'Amulet of Scorpan',
     },
     {
         'name': 'Complete Consensus',
@@ -22495,6 +22527,7 @@ var FICG_CARDS =
         'text': 'At the beginning of each upkeep, if no spells were cast last turn, transform Trusted Farmhoof.',
         'flavorText': '"Everypony knows there’s no such thing as hengstwolves."',
         'pt': '3/2',
+        'transformsInto': 'Orchard Stalker',
     },
     {
         'name': 'Orchard Stalker',
@@ -22504,6 +22537,7 @@ var FICG_CARDS =
         'subtype': 'Cat',
         'text': 'Provoke (Whenever this creature attacks, you may have target creature defending player controls untap and block it if able.)\n\nAt the beginning of each upkeep, if a player cast two or more spells last turn, transform Orchard Stalker.\n\nTechnically speaking, she wasn’t wrong.',
         'pt': '4/4',
+        'transformsFrom': 'Trusted Farmhoof',
     },
     {
         'name': 'Void Suit',
@@ -23709,6 +23743,7 @@ var FICG_CARDS =
         'subtype': 'Human Minion',
         'text': 'T: Each player who lost life this turn loses 1 life.\n\nB: Transform Freshman Flunkies. Activate this ability only if you control a Demon.\n\nBorn followers outnumber born leaders ten to one.',
         'pt': '2/2',
+        'transformsInto': 'Fiendish Flunkies',
     },
     {
         'name': 'Fiendish Flunkies',
@@ -23718,6 +23753,7 @@ var FICG_CARDS =
         'subtype': 'Imp Minion',
         'text': 'Flying\n\n4BB, T: Each player loses life equal to the life he or she already lost this turn.\n\nSadly, no amount of unholy power can give the gift of competence.',
         'pt': '3/2',
+        'transformsFrom': 'Freshman Flunkies',
     },
     {
         'name': 'Rocker Clique',
@@ -23830,6 +23866,7 @@ var FICG_CARDS =
         'subtype': 'Human Rogue',
         'text': 'Whenever a creature enters the battlefield under an opponent\'s control, that player loses 2 life if he or she controls more creatures than you.\n\nSacrifice another creature: Sunset Shimmer gains protection from the color of your choice until end of turn.\n\n1WB: Transform Sunset. Activate this ability only if a legendary Equipment is attached to Sunset.',
         'pt': '1/1',
+        'transformsInto': 'Sunset, Demonic Despot',
     },
     {
         'name': 'Sunset, Demonic Despot',
@@ -23839,6 +23876,7 @@ var FICG_CARDS =
         'subtype': 'Demon',
         'text': 'Flying, trample\n\nWhenever Sunset, Demonic Despot attacks, gain control of target creature defending player controls until end of turn. Tap that creature. It is now attacking that player.\n\nX, Sacrifice another creature with power X: Sunset deals X damage to target creature or planeswalker.',
         'pt': '6/6',
+        'transformsFrom': 'Sunset Shimmer',
     },
     {
         'name': 'Flash, Handsome Rogue',
@@ -25005,6 +25043,7 @@ var FICG_CARDS =
         'subtype': 'Human Wizard',
         'text': 'Whenever a player casts a spell, put a study counter on Twilight, Thaumologist.\n\n1UU: Counter target spell that targets Twilight. Put a study counter on Twilight.\n\nU: If there are twelve or more study counters on Twilight, remove all of them and transform it.',
         'pt': '1/1',
+        'transformsInto': 'Midnight Sparkle, Planeripper',
     },
     {
         'name': 'Midnight Sparkle, Planeripper',
@@ -25014,6 +25053,7 @@ var FICG_CARDS =
         'subtype': 'Demon',
         'text': 'Alicorn (This creature is a Pony Pegasus Unicorn.)\n\nFlying, hexproof\n\nAt the beginning of your draw step, draw an additional card.\n\n3BR, Discard a card: Exile target nonenchantment permanent.',
         'pt': '6/6',
+        'transformsFrom': 'Twilight, Thaumologist',
     },
     {
         'name': '“What More Is Out There"',
