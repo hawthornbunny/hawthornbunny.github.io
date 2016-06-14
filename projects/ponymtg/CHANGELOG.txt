@@ -1,0 +1,36 @@
+## 1.0.1
+
+* Minor improvements to FICG parser.
+* Improved styling of two-color hybrid mana symbols.
+
+## 1.0.0
+
+* First version.
+* Implemented searchable database with pagination.
+* Implemented card proxy generation
+* Wrote Python scripts for parsing the FICG dump and Cockatrice files.
+* Added the following card sets:
+  * "A Warm Welcome"
+  * "Shards of Equestria"
+  * "Nightfall"
+  * "Ponylude"
+  * "Friendship is Magic the Gathering"
+  * "CRISIS EQUESTRIA"
+  * "New Lunar Republic"
+  * "The Solar Empire"
+  * "Legends are Magic"
+  * "Unponied"
+  * "Friendship is Magic the Gathering (IPU)"
+  * "Derpibooru 7220"
+  * "alternatepony"
+  * "Equestria Disturbed"
+  * "MLP:FiM Season 1 MTG Set"
+  * "MLP:FiM Season 2 MTG Set"
+  * "MTG mlp"
+  * "Elements of Harmony"
+  * "MLP-MTG"
+  * "My Little Multiverse: Knowledge is Magic"
+  * "Friendship is Card Games"
+  * "Shards of Friendship"
+  * "Oops, I Accidentally Changelings"
+  * "The Implicit Neighs"
