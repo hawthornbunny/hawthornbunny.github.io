@@ -57,20 +57,8 @@ var global = {
             'transformsFrom': 'Transforms from'
         },
         /**
-         * Maps mana symbols (in the standard WUBRG form) to the names of the color scheme that would represent that
-         * color of mana.
-         */
-        'manaSymbolsToCardColorSchemes': {
-            'W': 'white',
-            'U': 'blue',
-            'B': 'black',
-            'R': 'red',
-            'G': 'green'
-        },
-        /**
          * Maps regular expressions representing parts of a mana cost, to the color scheme that the card would have if
          * that mana cost was the only source of the card's color.
-         * color of mana.
          */
         'manaSymbolRegexesToCardColorSchemes': {
             'W': 'white',
@@ -88,6 +76,16 @@ var global = {
             '\\(br\\)': 'blackRed',
             '\\(bg\\)': 'blackGreen',
             '\\(rg\\)': 'redGreen',
+            '\\(uw\\)': 'whiteBlue',
+            '\\(bw\\)': 'whiteBlack',
+            '\\(rw\\)': 'whiteRed',
+            '\\(gw\\)': 'whiteGreen',
+            '\\(bu\\)': 'blueBlack',
+            '\\(ru\\)': 'blueRed',
+            '\\(gu\\)': 'blueGreen',
+            '\\(rb\\)': 'blackRed',
+            '\\(gb\\)': 'blackGreen',
+            '\\(gr\\)': 'redGreen',
         },
         /**
          * Maps a regular expression representing a mana symbol (in standard WUBRG form) to a CSS style emulates the
@@ -101,6 +99,26 @@ var global = {
             'G': 'manaDecorationGreen',
             'X': 'manaDecorationGeneric',
             '\\d+': 'manaDecorationGeneric',
+            '\\(wu\\)': 'manaDecorationHybridWhiteBlue',
+            '\\(wb\\)': 'manaDecorationHybridWhiteBlack',
+            '\\(wr\\)': 'manaDecorationHybridWhiteRed',
+            '\\(wg\\)': 'manaDecorationHybridWhiteGreen',
+            '\\(ub\\)': 'manaDecorationHybridBlueBlack',
+            '\\(ur\\)': 'manaDecorationHybridBlueRed',
+            '\\(ug\\)': 'manaDecorationHybridBlueGreen',
+            '\\(br\\)': 'manaDecorationHybridBlackRed',
+            '\\(bg\\)': 'manaDecorationHybridBlackGreen',
+            '\\(rg\\)': 'manaDecorationHybridRedGreen',
+            '\\(uw\\)': 'manaDecorationHybridWhiteBlue',
+            '\\(bw\\)': 'manaDecorationHybridWhiteBlack',
+            '\\(rw\\)': 'manaDecorationHybridWhiteRed',
+            '\\(gw\\)': 'manaDecorationHybridWhiteGreen',
+            '\\(bu\\)': 'manaDecorationHybridBlueBlack',
+            '\\(ru\\)': 'manaDecorationHybridBlueRed',
+            '\\(gu\\)': 'manaDecorationHybridBlueGreen',
+            '\\(rb\\)': 'manaDecorationHybridBlackRed',
+            '\\(gb\\)': 'manaDecorationHybridBlackGreen',
+            '\\(gr\\)': 'manaDecorationHybridRedGreen',
         },
         /**
          * Maps the name of a card color scheme to the CSS style that defines that color scheme for the browser.
@@ -155,6 +173,31 @@ var global = {
     ],
     /** A list of metacharacters used in regular expressions. We need to escape these when searching. */
     'regexMetacharacters': ['\\', '.','^','$','*','+','?','(',')','[',']','{','}','|'],
+    /**
+     * A list of regexes that represent hybrid mana symbols.
+     */
+    'hybridManaSymbolRegexes': [
+        '\\(wu\\)',
+        '\\(wb\\)',
+        '\\(wr\\)',
+        '\\(wg\\)',
+        '\\(ub\\)',
+        '\\(ur\\)',
+        '\\(ug\\)',
+        '\\(br\\)',
+        '\\(bg\\)',
+        '\\(rg\\)',
+        '\\(uw\\)',
+        '\\(bw\\)',
+        '\\(rw\\)',
+        '\\(gw\\)',
+        '\\(bu\\)',
+        '\\(ru\\)',
+        '\\(gu\\)',
+        '\\(rb\\)',
+        '\\(gb\\)',
+        '\\(gr\\)',
+    ],
     'dimensions': {
         /** Dimensions for a standard Magic card as produced by Magic Set Editor. */
         'standardCard': {
@@ -718,14 +761,14 @@ function emptyElement(element) {
  */
 function applyManaStyling(string) {
     // Get a list of mana symbols (strings) for which we know how to apply styling.
-    var manaSymbols = Object.keys(global.mappings.manaSymbolsToStyles);
+    var manaSymbolRegexStrings = Object.keys(global.mappings.manaSymbolsToStyles);
 
     // For each mana symbol that we know about, produce a regex that will match that symbol. (For single colors of mana,
     // this is generally straightforward: the mana symbol string will be a single letter (eg. "W"), and the regex will
     // be the same (eg. /W/).
     var manaSymbolRegexes = []
-    for (var i=0; i < manaSymbols.length; i++) {
-        var manaSymbolRegex = new RegExp(manaSymbols[i]);
+    for (var i=0; i < manaSymbolRegexStrings.length; i++) {
+        var manaSymbolRegex = new RegExp(manaSymbolRegexStrings[i]);
         manaSymbolRegexes.push(manaSymbolRegex);
     }
 
@@ -739,19 +782,33 @@ function applyManaStyling(string) {
     // styling to it.
     for (var i=0; i < tokenizedString.length; i++) {
 
-        for (var j=0; j < manaSymbols.length; j++) {
+        for (var j=0; j < manaSymbolRegexStrings.length; j++) {
             // If this string piece is a token (ie. something that we identified to be a mana symbol), we now need to
             // figure out which mana symbol it is. To do this, we just run through our list of mana symbol regexes until
             // we find the one that matches.
-            var manaSymbol = manaSymbols[j];
+            var manaSymbolRegexString = manaSymbolRegexStrings[j];
             var manaSymbolRegex = manaSymbolRegexes[j];
             if (manaSymbolRegex.test(tokenizedString[i])) {
                 // We've found the mana symbol that corresponds to this string piece, which means we now know how to
-                // style it. Apply the styling, by replacing this string piece with a marked-up version.
-                tokenizedString[i] = tokenizedString[i].replace(
-                    manaSymbolRegex,
-                    '<span class="manaDecoration '+global.mappings.manaSymbolsToStyles[manaSymbol]+'">$&</span>'
-                );
+                // style it.
+
+                // If the mana symbol is a hybrid mana symbol, we'll remove the string (it will be something like
+                // "(wu)", which is too cumbersome for the small space available on the card) and replace it with a
+                // single non-breaking space, and allow the style to indicate the color instead.
+                if (global.hybridManaSymbolRegexes.indexOf(manaSymbolRegexString) !== -1) {
+                    tokenizedString[i] = tokenizedString[i].replace(
+                        manaSymbolRegex,
+                        '<span class="manaDecoration '+global.mappings.manaSymbolsToStyles[manaSymbolRegexString]+'">&nbsp;&nbsp</span>'
+                    );
+                }
+                else {
+                    // Otherwise, just apply a style to the mana symbol so that it looks vaguely like a Magic mana
+                    // symbol.
+                    tokenizedString[i] = tokenizedString[i].replace(
+                        manaSymbolRegex,
+                        '<span class="manaDecoration '+global.mappings.manaSymbolsToStyles[manaSymbolRegexString]+'">$&</span>'
+                    );
+                }
 
                 // Having applied the styling, the string piece has now been altered, so we cannot perform any further
                 // modifications to it (it's no longer a pure mana symbol string). Skip to the next string piece.

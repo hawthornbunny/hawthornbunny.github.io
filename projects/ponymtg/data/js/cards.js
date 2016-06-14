@@ -5,23 +5,26 @@
  * This list must be a flat (non-nested) array of card data objects. Each card data object may have the following
  * properties:
  *
- * - name:       The name of the card, as usually printed at the top. Example: "Applejack, Element of Honesty".
- * - image:      The name of the image file which represents this card, if known. All images for a particular set are
- *               stored in the same directory. The location of that directory is defined in the global configuration for
- *               this app.
- * - set:        The name of the set to which this card belongs. Being fan-made sets, there is generally no "official"
- *               name for them; in cases where the set didn't have a well-defined name, we have attempted to give it an
- *               appropriate one.
- * - creator:    The creator of the card. Since each set was mostly created by a single person, this is generally the
- *               same for all cards in the same set.
- * - cost:       The mana cost of the card in standard Magic format. Example: "4GG".
- * - supertype:  The supertype of this card. Example: "Legendary Creature".
- * - subtype:    The subtype of this card. Example: "Earth Pony".
- * - text:       The card text. Generally, this does not include flavor text. The card text may contain escaped newlines
- *               (\n). Example: "Reach,hexproof\n\nSpells you cast cannot be countered.".
- * - flavorText: The card's flavor text. Example: "I didn't learn anything."
- * - pt:         The card's power and toughness. Generally, only creature cards will have this defined. Example: "3/3".
- * - loyalty:    The card's loyalty. Generally, only Planeswalkers will have this defined.
+ * - name:              The name of the card, as usually printed at the top. Example: "Applejack, Element of Honesty".
+ * - image:             The name of the image file which represents this card, if known. All images for a particular set
+ *                      are stored in the same directory. The location of that directory is defined in the global
+ *                      configuration for this app.
+ * - set:               The name of the set to which this card belongs. Being fan-made sets, there is generally no
+ *                      "official" name for them; in cases where the set didn't have a well-defined name, we have
+ *                      attempted to give it an appropriate one.
+ * - creator:           The creator of the card. Since each set was mostly created by a single person, this is generally
+ *                      the same for all cards in the same set.
+ * - cost:              The mana cost of the card in standard Magic format. Example: "4GG".
+ * - supertype:         The supertype of this card. Example: "Legendary Creature".
+ * - subtype:           The subtype of this card. Example: "Earth Pony".
+ * - text:              The card text. Generally, this does not include flavor text. The card text may contain escaped
+ *                      newlines (\n). Example: "Reach,hexproof\n\nSpells you cast cannot be countered.".
+ * - flavorText:        The card's flavor text. Example: "I didn't learn anything."
+ * - pt:                The card's power and toughness. Generally, only creature cards will have this defined. Example:
+ *                      "3/3".
+ * - loyalty:           The card's loyalty. Generally, only Planeswalkers will have this defined.
+ * - transformsInto:    The name of the card that this card transforms into, if it's a double-sided card.
+ * - transformsFrom:    The name of the card that this card transforms from, if it's a double-sided card.
  *
  * Most of these properties are optional; the application will attempt to do the best it can with the data that is
  * available. At the very least, "name" should be set, as this is what the application looks for when a search is made.

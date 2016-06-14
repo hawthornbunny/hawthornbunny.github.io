@@ -1,4 +1,4 @@
-import mtgJson, sys
+import mtgJson, re, sys
 # coding=utf-8
 
 # Given a text file containing a dump of card text from FanOfMostEverything's Friendship is Card Games posts, attempt to
@@ -46,6 +46,16 @@ def is_type_line(line):
     # still want more evidence (it might be card text that happens to begin with the word "Instant", for example). We
     # can now do some more checks to improve our confidence.
 
+    # At this point, we'll check for the presence of a color indicator. A color indicator is a set of mana color symbols
+    # (ie. W, U, B, R, G) enclosed in parentheses. If present, we expect this to be at the start of the type line.
+
+    # The presence of a color indicator is a hint that this is the type line, but it is not conclusive enough for us to
+    # make that judgement; only the type words can really clue us in. For this reason, we will disregard the color
+    # indicator from our deliberations if we find one.
+
+    color_indicator_regex = r'^\([WUBRG]+\) '
+    line = re.sub(color_indicator_regex, '', line, 1, re.IGNORECASE)
+
     # If the first word is "Legendary", then it must be followed by one of a small set of strings. If it doesn't, this
     # is not a type line.
     # If the line contains the word "Legendary", then it must meet one of the following conditions:
@@ -80,9 +90,11 @@ def is_type_line(line):
             return False
             
     # If the line contains the word "Creature", then it must meet one of the following conditions:
-    # - The word "Creature" must be followed by a long dash.
+    # - The word "Creature" must be followed by a long dash. We'll be a little lenient about this and say that there
+    # doesn't have to be a space between "Creature" and the dash. This is due to the misprinted card "Chrysalis,
+    # Changeling Queen", which has a minor error in its type line.
     if 'Creature' in line:
-        if not 'Creature —' in line:
+        if not 'Creature —' in line and not 'Creature—' in line:
             return False
 
     # If the line contains the word "Instant", then it must meet one of the following conditions:
@@ -90,6 +102,7 @@ def is_type_line(line):
     # - The line must contain only the words "Legendary Instant".
     # - "Instant" must be preceded by "Tribal".
     # - "Instant" must be preceded by "Snow".
+    # - The line must begin with a bracket, which means that it begins with a color indicator.
     # - The line must contain only the words "Trope Instant". ("Trope" is a custom supertype created by
     #   FanOfMostEverything).
     # - The line must contain a double slash (//), which indicates that this is a split card for which one of the
