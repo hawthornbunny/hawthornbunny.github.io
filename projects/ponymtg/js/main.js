@@ -40,6 +40,8 @@ var global = {
             'Elements of Harmony': 'Shadic-X-Hedgehog/Elements of Harmony/cards',
             'MLP-MTG': 'Shirlendra/MLP-MTG/cards',
             'My Little Multiverse: Knowledge is Magic': 'ManaSparks/My Little Multiverse: Knowledge is Magic/cards',
+            'Grumpy-Moogle': 'Grumpy-Moogle/cards',
+            'Twilight Falls': 'Bliss Authority/Twilight Falls (TLF)/cards',
         },
         /** Maps the various properties of a card to a more human-readable display name.*/
         'cardPropertiesToDisplayNames': {
@@ -47,6 +49,7 @@ var global = {
             'set': 'Set',
             'creator': 'Creator',
             'cost': 'Cost',
+            'colorIndicator': 'Color indicator',
             'supertype': 'Supertype',
             'subtype': 'Subtype',
             'text': 'Text',
@@ -147,57 +150,82 @@ var global = {
     /** DOM elements that can be cached globally, and used in any function. */
     'elements': {
         'results': undefined,
-        'search': undefined,
+        'searchField': undefined,
+        'searchButton': undefined,
+        'advancedSearch': undefined,
         'title': undefined,
         'tagline': undefined,
-        'titleReference': undefined
+        'titleReference': undefined,
     },
-    /** A list of card properties that the application will attempt to find matches in when a search is made. */
-    'cardPropertiesToSearch':[
-        'name',
-    ],
-    /** A list of card properties that the application will display in search results (if the card has them).*/
-    'cardPropertiesToDisplay':[
-        'name',
-        'set',
-        'creator',
-        'cost',
-        'supertype',
-        'subtype',
-        'text',
-        'flavorText',
-        'pt',
-        'loyalty',
-        'transformsInto',
-        'transformsFrom',
-    ],
-    /** A list of metacharacters used in regular expressions. We need to escape these when searching. */
-    'regexMetacharacters': ['\\', '.','^','$','*','+','?','(',')','[',']','{','}','|'],
-    /**
-     * A list of regexes that represent hybrid mana symbols.
-     */
-    'hybridManaSymbolRegexes': [
-        '\\(wu\\)',
-        '\\(wb\\)',
-        '\\(wr\\)',
-        '\\(wg\\)',
-        '\\(ub\\)',
-        '\\(ur\\)',
-        '\\(ug\\)',
-        '\\(br\\)',
-        '\\(bg\\)',
-        '\\(rg\\)',
-        '\\(uw\\)',
-        '\\(bw\\)',
-        '\\(rw\\)',
-        '\\(gw\\)',
-        '\\(bu\\)',
-        '\\(ru\\)',
-        '\\(gu\\)',
-        '\\(rb\\)',
-        '\\(gb\\)',
-        '\\(gr\\)',
-    ],
+    'lists': {
+        /** A list of card properties that the application will attempt to find matches in when a search is made. */
+        'cardPropertiesToSearch':[
+            'name',
+        ],
+        /** A list of card properties that the application will display in search results (if the card has them).*/
+        'cardPropertiesToDisplay':[
+            'name',
+            'set',
+            'creator',
+            'cost',
+            'colorIndicator',
+            'supertype',
+            'subtype',
+            'text',
+            'flavorText',
+            'pt',
+            'loyalty',
+            'transformsInto',
+            'transformsFrom',
+        ],
+        /**
+         * A list of card properties that we will allow the user to search for text matches in (ie. the options for the
+         * "Search by" functionality).
+         */
+        'searchableCardProperties':[
+            'name',
+            'set',
+            'creator',
+            'cost',
+            'colorIndicator',
+            'supertype',
+            'subtype',
+            'text',
+            'flavorText',
+            'pt',
+            'loyalty',
+            'transformsInto',
+            'transformsFrom',
+        ],
+        /** A list of metacharacters used in regular expressions. We need to escape these when searching. */
+        'regexMetacharacters': ['\\', '.','^','$','*','+','?','(',')','[',']','{','}','|'],
+        /**
+         * A list of regexes that represent hybrid mana symbols.
+         */
+        'hybridManaSymbolRegexes': [
+            '\\(wu\\)',
+            '\\(wb\\)',
+            '\\(wr\\)',
+            '\\(wg\\)',
+            '\\(ub\\)',
+            '\\(ur\\)',
+            '\\(ug\\)',
+            '\\(br\\)',
+            '\\(bg\\)',
+            '\\(rg\\)',
+            '\\(uw\\)',
+            '\\(bw\\)',
+            '\\(rw\\)',
+            '\\(gw\\)',
+            '\\(bu\\)',
+            '\\(ru\\)',
+            '\\(gu\\)',
+            '\\(rb\\)',
+            '\\(gb\\)',
+            '\\(gr\\)',
+        ],
+    },
+    'advancedSearchIdPrefix': 'advancedSearch',
     'dimensions': {
         /** Dimensions for a standard Magic card as produced by Magic Set Editor. */
         'standardCard': {
@@ -279,7 +307,8 @@ var global = {
             'cardsPerSet': {},
             'cardsPerCreator': {}
         }
-    }
+    },
+    'information': {}
             
 };
 
@@ -316,44 +345,82 @@ function initialize() {
         //global.elements.titleReference.innerHTML = '* '+global.text.references.title;
     //};
 
+    // Collect some statistics about the entire card database.
     var statistics = getStatistics(CARDS);
     global.statistics.counts.numberOfCards = statistics.counts.numberOfCards;
     global.statistics.counts.cardsPerSet = statistics.counts.cardsPerSet;
     global.statistics.counts.cardsPerCreator = statistics.counts.cardsPerCreator;
+
+    // Similarly, collect some information about the database as a whole (eg. a list of all sets that are in it).
+    global.information = getInformation(CARDS);
 
     global.elements.title = document.querySelector('#title');
 
     // The title screen has a dynamic tagline which depends on the number of cards, so set that now.
     global.elements.tagline = document.querySelector('#tagline');
     var tagline = global.text.tagline.dynamic;
-    tagline = tagline.replace('{NUMBER_OF_CARDS}', '<strong>'+CARDS.length+'</strong>');
+    tagline = tagline.replace('{NUMBER_OF_CARDS}', '<strong>'+global.statistics.counts.numberOfCards+'</strong>');
     global.elements.tagline.innerHTML = tagline;
 
     // Set up the search field to perform searches of the card database when Enter is pressed.
-    global.elements.search = document.querySelector('#search');
-    global.elements.search.onkeypress = function(event) {
+    global.elements.searchField = document.querySelector('#searchField');
+    global.elements.searchField.onkeypress = function(event) {
         if (event.keyCode == 13) {
-            var searchString = global.elements.search.value;
-            // We do actually want to do a string search and not a regex search, so we need to escape any regex
-            // characters that the user may have entered.
-            searchString = escapeRegex(searchString);
-            var searchRegex = new RegExp(searchString, 'i');
-            global.search.results = getSearchResults(searchRegex, CARDS);
-            global.pagination.currentPage = 0;
-            global.pagination.numberOfPages = Math.ceil(global.search.results.length/global.pagination.cardsPerPage);
-            displayResults(global.search.results);
+            initiateSearch();
         }
     };
 
+    // Also set up the search button to perform searches when clicked.
+    global.elements.searchButton = document.querySelector('#searchButton');
+    global.elements.searchButton.onclick = function(event) {
+        initiateSearch();
+    };
+    
     // Set a placeholder message inside the search field to prompt the user to search for something (with a helpful
     // randomly-selected suggestion).
     var suggestedSearchTerm = global.text.search.suggestions[rnd(global.text.search.suggestions.length)];
     var searchPlaceholderMessage = global.text.search.placeholder+' (eg. "'+suggestedSearchTerm+'")';
-    global.elements.search.placeholder = searchPlaceholderMessage;
+    global.elements.searchField.placeholder = searchPlaceholderMessage;
 
     // Focus on the search box.
-    global.elements.search.focus();
+    global.elements.searchField.focus();
 
+    // Add a control to expand the advanced search box.
+    var advancedSearchExpander = document.querySelector('#advancedSearchLink');
+    advancedSearchExpander.onclick = function(e) {
+        var table = document.querySelector('#'+global.advancedSearchIdPrefix+'_table');
+        if (table.style.display === 'none') {
+            table.style.display = 'block';
+        }
+        else {
+            table.style.display = 'none';
+        }
+    }
+
+    global.elements.advancedSearch = document.querySelector('#advancedSearch');
+
+    // Generate and add the advanced search control box.
+    global.elements.advancedSearch.appendChild(generateAdvancedSearchElement());
+
+    // Default to search by name only.
+    var searchByNameCheckbox = document.querySelector('#'+global.advancedSearchIdPrefix+'_searchByCardProperty_name');
+    searchByNameCheckbox.checked = true;
+
+    // Default to displaying cards from all available sets.
+    var filterBySetCheckbox = document.querySelector('#filterBySet_selectAll');
+    filterBySetCheckbox.click();
+}
+
+function initiateSearch() {
+    var searchString = global.elements.searchField.value;
+    // We do actually want to do a string search and not a regex search, so we need to escape any regex
+    // characters that the user may have entered.
+    searchString = escapeRegex(searchString);
+    var searchRegex = new RegExp(searchString, 'i');
+    global.search.results = getSearchResults(searchRegex, CARDS);
+    global.pagination.currentPage = 0;
+    global.pagination.numberOfPages = Math.ceil(global.search.results.length/global.pagination.cardsPerPage);
+    displayResults(global.search.results);
 }
 
 /**
@@ -395,13 +462,23 @@ function getStatistics(cards) {
  */
 function getSearchResults(regex, cards) {
     var matchingCards = [];
+    var cardPropertiesToSearchIn = getSearchByChoices();
+    var filterBySetChoices = getFilterBySetChoices();
     for (var i=0; i < cards.length; i++) {
         var card = cards[i];
+
+        // If this card isn't in a set that the user has opted to search in, then skip to the next.
+        if (filterBySetChoices.indexOf(card.set) === -1) {
+            continue;
+        }
+
         var cardPropertyNames = Object.keys(card);
         for (var j=0; j < cardPropertyNames.length; j++) {
             var cardPropertyName = cardPropertyNames[j];
 
-            if (global.cardPropertiesToSearch.indexOf(cardPropertyName) === -1) {
+            // If the card property isn't one that the user has opted to search in, don't bother and skip to the next
+            // property.
+            if (cardPropertiesToSearchIn.indexOf(cardPropertyName) === -1) {
                 continue;
             }
 
@@ -459,6 +536,40 @@ function displayResults(cards) {
 }
 
 /**
+ * Examine the choices made by the user in the "Search by" section of the advanced options, and return an array of card
+ * property names.
+ */
+function getSearchByChoices() {
+    var choices = [];
+
+    for (var i=0; i < global.lists.searchableCardProperties.length; i++) {
+        var cardPropertyName = global.lists.searchableCardProperties[i]; 
+        var checkboxId = global.advancedSearchIdPrefix+'_searchByCardProperty_'+cardPropertyName;
+        var checkbox = document.querySelector('#'+checkboxId);
+        if (checkbox.checked) {
+            choices.push(cardPropertyName);
+        }
+    }
+
+    return choices;
+}
+
+function getFilterBySetChoices() {
+    var choices = [];
+
+    for (var i=0; i < global.information.sets.length; i++) {
+        var set = global.information.sets[i]; 
+        var checkboxId = global.advancedSearchIdPrefix+'_filterBySet_'+i;
+        var checkbox = document.querySelector('#'+checkboxId);
+        if (checkbox.checked) {
+            choices.push(set);
+        }
+    }
+
+    return choices;
+}
+
+/**
  * Generates and returns a DOM element that the user can use to move between pages of the current result set.
  */
 function generatePaginationControlElement() {
@@ -499,6 +610,158 @@ function generatePaginationControlElement() {
     paginationControlTableRowElement.appendChild(nextPageTableCellElement);
     paginationControlTableElement.appendChild(paginationControlTableRowElement);
     return paginationControlTableElement;
+}
+
+/**
+ * Generates and returns a DOM element containing advanced search controls.
+ */
+function generateAdvancedSearchElement() {
+    var advancedSearchTableElement = document.createElement('table');
+    var advancedSearchTableRowElement = document.createElement('tr');
+    var searchByCardPropertyTableRowElement = document.createElement('tr');
+    var searchByCardPropertyTableHeaderRowElement = document.createElement('tr');
+    var searchByCardPropertyTableHeaderCellElement = document.createElement('th');
+    var searchByCardPropertyTableCellElement = document.createElement('td');
+    var filterBySetTableHeaderRowElement = document.createElement('tr');
+    var filterBySetTableHeaderCellElement = document.createElement('th');
+    var filterBySetTableRowElement = document.createElement('tr');
+    var filterBySetTableCellElement = document.createElement('td');
+
+    advancedSearchTableElement.id = global.advancedSearchIdPrefix+'_table';
+    advancedSearchTableElement.style.display = 'none';
+    advancedSearchTableElement.className = 'advancedSearchTable';
+
+    // Generate checkboxes for all properties that we'll allow the user to search by.
+    var data = [];
+    for (var i=0; i < global.lists.searchableCardProperties.length; i++) {
+        var datum = {};
+        var cardPropertyName = global.lists.searchableCardProperties[i]; 
+        var cardPropertyDisplayName = global.mappings.cardPropertiesToDisplayNames[cardPropertyName];
+        datum.id = global.advancedSearchIdPrefix+'_searchByCardProperty_'+cardPropertyName;
+        datum.label = cardPropertyDisplayName;
+
+        data.push(datum);
+    }
+
+    searchByCardPropertyTableHeaderCellElement.innerHTML = 'Search by';
+    searchByCardPropertyTableHeaderCellElement.style.backgroundColor = '#c0c0c0'
+    searchByCardPropertyTableCellElement.appendChild(generateCheckboxListElement('searchby', data, '20%'));
+    searchByCardPropertyTableCellElement.className = 'searchByCardProperty';
+    searchByCardPropertyTableHeaderRowElement.appendChild(searchByCardPropertyTableHeaderCellElement);
+    searchByCardPropertyTableRowElement.appendChild(searchByCardPropertyTableCellElement);
+
+    // Generate checkboxes for all known sets.
+    var data = [];
+    for (var i=0; i < global.information.sets.length; i++) {
+        var datum = {};
+        var set = global.information.sets[i]; 
+        // We can't use the set name in the id, as it may contain spaces or unsuitable characters; instead, we're using
+        // the index of the array that the set appears at.
+        datum.id = global.advancedSearchIdPrefix+'_filterBySet_'+i;
+        datum.label = set;
+
+        data.push(datum);
+    }
+
+    filterBySetTableHeaderCellElement.innerHTML = 'Search in sets';
+    filterBySetTableHeaderCellElement.style.backgroundColor = '#c0c0c0'
+    filterBySetTableCellElement.appendChild(generateCheckboxListElement('filterBySet', data, '33%'));
+    filterBySetTableCellElement.className = 'filterBySet';
+    filterBySetTableHeaderRowElement.appendChild(filterBySetTableHeaderCellElement);
+    filterBySetTableRowElement.appendChild(filterBySetTableCellElement);
+
+    //advancedSearchTableRowElement.appendChild(searchByCardPropertyTableCellElement);
+    //advancedSearchTableRowElement.appendChild(filterBySetTableCellElement);
+
+    advancedSearchTableElement.appendChild(searchByCardPropertyTableHeaderRowElement);
+    advancedSearchTableElement.appendChild(searchByCardPropertyTableRowElement);
+    advancedSearchTableElement.appendChild(filterBySetTableHeaderRowElement);
+    advancedSearchTableElement.appendChild(filterBySetTableRowElement);
+
+    return advancedSearchTableElement;
+}
+
+function generateCheckboxListElement(idPrefix, data, optionWidth) {
+    var checkboxListContainer = document.createElement('div');
+
+    // Add a "Select all" checkbox which will check all the others when clicked.
+    var selectAllCheckboxElementContainer = document.createElement('div');
+    selectAllCheckboxElementContainer.style.display = 'inline-block';
+    selectAllCheckboxElementContainer.style.width = optionWidth;
+    
+    var selectAllCheckboxElement = document.createElement('input');
+    selectAllCheckboxElement.id = idPrefix+'_selectAll';
+    selectAllCheckboxElement.type = 'checkbox';
+    selectAllCheckboxElement.onclick = function(e) {
+        for (var i=0; i < data.length; i++) {
+            var datum = data[i];
+            var otherCheckbox = document.querySelector('#'+datum['id']);
+            otherCheckbox.checked = selectAllCheckboxElement.checked;
+        }
+    };
+    var selectAllCheckboxLabelElement = document.createElement('label');
+    selectAllCheckboxLabelElement.htmlFor = selectAllCheckboxElement.id;
+    selectAllCheckboxLabelElement.style.fontSize = '0.9em';
+    selectAllCheckboxLabelElement.style.fontWeight = 'bold';
+    selectAllCheckboxLabelElement.innerHTML = 'Select all';
+
+    selectAllCheckboxElementContainer.appendChild(selectAllCheckboxElement);
+    selectAllCheckboxElementContainer.appendChild(selectAllCheckboxLabelElement);
+    checkboxListContainer.appendChild(selectAllCheckboxElementContainer);
+
+    // Add a checkbox for each supplied datum.
+    for (var i=0; i < data.length; i++) {
+        var datum = data[i];
+        var checkboxElementContainer = document.createElement('div');
+        checkboxElementContainer.style.display = 'inline-block';
+        checkboxElementContainer.style.width = optionWidth;
+        var checkboxElement = document.createElement('input');
+        checkboxElement.type = 'checkbox';
+        checkboxElement.id = datum['id'];
+
+        var checkboxLabelElement = document.createElement('label');
+        checkboxLabelElement.htmlFor = checkboxElement.id;
+        checkboxLabelElement.style.fontSize = '0.9em';
+        checkboxLabelElement.innerHTML = datum['label'];
+
+        var lineBreak = document.createElement('br');
+        checkboxElementContainer.appendChild(checkboxElement);
+        checkboxElementContainer.appendChild(checkboxLabelElement);
+        checkboxListContainer.appendChild(checkboxElementContainer);
+    }
+
+    return checkboxListContainer;
+}
+
+/**
+ * Given an array of cards `cards`, returns an object containing certain information about the cards in it (eg. a list
+ * of all sets that are represented in those cards).
+ */
+function getInformation(cards) {
+    var information = {};
+
+    // Get a list of all distinct sets that the supplied cards belong to.
+    information.sets = [];
+    for (var i=0; i < cards.length; i++) {
+        var card = cards[i];
+        if (information.sets.indexOf(card.set) === -1) {
+            information.sets.push(card.set);
+        }
+    };
+
+    // Get a list of all distinct card set creators that the supplied cards were made by.
+    information.creators = [];
+    for (var i=0; i < cards.length; i++) {
+        var card = cards[i];
+        if (information.sets.indexOf(card.set) === -1) {
+            information.sets.push(card.set);
+        }
+    };
+
+    // Sort the sets in alphabetical order.
+    information.sets.sort();
+
+    return information;
 }
 
 /**
@@ -549,8 +812,8 @@ function generateCardTableElement(cards) {
 
         var cardInfoTable = document.createElement('table');
 
-        for (var j=0; j < global.cardPropertiesToDisplay.length; j++) {
-            var cardPropertyName = global.cardPropertiesToDisplay[j];
+        for (var j=0; j < global.lists.cardPropertiesToDisplay.length; j++) {
+            var cardPropertyName = global.lists.cardPropertiesToDisplay[j];
             var cardPropertyValue = card[cardPropertyName];
 
             // If the card doesn't have a value defined for this property, skip this property.
@@ -565,7 +828,7 @@ function generateCardTableElement(cards) {
             }
 
             // Check to see if this card property is one that we want to display. If it isn't, skip this property.
-            if (global.cardPropertiesToDisplay.indexOf(cardPropertyName) === -1) {
+            if (global.lists.cardPropertiesToDisplay.indexOf(cardPropertyName) === -1) {
                 continue;
             }
 
@@ -579,6 +842,7 @@ function generateCardTableElement(cards) {
             cardInfoTableCellPropertyValue.className = 'cardPropertyValue';
 
             cardInfoTableCellPropertyName.innerHTML = cardPropertyDisplayName+':';
+            cardPropertyValue = cardPropertyValue.replace(/\n/g, '<br />');
             cardInfoTableCellPropertyValue.innerHTML = cardPropertyValue;
             // Special case for "flavorText" property: We'd like that to be italicized.
             if (cardPropertyName === 'flavorText') {
@@ -657,12 +921,30 @@ function generateProxyElement(
     proxyElement.style.borderWidth = proxyBorderThickness+'px';
     proxyElement.style.padding = proxyPadding+'px';
 
-    // Determine the proxy's color scheme. This will depend on its mana cost.
-    var proxyColorScheme = getCardColorSchemeFromManaCost(cardProperties.cost);
+    // Determine the proxy's color scheme. Generally, this is determined by its mana cost.
+    var proxyColorScheme = undefined;
+    if (cardProperties.colorIndicator !== undefined) {
+        // If the card has a color indicator, then the color indicator is the authoritative determinant of the card's
+        // color identity, overriding all other sources of color such as mana cost.
+
+        // In card data, color indicators are represented by a string of mana symbols (ie. W, U, B, R, G) enclosed in
+        // parentheses. Although a color indicator is not the same thing as a mana cost, we can treat it as such for the
+        // purposes of determining a color scheme.
+
+        // Remove any parentheses from the color indicator.
+        var colorIndicatorManaSymbols = cardProperties.colorIndicator.replace(/\(/g, '').replace(/\)/g, '');
+        proxyColorScheme = getCardColorSchemeFromManaCost(colorIndicatorManaSymbols);
+    }
+    else {
+        // If there's no color indicator (which is the norm), derive a color scheme from the card's mana cost.
+        proxyColorScheme = getCardColorSchemeFromManaCost(cardProperties.cost);
+    }
 
     // Apply an appropriate color scheme class to the proxy element, in accordance with its color scheme. (This will
     // change the proxy's background color).
-    proxyElement.className += ' '+global.mappings.cardColorSchemesToCssClasses[proxyColorScheme];
+    if (proxyColorScheme !== undefined) {
+        proxyElement.className += ' '+global.mappings.cardColorSchemesToCssClasses[proxyColorScheme];
+    }
     
     var proxyNameElement = document.createElement('p');
     var proxyNameAndCostLineElement = document.createElement('div');
@@ -795,7 +1077,7 @@ function applyManaStyling(string) {
                 // If the mana symbol is a hybrid mana symbol, we'll remove the string (it will be something like
                 // "(wu)", which is too cumbersome for the small space available on the card) and replace it with a
                 // single non-breaking space, and allow the style to indicate the color instead.
-                if (global.hybridManaSymbolRegexes.indexOf(manaSymbolRegexString) !== -1) {
+                if (global.lists.hybridManaSymbolRegexes.indexOf(manaSymbolRegexString) !== -1) {
                     tokenizedString[i] = tokenizedString[i].replace(
                         manaSymbolRegex,
                         '<span class="manaDecoration '+global.mappings.manaSymbolsToStyles[manaSymbolRegexString]+'">&nbsp;&nbsp</span>'
@@ -1007,8 +1289,8 @@ function rnd(max) {
  */
 function escapeRegex(string) {
     var escapedString = string;
-    for (var i=0; i < global.regexMetacharacters.length; i++) {
-        var metacharacter = global.regexMetacharacters[i];
+    for (var i=0; i < global.lists.regexMetacharacters.length; i++) {
+        var metacharacter = global.lists.regexMetacharacters[i];
         // Here's a fun bit of code: in order to replace all regex metacharacters in string with escaped versions, we
         // need to locate them - and to locate all occurrences of a character in a string, we need to use regex!
         var metacharacterRegex = new RegExp('\\'+metacharacter, 'g');

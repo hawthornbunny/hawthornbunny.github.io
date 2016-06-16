@@ -16,6 +16,12 @@ META['previous_card_was_a_transformer'] = False
 META['previous_card_was_reverse_side'] = False
 META['set_name'] = 'Friendship is Card Games'
 
+# When typos appear in the type line, this causes problems for the parser as it uses that line to determine where a card
+# starts and ends. For this reason, we are going to perform simple text correction of known typos before processing the
+# dump.
+SPELLING_CORRECTIONS = {}
+SPELLING_CORRECTIONS['Enchatment'] = 'Enchantment'
+
 # Returns True if we can identify `line` as being a card's type line.
 def is_type_line(line):
     # An empty line never matches.
@@ -24,8 +30,7 @@ def is_type_line(line):
 
     # If the line exactly matches a number of well-known strings that we are sure will always indicate a type line, then
     # we will confirm this as being a type line.
-    exact_strings = ['Artifact', 'Artifact — Equipment', 'Basic Land', 'Enchantment', 'Enchantment — Aura', 'Instant', 'Instant — Trap', 'Land', 'Sorcery', 'Legendary Artifact', 'Legendary Enchantment', 'Legendary Instant', 'Legendary Land', 'Legendary Sorcery']
-
+    exact_strings = ['Artifact', 'Artifact — Equipment', 'Basic Land', 'Enchantment', 'Enchantment — Aura', 'World Enchantment', 'Instant', 'Instant — Trap', 'Land', 'Sorcery', 'Legendary Artifact', 'Legendary Enchantment', 'Legendary Instant', 'Legendary Land', 'Legendary Sorcery'] 
     if line in exact_strings:
         return True
 
@@ -142,7 +147,7 @@ def is_type_line(line):
     # - "Artifact" is preceded by the word "Enchantment".
     # - "Artifact" is succeeded by a long dash.
     # - "Artifact" is succeeded by the word "Creature".
-    if 'Artifact' in line_words:
+    if 'Artifact' in line:
         if line != 'Artifact' and 'Legendary Artifact' not in line and 'Snow Artifact' not in line and 'Artifact Creature' not in line and 'Enchantment Artifact' not in line and 'Artifact —' not in line:
             return False
             
@@ -195,20 +200,41 @@ def split_name_and_cost_line_into_name_and_cost(name_and_cost_line):
 
 
 
-def split_type_line_into_supertype_and_subtype(type_line):
+# Given a type line, returns a dictionary containing the component parts of the type line. The component parts may be:
+# color indicator, supertype, and subtype. Of these, only supertype is guaranteed to be present; not all cards have a
+# subtype, and very few have color indicators.
+def split_type_line(type_line):
+    type_line_parts = {}
+    # Search for a color indicator first. This will be a set of mana symbols (ie. W, U, B, R, G) enclosed in
+    # parentheses, and will be the first thing on the line if present.
+    color_indicator_regex = r'^\([WUBRG]+\) '
+    color_indicator_match = re.match(color_indicator_regex, type_line, re.IGNORECASE)
+
+    type_line_remainder = type_line
+
+    if color_indicator_match:
+        # If we found a color indicator, store it and remove it from the string.
+        type_line_parts['colorIndicator'] = color_indicator_match.group(0)
+        # The regex looks for a trailing space at the end, so we need to slice that off.
+        type_line_parts['colorIndicator'] = type_line_parts['colorIndicator'][:-1]
+
+        # For the rest of this function, we'll operate on the stuff after the color indicator, which will be the
+        # supertype and (if present) the subtype.
+        type_line_remainder = type_line[len(type_line_parts['colorIndicator'])+1:]
+
     # Attempt to split the line on a long dash.
-    type_line_pieces = type_line.split(EM_DASH)
+    type_line_remainder_pieces = type_line_remainder.split(EM_DASH)
 
-    if len(type_line_pieces) == 2:
+
+    if len(type_line_remainder_pieces) == 2:
         # If the line split into two pieces, then the first piece is the supertype, and the second piece is the subtype.
-        supertype = type_line_pieces[0].strip()
-        subtype = type_line_pieces[1].strip()
+        type_line_parts['supertype'] = type_line_remainder_pieces[0].strip()
+        type_line_parts['subtype'] = type_line_remainder_pieces[1].strip()
+    else:
+        # Otherwise, we'll assume it's just one piece, which must be the supertype.
+        type_line_parts['supertype'] = type_line_remainder_pieces[0].strip()
 
-        return {'supertype': supertype, 'subtype': subtype}
-
-    # Otherwise, we'll assume it's just one piece, which must be the supertype.
-    supertype = type_line_pieces[0].strip()
-    return {'supertype': supertype}
+    return type_line_parts
 
 
 
@@ -228,6 +254,9 @@ def split_ficg_dump_into_individual_card_dumps(dump):
     for i in range(len(dump_lines)):
         dump_line = dump_lines[i]
         if is_type_line(dump_line):
+            # NOTE: If the parser has failed, this is a good place to look to see where the problem is. Usually it fails
+            # because the type line has been misidentified.
+            # print dump_line
             type_line_indices.append(i)
 
     # Since the name and cost line is always directly above the type line, we can get the indices of all name-and-cost
@@ -282,9 +311,9 @@ def parse_individual_card_dump_into_card_data_entry(individual_card_dump):
     name_and_cost_line = individual_card_dump_lines[0]
     type_line = individual_card_dump_lines[1]
 
-    # Extract the supertype (and subtype, if present) first. We need this because we want to make a decision about how
+    # Extract the supertype (and subtype, and color indicator, if present) first. We need this because we want to make a decision about how
     # to interpret the name-and-cost line, and that decision depends on the card's supertype.
-    type_line_properties = split_type_line_into_supertype_and_subtype(type_line)
+    type_line_properties = split_type_line(type_line)
 
     for property_name in type_line_properties:
         card_data_entry[property_name] = type_line_properties[property_name]
@@ -461,9 +490,15 @@ set_name = sys.argv[3]
 ficg_raw_file = open(ficg_raw_path, 'r')
 ficg_raw_dump = ficg_raw_file.read()
 
+# Correct some known typos.
+for typo in SPELLING_CORRECTIONS:
+    ficg_raw_dump = ficg_raw_dump.replace(typo, SPELLING_CORRECTIONS[typo])
+
+# The set name is the same for all cards, so store it in the global meta dictionary.
 META['set_name'] = set_name
 
 card_data_entries = parse_ficg_dump_into_card_data_entries(ficg_raw_dump)
-card_properties = ['name', 'image', 'set', 'creator', 'cost', 'supertype', 'subtype', 'text', 'flavorText', 'pt', 'loyalty', 'transformsInto', 'transformsFrom']
+card_properties = ['name', 'image', 'set', 'creator', 'cost', 'colorIndicator', 'supertype', 'subtype', 'text', 'flavorText', 'pt',
+'loyalty', 'transformsInto', 'transformsFrom']
 
 print mtgJson.encapsulate_dict_list_in_js_variable(card_data_entries, card_properties, js_variable_name)

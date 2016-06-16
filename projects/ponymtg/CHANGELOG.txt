@@ -1,3 +1,16 @@
+## 1.0.2
+
+* FICG parser fix to correctly detect World Enchantments.
+* FICG parser fix for incorrect Artifact detection.
+* Added typo detection to the FICG parser.
+* IPU parser fix for subtype incorrectly carrying over to successive cards.
+* Added gradient to improve appearance of gold cards.
+* Added cursor styling when mouse is over previous/next page buttons to indicate that the buttons are clickable.
+* Added advanced search options: search by card property and filter by set.
+* Added card set: "Grumpy-Moogle".
+* Added card set: "Twilight Falls".
+* Added Friendship is Card Games up to Season 6, Episode 12.
+
 ## 1.0.1
 
 * Minor improvements to FICG parser.

@@ -197,7 +197,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '{3/W}{3/U}{3/B}{3/R}{3/G}',
         'supertype': 'Legendary Artifact',
-        'subtype': 'Pegasus Pony',
         'text': 'The Elements of Harmony cost 1 less to cast for each +1/+1 counter on creatures you control.\n\n\n\nThe Elements of Harmony are indestructible.\n\n\n\nTap six untapped creatures you control: Exile target permanent.\n\n',
     },
     {
@@ -273,7 +272,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '6',
         'supertype': 'Legendary Enchantment',
-        'subtype': 'Unicorn Pegasus Earth Pony',
         'text': 'When Friendship is Magic enters the battlefield, put a +1/+1 counter on each of up to six target creatures.\n\nEach legendary creature you or your teammates control with a +1/+1 counter on it is indestructible.\n\n',
     },
     {
@@ -282,7 +280,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Unicorn Pegasus Earth Pony',
         'text': '{T}: Add one mana of any color to your mana pool.\n\nWhenever you tap The Sun for mana, untap all nonland permanents your opponents control.\n\n{6}, {T}, Sacrifice The Sun: Untap all nonland permanents you and your teammates control.\n\n',
     },
     {
@@ -291,7 +288,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Unicorn Pegasus Earth Pony',
         'text': '{T}: choose a mana color that is in your or in a teammates mana pool. Add one mana of that color to your mana pool.\n\n{6}, {T}, Sacrifice The Moon: Until end of turn, if a card would be put into its owner\'s graveyard, hand, or library, exile it instead. Cards can\'t leave exile this turn.\n\n',
     },
     {
@@ -375,7 +371,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '4UBR',
         'supertype': 'Enchantment',
-        'subtype': 'Hound Rogue',
         'text': 'At the beginning of your end step, you may put a -1/-1 counter on target creature.\n\nSacrifice Twists and Turns: Gain control of each creature with a -1/-1 counter on it for as long as it has a -1/-1 counter on it.\n\n',
     },
     {
@@ -385,7 +380,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '4URG',
         'supertype': 'Enchantment',
-        'subtype': 'Hound Rogue',
         'text': 'When Post Ponies! enters the battlefield, if it\'s not a token, each of your teammates puts a token that\'s a copy of Post Ponies! onto the battlefield.\n\n\n\nAt the beginning of your upkeep, choose a legendary permanent and/or a planeswalker at random, then put a token that\'s a copy of that permanent onto the battlefield. It\'s a Fan Art artifact in addition to its other types.\n\n\n\nThe \'legend rule\' and the \'planeswalker uniqueness rule\' don\'t apply.\n\n',
     },
     {
@@ -482,7 +476,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2WB',
         'supertype': 'Enchantment',
-        'subtype': 'Pony Foal',
         'text': 'When Lighten the Burden enters the battlefield, put a +1/+1 counter on each of two target creatures.\n\nWhenever a +1/+1 counter is placed on a creature you or your teammates control, you may remove a counter from another target creature.\n\n',
     },
     {
@@ -503,7 +496,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3BG',
         'supertype': 'Enchantment',
-        'subtype': 'Unicorn Pony',
         'text': 'When Meany-Pants\' Counsel enters the battlefield put a -1/-1 counter on each of two target creatures.\n\nCreatures your opponents control with counters on them block each turn if able.\n\n',
     },
     {
@@ -535,7 +527,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2GU',
         'supertype': 'Enchantment',
-        'subtype': 'Earth Pony',
         'text': 'When Super Natural Succor enters the battlefield, put a +1/+1 counter on each of two target creatures.\n\nEach creature you or your teammates control with a counter on it has hexproof.\n\nWhenever a +1/+1 counter is placed on a creature, you may regenerate it.\n\n',
     },
     {
@@ -588,7 +579,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2UR',
         'supertype': 'Enchantment',
-        'subtype': 'Pegasus Pony',
         'text': 'When It Was Under \'E\'! enters the battlefield, proliferate, then move a counter from target creature onto another target creature.\n\nEach creature you and your teammates control with a counter on it has \'{T}: Target player puts the top card of his or her library into his or her graveyard. If that card is an instant or sorcery card, you may have that player put it into his or her hand instead.\'\n\n',
     },
     {
@@ -598,7 +588,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '4RW',
         'supertype': 'Enchantment',
-        'subtype': 'Pegasus Pony',
         'text': 'When Race to the Finish enters the battlefield, put a +1/+1 counter on target creature and a -1/-1 counter on another target creature.\n\nEach creature you or your teammates control with a counter on it has double strike.\n\n',
     },
     {
@@ -629,7 +618,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3{W/B}{W/B}',
         'supertype': 'Sorcery',
-        'subtype': 'Earth Pony',
         'text': 'Destroy each creature without a +1/+1 counter on it.',
     },
     {
@@ -639,7 +627,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1{B/W} // 1GU',
         'supertype': 'Instant',
-        'subtype': 'Earth Pony',
         'text': 'Tap each artifact and creature with an activated or triggered ability your opponents control.\n\n---\n\nUntap each artifact and creature with an activated or triggered ability you and your teammates control. Those permanents gain hexproof until end of turn.',
     },
     {
@@ -649,7 +636,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2{B/G} // 2UR',
         'supertype': 'Sorcery',
-        'subtype': 'Earth Pony',
         'text': 'Put cards from the top of your library into your graveyard until you put a land card into your graveyard this way. Then return target land card or target Critter creature from your graveyard to the battlefield tapped.\n\n---\n\nExile the top six cards of your library face-down. Target opponent looks at these cards and separates them into three piles of one, two and three cards. Put one pile into your hand and the rest into your graveyard.',
     },
     {
@@ -659,7 +645,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '5{U/G} // 5RW',
         'supertype': 'Instant',
-        'subtype': 'Earth Pony',
         'text': 'Tap each artifact, creature and land that isn\'t enchanted, equipped or fortified.\n\n---\n\nUntil end of turn, creatures you and your teammates control have \'{T}: Exile target permanent. Its controller exiles the top card of his or her library, then puts it onto the battlefield if it\'s a permanent card.\'\n\n',
     },
     {
@@ -669,7 +654,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '{U/R} // WB',
         'supertype': 'Instant',
-        'subtype': 'Earth Pony',
         'text': 'Switch target creature\'s power and toughness until end of turn. That creature attacks this turn if able\n\n---\n\nTarget creature’s power becomes equal to its toughness until end of turn. It can’t block or be blocked until end of turn.',
     },
     {
@@ -679,7 +663,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3{R/W} // 3BG',
         'supertype': 'Instant',
-        'subtype': 'Earth Pony',
         'text': 'Put an Attire card from your hand onto the battlefield, then attach any number of Attires you control to any number of target creatures you control.\n\n---\n\nSacrifice any number of permanents, then return an artifact or enchantment from any graveyard to the battlefield under your control for each permanent sacrificed this way.\n\n',
     },
     {
@@ -848,7 +831,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {U}, {B}, or {R} to your mana pool.\n\n{U}{B}{R},{T}, Sacrifice Ancient Ruins: Choose a permanent type. Target player puts the top six cards of his or her library into his or her graveyard. Return a card of the chosen type at random from that player’s graveyard to the battlefield under your control.\n\n',
     },
     {
@@ -857,7 +839,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {G}, {W}, or {U} to your mana pool.\n\n{G}{W}{U}, {T}, Sacrifice Appleloosa: Put any number of Pony and/or Buffalo creature cards with total converted mana cost 6 or less from your hand onto the battlefield. If one of those cards is an Earth Pony, untap and regenerate all creatures you and your teammates control.\n\n',
     },
     {
@@ -866,7 +847,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {W}, {U}, or {B} to your mana pool.\n\n{W}{U}{B}, {T}, Sacrifice Canterlot Academy: Draw a card for each Unicorn spell cast this turn. Then target creature gets -X/-X until end of turn and you gain X life, where X is the number of cards in your hand.\n\n',
     },
     {
@@ -875,7 +855,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {R}, {W}, or {U} to your mana pool.\n\n{R}{W}{U}, {T}, Sacrifice Canterlot Palace: Untap up to one target Pony creature you control and tap up to one target Pony creature target opponent controls. Canterlot Palace deals 3 damage to up to one non-Pony creature that player controls.\n\n',
     },
     {
@@ -884,7 +863,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {U}, {R}, or {G} to your mana pool.\n\n{U}{R}{G}, {T}, Sacrifice Cloudsdale: Up to two target creatures gain flying until end of turn. Creatures with flying you control gain provoke until end of turn.\n\n',
     },
     {
@@ -893,7 +871,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {B}, {R}, or {G} to your mana pool.\n\n{B}{R}{G}, {T}, Sacrifice Dragon Mountain: Put a 5/5 black red and green Dragon Critter creature token with flying named Dormant Dragon onto the battlefield tapped. It has \'This doesn\'t untap during your untap step\' and \'Whenever this is dealt damage, untap it.\'\n\n',
     },
     {
@@ -902,7 +879,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {B}, {G}, or {W} to your mana pool.\n\n{B}{G}{W}, {T}, Sacrifice Everfree Forest: Up to one target Pony creature gets -2/-2 until end of turn and up to one target non-Pony creature gets +2/+2 and gains first strike until end of turn.\n\n',
     },
     {
@@ -911,7 +887,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {G}, {U} or {B} to your mana pool\n\n{G}{U}{B}, {T}, Sacrifice Froggy Bottom Bog: Prevent all combat damage that would be dealt this turn. Return target tapped creature to its owner’s hand. Then that player discards a card at random.\n\n',
     },
     {
@@ -920,7 +895,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {W}, {B}, or {R} to your mana pool.\n\n{W}{B}{R}, {T}, Sacrifice Manehattan: Gain control of target creature you own. That creature gains double strike, lifelink and haste until end of turn.\n\n',
     },
     {
@@ -929,7 +903,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Spirit Illusion',
         'text': 'Champion a permanent without a champion\n\n{T}: Add {R}, {G}, or {W} to your mana pool.\n\n{R}{G}{W}, {T}, Sacrifice Stampeding Grounds: Up to two target creatures get +2/+2 until end of turn. Untap each of those creatures that is a Pony. Each of those creatures that is a Buffalo gains trample until end of turn.\n\n',
     },
     {
@@ -1022,7 +995,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2WU',
         'supertype': 'Enchantment',
-        'subtype': 'Earth Pony',
         'text': 'When Celestial Guidance enters the battlefield, proliferate, then move a counter from target creature onto another target creature.\n\nWhenever a creature you or your teammates control with a counter on it attacks, its controller may scry 1.\n\n',
     },
     {
@@ -1043,7 +1015,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2UB',
         'supertype': 'Enchantment',
-        'subtype': 'Bird Critter Advisor',
         'text': 'When Lunar Whisperings enters the battlefield, put a -1/-1 counter on each of two target creatures.\n\nWhenever a creature an opponent controls with a counter on it blocks, you may fateseal 1. (To fateseal 1, look at the top card of an opponent\'s library, then you may put it on the bottom of that player\'s library.)\n\n',
     },
     {
@@ -1053,7 +1024,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2BR',
         'supertype': 'Enchantment',
-        'subtype': 'Bird Critter Advisor',
         'text': 'When Share the Pain enters the battlefield, put a +1/+1 counter on target creature and a -1/-1 counter on another target creature.\n\nWhenever a creature an opponent controls with a counter on it is dealt damage for the first time in a turn, its controller has it deal damage equal to its power to another creature he or she controls.\n\n',
     },
     {
@@ -1074,7 +1044,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '4RG',
         'supertype': 'Enchantment',
-        'subtype': 'Earth Pony',
         'text': 'When Crush the Common Foe enters the battlefield, put a +1/+1 counter on each of two target creatures.\n\nEach creature you or your teammates control with a counter on it has provoke.\n\n',
     },
     {
@@ -1084,7 +1053,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1RG',
         'supertype': 'Enchantment',
-        'subtype': 'Earth Pony',
         'text': 'Whenever a player casts a Pony spell, you may pay {1}. If you do, put a 0/2 colorless Pony Fan Art artifact creature token onto the battlefield.\n\nSacrifice an Art: Target creature gains first strike and haste until end of turn.\n\n',
     },
     {
@@ -1105,7 +1073,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3GW',
         'supertype': 'Enchantment',
-        'subtype': 'Earth Pony',
         'text': 'When Care for Big and Small enters the battlefield, put a +1/+1 counter on each of two target creatures.\n\nWhenever a creature you or your teammates control with a counter on it attacks, its controller puts a 1/1 colorless Pony Foal and a 0/1 green Critter token onto the battlefield.\n\n',
     },
     {
@@ -1343,7 +1310,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '{G/U}',
         'supertype': 'Enchantment',
-        'subtype': 'Zebra Pony Shaman',
         'text': 'Untap each permanent you and your teammates control that is enchanted, equipped, or fortified during each opponent\'s untap step.',
     },
     {
@@ -1395,7 +1361,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3{U/B} // 3RG',
         'supertype': 'Sorcery',
-        'subtype': 'Pony Foal',
         'text': 'Target creature becomes a 1/1 Pony and you gain control of that creature until the end of your next turn.\n\n---\n\nGain control of all artifacts and non-Aura enchantments target player controls until the end of your next turn.\n\n',
     },
     {
@@ -1405,7 +1370,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1{B/R} // 1GW',
         'supertype': 'Sorcery',
-        'subtype': 'Pony Foal',
         'text': 'Choose a color. Each player sacrifices a creature of that color at random.\n\n---\n\nChoose a color. Each player sacrifices an enchantment of that color. Draw a card for each enchantment sacrificed this way.\n\n',
     },
     {
@@ -1415,7 +1379,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3{R/G} // 3WU',
         'supertype': 'Instant',
-        'subtype': 'Pony Foal',
         'text': 'At the Gala! can\'t be countered.\n\nSpells and abilities can\'t be countered this turn.\n\nAdd three mana in any combination of colors to your mana pool.\n\n---\n\nCounter all other spells.\n\nPlayers can\'t cast spells this turn.\n\nNonland abilities can\'t be activated this turn.\n\n',
     },
     {
@@ -1425,7 +1388,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '{G/W} // UB',
         'supertype': 'Sorcery',
-        'subtype': 'Pony Foal',
         'text': 'Search your library for a basic land card, reveal it, shuffle your library the put it on top of your library.\n\nIf an opponent controls more snacks than you, draw a card.\n\n---\n\nExile the top two cards of your library, then put one of those cards into your hand unless you sacrifice a snack. If you do, repeat the process.\n\n',
     },
     {
@@ -1467,7 +1429,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': 'G',
         'supertype': 'Enchantment',
-        'subtype': 'Pegasus Pony',
         'text': 'Whenever a creature enters the battlefield under your control, you may move a counter from any number of creatures you control to that creature.',
     },
     {
@@ -1530,7 +1491,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3R',
         'supertype': 'Enchantment',
-        'subtype': 'Unicorn Pony',
         'text': 'Whenever you cast Facehoof or another bronze-bordered or silver-bordered spell, you may have target creature you control deal damage equal to its power to itself and another target creature or player.\n\n',
     },
     {
@@ -1656,7 +1616,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3',
         'supertype': 'Snack Artifact',
-        'subtype': 'Fan',
         'text': 'When Appleloosan Arsenal enters the battlefield, put two colorless snack tokens onto the battlefield.\n\n{3}, {T}, Sacrifice a snack: Choose two target creatures. Put a +1/+1 counter on each of those creatures that is a Pony and a -1/-1 counter on each of those that isn\'t.\n\n{T}, Sacrifice Appleloosan Arsenal: Proliferate.\n\n',
     },
     {
@@ -1675,7 +1634,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Attire Equipment',
         'text': '{T}: Add one mana of any color to your mana pool.\n\nWhenever you tap Discordant Realm for mana, put a -1/-1 counter on target creature you control.\n\n',
     },
     {
@@ -1685,7 +1643,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3',
         'supertype': 'Snack Artifact',
-        'subtype': 'Attire Equipment',
         'text': 'When Gala Buffet enters the battlefield, put two colorless snack tokens onto the battlefield.\n\n{3}, {T}, Sacrifice a snack: Reveal cards from the top of your library until you reveal a legendary card. Put that card into your hand and all other cards revealed this way on the bottom of your library at random.\n\n{T}, Sacrifice Gala Buffet: Add one mana of any color to your mana pool for each creature you control.\n\n',
     },
     {
@@ -1726,7 +1683,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3',
         'supertype': 'Snack Artifact',
-        'subtype': 'Attire Equipment',
         'text': 'When Sisterhooves Setup enters the battlefield, put two colorless snack tokens onto the battlefield.\n\n{3}, {T}, Sacrifice a snack: Reveal a Pony card from your hand. You may cast that card without paying its mana cost and as though it had flash.\n\n{T}, Sacrifice Sisterhooves Setup: Put a 1/1 colorless Pony Foal creature token onto the battlefield for each non-Foal Pony you control.\n\n',
     },
     {
@@ -1768,7 +1724,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3',
         'supertype': 'Instant',
-        'subtype': 'Fan Art',
         'text': 'Exile up to one target bronze-bordered or silver-bordered spell if {U} was spent to cast Stop Breaking the Fourth Wall!\n\nExile up to one target bronze-bordered or silver-bordered permanent if {W} and {B} were spent to cast Stop Breaking the Fourth Wall!\n\n(Do both if {W}{U}{B} was spent.)\n\n',
     },
     {
@@ -1789,7 +1744,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3',
         'supertype': 'Instant',
-        'subtype': 'Illusion',
         'text': 'Exile up to one target bronze-bordered or silver-bordered spell if {U} was spent to cast Stop Breaking the Fourth Wall!\n\nExile up to one target bronze-bordered or silver-bordered permanent if {W} and {B} were spent to cast Stop Breaking the Fourth Wall!\n\n(Do both if {W}{U}{B} was spent.)\n\n',
     },
     {
@@ -1832,7 +1786,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1BR',
         'supertype': 'Sorcery',
-        'subtype': 'Shapeshifter',
         'text': 'Gain control of target creature until end of turn. Untap that creature. It gains haste until end of turn.\n\nWhen you lose control of that creature this turn, put a -1/-1 counter on it.\n\n',
     },
     {
@@ -1863,7 +1816,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '{R/G}',
         'supertype': 'Sorcery',
-        'subtype': 'Buffalo Warrior',
         'text': 'Target creature gains haste and trample until end of turn.\n\nWhenever that creature deals damage to a player this turn, you may destroy target artifact that player controls.',
     },
     {
@@ -2046,7 +1998,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1G',
         'supertype': 'Snack Enchantment',
-        'subtype': 'Buffao Warrior',
         'text': 'When Cupcakes, Cupcakes, Cupcakes! Enters the battlefield, put two colorless snack tokens onto the battlefield.\n\n{2}, Sacrifice a snack: Creatures you and your teammates control get +1/+1 until end of turn. Activate this only during a players main phase.\n\n',
     },
     {
@@ -2133,7 +2084,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1G',
         'supertype': 'Sorcery',
-        'subtype': 'Elemental Wolf Critter',
         'text': 'Put a +1/+1 counter on each of two target creatures. (+1/+1 counters and -1/-1 counters remove each other.)',
     },
     {
@@ -2143,7 +2093,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': 'G',
         'supertype': 'Instant',
-        'subtype': 'Elemental Wolf Critter',
         'text': 'Target creature gets +2/+2 until end of turn.\n\nIf that creature is a Fan, you may have another target Fan creature get +2/+2 until end of turn.',
     },
     {
@@ -2229,7 +2178,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1R',
         'supertype': 'Sorcery',
-        'subtype': 'Unicorn Pony Fan',
         'text': 'Put a +1/+1 counter on target creature and a -1/-1 counter on another target creature.  (+1/+1 counters and -1/-1 counters remove each other.)',
     },
     {
@@ -2250,7 +2198,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1R',
         'supertype': 'Snack Enchantment',
-        'subtype': 'Manticore Critter Fan',
         'text': 'When Hot Sauce Cupcakes enters the battlefield, put two colorless snack tokens onto the battlefield.\n\n{1}, Sacrifice a snack: Hot Sauce Cupcakes deals 1 damage to target creature or player.',
     },
     {
@@ -2282,7 +2229,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': 'RR',
         'supertype': 'Instant',
-        'subtype': 'Pony',
         'text': 'Rule 34 deals 3 damage to target creature. If that creature is legendary, Rule 34 deals 4 damage to that creature’s controller.',
     },
     {
@@ -2303,7 +2249,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': 'R',
         'supertype': 'Sorcery',
-        'subtype': 'Buffalo',
         'text': 'Taste the Rainbow deals X damage to target creature or player, where X is the number of colours among permanents you control.\n\n        ',
     },
     {
@@ -2335,7 +2280,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1B',
         'supertype': 'Instant',
-        'subtype': 'Parasprite Critter Fan',
         'text': 'Remove all +1/+1 counters from target creature, then put a -1/-1 counter on that creature.',
     },
     {
@@ -2345,7 +2289,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': 'B',
         'supertype': 'Instant',
-        'subtype': 'Parasprite Critter Fan',
         'text': 'Destroy target creature with a -1/-1 counter on it.',
     },
     {
@@ -2377,7 +2320,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1B',
         'supertype': 'Instant',
-        'subtype': 'Plant Horror',
         'text': 'Each player sacrifices half the snacks he or she controls, rounded up.\n\nGain 1 life for each snack that was sacrificed this turn.\n\n',
     },
     {
@@ -2398,7 +2340,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1B',
         'supertype': 'Sorcery',
-        'subtype': 'Boar Critter',
         'text': 'Put a -1/-1 counter on each of two target creatures. (+1/+1 counters and -1/-1 counters remove each other.)',
     },
     {
@@ -2419,7 +2360,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1B',
         'supertype': 'Snack Enchantment',
-        'subtype': 'Ferret Critter',
         'text': 'When Party of One enters the battlefield, put two colorless snack tokens onto the battlefield.\n\n{2}, Sacrifice a snack: Target player discards a card from his or her hand. Activate this ability only any time you could cast a sorcery.\n\n',
     },
     {
@@ -2462,7 +2402,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3B',
         'supertype': 'Sorcery',
-        'subtype': 'Pony Fan Art',
         'text': 'Destroy target creature.\n\nPut a colorless snack token onto the battlefield.\n\n',
     },
     {
@@ -2538,7 +2477,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1U',
         'supertype': 'Sorcery',
-        'subtype': 'Squid Critter',
         'text': 'Proliferate. (You choose any number of permanents and/or players with counters on them, then give each another counter of a kind already there.)\n\nMove a counter from target creature onto another target creature.\n\n',
     },
     {
@@ -2558,7 +2496,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': 'U',
         'supertype': 'Instant',
-        'subtype': 'Unicorn Pony',
         'text': 'Return target nonland permanent to its owners hand if the amount of colours it has is less than the amount of colours among permanents you control.',
     },
     {
@@ -2568,7 +2505,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': 'U',
         'supertype': 'Instant',
-        'subtype': 'Unicorn Pony',
         'text': 'Counter target noncreature spell unless its controller pays {X}, where X is the number of creatures you control with +1/+1 counters on them.',
     },
     {
@@ -2578,7 +2514,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1U',
         'supertype': 'Snack Enchantment',
-        'subtype': 'Unicorn Pony',
         'text': 'When Too Much Pie enters the battlefield, put two colorless snack tokens onto the battlefield.\n\n{3}, Sacrifice a snack: Return target creature to its owner\'s hand.\n\n',
     },
     {
@@ -2610,7 +2545,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': 'U',
         'supertype': 'Instant',
-        'subtype': 'Bird Critter Fan',
         'text': 'Counter target Pony spell.',
     },
     {
@@ -2620,7 +2554,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1W',
         'supertype': 'Snack Enchantment',
-        'subtype': 'Bird Critter Fan',
         'text': 'When Baked Bads enters the battlefield, put two colorless snack tokens onto the battlefield.\n\n{1}, Sacrifice a snack: Tap target creature.\n\n',
     },
     {
@@ -2630,7 +2563,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': 'WW',
         'supertype': 'Sorcery',
-        'subtype': 'Bird Critter Fan',
         'text': 'Put target creature or enchantment into its owner’s library second from the top.',
     },
     {
@@ -2673,7 +2605,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1W',
         'supertype': 'Sorcery',
-        'subtype': 'Unicorn Pony',
         'text': 'Put a +1/+1 counter on each tapped creature you control.',
     },
     {
@@ -2694,7 +2625,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1W',
         'supertype': 'Instant',
-        'subtype': 'Bird Critter',
         'text': 'Remove all -1/-1 counters from target creature, then put a +1/+1 counter on that creature.',
     },
     {
@@ -2736,7 +2666,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2W',
         'supertype': 'Instant',
-        'subtype': 'Earth Pony',
         'text': 'Destroy all enchantments that share a color with target creature.',
     },
     {
@@ -2768,7 +2697,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2W',
         'supertype': 'Instant',
-        'subtype': 'Earth Pony',
         'text': 'All creatures target player controls gain protection from non-Ponies until end of turn.',
     },
     {
@@ -2810,7 +2738,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2',
         'supertype': 'Artifact',
-        'subtype': 'Pony Fan',
         'text': '{2/G}{2/U}{T}: Draw a card.\n\nAt the beginning of your end step, target opponent gains control of Amicable Letter.\n\n',
     },
     {
@@ -2820,7 +2747,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1',
         'supertype': 'Snack',
-        'subtype': 'Pony Fan',
         'text': 'When Cake enters or leaves the battlefield, put a colorless snack token onto the battlefield and gain 2 life.\n\n',
     },
     {
@@ -2863,7 +2789,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '2',
         'supertype': 'Artifact',
-        'subtype': 'Construct',
         'text': '{T}, Tap an untapped creature you control: That creature and target creature gain flying until end of turn',
     },
     {
@@ -2983,7 +2908,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '3',
         'supertype': 'Snack Artifact',
-        'subtype': 'Attire Equipment',
         'text': 'Snack Artifact\n\nWhen Party Cannon enters the battlefield, put two colorless snack tokens onto the battlefield.\n\n{T}, Sacrifice a snack: Put a +1/+1 counter on target creature.\n\n',
     },
     {
@@ -2993,7 +2917,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1',
         'supertype': 'Snack',
-        'subtype': 'Attire Equipment',
         'text': 'When Pie enters or leaves the battlefield, put a colorless snack token onto the battlefield and untap target creature.\n\n',
     },
     {
@@ -3002,7 +2925,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Attire Equipment',
         'text': '{T}: Add 1 to your mana pool\n\n{T}: Add one mana of any color to your mana pool. Spend this mana only to cast Pony spells or activate abilities of Ponies\n\n',
     },
     {
@@ -3041,7 +2963,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Land',
-        'subtype': 'Attire Equipment',
         'text': 'When Sweet Apple Acres enters the battlefield, you may pay 3. If you do, put three colorless snack tokens onto the battlefield.\n\n{T}: Add 1 to your mana pool.\n\n{T}: Sacrifice a snack: Add one mana of any color to your mana pool.\n\n',
     },
     {
@@ -3051,7 +2972,6 @@ var IPU_CARDS =
         'creator': 'Sorden',
         'cost': '1',
         'supertype': 'Snack',
-        'subtype': 'Attire Equipment',
         'text': 'When Zap Apple Jam enters or leaves the battlefield, put a colorless snack token onto the battlefield and target land becomes the basic land type of your choice until end of turn.\n\n',
     },
     {
@@ -3265,7 +3185,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Snack',
-        'subtype': 'Critter',
         'text': '\n\n',
     },
     {
@@ -3274,7 +3193,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Snack',
-        'subtype': 'Critter',
         'text': '\n\n',
     },
     {
@@ -3283,7 +3201,6 @@ var IPU_CARDS =
         'set': 'Friendship is Magic the Gathering (IPU)',
         'creator': 'Sorden',
         'supertype': 'Snack',
-        'subtype': 'Critter',
         'text': '\n\n',
     },
     {

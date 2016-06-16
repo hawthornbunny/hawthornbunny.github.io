@@ -14581,6 +14581,702 @@ var CARDS = [
         'creator': 'ManaSparks'
     },
     {
+        'name': 'Canterlot High',
+        'image': 'canterlot_high_mtg_by_grumpy_moogle-d8ls0xp.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Checklist',
+        'image': 'checklist_mtg_by_grumpy_moogle-d6lz45g.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Cloudsdale',
+        'image': 'cloudsdale_by_grumpy_moogle-d8r3nu5.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Crystal Heart',
+        'image': 'crystal_heart_mtg_by_grumpy_moogle-d6jwke5.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Daring Do',
+        'image': 'daring_do_mtg_by_grumpy_moogle-d6x5wer.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Element of Generosity',
+        'image': 'element_of_generosity_mtg_by_grumpy_moogle-d764ehq.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Element of Honesty',
+        'image': 'element_of_honesty_mtg_by_grumpy_moogle-d764ek7.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Element of Kindness',
+        'image': 'element_of_kindness_mtg_by_grumpy_moogle-d764elx.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Element of Laughter',
+        'image': 'element_of_laughter_mtg_by_grumpy_moogle-d764enp.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Element of Loyalty',
+        'image': 'element_of_loyalty_mtg_by_grumpy_moogle-d764eop.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Element of Magic',
+        'image': 'element_of_magic_mtg_by_grumpy_moogle-d764epn.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Forever the Night',
+        'image': 'forever_the_night_by_grumpy_moogle-d5z71xp.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Froggy Bottom Bog',
+        'image': 'froggy_bottom_bog_mtg_by_grumpy_moogle-d6tu9ce.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Aloe',
+        'image': 'magic__the_gathering__aloe_by_grumpy_moogle-d5nzgl1.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Applebloom',
+        'image': 'magic__the_gathering__applebloom_by_grumpy_moogle-d5ns30z.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Applejack',
+        'image': 'magic__the_gathering__applejack_by_grumpy_moogle-d5nfbnr.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Baked Bads',
+        'image': 'magic__the_gathering__baked_bads_by_grumpy_moogle-d5ry0j0.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Big Macintosh',
+        'image': 'magic__the_gathering__big_macintosh_by_grumpy_moogle-d5okj0s.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Blossom Twins',
+        'image': 'magic__the_gathering__blossom_twins_by_grumpy_moogle-d5nzgs9.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Chrysalis, Changeling Queen',
+        'image': 'magic__the_gathering__chrysalis_by_grumpy_moogle-d5p5s66.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Cutie Mark Crusader Clubhouse',
+        'image': 'magic__the_gathering__cmc_clubhouse_by_grumpy_moogle-d5ry0sc.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Discord',
+        'image': 'magic__the_gathering__discord_by_grumpy_moogle-d5onrrt.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Fluttershy',
+        'image': 'magic__the_gathering__fluttershy_by_grumpy_moogle-d5nfdi0.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Lotus',
+        'image': 'magic__the_gathering__lotus_by_grumpy_moogle-d5nzgp6.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Mirror Pond',
+        'image': 'magic__the_gathering__mirror_pond_by_grumpy_moogle-d5r48wk.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Nightmare Moon',
+        'image': 'magic__the_gathering__nightmare_moon_by_grumpy_moogle-d5onrxj.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Pinkie Pie',
+        'image': 'magic__the_gathering__pinkie_pie_by_grumpy_moogle-d5nfcuh.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Princess Celestia',
+        'image': 'magic__the_gathering__princess_celestia_by_grumpy_moogle-d5okd7h.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Princess Luna',
+        'image': 'magic__the_gathering__princess_luna_by_grumpy_moogle-d5okdbw.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Rainbow Dash',
+        'image': 'magic__the_gathering__rainbow_dash_by_grumpy_moogle-d5nfd5x.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Rarity',
+        'image': 'magic__the_gathering__rarity_by_grumpy_moogle-d5nfc7c.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Scootaloo',
+        'image': 'magic__the_gathering__scootaloo_by_grumpy_moogle-d5ns3ab.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Spike',
+        'image': 'magic__the_gathering__spike_by_grumpy_moogle-d5nvgow.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Spike\'s Breath',
+        'image': 'magic__the_gathering__spike_s_breath_by_grumpy_moogle-d5ry0yp.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Sweetie Belle',
+        'image': 'magic__the_gathering__sweetie_belle_by_grumpy_moogle-d5ns3ki.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'The Great and Powerful Trixie',
+        'image': 'magic__the_gathering__trixe_by_grumpy_moogle-d5p5sib.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Twilight Sparkle',
+        'image': 'magic__the_gathering__twilight_sparkle_by_grumpy_moogle-d5nfasr.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Zecora',
+        'image': 'magic__the_gathering__zecora_by_grumpy_moogle-d5okd2p.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Parasprite Swarm',
+        'image': 'parasprite_swarm_mtg_by_grumpy_moogle-d6jwlcw.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Philomena',
+        'image': 'philomena_mtg_by_grumpy_moogle-d70fyyr.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Pinkie Party',
+        'image': 'pinkie_party_mtg_by_grumpy_moogle-d6y8gre.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Pinkie Sense',
+        'image': 'pinkie_sense_mtg_by_grumpy_moogle-d6v59rz.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Running of the Leaves',
+        'image': 'running_of_the_leaves_mtg_by_grumpy_moogle-d6vvxqs.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Shining Armor',
+        'image': 'shining_armor_mtg_by_grumpy_moogle-d6u97lq.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Siren Trio',
+        'image': 'siren_trio_by_grumpy_moogle-d8m9meg.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Starlight Glimmer',
+        'image': 'starlight_glimmer_mtg_by_grumpy_moogle-d8oml06.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Tank',
+        'image': 'tank_mtg_by_grumpy_moogle-d70fymq.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Timberwolf Lord',
+        'image': 'timberwolf_lord_mtg_by_grumpy_moogle-d5z71ui.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Timberwolf',
+        'image': 'timberwolf_mtg_by_grumpy_moogle-d5z71q7.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Twitchy Tail',
+        'image': 'twitchy_tail_mtg_by_grumpy_moogle-d6v59v8.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Winter Wrap Up',
+        'image': 'winter_wrap_up_mtg_by_grumpy_moogle-d6vvxf9.jpg',
+        'set': 'Grumpy-Moogle',
+        'creator': 'Grumpy-Moogle'
+    },
+    {
+        'name': 'Act of Anarchy',
+        'image': 'Act of Anarchy.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Adamant Aria',
+        'image': 'Adamant Aria.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Arctos Wanderer',
+        'image': 'Arctos Wanderer.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Avaricious Gemscale',
+        'image': 'Avaricious Gemscale.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Beastsinger\'s Call',
+        'image': 'Beastsingers Call.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Boiling Rage',
+        'image': 'Boiling Rage.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Bombastic Illusionist',
+        'image': 'Bombastic Illusionist.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Burnscar Chimera',
+        'image': 'Burnscar Chimera.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Cadancemarch Hoofsoldier',
+        'image': 'Cadancemarch Hoofsoldier.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Canterspire Apprentice',
+        'image': 'Canterspire Apprentice.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Canterspire Archivist',
+        'image': 'Canterspire Archivist.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Canterspire Charlatan',
+        'image': 'Canterspire Charlatan.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Cirran Bellerophon',
+        'image': 'Cirran Bellerophon.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Cirran Legionaire',
+        'image': 'Cirran Legionaire.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Clockwork Nightingale',
+        'image': 'Clockwork Nightingale.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Clydesdale Guardian',
+        'image': 'Clydesdale Guardian.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Deathsinger Siren',
+        'image': 'Deathsinger Siren.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Dissonant Rhythm',
+        'image': 'Dissonant Rhythm.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Duskdream Onieromancer',
+        'image': 'Duskdream Onieromancer.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Duskdream Sentry',
+        'image': 'Duskdream Sentry.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Earthsong Enchantress',
+        'image': 'Earthsong Enchantress.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Earthsong Entreaty',
+        'image': 'Earthsong Entreaty.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Feathermail Barding',
+        'image': 'Feathermail Barding.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Gemscale Whelp',
+        'image': 'Gemscale Whelp.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Glorious Heartsong',
+        'image': 'Glorious Heartsong.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Heartbeat Thrumming',
+        'image': 'Heartbeat Thrumming.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Heartsong Spellcantor',
+        'image': 'Heartsong Spellcantor.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Heartsong Virtuoso',
+        'image': 'Heartsong Virtuoso.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Heartstrings Lyre',
+        'image': 'Heartstrings Lyre.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Heartstrings Spellsinger',
+        'image': 'Heartstrings Spellsinger.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Herdmind Divination',
+        'image': 'Herdmind Divination.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Hunt the Hunter',
+        'image': 'Hunt the Hunter.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Hypnotic Lullabye',
+        'image': 'Hypnotic Lullabye.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Lakotox Coup-Counter',
+        'image': 'Lakotox Coup-Counter.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Memory Scythe',
+        'image': 'Memory Scythe.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Mindfire Spike',
+        'image': 'Mindfire Spike.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Mindrender Tantibus',
+        'image': 'Mindrender Tantibus.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Mind Rot',
+        'image': 'Mind Rot.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Mocking Crescendo',
+        'image': 'Mocking Crescendo.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Naturalize',
+        'image': 'Naturalize.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Nevertamed Scout',
+        'image': 'Nevertamed Scout.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Prodigal Glamourweaver',
+        'image': 'Prodigal Glamourweaver.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Pyrotechnics',
+        'image': 'Pyrotechnics.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Roanoake Blacksmith',
+        'image': 'Roanoake Blacksmith.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Roanok Javelineers',
+        'image': 'Roanoak Javelineers.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Shadecaller\'s Dirge',
+        'image': 'Shadecallers Dirge.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Shadecaller Unicorn',
+        'image': 'Shadecaller Unicorn.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Shire Cropsinger',
+        'image': 'Shire Cropsinger.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Singing Spear',
+        'image': 'Singing Spear.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Sing in Harmony',
+        'image': 'Sing in Harmony.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Stormshape',
+        'image': 'Stormshape.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Strength in Harmony',
+        'image': 'Strength in Harmony.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Strix Familiar',
+        'image': 'Strix Familiar.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Sweet-Song Hippocamp',
+        'image': 'Sweet-Song Hippocamp.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Tantibus Lemure',
+        'image': 'Tantibus Lemure.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Thunderhead Stormshaper',
+        'image': 'Thunderhead Stormshaper.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Thunderhead Vanguard',
+        'image': 'Thunderhead Vanguard.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Thunderous Crescendo',
+        'image': 'Thunderous Crescendo.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Tormenting Voice',
+        'image': 'Tormenting Voice.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Twilight Dismissal',
+        'image': 'Twilight Dismissal.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Verdant Crescendo',
+        'image': 'Verdant Crescendo.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Wolfwood Whelp',
+        'image': 'Wolfwood Whelp.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Zehiran Apocethary',
+        'image': 'Zehiran Apocethary.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Zehiran Spellgunner',
+        'image': 'Zehiran Spellgunner.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
+        'name': 'Zehiran Warchanters',
+        'image': 'Zehiran Warchanters.jpg',
+        'set': 'Twilight Falls',
+        'creator': 'Bliss Authority'
+    },
+    {
         'name': 'Rakdos Guildpony',
         'cost': 'BR',
         'supertype': 'Creature',
@@ -14848,7 +15544,7 @@ var CARDS = [
         'cost': 'RGW',
         'supertype': 'Legendary Creature',
         'subtype': 'Pegasus Shaman',
-        'text': 'Flying, protection from creatures\n\nWhenever Fluttershy, Pegasus Exuberant attacks, target attacking creature with power 5 or greater gains flying until end of turn.\n\n',
+        'text': 'Flying, protection from creatures\n\nWhenever Fluttershy, Pegasus Exuberant attacks, target attacking creature with power 5 or greater gains flying until end of turn.',
         'flavorText': 'She shares the joy of flight with those least likely to experience it.',
         'pt': '1/3',
     },

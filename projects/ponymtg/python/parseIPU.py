@@ -4,7 +4,7 @@ import xml.etree.ElementTree as et, mtgJson, sys
 
 SET_NAME = 'Friendship is Magic the Gathering (IPU)'
 CREATOR = 'Sorden'
-COCKATRICE_FILE_PATH = '../data/cockatrice/cockatrice_database_for_mlp_fimtg_v1_4_2_by_sorden-d5k49mg.xml'
+COCKATRICE_FILE_PATH = 'data/cockatrice/cockatrice_database_for_mlp_fimtg_v1_4_2_by_sorden-d5k49mg.xml'
 
 tree = et.parse(COCKATRICE_FILE_PATH)
 root = tree.getroot()
@@ -38,6 +38,9 @@ for cardElement in cardElements:
 
     # Obtain the supertype and subtype from the `<type>` element. Cockatrice stores both supertype and subtype (if
     # present) in a single string, separated by a hyphen if necessary (eg: "Creature - Earth Pony").
+
+    supertype = None
+    subtype = None
 
     typeString = typeElement.text
     typeStringPieces = typeString.split('-')
