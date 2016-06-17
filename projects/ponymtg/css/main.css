@@ -81,12 +81,13 @@ body {
  */
 #advancedSearch {
     width:75%;
-    margin:16px auto 32px auto;
+    margin:0px auto 0px auto;
     text-align:center;
 }
 
 table.advancedSearchTable {
     background-color:#e0e0e0;
+    margin:0px auto 32px auto;
     border-radius: 8px;
 }
 
