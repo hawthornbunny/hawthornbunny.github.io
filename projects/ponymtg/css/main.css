@@ -109,12 +109,13 @@ td.filterBySet {
 table.paginationControl {
     width:75%;
     margin:8px auto;
+    padding:4px;
     text-align:center;
-    border-radius:16px;
+    border-radius:8px;
     background-color: #e0e0e0;
 }
 td.paginationPreviousPage {
-    width: 30%;
+    width: 25%;
     border-radius:4px;
     background-color: #c0c0c0;
     margin:4px;
@@ -131,7 +132,7 @@ td.paginationPreviousPage {
 td.paginationPageNumber {
     font-size: 1.1em;
     font-weight:bold;
-    width: 40%;
+    width: 50%;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -140,7 +141,7 @@ td.paginationPageNumber {
     user-select: none;
 }
 td.paginationNextPage {
-    width: 30%;
+    width: 25%;
     border-radius:4px;
     background-color: #c0c0c0;
     margin:4px;
@@ -178,9 +179,9 @@ table.cardTable {
 td.cardInfo {
     width:75%;
     vertical-align:top;
-    border:1px solid #808080;
-    border-radius:2px;
-    background-color: #f0f0f0;
+    border:1px solid #c0c0c0;
+    border-radius:4px;
+    background-color: #e0e0e0;
 }
 
 /**

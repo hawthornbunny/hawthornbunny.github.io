@@ -91,8 +91,8 @@ var global = {
             '\\(gr\\)': 'redGreen',
         },
         /**
-         * Maps a regular expression representing a mana symbol (in standard WUBRG form) to a CSS style emulates the
-         * look-and-feel of that symbol as it would appear on a Magic card.
+         * Maps a regular expression representing a mana symbol (in standard WUBRG form) to a CSS style that emulates
+         * the look-and-feel of that symbol as it would appear on a Magic card.
          */
         'manaSymbolsToStyles': {
             'W': 'manaDecorationWhite',
@@ -122,6 +122,7 @@ var global = {
             '\\(rb\\)': 'manaDecorationHybridBlackRed',
             '\\(gb\\)': 'manaDecorationHybridBlackGreen',
             '\\(gr\\)': 'manaDecorationHybridRedGreen',
+            'C': 'manaDecorationColorless',
         },
         /**
          * Maps the name of a card color scheme to the CSS style that defines that color scheme for the browser.
@@ -379,7 +380,7 @@ function initialize() {
     // Set a placeholder message inside the search field to prompt the user to search for something (with a helpful
     // randomly-selected suggestion).
     var suggestedSearchTerm = global.text.search.suggestions[rnd(global.text.search.suggestions.length)];
-    var searchPlaceholderMessage = global.text.search.placeholder+' (eg. "'+suggestedSearchTerm+'")';
+    var searchPlaceholderMessage = global.text.search.placeholder+' (example: "'+suggestedSearchTerm+'")';
     global.elements.searchField.placeholder = searchPlaceholderMessage;
 
     // Focus on the search box.
