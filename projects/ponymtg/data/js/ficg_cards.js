@@ -5692,7 +5692,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2W',
         'supertype': 'Instant',
-        'text': 'Corncussive Blast deals 4 damage to target attacking creature.\n\nChaotic W (You may cast this spell for its chaotic cost. If you do, choose its targets at random.)\n\n“Too much starch isn’t good for you."\n\n—Discord',
+        'text': 'Corncussive Blast deals 4 damage to target attacking creature.\n\nChaotic W (You may cast this spell for its chaotic cost. If you do, choose its targets at random.)',
+        'flavorText': '"Too much starch isn’t good for you."\n—Discord',
     },
     {
         'name': 'Quiet Disposal',
@@ -5737,7 +5738,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'U',
         'supertype': 'Instant',
-        'text': 'Counter target multicolored spell or target activated ability from a multicolored source. (Mana abilities can’t be targeted.)\n\n“Greater than the sum of your parts? Well, I’ve never been one for math."\n\n—Discord',
+        'text': 'Counter target multicolored spell or target activated ability from a multicolored source. (Mana abilities can’t be targeted.)',
+        'flavorText': '"Greater than the sum of your parts? Well, I’ve never been one for math."\n—Discord',
     },
     {
         'name': 'Animated Image',
@@ -5885,7 +5887,7 @@ var FICG_CARDS =
         'colorIndicator': '(R)',
         'supertype': 'Planeswalker',
         'subtype': 'Discord',
-        'text': '+2: During target player’s next combat, creatures that player controls attack if able and can’t attack Discord Released.\n\n-1: Switch each creature’s power and toughness until your next turn.\n\n-7: You get an emblem with “Whenever a creature attacks, you may discard a card. If you do, draw a card."',
+        'text': '+2: During target player’s next combat, creatures that player controls attack if able and can’t attack Discord Released.\n\n-1: Switch each creature’s power and toughness until your next turn.\n\n-7: You get an emblem with "Whenever a creature attacks, you may discard a card. If you do, draw a card."',
         'transformsFrom': 'Chimeric Sculpture',
     },
     {
@@ -5925,7 +5927,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'WB',
         'supertype': 'Instant',
-        'text': 'Choose one —\n\n• Target player loses life equal to the life he or she gained this turn.\n\n• Target player gains life equal to the life he or she lost this turn. (Damage causes loss of life.)\n\n“As if time weren’t strange enough."\n\n—Minuette, temporal operative',
+        'text': 'Choose one —\n\n• Target player loses life equal to the life he or she gained this turn.\n\n• Target player gains life equal to the life he or she lost this turn. (Damage causes loss of life.)',
+        'flavorText': '"As if time weren’t strange enough."\n—Minuette, temporal operative',
     },
     {
         'name': 'Telekinetic Toss',
@@ -6946,7 +6949,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'W',
         'supertype': 'Enchantment',
-        'text': 'When Fall in a Well enters the battlefield, you may exile target creature with power 3 or less until Fall in a Well leaves the battlefield.\n\nSomewhere deep in Winona’s racial memory, something thought, “Not again."',
+        'text': 'When Fall in a Well enters the battlefield, you may exile target creature with power 3 or less until Fall in a Well leaves the battlefield.\n\nSomewhere deep in Winona’s racial memory, something thought, "Not again."',
     },
     {
         'name': 'Refabricate',
@@ -7052,7 +7055,7 @@ var FICG_CARDS =
         'cost': '2RR',
         'supertype': 'Enchantment',
         'subtype': 'Aura Curse',
-        'text': 'Enchant player\n\nActivated abilities of artifacts enchanted player controls cost an additional “Sacrifice this artifact" to activate. (Costs that include more than one sacrifice of the same permanent can’t be paid.)\n\nSometimes everypony has an off day at the same time.',
+        'text': 'Enchant player\n\nActivated abilities of artifacts enchanted player controls cost an additional "Sacrifice this artifact" to activate. (Costs that include more than one sacrifice of the same permanent can’t be paid.)\n\nSometimes everypony has an off day at the same time.',
     },
     {
         'name': 'Incongruous Cliff',
@@ -7060,7 +7063,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2RR',
         'supertype': 'Instant',
-        'text': 'For each attacking creature without flying, flip a coin. If the coin comes up tails, destroy that creature.\n\n"You wouldn’t believe what they charge for guardrails these days.“\n\n—Marion Mare, mayor of Ponyville',
+        'text': 'For each attacking creature without flying, flip a coin. If the coin comes up tails, destroy that creature.',
+        'flavorText': '"You wouldn’t believe what they charge for guardrails these days."\n—Marion Mare, mayor of Ponyville',
     },
     {
         'name': 'Concealing Costume',
@@ -7414,7 +7418,7 @@ var FICG_CARDS =
         'cost': '1R',
         'supertype': 'Creature',
         'subtype': 'Pegasus Rigger',
-        'text': 'Assemble R (R: Put a colorless Contraption artifact token onto the battlefield. Assemble only any time you could cast a sorcery.)\n\nContraptions you control have “Sacrifice this artifact: Target creature gains haste until end of turn."\n\nA pegasus’s need for speed doesn’t always grow at the same rate as her wings.',
+        'text': 'Assemble R (R: Put a colorless Contraption artifact token onto the battlefield. Assemble only any time you could cast a sorcery.)\n\nContraptions you control have "Sacrifice this artifact: Target creature gains haste until end of turn."\n\nA pegasus’s need for speed doesn’t always grow at the same rate as her wings.',
         'pt': '2/1',
     },
     {
@@ -7914,7 +7918,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2R',
         'supertype': 'Sorcery',
-        'text': 'Until end of turn, lands you control gain “T: This land deals 1 damage to target creature or player."\n\nThe second sign, dark clouds and ominous winds that usher forth a burst of leaves and lightning.',
+        'text': 'Until end of turn, lands you control gain "T: This land deals 1 damage to target creature or player."\n\nThe second sign, dark clouds and ominous winds that usher forth a burst of leaves and lightning.',
     },
     {
         'name': 'Make a Ruckus',
@@ -8058,7 +8062,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1UU',
         'supertype': 'Instant',
-        'text': 'For each creature target player controls, tap that creature unless that player pays 2. Creatures tapped this way don’t untap during their controller’s next untap step.\n\nAs with all things, sometimes mind magic is just a matter of shouting as loud as you can and hoping no one says “No."',
+        'text': 'For each creature target player controls, tap that creature unless that player pays 2. Creatures tapped this way don’t untap during their controller’s next untap step.\n\nAs with all things, sometimes mind magic is just a matter of shouting as loud as you can and hoping no one says "No."',
     },
     {
         'name': 'Unrealize',
@@ -8351,7 +8355,7 @@ var FICG_CARDS =
         'cost': '2',
         'supertype': 'Artifact',
         'subtype': 'Equipment',
-        'text': 'Equipped creature has vigilance and “Whenever this creature attacks, it gets +1/+1 until end of turn for each attacking Pony, Pegasus, and Unicorn."\n\nEquip 2\n\nMost such conveyances are used for convenience, not speed. As with all things, magic can change that.',
+        'text': 'Equipped creature has vigilance and "Whenever this creature attacks, it gets +1/+1 until end of turn for each attacking Pony, Pegasus, and Unicorn."\n\nEquip 2\n\nMost such conveyances are used for convenience, not speed. As with all things, magic can change that.',
     },
     {
         'name': 'Cherrywood Treadmill',
@@ -8843,7 +8847,7 @@ var FICG_CARDS =
         'cost': '2W',
         'supertype': 'Creature',
         'subtype': 'Pony Citizen',
-        'text': 'Soulbond (You may pair this creature with another unpaired creature when either enters the battlefield. They remain paired for as long as you control both of them.)\n\nAs long as Master of Sequins is paired with another creature, each of those creatures has “Whenever this creature attacks, tap target creature defending player controls."',
+        'text': 'Soulbond (You may pair this creature with another unpaired creature when either enters the battlefield. They remain paired for as long as you control both of them.)\n\nAs long as Master of Sequins is paired with another creature, each of those creatures has "Whenever this creature attacks, tap target creature defending player controls."',
         'pt': '2/2',
     },
     {
@@ -8853,7 +8857,7 @@ var FICG_CARDS =
         'cost': '2W',
         'supertype': 'Creature',
         'subtype': 'Pony Cleric',
-        'text': 'Soulbond\n\nAs long as Wizened Eulogist is paired with another creature, each of those creatures has “W, T: Exile target creature card from a graveyard. You gain life equal to that card’s toughness."',
+        'text': 'Soulbond\n\nAs long as Wizened Eulogist is paired with another creature, each of those creatures has "W, T: Exile target creature card from a graveyard. You gain life equal to that card’s toughness."',
         'pt': '1/3',
     },
     {
@@ -8902,7 +8906,7 @@ var FICG_CARDS =
         'cost': '2U',
         'supertype': 'Creature',
         'subtype': 'Pony Citizen',
-        'text': 'Soulbond\n\nAs long as Sudsy Stallion is paired with another creature, each of those creatures has “Whenever this creature becomes the target of a spell or ability for the first time in a turn, counter that spell or ability."',
+        'text': 'Soulbond\n\nAs long as Sudsy Stallion is paired with another creature, each of those creatures has "Whenever this creature becomes the target of a spell or ability for the first time in a turn, counter that spell or ability."',
         'pt': '2/3',
     },
     {
@@ -8928,7 +8932,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2B',
         'supertype': 'Enchantment',
-        'text': 'Whenever an opponent gains life, that player discards a card.\n\n"You’re my shmoopy-doopy sweetie-weetie pony pie."\n\n“You’re my shmoopy-doopy sweetie-weetie pony pie."',
+        'text': 'Whenever an opponent gains life, that player discards a card.',
+        'flavorText': '"You’re my shmoopy-doopy sweetie-weetie pony pie."\n"You’re my shmoopy-doopy sweetie-weetie pony pie."',
     },
     {
         'name': 'Slapstickler',
@@ -8947,7 +8952,7 @@ var FICG_CARDS =
         'cost': '3B',
         'supertype': 'Creature',
         'subtype': 'Pony Citizen',
-        'text': 'Soulbond\n\nAs long as Trash Hauler is paired with another creature, each of those creatures has “Whenever a creature blocks this creature, the blocking creature gets -1/-1 until end of turn."',
+        'text': 'Soulbond\n\nAs long as Trash Hauler is paired with another creature, each of those creatures has "Whenever a creature blocks this creature, the blocking creature gets -1/-1 until end of turn."',
         'pt': '2/3',
     },
     {
@@ -8967,7 +8972,7 @@ var FICG_CARDS =
         'cost': '1R',
         'supertype': 'Creature',
         'subtype': 'Pony Child Gamer',
-        'text': 'Soulbond\n\nAs long as Arcade Colt is paired with another creature, each of those creatures has “2R: This creature gets +X/+0 until end of turn, where X is the number of artifacts you control."',
+        'text': 'Soulbond\n\nAs long as Arcade Colt is paired with another creature, each of those creatures has "2R: This creature gets +X/+0 until end of turn, where X is the number of artifacts you control."',
         'pt': '1/1',
     },
     {
@@ -9024,13 +9029,13 @@ var FICG_CARDS =
         'text': 'Until end of turn, target creature gets +2/+2 for each creature blocking it and gains trample.\n\nEarth ponies are both unstoppable objects and immovable forces.',
     },
     {
-        'name': '“The Perfect Stallion"',
+        'name': '"The Perfect Stallion"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2G',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “The Perfect Stallion".\n\n2G, Sacrifice “The Perfect Stallion" and a creature: Search your library for a creature card with converted mana cost equal to or less than the converted mana cost of the sacrificed creature plus the number of verse counters on “The Perfect Stallion", put that card onto the battlefield, then shuffle your library.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "The Perfect Stallion".\n\n2G, Sacrifice "The Perfect Stallion" and a creature: Search your library for a creature card with converted mana cost equal to or less than the converted mana cost of the sacrificed creature plus the number of verse counters on "The Perfect Stallion", put that card onto the battlefield, then shuffle your library.',
     },
     {
         'name': 'Overstepper',
@@ -9068,7 +9073,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'X1G',
         'supertype': 'Sorcery',
-        'text': 'Put X +1/+1 counters on target creature.\n\nNothing says “thank you" like a lot of glitter.',
+        'text': 'Put X +1/+1 counters on target creature.\n\nNothing says "thank you" like a lot of glitter.',
     },
     {
         'name': 'Sylvan Gazebo',
@@ -9164,7 +9169,7 @@ var FICG_CARDS =
         'cost': '3UU',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant artifact\n\nEnchanted artifact is an artifact creature with power and toughness each equal to its converted mana cost and has “Whenever you activate an ability of this artifact, if it isn’t a mana ability, copy that ability. You may choose new targets for that copy."',
+        'text': 'Enchant artifact\n\nEnchanted artifact is an artifact creature with power and toughness each equal to its converted mana cost and has "Whenever you activate an ability of this artifact, if it isn’t a mana ability, copy that ability. You may choose new targets for that copy."',
     },
     {
         'name': 'World Weary',
@@ -9224,7 +9229,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2GG',
         'supertype': 'Sorcery',
-        'text': 'Creatures you control gain nonbasic landwalk until end of turn.\n\nCycling 1G\n\n“Who knew thatch could be so bouncy?"\n\n—Pinkie Pie, Bearer of Laughter',
+        'text': 'Creatures you control gain nonbasic landwalk until end of turn.\n\nCycling 1G',
+        'flavorText': '"Who knew thatch could be so bouncy?"\n—Pinkie Pie, Bearer of Laughter',
     },
     {
         'name': 'Welcoming Tune',
@@ -9420,7 +9426,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1RR',
         'supertype': 'Enchantment',
-        'text': 'Whenever a spell you cast is countered, add that spell’s mana cost to your mana pool. (Mana cost includes color. A targeted spell with no legal targets is countered on resolution.)\n\n“Everyone likes money-back guarantees, which means not as many will ask for it back."\n\n—Iron Will, master motivator',
+        'text': 'Whenever a spell you cast is countered, add that spell’s mana cost to your mana pool. (Mana cost includes color. A targeted spell with no legal targets is countered on resolution.)',
+        'flavorText': '"Everyone likes money-back guarantees, which means not as many will ask for it back."\n—Iron Will, master motivator',
     },
     {
         'name': 'Awakened Fury',
@@ -9638,7 +9645,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1R',
         'supertype': 'Instant',
-        'text': 'As an additional cost to cast Inexplicable Flowerpot, discard a land card.\n\nInexplicable Flowerpot deals 4 damage to target creature.\n\n“Where did that even come from?"\n\n—Pinkie Pie, Element of Laughter',
+        'text': 'As an additional cost to cast Inexplicable Flowerpot, discard a land card.\n\nInexplicable Flowerpot deals 4 damage to target creature.',
+        'flavorText': '"Where did that even come from?"\n—Pinkie Pie, Element of Laughter',
     },
     {
         'name': 'Primary Panicker',
@@ -9835,7 +9843,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2R',
         'supertype': 'Instant',
-        'text': 'Until end of turn, each creature gains “T: This creature deals 1 damage to target creature or player."\n\nDragon entertainment is as elegant and refined as the dragons themselves.',
+        'text': 'Until end of turn, each creature gains "T: This creature deals 1 damage to target creature or player."\n\nDragon entertainment is as elegant and refined as the dragons themselves.',
     },
     {
         'name': 'Dragonspire Expedition',
@@ -9998,7 +10006,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2U',
         'supertype': 'Instant',
-        'text': 'Counter target spell without reminder text. (Reminder text is any italicized text in parentheses that explains rules you already know.)\n\n“Twilight doesn’t mean to do it. She just forgets her audience sometimes."\n\n—Spike',
+        'text': 'Counter target spell without reminder text. (Reminder text is any italicized text in parentheses that explains rules you already know.)',
+        'flavorText': '"Twilight doesn’t mean to do it. She just forgets her audience sometimes."\n—Spike',
     },
     {
         'name': 'Anemometric Analysis',
@@ -10024,7 +10033,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '5U',
         'supertype': 'Instant',
-        'text': 'Convoke\n\nReturn up to two target nonland permanents to their owners’ hands.\n\nWhen Rainbow Dash tells you to “suck it up," make sure you know what she means.',
+        'text': 'Convoke\n\nReturn up to two target nonland permanents to their owners’ hands.\n\nWhen Rainbow Dash tells you to "suck it up," make sure you know what she means.',
     },
     {
         'name': 'Early Trauma',
@@ -10317,7 +10326,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'WB',
         'supertype': 'Enchantment',
-        'text': 'As Painful Dilemma enters the battlefield, name a nonland card.\n\nThe named card costs an additional “Pay 5 life" to cast.',
+        'text': 'As Painful Dilemma enters the battlefield, name a nonland card.\n\nThe named card costs an additional "Pay 5 life" to cast.',
         'flavorText': '"It’s not coercion. You can do whatever you like, and so can I."\n—Diamond Tiara',
     },
     {
@@ -10335,7 +10344,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1GW',
         'supertype': 'Sorcery',
-        'text': 'Exile target creature. Each player gains life equal to that creature’s toughness.\n\nIn Equestria, not only is “I’m sorry and I’ll never do it again" an accepted form of repentance, sometimes it’s actually sincere.',
+        'text': 'Exile target creature. Each player gains life equal to that creature’s toughness.\n\nIn Equestria, not only is "I’m sorry and I’ll never do it again" an accepted form of repentance, sometimes it’s actually sincere.',
     },
     {
         'name': 'Spa Session',
@@ -10553,16 +10562,16 @@ var FICG_CARDS =
         'cost': '1W',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on Song of Siblings.\n\n1W, Sacrifice Song of Siblings: Put a 2/X white Unicorn Soldier creature token onto the battlefield, where X is the number of verse counters on Song of Siblings. That creature has “All damage that would be dealt to you is dealt to this creature instead."',
+        'text': 'At the beginning of your upkeep, put a verse counter on Song of Siblings.\n\n1W, Sacrifice Song of Siblings: Put a 2/X white Unicorn Soldier creature token onto the battlefield, where X is the number of verse counters on Song of Siblings. That creature has "All damage that would be dealt to you is dealt to this creature instead."',
     },
     {
-        'name': '“Love is in Bloom"',
+        'name': '"Love is in Bloom"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2W',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Love is in Bloom".\n\n1W, Sacrifice “Love is in Bloom": Prevent the next X damage that would be dealt to each creature you control this turn, where X is the number of verse counters on “Love is in Bloom". You gain life equal to the damage prevented this way.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Love is in Bloom".\n\n1W, Sacrifice "Love is in Bloom": Prevent the next X damage that would be dealt to each creature you control this turn, where X is the number of verse counters on "Love is in Bloom". You gain life equal to the damage prevented this way.',
     },
     {
         'name': 'Gelatinous Containment',
@@ -10985,7 +10994,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2B',
         'supertype': 'Enchantment',
-        'text': 'At the beginning of your end step, each opponent who lost 2 or more life this turn discards a card. (Damage causes loss of life.)\n\n“Sombra is gone from this world, but he still lurks in the dark corners of the crystal ponies’ minds."\n\n—Princess Luna',
+        'text': 'At the beginning of your end step, each opponent who lost 2 or more life this turn discards a card. (Damage causes loss of life.)',
+        'flavorText': '"Sombra is gone from this world, but he still lurks in the dark corners of the crystal ponies’ minds."\n—Princess Luna',
     },
     {
         'name': 'Sombra’s Slaves',
@@ -11003,7 +11013,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2BB',
         'supertype': 'Enchantment',
-        'text': 'When Creeping Corruption enters the battlefield, put a darkness counter on target land.\n\nEach land with a darkness counter on it is a Swamp.\n\nAll Swamps have “2B, T: Put a darkness counter on target land."',
+        'text': 'When Creeping Corruption enters the battlefield, put a darkness counter on target land.\n\nEach land with a darkness counter on it is a Swamp.\n\nAll Swamps have "2B, T: Put a darkness counter on target land."',
     },
     {
         'name': 'Sombra, Dread Shade',
@@ -11021,7 +11031,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '4B',
         'supertype': 'Sorcery',
-        'text': 'Destroy target creature. Put a 1/1 black Shade creature token onto the battlefield with “B: This creature gets +1/+1 until end of turn."\n\nThe Diarchs meant to reduce Sombra to nothingness, but the darkness in his soul yet lingered.',
+        'text': 'Destroy target creature. Put a 1/1 black Shade creature token onto the battlefield with "B: This creature gets +1/+1 until end of turn."\n\nThe Diarchs meant to reduce Sombra to nothingness, but the darkness in his soul yet lingered.',
     },
     {
         'name': 'Darkest Fears',
@@ -11037,7 +11047,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'RR',
         'supertype': 'Sorcery',
-        'text': 'Overreact deals 2 damage to each player. This damage can’t be prevented or dealt to planeswalkers.\n\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)\n\nNever tell Twilight Sparkle something is “just a test."',
+        'text': 'Overreact deals 2 damage to each player. This damage can’t be prevented or dealt to planeswalkers.\n\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)\n\nNever tell Twilight Sparkle something is "just a test."',
     },
     {
         'name': 'High Spirits',
@@ -11088,7 +11098,7 @@ var FICG_CARDS =
         'cost': '3',
         'supertype': 'Artifact',
         'subtype': 'Equipment',
-        'text': 'Equipped creature has “3: Until end of turn, this creature becomes a copy of another target creature and gains this ability."\n\nEquip 3',
+        'text': 'Equipped creature has "3: Until end of turn, this creature becomes a copy of another target creature and gains this ability."\n\nEquip 3',
     },
     {
         'name': 'Crystal Archives',
@@ -11245,7 +11255,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'UU',
         'supertype': 'Instant',
-        'text': 'Target creature becomes a green Plant with base power and toughness 0/1 until end of turn.\n\nFlashback 3UU (You may cast this spell from your graveyard for its flashback cost. Then exile it.)\n\n“Well, third time’s the charm."\n\n—Twilight Sparkle, Bearer of Magic',
+        'text': 'Target creature becomes a green Plant with base power and toughness 0/1 until end of turn.\n\nFlashback 3UU (You may cast this spell from your graveyard for its flashback cost. Then exile it.)',
+        'flavorText': '"Well, third time’s the charm."\n—Twilight Sparkle, Bearer of Magic',
     },
     {
         'name': 'Painted Wall',
@@ -11280,7 +11291,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '5UU',
         'supertype': 'Legendary Enchantment',
-        'text': 'Imprint — When Mirror Pool enters the battlefield, exile a nontoken creature you control.\n\nAt the beginning of your upkeep, put a token that\'s a copy of the exiled card onto the battlefield for each creature with the same name as that card. If no creatures with that name are on the battlefield, put one of those tokens onto the battlefield.\n\nThe “legend rule" doesn’t apply to creatures you control with the same name as the exiled card.',
+        'text': 'Imprint — When Mirror Pool enters the battlefield, exile a nontoken creature you control.\n\nAt the beginning of your upkeep, put a token that\'s a copy of the exiled card onto the battlefield for each creature with the same name as that card. If no creatures with that name are on the battlefield, put one of those tokens onto the battlefield.\n\nThe "legend rule" doesn’t apply to creatures you control with the same name as the exiled card.',
     },
     {
         'name': 'Tough Decision',
@@ -11797,7 +11808,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'supertype': 'Artifact',
         'subtype': 'Equipment',
-        'text': 'Equipped creature gets +5/+5, can’t block, can’t attack unless its controller pays 5, and has “Other creatures you control can’t attack."\n\nEquip 4',
+        'text': 'Equipped creature gets +5/+5, can’t block, can’t attack unless its controller pays 5, and has "Other creatures you control can’t attack."\n\nEquip 4',
         'transformsFrom': 'Madmare’s Chariot',
     },
     {
@@ -12044,7 +12055,7 @@ var FICG_CARDS =
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'supertype': 'Land',
-        'text': 'T: Add 1 to your mana pool.\n\n1, T: Until end of turn, lands you control gain “T: Add one mana of any color to your mana pool."',
+        'text': 'T: Add 1 to your mana pool.\n\n1, T: Until end of turn, lands you control gain "T: Add one mana of any color to your mana pool."',
         'flavorText': '"No evidence of industrial runoff was found on site."\n—Cloudsdale Weather Commission, official statement',
     },
     {
@@ -12053,7 +12064,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1W',
         'supertype': 'Instant',
-        'text': 'Exile target creature if its controller sacrificed a creature this turn.\n\nCycling 2 (2, Discard this card: Draw a card.)\n\n“If this is what the Wonderbolts stand for, then I don’t want any part of it."\n\n—Rainbow Dash, to Spitfire',
+        'text': 'Exile target creature if its controller sacrificed a creature this turn.\n\nCycling 2 (2, Discard this card: Draw a card.)',
+        'flavorText': '"If this is what the Wonderbolts stand for, then I don’t want any part of it."\n—Rainbow Dash, to Spitfire',
     },
     {
         'name': 'Training Course',
@@ -12354,13 +12366,13 @@ var FICG_CARDS =
         'text': 'As an additional cost to cast Barn Razing, sacrifice a land.\n\nDestroy two target lands.\n\nAll of Applejack’s hopes fell with her home.',
     },
     {
-        'name': '“Raise This Barn"',
+        'name': '"Raise This Barn"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1G',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Raise This Barn".\n\nG, Sacrifice “Raise This Barn": Reveal the top X cards of your library, where X is the number of verse counters on “Raise This Barn". Put all land cards revealed this way onto the battlefield tapped and the rest into your graveyard.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Raise This Barn".\n\nG, Sacrifice "Raise This Barn": Reveal the top X cards of your library, where X is the number of verse counters on "Raise This Barn". Put all land cards revealed this way onto the battlefield tapped and the rest into your graveyard.',
     },
     {
         'name': 'Swarm of Fruitbats',
@@ -12406,7 +12418,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '3',
         'supertype': 'Artifact',
-        'text': '2: You gain 2 life. Any player may activate this ability. (The player who activates the ability gains the life.)\n\n“Don’t fret. Germs won’t last long in there. Just don’t let the foals near it."\n\n—Applejack, Bearer of Honesty',
+        'text': '2: You gain 2 life. Any player may activate this ability. (The player who activates the ability gains the life.)',
+        'flavorText': '"Don’t fret. Germs won’t last long in there. Just don’t let the foals near it."\n—Applejack, Bearer of Honesty',
     },
     {
         'name': 'Yonder Hill Skyboat',
@@ -12500,7 +12513,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1U',
         'supertype': 'Instant',
-        'text': 'Tap target creature you don’t control. Creatures tapped this way don’t untap during their controllers’ next untap step.\n\nOverload 4UU (You may cast this spell for its overload cost. If you do, change its text by replacing all instances of “target" with “each.")',
+        'text': 'Tap target creature you don’t control. Creatures tapped this way don’t untap during their controllers’ next untap step.\n\nOverload 4UU (You may cast this spell for its overload cost. If you do, change its text by replacing all instances of "target" with "each.")',
     },
     {
         'name': 'Drifting Currents',
@@ -12516,7 +12529,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'B',
         'supertype': 'Sorcery',
-        'text': 'Destroy target planeswalker or legendary creature.\n\n“Reputation isn’t everything, but it counts for a lot."\n\n—Rainbow Dash, Bearer of Loyalty',
+        'text': 'Destroy target planeswalker or legendary creature.',
+        'flavorText': '"Reputation isn’t everything, but it counts for a lot."\n—Rainbow Dash, Bearer of Loyalty',
     },
     {
         'name': 'Choking Hazard',
@@ -12672,7 +12686,7 @@ var FICG_CARDS =
         'cost': '1W',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant creature\n\nEnchanted creature can’t attack or block as long as it’s black or red. Otherwise, it gets +2/+2.\n\nReform spells encourage good behavior, for a given definition of “good."',
+        'text': 'Enchant creature\n\nEnchanted creature can’t attack or block as long as it’s black or red. Otherwise, it gets +2/+2.\n\nReform spells encourage good behavior, for a given definition of "good."',
     },
     {
         'name': 'Show of Compassion',
@@ -12689,7 +12703,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2W',
         'supertype': 'Instant',
-        'text': 'Choose target enchantment. Destroy the rest.\n\nChaotic — Tap an untapped white creature you control. (You may cast this spell for its chaotic cost. If you do, choose its target at random.)\n\n“Sometimes, it just isn’t fun anymore."\n\n—Discord',
+        'text': 'Choose target enchantment. Destroy the rest.\n\nChaotic — Tap an untapped white creature you control. (You may cast this spell for its chaotic cost. If you do, choose its target at random.)',
+        'flavorText': '"Sometimes, it just isn’t fun anymore."\n—Discord',
     },
     {
         'name': 'Solar Ward',
@@ -12715,7 +12730,7 @@ var FICG_CARDS =
         'cost': '1U',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant permanent\n\n1U: Insincere Halo becomes a copy of target Aura that can enchant enchanted permanent until end of turn.\n\nThe last thing anyone wants to hear among the heavenly host is “What they said."',
+        'text': 'Enchant permanent\n\n1U: Insincere Halo becomes a copy of target Aura that can enchant enchanted permanent until end of turn.\n\nThe last thing anyone wants to hear among the heavenly host is "What they said."',
     },
     {
         'name': 'Roll Eyes',
@@ -12776,7 +12791,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'R',
         'supertype': 'Instant',
-        'text': 'Gravy Stream deals damage to target creature or player equal to your devotion to red. (Each R in mana costs of permanents you control counts towards your devotion to red.)\n\n“Of course it’s hot. Who wants cold gravy?"\n\n—Discord',
+        'text': 'Gravy Stream deals damage to target creature or player equal to your devotion to red. (Each R in mana costs of permanents you control counts towards your devotion to red.)',
+        'flavorText': '"Of course it’s hot. Who wants cold gravy?"\n—Discord',
     },
     {
         'name': 'Codex Consumption',
@@ -12921,7 +12937,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2U',
         'supertype': 'Instant',
-        'text': 'Tap any number of creatures you control. Those creatures gain hexproof until your next turn.\n\n"Just keep quiet and still. Their vision is based on movement."\n\n“No it isn’t."\n\n“Shh!"',
+        'text': 'Tap any number of creatures you control. Those creatures gain hexproof until your next turn.',
+        'flavorText': '"Just keep quiet and still. Their vision is based on movement."\n"No it isn’t."\n"Shh!"',
     },
     {
         'name': 'Bad Mojo',
@@ -13111,7 +13128,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1U',
         'supertype': 'Instant',
-        'text': 'Counter target wordy spell. (Something is wordy if it has four or more lines of text in its text box.)\n\n“If it doesn’t say it’s optional, then it isn’t."\n\n—Cadence, Princess of Serenity',
+        'text': 'Counter target wordy spell. (Something is wordy if it has four or more lines of text in its text box.)',
+        'flavorText': '"If it doesn’t say it’s optional, then it isn’t."\n—Cadence, Princess of Serenity',
     },
     {
         'name': 'Curse of Claustrophobia',
@@ -13229,7 +13247,8 @@ var FICG_CARDS =
         'cost': 'RG',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant creature\n\nAt the beginning of your upkeep, Grueling Regimen deals 1 damage to enchanted creature.\n\nWhenever enchanted creature is dealt damage, put a +1/+1 counter on it. (The damage is dealt before the counter is put on.)\n\n“I will put you through Tartarus, and you will thank me for it."\n\n—Shining Armor',
+        'text': 'Enchant creature\n\nAt the beginning of your upkeep, Grueling Regimen deals 1 damage to enchanted creature.\n\nWhenever enchanted creature is dealt damage, put a +1/+1 counter on it. (The damage is dealt before the counter is put on.)',
+        'flavorText': '"I will put you through Tartarus, and you will thank me for it."\n—Shining Armor',
     },
     {
         'name': 'Harsh Judge',
@@ -13274,7 +13293,7 @@ var FICG_CARDS =
         'cost': '1W',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant nonbasic land\n\nEnchanted land has “T: Add C to your mana pool" and loses all other abilities. (C represents colorless mana.)\n\nOnly broken dreams remain on the shop floor.',
+        'text': 'Enchant nonbasic land\n\nEnchanted land has "T: Add C to your mana pool" and loses all other abilities. (C represents colorless mana.)\n\nOnly broken dreams remain on the shop floor.',
     },
     {
         'name': 'Cheering Throngs',
@@ -13303,13 +13322,13 @@ var FICG_CARDS =
         'text': 'Support 2. (Put a +1/+1 counter on each of up to two target creatures.)\n\nEach creature you control with a +1/+1 counter on it gains lifelink until end of turn.\n\nPinkie’s hair puffed up, and everypony cheered.',
     },
     {
-        'name': '“I’ve Got to Find a Way"',
+        'name': '"I’ve Got to Find a Way"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “I’ve Got to Find a Way".\n\nSacrifice “I’ve Got to Find a Way": Look at the top X cards of your library, where X is the number of verse counters on “I’ve Got to Find a Way". Put one of them into your hand and the rest into your graveyard.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "I’ve Got to Find a Way".\n\nSacrifice "I’ve Got to Find a Way": Look at the top X cards of your library, where X is the number of verse counters on "I’ve Got to Find a Way". Put one of them into your hand and the rest into your graveyard.',
     },
     {
         'name': 'Spit Take',
@@ -13426,7 +13445,7 @@ var FICG_CARDS =
         'cost': '1G',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on "A True, True Friend".\n\nSacrifice "A True, True Friend": Support X, where X is the number of verse counters on “A True, True Friend." Gain control of each creature you own that was supported this way.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "A True, True Friend".\n\nSacrifice "A True, True Friend": Support X, where X is the number of verse counters on "A True, True Friend." Gain control of each creature you own that was supported this way.',
     },
     {
         'name': 'Regal Fanfare',
@@ -13470,13 +13489,13 @@ var FICG_CARDS =
         'text': 'Counter target activated ability from an artifact source. If that source is on the battlefield, destroy it. (Mana abilities can’t be targeted.)\n\nThe sewing machine gave up, and Applejack followed suit.',
     },
     {
-        'name': '“Celestia\'s Ballad"',
+        'name': '"Celestia\'s Ballad"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1WB',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Celestia\'s Ballad"\n\n1WB, Sacrifice “Celestia\'s Ballad": Return to the battlefield target creature card from your graveyard with converted mana cost X or less, where X is the number of verse counters on “Celestia\'s Ballad". Put a divinity counter on that creature. It has indestructible for as long as it has a divinity counter on it.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Celestia\'s Ballad"\n\n1WB, Sacrifice "Celestia\'s Ballad": Return to the battlefield target creature card from your graveyard with converted mana cost X or less, where X is the number of verse counters on "Celestia\'s Ballad". Put a divinity counter on that creature. It has indestructible for as long as it has a divinity counter on it.',
     },
     {
         'name': '"Morning in Ponyville"',
@@ -18518,13 +18537,13 @@ var FICG_CARDS =
         'flavorText': '"To excel is to fail."\n—Glimmerist propaganda',
     },
     {
-        'name': '“In Our Town"',
+        'name': '"In Our Town"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2UU',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “In Our Town".\n\n1UU, Sacrifice “In Our Town": Turn up to X target nontoken creatures face down, where X is the number of verse counters on “In Our Town". (They’re 2/2 creatures.)',
+        'text': 'At the beginning of your upkeep, put a verse counter on "In Our Town".\n\n1UU, Sacrifice "In Our Town": Turn up to X target nontoken creatures face down, where X is the number of verse counters on "In Our Town". (They’re 2/2 creatures.)',
     },
     {
         'name': 'Cunning Rubberwright',
@@ -18756,7 +18775,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'U',
         'supertype': 'Enchantment',
-        'text': '1U: Look at the top three cards of your library, then put them back in any order.\n\nOne of Twilight Sparkle’s less official titles, though one she has done no less to earn than any other, is “Princess of Obsessive Compulsion."',
+        'text': '1U: Look at the top three cards of your library, then put them back in any order.\n\nOne of Twilight Sparkle’s less official titles, though one she has done no less to earn than any other, is "Princess of Obsessive Compulsion."',
     },
     {
         'name': 'Arcane Echo',
@@ -18776,13 +18795,13 @@ var FICG_CARDS =
         'flavorText': '"It can be easy to forget that personal aesthetics are just that: personal."\n—Rarity, Bearer of Generosity',
     },
     {
-        'name': '“Make This Castle a Home"',
+        'name': '"Make This Castle a Home"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '3B',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Make This Castle a Home".\n\n1BB, Sacrifice “Make This Castle a Home": Search your library for up to X cards with total converted mana cost X or less, where X is the number of verse counters on “Make This Castle a Home". Reveal those cards, put them into your hand, and shuffle your library.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Make This Castle a Home".\n\n1BB, Sacrifice "Make This Castle a Home": Search your library for up to X cards with total converted mana cost X or less, where X is the number of verse counters on "Make This Castle a Home". Reveal those cards, put them into your hand, and shuffle your library.',
     },
     {
         'name': 'Coquettish Wiles',
@@ -19237,13 +19256,13 @@ var FICG_CARDS =
         'pt': '2/1',
     },
     {
-        'name': '“I’ll Fly"',
+        'name': '"I’ll Fly"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “I’ll Fly".\n\n1U, Sacrifice “I’ll Fly": Tap up to X target permanents, then untap up to X target permanents, where X is the number of verse counters on “I’ll Fly".',
+        'text': 'At the beginning of your upkeep, put a verse counter on "I’ll Fly".\n\n1U, Sacrifice "I’ll Fly": Tap up to X target permanents, then untap up to X target permanents, where X is the number of verse counters on "I’ll Fly".',
     },
     {
         'name': 'Misled Migration',
@@ -19270,7 +19289,7 @@ var FICG_CARDS =
         'cost': '3B',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant creature\n\nWhen Contagious Sorrow enters the battlefield, put a -1/-1 counter on enchanted creature.\n\nEach creature with a -1/-1 counter on it has “Whenever this creature deals damage to a creature, put a -1/-1 counter on that creature."\n\n1B: Attach Contagious Sorrow to target creature with a -1/-1 counter on it.',
+        'text': 'Enchant creature\n\nWhen Contagious Sorrow enters the battlefield, put a -1/-1 counter on enchanted creature.\n\nEach creature with a -1/-1 counter on it has "Whenever this creature deals damage to a creature, put a -1/-1 counter on that creature."\n\n1B: Attach Contagious Sorrow to target creature with a -1/-1 counter on it.',
     },
     {
         'name': 'Raging Visage',
@@ -20158,7 +20177,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '3UU',
         'supertype': 'Instant',
-        'text': 'End the phase. (Exile all spells and abilities on the stack, including this card. The phases are, in order, beginning, precombat main, combat, postcombat main, and end. If the end phase ends, the player whose turn it is discords down to his or her maximum hand size, damage wears off, and “this turn" and “until end of turn" effects end.)',
+        'text': 'End the phase. (Exile all spells and abilities on the stack, including this card. The phases are, in order, beginning, precombat main, combat, postcombat main, and end. If the end phase ends, the player whose turn it is discords down to his or her maximum hand size, damage wears off, and "this turn" and "until end of turn" effects end.)',
     },
     {
         'name': 'Stressor Serpent',
@@ -20475,7 +20494,7 @@ var FICG_CARDS =
         'cost': '1W',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant creature\n\nEnchanted creature has “W, T: Tap target creature."',
+        'text': 'Enchant creature\n\nEnchanted creature has "W, T: Tap target creature."',
         'flavorText': '"Look at you! You’re so nervous! Don’t be nervous. Everything’s fine! Just fine!"',
     },
     {
@@ -20842,7 +20861,7 @@ var FICG_CARDS =
         'cost': '1(rw)',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant nonbasic land\n\nEnchanted land has “T: Add 1 to your mana pool" and loses all other abilities.\n\nWhether through deliberate destruction or careless neglect, the result is the same.',
+        'text': 'Enchant nonbasic land\n\nEnchanted land has "T: Add 1 to your mana pool" and loses all other abilities.\n\nWhether through deliberate destruction or careless neglect, the result is the same.',
     },
     {
         'name': 'Lingering Grudge',
@@ -21134,7 +21153,7 @@ var FICG_CARDS =
         'cost': '1W',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant Equipment\n\nEnchanted Equipment has “Equipped creature gets +1/+1."\n\nEnchanted Equipment’s equip abilities cost 1 less to activate.\n\nThere’s always room for a little something extra.',
+        'text': 'Enchant Equipment\n\nEnchanted Equipment has "Equipped creature gets +1/+1."\n\nEnchanted Equipment’s equip abilities cost 1 less to activate.\n\nThere’s always room for a little something extra.',
     },
     {
         'name': 'Creative Control',
@@ -21268,13 +21287,13 @@ var FICG_CARDS =
         'text': 'Imprint — When Commemorative Dress enters the battlefield, you may exile an instant or sorcery card from your graveyard.\n\nWhenever equipped creature deals combat damage to a player, you may copy the last card exiled with Commemorative Dress. If you do, cast the copy without paying its mana cost if able, then exile an instant or sorcery card from your graveyard.\n\nEquip 3',
     },
     {
-        'name': '“Rules of Rarity"',
+        'name': '"Rules of Rarity"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': 'WU',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Rules of Rarity"\n\nWU, Sacrifice “Rules of Rarity": Reveal the top X cards of your library, where X is the number of verse counters on “Rules of Rarity". You may put any number of artifact and/or enchantment cards from among them into your hand. Put the rest into your graveyard.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Rules of Rarity"\n\nWU, Sacrifice "Rules of Rarity": Reveal the top X cards of your library, where X is the number of verse counters on "Rules of Rarity". You may put any number of artifact and/or enchantment cards from among them into your hand. Put the rest into your graveyard.',
     },
     {
         'name': 'Fashion Reporter',
@@ -21461,7 +21480,7 @@ var FICG_CARDS =
         'cost': '2',
         'supertype': 'Artifact',
         'subtype': 'Equipment',
-        'text': 'Equipped creature has “1, T: Scry 2."\n\nEquip 1\n\nRarity’s Femme Mystique Chic line captures the insightful flair of pulp novel detectives.',
+        'text': 'Equipped creature has "1, T: Scry 2."\n\nEquip 1\n\nRarity’s Femme Mystique Chic line captures the insightful flair of pulp novel detectives.',
     },
     {
         'name': 'Ensemble Trunk',
@@ -21469,7 +21488,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '3',
         'supertype': 'Artifact',
-        'text': 'Auras you control have Aura swap 3. (3: Exchange an Aura you control with an Aura card in your hand.)\n\n“It’s important to have an outfit ready for every occasion, and just as important to keep the ones you aren’t using somewhere safe."\n\n—Rarity, Bearer of Generosity',
+        'text': 'Auras you control have Aura swap 3. (3: Exchange an Aura you control with an Aura card in your hand.)',
+        'flavorText': '"It’s important to have an outfit ready for every occasion, and just as important to keep the ones you aren’t using somewhere safe."\n—Rarity, Bearer of Generosity',
     },
     {
         'name': 'Sweet Talk',
@@ -21741,7 +21761,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1RR',
         'supertype': 'Instant',
-        'text': 'Change the target of target spell or ability with a single target.\n\nThe Sisterhooves Social has a very flexible definition of “sister." And “social." The “hooves" part is currently under review.',
+        'text': 'Change the target of target spell or ability with a single target.\n\nThe Sisterhooves Social has a very flexible definition of "sister." And "social." The "hooves" part is currently under review.',
     },
     {
         'name': 'Bass Impulse',
@@ -21780,13 +21800,13 @@ var FICG_CARDS =
         'pt': '2/2',
     },
     {
-        'name': '“Sisterhood"',
+        'name': '"Sisterhood"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2G',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Sisterhood".\n\n2G, Sacrifice “Sisterhood": Put X +1/+1 counters on each of two target creatures, where X is the number of verse counters on “Sisterhood".',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Sisterhood".\n\n2G, Sacrifice "Sisterhood": Put X +1/+1 counters on each of two target creatures, where X is the number of verse counters on "Sisterhood".',
     },
     {
         'name': 'Heart to Heart',
@@ -21854,13 +21874,13 @@ var FICG_CARDS =
         'pt': '1/1',
     },
     {
-        'name': '“Light of Your Cutie Mark"',
+        'name': '"Light of Your Cutie Mark"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1W',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Light of Your Cutie Mark".\n\nW, Sacrifice “Light of Your Cutie Mark": Exile target creature unless its controller pays X, where X is the number of verse counters on “Light of Your Cutie Mark".',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Light of Your Cutie Mark".\n\nW, Sacrifice "Light of Your Cutie Mark": Exile target creature unless its controller pays X, where X is the number of verse counters on "Light of Your Cutie Mark".',
     },
     {
         'name': 'Diamond Exemplar',
@@ -21899,13 +21919,13 @@ var FICG_CARDS =
         'text': 'Spells with converted mana cost greater than the number of credit counters on Strapped Budget can’t be cast.\n\n3: Put a credit counter on Strapped Budget. Any player may activate this ability.\n\nPonyville’s constant rebuilding leaves little money for anything else.',
     },
     {
-        'name': '“The Vote"',
+        'name': '"The Vote"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': 'U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “The Vote".\n\nWill of the council — Sacrifice “The Vote": Reveal the top X cards of your library, where X is the number of verse counters on “The Vote". Starting with you, each player votes for one of those cards. Put each card with the most votes or tied for most votes into your hand and the rest on the bottom of your library in any order.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "The Vote".\n\nWill of the council — Sacrifice "The Vote": Reveal the top X cards of your library, where X is the number of verse counters on "The Vote". Starting with you, each player votes for one of those cards. Put each card with the most votes or tied for most votes into your hand and the rest on the bottom of your library in any order.',
     },
     {
         'name': 'Scorned Advice',
@@ -21935,13 +21955,13 @@ var FICG_CARDS =
         'text': 'Will of the council — Starting with you, each player votes for a card type. Each player searches his or her library for a card of a type with the most votes or tied for most votes, reveals it, and puts it into his or her hand. Then each player shuffles his or her library.',
     },
     {
-        'name': '“We’ll Make Our Mark"',
+        'name': '"We’ll Make Our Mark"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '3U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “We’ll Make Our Mark"\n\n2U, Sacrifice “We’ll Make Our Mark": Each player may draw up to X cards, then may cast up to X noncreature, nonland cards from his or her hand without paying their mana costs, where X is the number of verse counters on “We’ll Make Our Mark."',
+        'text': 'At the beginning of your upkeep, put a verse counter on "We’ll Make Our Mark"\n\n2U, Sacrifice "We’ll Make Our Mark": Each player may draw up to X cards, then may cast up to X noncreature, nonland cards from his or her hand without paying their mana costs, where X is the number of verse counters on "We’ll Make Our Mark."',
     },
     {
         'name': 'Exploit the Past',
@@ -21997,13 +22017,13 @@ var FICG_CARDS =
         'text': '1G, Tap two untapped creatures you control: You may put a creature card from your hand that shares a creature type with each creature tapped this way onto the battlefield.\n\nIt’s not what you summon, it’s who you summon.',
     },
     {
-        'name': '“The Pony I Want to Be"',
+        'name': '"The Pony I Want to Be"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '(bg)(bg)',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “The Pony I Want to Be".\n\n1(bg)(bg), Sacrifice “The Pony I Want to Be" and a creature: If the sacrificed creature’s converted mana cost was equal to or less than the number of verse counters on “The Pony I Want to Be", search your library for a creature card with that creature\'s converted mana cost and put it onto the battlefield. Then shuffle your library.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "The Pony I Want to Be".\n\n1(bg)(bg), Sacrifice "The Pony I Want to Be" and a creature: If the sacrificed creature’s converted mana cost was equal to or less than the number of verse counters on "The Pony I Want to Be", search your library for a creature card with that creature\'s converted mana cost and put it onto the battlefield. Then shuffle your library.',
     },
     {
         'name': 'Chance for Redemption',
@@ -22091,7 +22111,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '3B',
         'supertype': 'Sorcery',
-        'text': 'Target player discards two cards.\n\nFlashback 4BB (You may cast this card from your graveyard for its flashback cost. Then exile it.)\n\n“You can do a lot with balloons, good and bad."\n\n—Party Favor, globomancer',
+        'text': 'Target player discards two cards.\n\nFlashback 4BB (You may cast this card from your graveyard for its flashback cost. Then exile it.)',
+        'flavorText': '"You can do a lot with balloons, good and bad."\n—Party Favor, globomancer',
     },
     {
         'name': 'Sugarcube Shinobi',
@@ -22178,7 +22199,7 @@ var FICG_CARDS =
         'cost': '4',
         'supertype': 'Artifact',
         'subtype': 'Equipment',
-        'text': 'Equipped creature has “T: Target creature with power 2 or less can’t be blocked this turn" and “T: This creature deals 1 damage to target creature or player."\n\nEquip 3',
+        'text': 'Equipped creature has "T: Target creature with power 2 or less can’t be blocked this turn" and "T: This creature deals 1 damage to target creature or player."\n\nEquip 3',
     },
     {
         'name': 'Counsel of Friends',
@@ -22513,7 +22534,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2B',
         'supertype': 'Enchantment',
-        'text': 'Whenever a nontoken creature dies, you may pay B. If you do, put a 1/1 black Skeleton creature token onto the battlefield with “B: Regenerate this creature."\n\nEarth pony burial rites began as a way to ensure their departed kin would stay departed.',
+        'text': 'Whenever a nontoken creature dies, you may pay B. If you do, put a 1/1 black Skeleton creature token onto the battlefield with "B: Regenerate this creature."\n\nEarth pony burial rites began as a way to ensure their departed kin would stay departed.',
     },
     {
         'name': 'Swooping Throatripper',
@@ -22541,7 +22562,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'R',
         'supertype': 'Sorcery',
-        'text': 'Target creature you don’t control can’t block this turn.\n\nOverload 3R (You may cast this spell for its overload cost. If you do, change its text by replacing all instances of “target" with “each.")',
+        'text': 'Target creature you don’t control can’t block this turn.\n\nOverload 3R (You may cast this spell for its overload cost. If you do, change its text by replacing all instances of "target" with "each.")',
     },
     {
         'name': 'Roller Damsel',
@@ -22670,7 +22691,7 @@ var FICG_CARDS =
         'cost': '2WU',
         'supertype': 'Planeswalker',
         'subtype': 'Ditzy',
-        'text': '+1: Until end of turn, up to one target creature gets +1/+1, gains flying, and becomes a Pony Pegasus Unicorn in addition to its other types.\n\n-1: Scry X, where X is the number of Ponies, Pegasi, and/or Unicorns you control.\n\n-7: You get an emblem with “Creatures you control get +2/+2, have flying, and are Pony Pegasus Unicorns in addition to their other types."',
+        'text': '+1: Until end of turn, up to one target creature gets +1/+1, gains flying, and becomes a Pony Pegasus Unicorn in addition to its other types.\n\n-1: Scry X, where X is the number of Ponies, Pegasi, and/or Unicorns you control.\n\n-7: You get an emblem with "Creatures you control get +2/+2, have flying, and are Pony Pegasus Unicorns in addition to their other types."',
         'loyalty': '3',
     },
     {
@@ -22696,7 +22717,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'U',
         'supertype': 'Instant',
-        'text': 'Counter target spell if it has the same name as a permanent or a card in a graveyard.\n\nCycling 2 (2, Discard this card: Draw a card.)\n\n“Nothing’s as funny the tenth time around."\n\n—Pinkie Pie, Bearer of Laughter',
+        'text': 'Counter target spell if it has the same name as a permanent or a card in a graveyard.\n\nCycling 2 (2, Discard this card: Draw a card.)',
+        'flavorText': '"Nothing’s as funny the tenth time around."\n—Pinkie Pie, Bearer of Laughter',
     },
     {
         'name': 'Twisted Justification',
@@ -22721,7 +22743,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1U',
         'supertype': 'Enchantment',
-        'text': 'At the beginning of your upkeep, you may skip your combat phase this turn. If you do, scry 2.\n\nShe may be the Princess of Friendship, but Twilight Sparkle still needs the occasional moment of “me time."',
+        'text': 'At the beginning of your upkeep, you may skip your combat phase this turn. If you do, scry 2.\n\nShe may be the Princess of Friendship, but Twilight Sparkle still needs the occasional moment of "me time."',
     },
     {
         'name': 'Observer Effect',
@@ -22834,7 +22856,7 @@ var FICG_CARDS =
         'cost': '1',
         'supertype': 'Artifact',
         'subtype': 'Equipment',
-        'text': 'Equipped creature has “2, Sacrifice an artifact: Put two +1/+1 counters on this creature."\n\nEquip 2\n\nSome amulets ward against malign influences. Others call upon their power.',
+        'text': 'Equipped creature has "2, Sacrifice an artifact: Put two +1/+1 counters on this creature."\n\nEquip 2\n\nSome amulets ward against malign influences. Others call upon their power.',
     },
     {
         'name': 'Bottomless Flask',
@@ -22859,7 +22881,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'WU',
         'supertype': 'Instant',
-        'text': 'Change the text of target instant or sorcery spell to “You gain 5 life." (The spell’s controller gains the life.)\n\n“I am reclusive, but I know the worth of putting on a show."\n\n—Zecora, zebra shaman',
+        'text': 'Change the text of target instant or sorcery spell to "You gain 5 life." (The spell’s controller gains the life.)',
+        'flavorText': '"I am reclusive, but I know the worth of putting on a show."\n—Zecora, zebra shaman',
     },
     {
         'name': 'Draconequine Tutor',
@@ -22981,7 +23004,7 @@ var FICG_CARDS =
         'cost': '2R',
         'supertype': 'Creature',
         'subtype': 'Pony Rigger',
-        'text': 'Assemble 1R (1R: Put a colorless Contraption artifact token onto the battlefield. Assemble only as a sorcery.)\n\nContraptions you control have “Sacrifice this artifact: This artifact deals 1 damage to target creature."',
+        'text': 'Assemble 1R (1R: Put a colorless Contraption artifact token onto the battlefield. Assemble only as a sorcery.)\n\nContraptions you control have "Sacrifice this artifact: This artifact deals 1 damage to target creature."',
         'flavorText': '"We could eat it, but I’d rather them Hooffields choke on it."',
         'pt': '1/1',
     },
@@ -23027,7 +23050,7 @@ var FICG_CARDS =
         'cost': '3RR',
         'supertype': 'Creature',
         'subtype': 'Pony Rigger',
-        'text': 'Assemble 2R\n\nContraptions you control have “Sacrifice this artifact: Put a token that’s a copy of target creature you control onto the battlefield. It has haste. Exile that token at the beginning of the next end step."',
+        'text': 'Assemble 2R\n\nContraptions you control have "Sacrifice this artifact: Put a token that’s a copy of target creature you control onto the battlefield. It has haste. Exile that token at the beginning of the next end step."',
         'pt': '3/3',
     },
     {
@@ -23152,13 +23175,13 @@ var FICG_CARDS =
         'pt': '2/2',
     },
     {
-        'name': '“The Magic Inside"',
+        'name': '"The Magic Inside"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1W',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “The Magic Inside".\n\n2W, Sacrifice “The Magic Inside": Exile up to X target creatures, where X is the number of verse counters on “The Magic Inside". Return the exiled cards to the battlefield under their owner’s control at the beginning of the next end step.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "The Magic Inside".\n\n2W, Sacrifice "The Magic Inside": Exile up to X target creatures, where X is the number of verse counters on "The Magic Inside". Return the exiled cards to the battlefield under their owner’s control at the beginning of the next end step.',
     },
     {
         'name': 'Glitz and Glam',
@@ -23198,13 +23221,13 @@ var FICG_CARDS =
         'pt': '2/2',
     },
     {
-        'name': '“The Spectacle"',
+        'name': '"The Spectacle"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “The Spectacle".\n\n2U, Sacrifice “The Spectacle": Proliferate X times, where X is the number of verse counters on “The Spectacle". (To proliferate, choose any number of permanents and/or players with counters on them, then give each another counter of a kind already there.)',
+        'text': 'At the beginning of your upkeep, put a verse counter on "The Spectacle".\n\n2U, Sacrifice "The Spectacle": Proliferate X times, where X is the number of verse counters on "The Spectacle". (To proliferate, choose any number of permanents and/or players with counters on them, then give each another counter of a kind already there.)',
     },
     {
         'name': 'Vocal Distortion',
@@ -23260,13 +23283,13 @@ var FICG_CARDS =
         'text': 'Choose target instant spell, sorcery spell, or ability that targets only a single permanent or player. Copy that spell or ability for each other permanent or player it could target. Each copy targets a different one of those permanents and players.',
     },
     {
-        'name': '“Equestria, the Land I Love"',
+        'name': '"Equestria, the Land I Love"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1G',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Equestria, the Land I Love".\n\n1G, Sacrifice “Equestria, the Land I Love": Put X +1/+1 counters on target land you control, where X is the number of verse counters on “Equestria, the Land I Love". That land becomes a 0/0 Elemental creature with haste that’s still a land.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Equestria, the Land I Love".\n\n1G, Sacrifice "Equestria, the Land I Love": Put X +1/+1 counters on target land you control, where X is the number of verse counters on "Equestria, the Land I Love". That land becomes a 0/0 Elemental creature with haste that’s still a land.',
     },
     {
         'name': 'Friendship Camp',
@@ -23285,7 +23308,7 @@ var FICG_CARDS =
         'cost': '1G',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant creature\n\nEnchanted creature has “G, T: Put a +1/+1 counter on target creature."\n\nJust being acknowledged by somepony famous is enough to inspire most.',
+        'text': 'Enchant creature\n\nEnchanted creature has "G, T: Put a +1/+1 counter on target creature."\n\nJust being acknowledged by somepony famous is enough to inspire most.',
     },
     {
         'name': 'Heartfelt Diva',
@@ -23472,7 +23495,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '5RR',
         'supertype': 'Sorcery',
-        'text': 'Target creature fights another target creature.\n\nChaotic 2RR (You may cast this card for its chaotic cost. If you do, choose its targets at random.)\n\n“Don’t worry, I’ll patch you up later. Perhaps with flannel."\n\n—Discord',
+        'text': 'Target creature fights another target creature.\n\nChaotic 2RR (You may cast this card for its chaotic cost. If you do, choose its targets at random.)',
+        'flavorText': '"Don’t worry, I’ll patch you up later. Perhaps with flannel."\n—Discord',
     },
     {
         'name': 'Timberwolf Pack',
@@ -23624,16 +23648,17 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1W',
         'supertype': 'Instant',
-        'text': 'All creatures gain protection from target creature’s name until end of turn. (They can’t be blocked, targeted, dealt damage, or enchanted by anything with that name.)\n\n“If you don’t have respect, you don’t have anything."\n\n—Sunset Shimmer',
+        'text': 'All creatures gain protection from target creature’s name until end of turn. (They can’t be blocked, targeted, dealt damage, or enchanted by anything with that name.)',
+        'flavorText': '"If you don’t have respect, you don’t have anything."\n—Sunset Shimmer',
     },
     {
-        'name': '“Time to Come Together"',
+        'name': '"Time to Come Together"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1W',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Time to Come Together".\n\n1W, Exile “Time to Come Together": Each player may return up to X noncreature permanent cards from his or her graveyard to his or her hand, where X is the number of verse counters on “Time to Come Together"',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Time to Come Together".\n\n1W, Exile "Time to Come Together": Each player may return up to X noncreature permanent cards from his or her graveyard to his or her hand, where X is the number of verse counters on "Time to Come Together"',
     },
     {
         'name': 'Dead Magic',
@@ -23664,13 +23689,13 @@ var FICG_CARDS =
         'flavorText': '"If there’s a song that can’t be made more awesome with more guitar, I don’t want to hear it."\n—Rainbow Dash',
     },
     {
-        'name': '“This is Our Big Night"',
+        'name': '"This is Our Big Night"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2W',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “This is Our Big Night"\n\n3WW, Sacrifice “This is Our Big Night": You may put up to X Aura cards from your hand and/or graveyard onto the battlefield, where X is the number of verse counters on “This is Our Big Night".',
+        'text': 'At the beginning of your upkeep, put a verse counter on "This is Our Big Night"\n\n3WW, Sacrifice "This is Our Big Night": You may put up to X Aura cards from your hand and/or graveyard onto the battlefield, where X is the number of verse counters on "This is Our Big Night".',
     },
     {
         'name': 'Flash Sentry, Interceptor',
@@ -23741,7 +23766,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2U',
         'supertype': 'Sorcery',
-        'text': 'Draw a card for each legendary creature you control.\n\nCycling 2 (2, Discard this card: Draw a card.)\n\n“Auntie Celestia just can’t visit me without making a huge production of it."\n\n—Cadence, Princess of Serenity',
+        'text': 'Draw a card for each legendary creature you control.\n\nCycling 2 (2, Discard this card: Draw a card.)',
+        'flavorText': '"Auntie Celestia just can’t visit me without making a huge production of it."\n—Cadence, Princess of Serenity',
     },
     {
         'name': 'Techie Clique',
@@ -24021,13 +24047,13 @@ var FICG_CARDS =
         'pt': '2/2',
     },
     {
-        'name': '“Music to My Ears"',
+        'name': '"Music to My Ears"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '3W',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on each Song you control.\n\nW, Sacrifice “Music to My Ears": Distribute X verse counters among Songs you control, where X is the number of verse counters on “Music to My Ears".',
+        'text': 'At the beginning of your upkeep, put a verse counter on each Song you control.\n\nW, Sacrifice "Music to My Ears": Distribute X verse counters among Songs you control, where X is the number of verse counters on "Music to My Ears".',
     },
     {
         'name': 'Rescue Center',
@@ -24193,13 +24219,13 @@ var FICG_CARDS =
         'pt': '1/1',
     },
     {
-        'name': '“Perfect Day for Fun"',
+        'name': '"Perfect Day for Fun"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1G',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Perfect Day for Fun".\n\n2G, Sacrifice “Perfect Day for Fun": Look at the top X cards of your library, where X is the number of verse counters on “Perfect Day for Fun". You may put any number of creature cards with total converted mana cost X or less from among them onto the battlefield. Put the rest on the bottom of your library in any order.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Perfect Day for Fun".\n\n2G, Sacrifice "Perfect Day for Fun": Look at the top X cards of your library, where X is the number of verse counters on "Perfect Day for Fun". You may put any number of creature cards with total converted mana cost X or less from among them onto the battlefield. Put the rest on the bottom of your library in any order.',
     },
     {
         'name': 'Horde of Hamsters',
@@ -24768,22 +24794,22 @@ var FICG_CARDS =
         'pt': '4/4',
     },
     {
-        'name': '“My Past is Not Today"',
+        'name': '"My Past is Not Today"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': 'W',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “My Past is Not Today".\n\nW, Sacrifice “My Past is Not Today": Exile up to X target cards from graveyards, where X is the number of verse counters on “My Past is Not Today." You gain 1 life for each card exiled this way.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "My Past is Not Today".\n\nW, Sacrifice "My Past is Not Today": Exile up to X target cards from graveyards, where X is the number of verse counters on "My Past is Not Today." You gain 1 life for each card exiled this way.',
     },
     {
-        'name': '“Life is a Runway"',
+        'name': '"Life is a Runway"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': 'U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Life is a Runway".\n\nSacrifice “Life is a Runway": Add X to your mana pool, where X is the number of verse counters on “Life is a Runway". Spend this mana only to cast artifact spells or to activate abilities of artifacts.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Life is a Runway".\n\nSacrifice "Life is a Runway": Add X to your mana pool, where X is the number of verse counters on "Life is a Runway". Spend this mana only to cast artifact spells or to activate abilities of artifacts.',
     },
     {
         'name': 'Animannequin',
@@ -24804,13 +24830,13 @@ var FICG_CARDS =
         'text': 'Whenever one or more cards leave your graveyard, put a quest counter on Phoenix Ascension.\n\n(rw), Exile a card from your grveyard: Phoenix Ascension deals 1 damage to target creature or player and you gain 1 life. Activate this ability only if there are four or more quest counters on Phoenix Ascension.',
     },
     {
-        'name': '“Friendship Through the Ages"',
+        'name': '"Friendship Through the Ages"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1GU',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Friendship Through the Ages".\n\n1GU, Sacrifice “Friendship Through the Ages": You may exile a nonland card with converted mana cost X or less from your hand or graveyard with a time counter on it, where X is the number of verse counters on “Friendship Through the Ages". If that card doesn’t have suspend, it gains suspend.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Friendship Through the Ages".\n\n1GU, Sacrifice "Friendship Through the Ages": You may exile a nonland card with converted mana cost X or less from your hand or graveyard with a time counter on it, where X is the number of verse counters on "Friendship Through the Ages". If that card doesn’t have suspend, it gains suspend.',
     },
     {
         'name': 'Temporal Flux',
@@ -24910,7 +24936,7 @@ var FICG_CARDS =
         'cost': '3B',
         'supertype': 'Creature',
         'subtype': 'Human Advisor',
-        'text': 'Outlast 1B (1B, T: Put a +1/+1 counter on this creature. Outlast only as a sorcery.)\n\nEach creature you control with a +1/+1 counter on it has menace. (It can’t be blocked except by two or more creatures.)\n\nHe takes the phrase “lean, mean fighting machine" very seriously.',
+        'text': 'Outlast 1B (1B, T: Put a +1/+1 counter on this creature. Outlast only as a sorcery.)\n\nEach creature you control with a +1/+1 counter on it has menace. (It can’t be blocked except by two or more creatures.)\n\nHe takes the phrase "lean, mean fighting machine" very seriously.',
         'pt': '2/3',
     },
     {
@@ -24938,7 +24964,8 @@ var FICG_CARDS =
         'cost': '2R',
         'supertype': 'Creature',
         'subtype': 'Human Warrior',
-        'text': 'Haste, menace\n\nDevour 2 (As this enters the battlefield, you may sacrifice any number of creatures. This creature enters the battlefield with twice that many +1/+1 counters on it.)\n\n“Needs ketchup."',
+        'text': 'Haste, menace\n\nDevour 2 (As this enters the battlefield, you may sacrifice any number of creatures. This creature enters the battlefield with twice that many +1/+1 counters on it.)',
+        'flavorText': '"Needs ketchup."',
         'pt': '1/1',
     },
     {
@@ -25124,13 +25151,13 @@ var FICG_CARDS =
         'transformsFrom': 'Twilight, Thaumologist',
     },
     {
-        'name': '“What More Is Out There"',
+        'name': '"What More Is Out There"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “What More Is Out There".\n\nSacrifice “What More Is Out There": Choose up to X cards you own from outside the game and shuffle them into your library, where X is the number of verse counters on “What More Is Out There".',
+        'text': 'At the beginning of your upkeep, put a verse counter on "What More Is Out There".\n\nSacrifice "What More Is Out There": Choose up to X cards you own from outside the game and shuffle them into your library, where X is the number of verse counters on "What More Is Out There".',
     },
     {
         'name': 'Cinch’s Influence',
@@ -25218,13 +25245,13 @@ var FICG_CARDS =
         'text': 'X can’t be 0.\n\nExile target creature spell with two times X time counters on it. If that card doesn’t have suspend, it gains suspend. (At the beginning of its owner\'s upkeep, remove a time counter from that card. When the last is removed, the player plays it without paying its mana cost. It has haste.)',
     },
     {
-        'name': '“Unleash the Magic"',
+        'name': '"Unleash the Magic"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': 'BB',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Unleash the Magic".\n\nBB, Sacrifice “Unleash the Magic": Look at target opponent’s hand and choose a nonland card with converted mana cost X or less from it, where X is the number of verse counters on “Unleash the Magic". You control that player until this ability finishes resolving. The player casts that card if able. If he or she does, you control him or her while that spell is resolving.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Unleash the Magic".\n\nBB, Sacrifice "Unleash the Magic": Look at target opponent’s hand and choose a nonland card with converted mana cost X or less from it, where X is the number of verse counters on "Unleash the Magic". You control that player until this ability finishes resolving. The player casts that card if able. If he or she does, you control him or her while that spell is resolving.',
     },
     {
         'name': 'Piecake Eating',
@@ -25293,13 +25320,13 @@ var FICG_CARDS =
         'pt': '2/2',
     },
     {
-        'name': '“Acadeca"',
+        'name': '"Acadeca"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1G',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on "Acadeca".\n\nG, Sacrifice “Acadeca": Target creature you control gets +X/+X until end of turn, where X is the number of verse counters on “Acadeca". It fights target creature you don’t control.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Acadeca".\n\nG, Sacrifice "Acadeca": Target creature you control gets +X/+X until end of turn, where X is the number of verse counters on "Acadeca". It fights target creature you don’t control.',
     },
     {
         'name': 'Frank Assessment',
@@ -25487,7 +25514,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '4U',
         'supertype': 'Sorcery',
-        'text': 'Return target artifact card from your graveyard to the battlefield.\n\nOverload 6UU (You may cast this spell for its overload cost. If you do, change its text by replacing all instances of “target" with “each.")',
+        'text': 'Return target artifact card from your graveyard to the battlefield.\n\nOverload 6UU (You may cast this spell for its overload cost. If you do, change its text by replacing all instances of "target" with "each.")',
     },
     {
         'name': 'Complete Syllabus',
@@ -25554,7 +25581,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '3G',
         'supertype': 'Sorcery',
-        'text': 'Return target card from your graveyard to your hand.\n\nInvestigate. (Put a colorless Clue artifact token onto the battlefield with “2, Sacrifice this artifact: Draw a card.")\n\nPast experience can lead to future solutions.',
+        'text': 'Return target card from your graveyard to your hand.\n\nInvestigate. (Put a colorless Clue artifact token onto the battlefield with "2, Sacrifice this artifact: Draw a card.")\n\nPast experience can lead to future solutions.',
     },
     {
         'name': 'Message Flake',
@@ -25580,7 +25607,7 @@ var FICG_CARDS =
         'cost': '3',
         'supertype': 'Artifact',
         'subtype': 'Fortification',
-        'text': 'Fortified land has “2, T: Tap target creature."\n\nFortify 2 (2: Attach to target land you control. Fortify only as a sorcery.)\n\nStarlight suspected that the castle rearranged itself when she wasn’t looking.',
+        'text': 'Fortified land has "2, T: Tap target creature."\n\nFortify 2 (2: Attach to target land you control. Fortify only as a sorcery.)\n\nStarlight suspected that the castle rearranged itself when she wasn’t looking.',
     },
     {
         'name': 'Talentless Scholar',
@@ -25648,7 +25675,8 @@ var FICG_CARDS =
         'cost': '2W',
         'supertype': 'Creature',
         'subtype': 'Pony Soldier',
-        'text': 'When Manehattan’s Finest enters the battlefield, detain target creature an opponent controls. (Until your next turn, that creature can’t attack or block and its activated abilities can’t be activated.)\n\n“Please step away from the party cannon, ma’am."',
+        'text': 'When Manehattan’s Finest enters the battlefield, detain target creature an opponent controls. (Until your next turn, that creature can’t attack or block and its activated abilities can’t be activated.)',
+        'flavorText': '"Please step away from the party cannon, ma’am."',
         'pt': '2/2',
     },
     {
@@ -25803,7 +25831,7 @@ var FICG_CARDS =
         'cost': '3',
         'supertype': 'Artifact',
         'subtype': 'Equipment',
-        'text': 'Equipped creature has islandwalk and “2: This creature gets +1/+1 until end of turn."\n\nEquip 2',
+        'text': 'Equipped creature has islandwalk and "2: This creature gets +1/+1 until end of turn."\n\nEquip 2',
         'flavorText': '"Pedal faster! The ducks are gaining on us!"',
     },
     {
@@ -25934,13 +25962,13 @@ var FICG_CARDS =
         'text': 'At the beginning of your upkeep, if you control exactly one creature, you draw a card and lose 1 life.\n\nA pony is most dangerous to herself and others when left to her own devices.',
     },
     {
-        'name': '“Out on My Own"',
+        'name': '"Out on My Own"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2B',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Out on My Own".\n\n1B, Sacrifice “Out on My Own" and any number of creatures: Target creature gets +X/+X until end of turn for each creature sacrificed this way, where X is the number of verse counters on “Out on My Own".',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Out on My Own".\n\n1B, Sacrifice "Out on My Own" and any number of creatures: Target creature gets +X/+X until end of turn for each creature sacrificed this way, where X is the number of verse counters on "Out on My Own".',
     },
     {
         'name': 'Booming Yodel',
@@ -26250,7 +26278,8 @@ var FICG_CARDS =
         'cost': 'GU',
         'supertype': 'Creature',
         'subtype': 'Unicorn Wizard',
-        'text': '1: Camouflage Crafter becomes a colorless land of the basic land type of your choice until end of turn. (It’s no longer a creature and loses this ability.)\n\n“Natural materials are very much in vogue right now."',
+        'text': '1: Camouflage Crafter becomes a colorless land of the basic land type of your choice until end of turn. (It’s no longer a creature and loses this ability.)',
+        'flavorText': '"Natural materials are very much in vogue right now."',
         'pt': '2/2',
     },
     {
@@ -26308,7 +26337,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1W',
         'supertype': 'Instant',
-        'text': 'Radiance — Until end of turn, target creature and each creature that shares a color with it gain “T: You gain 2 life."',
+        'text': 'Radiance — Until end of turn, target creature and each creature that shares a color with it gain "T: You gain 2 life."',
         'flavorText': '"Finally, someone who understands."\n—Starlight Glimmer',
     },
     {
@@ -26346,7 +26375,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1U',
         'supertype': 'Instant',
-        'text': 'Change the text of target spell, ability, or permanent by replacing all instances of “+" with “-“, and vice versa, until end of turn.\n\nDraw a card.\n\nTrixie wasn’t sad, she wasn’t lonely, and she definitely still had the will to live.',
+        'text': 'Change the text of target spell, ability, or permanent by replacing all instances of "+" with "-", and vice versa, until end of turn.\n\nDraw a card.\n\nTrixie wasn’t sad, she wasn’t lonely, and she definitely still had the will to live.',
     },
     {
         'name': 'The Great Hoofdini',
@@ -26563,7 +26592,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1U',
         'supertype': 'Instant',
-        'text': 'Target creature gets -4/-0 and loses flying until end of turn.\n\nFlashback 3U (You may cast this spell from your graveyard for its flashback cost. Then exile it.)\n\n“Walk it off, rookie."\n\n—Spitfire, Wonderbolt captain',
+        'text': 'Target creature gets -4/-0 and loses flying until end of turn.\n\nFlashback 3U (You may cast this spell from your graveyard for its flashback cost. Then exile it.)',
+        'flavorText': '"Walk it off, rookie."\n—Spitfire, Wonderbolt captain',
     },
     {
         'name': 'Mimetic Portrayal',
@@ -26686,7 +26716,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1W',
         'supertype': 'Sorcery',
-        'text': 'You gain 5 life. Proliferate. (You choose any number of permanents and/or players with counters on them, then give each another counter of a kind already there.)\n\n“Hearth’s Warming’s a time to make all decorations decoratier."\n\n—Pinkie Pie, Bearer of Laughter',
+        'text': 'You gain 5 life. Proliferate. (You choose any number of permanents and/or players with counters on them, then give each another counter of a kind already there.)',
+        'flavorText': '"Hearth’s Warming’s a time to make all decorations decoratier."\n—Pinkie Pie, Bearer of Laughter',
     },
     {
         'name': 'Hearth’s Warming Choir',
@@ -26719,13 +26750,13 @@ var FICG_CARDS =
         'flavorText': '"Intangibility means you can always make an unforgettable entrance."\n—Discord',
     },
     {
-        'name': '“The Seeds of the Past"',
+        'name': '"The Seeds of the Past"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “The Seeds of the Past".\n\n1U, Sacrifice “The Seeds of the Past": Put target nonland permanent into its owner’s library just beneath the top X cards of that library, where X is the number of verse counters on “The Seeds of the Past".',
+        'text': 'At the beginning of your upkeep, put a verse counter on "The Seeds of the Past".\n\n1U, Sacrifice "The Seeds of the Past": Put target nonland permanent into its owner’s library just beneath the top X cards of that library, where X is the number of verse counters on "The Seeds of the Past".',
     },
     {
         'name': 'Snowfall\'s Incantation',
@@ -26766,13 +26797,13 @@ var FICG_CARDS =
         'flavorText': '"I made my choice long ago. Regret would serve no purpose."\n—Snowfall Frost',
     },
     {
-        'name': '“Luna’s Future"',
+        'name': '"Luna’s Future"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '3B',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Luna’s Future".\n\n3B, Sacrifice “Luna’s Future": Destroy up to X target nonsnow creatures, where X is the number of verse counters on “Luna’s Future".',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Luna’s Future".\n\n3B, Sacrifice "Luna’s Future": Destroy up to X target nonsnow creatures, where X is the number of verse counters on "Luna’s Future".',
     },
     {
         'name': 'Frostfell Windigo',
@@ -26827,17 +26858,17 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '(bg)R',
         'supertype': 'Instant',
-        'text': 'Exile target artifact. Put a colorless artifact token named Gold onto the battlefield. It has “Sacrifice this artifact: Add one mana of any color to your mana pool."',
+        'text': 'Exile target artifact. Put a colorless artifact token named Gold onto the battlefield. It has "Sacrifice this artifact: Add one mana of any color to your mana pool."',
         'flavorText': '"I enjoy finding proper uses for the frivolous."\n—Snowfall Frost',
     },
     {
-        'name': '“Pinkie’s Present"',
+        'name': '"Pinkie’s Present"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1G(ub)',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Pinkie’s Present".\n\nG(ub), Sacrifice “Pinkie’s Present": Choose left or right. Each player reveals the top X cards of his or her library, where X is the number of verse counters on “Pinkie’s Present". Each player may put onto the battlefield under his or her control a permanent card revealed by the next player in the chosen direction. Then each player shuffles his or her library.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Pinkie’s Present".\n\nG(ub), Sacrifice "Pinkie’s Present": Choose left or right. Each player reveals the top X cards of his or her library, where X is the number of verse counters on "Pinkie’s Present". Each player may put onto the battlefield under his or her control a permanent card revealed by the next player in the chosen direction. Then each player shuffles his or her library.',
     },
     {
         'name': 'Snowfall Frost',
@@ -26961,7 +26992,8 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1B',
         'supertype': 'Instant',
-        'text': 'Target creature gets +2/+0 and gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\n\n“Radium! It’s the latest thing! Ponies will go gaga over it!"\n\n—Plaid Stripes, eager lunatic',
+        'text': 'Target creature gets +2/+0 and gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)',
+        'flavorText': '"Radium! It’s the latest thing! Ponies will go gaga over it!"\n—Plaid Stripes, eager lunatic',
     },
     {
         'name': 'Philosophical Hoodlums',
@@ -27064,7 +27096,7 @@ var FICG_CARDS =
         'cost': '2WB',
         'supertype': 'Creature',
         'subtype': 'Pony Citizen',
-        'text': 'Artifacts your opponents control have “At the beginning of your upkeep, sacrifice this artifact unless you pay 1 life."',
+        'text': 'Artifacts your opponents control have "At the beginning of your upkeep, sacrifice this artifact unless you pay 1 life."',
         'flavorText': '"Amenities, they do not come cheap, yes?"',
         'pt': '2/2',
     },
@@ -27145,7 +27177,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': 'U',
         'supertype': 'Sorcery',
-        'text': 'Investigate, then scry X, where X is the number of Clues you control. (To investigate, put a colorless Clue artifact token onto the battlefield with “2, Sacrifice this artifact: Draw a card.")\n\nThe first step of any solution is determining what needs to be solved.',
+        'text': 'Investigate, then scry X, where X is the number of Clues you control. (To investigate, put a colorless Clue artifact token onto the battlefield with "2, Sacrifice this artifact: Draw a card.")\n\nThe first step of any solution is determining what needs to be solved.',
     },
     {
         'name': 'Impossible Infiltration',
@@ -27279,13 +27311,13 @@ var FICG_CARDS =
         'text': 'Kicker 2W (You may pay an additional 2W as you cast this spell.)\n\nPrevent all damage that would be dealt to target creature this turn. If Mane Therapy was kicked, you may put an Aura card from your hand onto the battlefield attached to that creature.',
     },
     {
-        'name': '“Can I Do It On My Own"',
+        'name': '"Can I Do It On My Own"',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': 'U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “Can I Do It On My Own".\n\nSacrifice “Can I Do It On My Own": Activated abilities of permanents you control cost up to X less to activate this turn, where X is the number of verse counters on “Can I Do It On My Own". This effect can’t reduce the amount of mana an ability costs to activate to less than one mana.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "Can I Do It On My Own".\n\nSacrifice "Can I Do It On My Own": Activated abilities of permanents you control cost up to X less to activate this turn, where X is the number of verse counters on "Can I Do It On My Own". This effect can’t reduce the amount of mana an ability costs to activate to less than one mana.',
     },
     {
         'name': 'Spoiled Layabout',
@@ -27332,7 +27364,7 @@ var FICG_CARDS =
         'cost': 'B',
         'supertype': 'Enchantment',
         'subtype': 'Aura',
-        'text': 'Enchant creature\n\nEnchanted creature’s activated abilities cost an additional “Put a -1/-1 counter on this creature" to activate.\n\nFearing failure is the best way to guarantee it.',
+        'text': 'Enchant creature\n\nEnchanted creature’s activated abilities cost an additional "Put a -1/-1 counter on this creature" to activate.\n\nFearing failure is the best way to guarantee it.',
     },
     {
         'name': 'Swear Jar',
@@ -27340,7 +27372,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '2B',
         'supertype': 'Sorcery',
-        'text': 'Target opponent loses 2 life and you gain 2 life.\n\nGotcha — Whenever an opponent curses, you may say “Gotcha!" If you do, return Swear Jar from your graveyard to your hand. (Casting a Curse spell doesn’t count.)\n\n(This flavor text has been censored by Standards & Practices.)',
+        'text': 'Target opponent loses 2 life and you gain 2 life.\n\nGotcha — Whenever an opponent curses, you may say "Gotcha!" If you do, return Swear Jar from your graveyard to your hand. (Casting a Curse spell doesn’t count.)\n\n(This flavor text has been censored by Standards & Practices.)',
     },
     {
         'name': 'Simper',
@@ -27429,7 +27461,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '1(gw)',
         'supertype': 'Instant',
-        'text': 'Until end of turn, creature you control get “T: Regenerate another target creature you control."\n\nHerd structure still underlies Equestrian society, its citizens banding together to protect those in need.',
+        'text': 'Until end of turn, creature you control get "T: Regenerate another target creature you control."\n\nHerd structure still underlies Equestrian society, its citizens banding together to protect those in need.',
     },
     {
         'name': 'Cloud Collection',
@@ -27501,7 +27533,7 @@ var FICG_CARDS =
         'cost': '1U',
         'supertype': 'Enchantment',
         'subtype': 'Song',
-        'text': 'At the beginning of your upkeep, put a verse counter on “It’s Gonna Work".\n\nU, Sacrifice "It’s Gonna Work": Reveal the top X plus one cards of your library, where X is the number of verse counters on "It’s Gonna Work". An opponent separates them into two piles. Put one pile into your hand and the other into your graveyard.',
+        'text': 'At the beginning of your upkeep, put a verse counter on "It’s Gonna Work".\n\nU, Sacrifice "It’s Gonna Work": Reveal the top X plus one cards of your library, where X is the number of verse counters on "It’s Gonna Work". An opponent separates them into two piles. Put one pile into your hand and the other into your graveyard.',
     },
     {
         'name': 'Spread the Word',
@@ -27554,7 +27586,8 @@ var FICG_CARDS =
         'cost': '4BB',
         'supertype': 'Creature',
         'subtype': 'Unicorn Citizen',
-        'text': 'If a player would lose life, that player loses twice that much life instead. (Damage causes loss of life.)\n\n“Always expect disappointment. You’ll never be disappointed."',
+        'text': 'If a player would lose life, that player loses twice that much life instead. (Damage causes loss of life.)',
+        'flavorText': '"Always expect disappointment. You’ll never be disappointed."',
         'pt': '3/3',
     },
     {
@@ -27563,7 +27596,7 @@ var FICG_CARDS =
         'creator': 'FanOfMostEverything',
         'cost': '3R',
         'supertype': 'Instant',
-        'text': 'Put a token that’s a copy of target creature onto the battlefield. That token has haste and “At the beginning of the end step, sacrifice this permanent." The “legend rule" doesn’t apply to permanents with that token’s name this turn.\n\nThe Map quickly corrected the error. Twilight would never forget it.',
+        'text': 'Put a token that’s a copy of target creature onto the battlefield. That token has haste and "At the beginning of the end step, sacrifice this permanent." The "legend rule" doesn’t apply to permanents with that token’s name this turn.\n\nThe Map quickly corrected the error. Twilight would never forget it.',
     },
     {
         'name': 'Cross Purposes',

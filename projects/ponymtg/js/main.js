@@ -249,8 +249,8 @@ var global = {
     /** Various pieces of predefined text. */
     'text': {
         'tagline': {
-            'dynamic': 'Browse a database of {NUMBER_OF_CARDS} fan-made <i>Magic: the Gathering</i> cards based on <i>My Little Pony: Friendship is Magic</i>.',
-            'static': 'Browse a database of fan-made <i>Magic: the Gathering</i> cards based on <i>My Little Pony: Friendship is Magic</i>.'
+            'dynamic': 'Explore a database of {NUMBER_OF_CARDS} fan-made <i>Magic: the Gathering</i> cards based on <i>My Little Pony: Friendship is Magic</i>.',
+            'static': 'Explore a database of fan-made <i>Magic: the Gathering</i> cards based on <i>My Little Pony: Friendship is Magic</i>.'
         },
         'references': {
             'title': 'It\'s a working title.'
@@ -308,8 +308,8 @@ var global = {
             'cardsPerCreator': {}
         }
     },
-    'information': {}
-            
+    'information': {},
+    'urlParameters': {}
 };
 
 /**
@@ -409,13 +409,33 @@ function initialize() {
     // Default to displaying cards from all available sets.
     var filterBySetCheckbox = document.querySelector('#filterBySet_selectAll');
     filterBySetCheckbox.click();
+
+    // There are certain parameters that the user can pass in the URL to make the app perform special actions.
+    // If a `name` and `set` are passed, the app will automatically display all cards that match that name and set.
+    // Unlike in a regular search, it will be an exact match, not a partial match.
+    global.urlParameters = getUrlParameters();
+    if (Object.keys(global.urlParameters).length > 0) {
+        if (global.urlParameters.name !== undefined && global.urlParameters.set !== undefined) {
+            var searchString = '^'+global.urlParameters.name+'$';
+            var searchRegex = new RegExp(searchString);
+            global.search.results = getSearchResults(searchRegex, CARDS);
+            global.pagination.currentPage = 0;
+            global.pagination.numberOfPages = Math.ceil(global.search.results.length/global.pagination.cardsPerPage);
+            displayResults(global.search.results);
+        }
+    }
 }
 
-function initiateSearch() {
+function initiateSearch(isExactSearch) {
     var searchString = global.elements.searchField.value;
     // We do actually want to do a string search and not a regex search, so we need to escape any regex
     // characters that the user may have entered.
     searchString = escapeRegex(searchString);
+
+    if (isExactSearch === true) {
+        // If an exact search has been requested, add the appropriate regex for a whole string match.
+        searchString = '^'+searchString+'$';
+    }
     var searchRegex = new RegExp(searchString, 'i');
     global.search.results = getSearchResults(searchRegex, CARDS);
     global.pagination.currentPage = 0;
@@ -529,9 +549,14 @@ function displayResults(cards) {
     global.elements.results.appendChild(foundCardsMessageElement);
     if (cards.length > 0) {
         if (global.pagination.numberOfPages > 1) {
-            global.elements.results.appendChild(generatePaginationControlElement());
+            global.elements.results.appendChild(generatePaginationControlElement('paginationControlTop'));
         }
         global.elements.results.appendChild(generateCardTableElement(currentPageOfCards));
+        if (global.pagination.numberOfPages > 1) {
+            // For the pagination control at the bottom of the page, make it scroll the page back to the top when the
+            // user changes pages.
+            global.elements.results.appendChild(generatePaginationControlElement('paginationControlBottom', 'paginationControlTop'));
+        }
     }
 }
 
@@ -571,8 +596,10 @@ function getFilterBySetChoices() {
 
 /**
  * Generates and returns a DOM element that the user can use to move between pages of the current result set.
+ * If specified, `scrollToElementId` is the id of an element that the page should scroll to after the previous or next
+ * page button is pressed. This can be used to return the user to the top of the page after changing pages, for example.
  */
-function generatePaginationControlElement() {
+function generatePaginationControlElement(id, scrollToElementId) {
     var paginationControlTableElement = document.createElement('table');
     var paginationControlTableRowElement = document.createElement('tr');
     var previousPageTableCellElement = document.createElement('td');
@@ -580,6 +607,7 @@ function generatePaginationControlElement() {
     var nextPageTableCellElement = document.createElement('td');
 
     paginationControlTableElement.className = 'paginationControl';
+    paginationControlTableElement.id = id;
 
     previousPageTableCellElement.className = 'paginationPreviousPage';
     previousPageTableCellElement.innerHTML = '< Previous page';
@@ -590,6 +618,10 @@ function generatePaginationControlElement() {
         }
             
         displayResults(global.search.results);
+        if (scrollToElementId !== undefined) {
+            var scrollToElement = document.querySelector('#'+scrollToElementId);
+            scrollToElement.scrollIntoView(true);
+        }
     };
 
     pageNumberTableCellElement.className = 'paginationPageNumber';
@@ -603,6 +635,10 @@ function generatePaginationControlElement() {
             global.pagination.currentPage = global.pagination.numberOfPages - 1;
         }
         displayResults(global.search.results);
+        if (scrollToElementId !== undefined) {
+            var scrollToElement = document.querySelector('#'+scrollToElementId);
+            scrollToElement.scrollIntoView(true);
+        }
     };
 
     paginationControlTableRowElement.appendChild(previousPageTableCellElement);
@@ -1297,4 +1333,25 @@ function escapeRegex(string) {
         escapedString = escapedString.replace(metacharacterRegex, '\\'+metacharacter);
     }
     return escapedString;
+}
+
+function getUrlParameters() {
+    var parametersString = window.location.search.substr(1);
+    return transformToAssociativeArray(parametersString);
+}
+
+function transformToAssociativeArray(parametersString) {
+    if (!parametersString)
+        return {};
+    
+    var parameters = {};
+    var parameterKeyValueStrings = parametersString.split("&");
+
+    for (var i=0; i < parameterKeyValueStrings.length; i++) {
+        var parameterKeyValueString = parameterKeyValueStrings[i];
+        var keyValue = parameterKeyValueString.split("=");
+    
+        parameters[keyValue[0]] = keyValue[1];
+    }
+    return parameters;
 }

@@ -302,6 +302,7 @@ def parse_individual_card_dump_into_card_data_entry(individual_card_dump):
     # Before starting, perform a replacement to replace decorative double quotes (”) with regular ones ("). Just to keep
     # things consistent.
     individual_card_dump = individual_card_dump.replace('”', '"')
+    individual_card_dump = individual_card_dump.replace('“', '"')
 
     # Split the individual dump into lines.
     individual_card_dump_lines = individual_card_dump.split('\n')
@@ -401,12 +402,24 @@ def parse_individual_card_dump_into_card_data_entry(individual_card_dump):
         rules_text_lines = text_lines[0:-2]
         flavor_text_lines = text_lines[-2:]
 
-    # A second, lesser trick that we can try is to assume that, if the last line of the card text is in double quotes,
-    # it's probably flavor text. (Lots of cards end with an unattributed quote).
-    if len(text_lines) >= 2 and text_lines[-1][0] == '"' and text_lines[-1][-1] == '"':
-        rules_text_lines = text_lines[0:-1]
-        flavor_text_lines = [text_lines[-1]]
+    # Another pattern we can search for is the presence of one or more fully-quoted strings at the end of the card text.
+    # These usually represent unattributed character dialogue, which makes them flavor text. To check for this, we'll
+    # search backward through the lines of card text until we find one that is not dialogue (ie. not fully enclosed in
+    # double quotes). If the first non-dialogue line is the last line of the text, then there _is_ no dialogue, and thus
+    # we cannot use this trick. If, however, the first non-dialogue line is not the last line of the text (or, more
+    # rarely, we don't find any non-dialogue lines, which would indicate a card that is _all_ dialogue), then we know
+    # that the card has dialogue, and will capture that as the flavor text.
 
+    index_of_first_nondialogue_line = None
+    for i in range(len(text_lines)-1, -1, -1):
+        text_line = text_lines[i]
+        if not (text_line[0] == '"' and text_line[-1] == '"'):
+            index_of_first_nondialogue_line = i
+            break
+    if index_of_first_nondialogue_line < len(text_lines)-1 or index_of_first_nondialogue_line is None:
+        rules_text_lines = text_lines[0:index_of_first_nondialogue_line+1]
+        flavor_text_lines = text_lines[index_of_first_nondialogue_line+1:]
+        
     rules_text = '\\n\\n'.join(rules_text_lines)
     # We'll only join flavor text with one newline, not two. FanOfMostEverything leaves the exact number of newlines a
     # little ambiguous, but it looks better this way.

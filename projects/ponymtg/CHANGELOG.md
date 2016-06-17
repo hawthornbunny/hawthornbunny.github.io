@@ -1,3 +1,10 @@
+## 1.0.3
+
+* Updated FICG parser to detect dialogue at the end of card text as flavor text.
+* Minor FICG parser fix to clean decorative double quotes before parsing.
+* Changed pagination controls style to bring it in line with advanced search box.
+* Added pagination control to bottom of screen, implemented jump-to-top when switching pages.
+
 ## 1.0.2
 
 * FICG parser fix to correctly detect World Enchantments.
