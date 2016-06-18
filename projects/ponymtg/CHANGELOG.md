@@ -1,3 +1,8 @@
+## 1.0.4
+
+* Added search by mana type.
+* Added card set: "StorycrafterKiro".
+
 ## 1.0.3
 
 * Updated FICG parser to detect dialogue at the end of card text as flavor text.

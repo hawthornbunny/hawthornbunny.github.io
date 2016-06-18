@@ -42,6 +42,7 @@ var global = {
             'My Little Multiverse: Knowledge is Magic': 'ManaSparks/My Little Multiverse: Knowledge is Magic/cards',
             'Grumpy-Moogle': 'Grumpy-Moogle/cards',
             'Twilight Falls': 'Bliss Authority/Twilight Falls (TLF)/cards',
+            'StorycrafterKiro': 'StorycrafterKiro/cards',
         },
         /** Maps the various properties of a card to a more human-readable display name.*/
         'cardPropertiesToDisplayNames': {
@@ -146,7 +147,64 @@ var global = {
             'blackGreen': 'cardColorHybridBlackGreen',
             'redGreen': 'cardColorHybridRedGreen',
             'undefined': 'cardColorUndefined',
-        }
+        },
+        'manaColorSymbolsToColorNames': {
+            'W': 'white',
+            'U': 'blue',
+            'B': 'black',
+            'R': 'red',
+            'G': 'green'
+        },
+        'manaSymbolsToManaTypes': {
+            'W': ['white'],
+            'U': ['blue'],
+            'B': ['black'],
+            'R': ['red'],
+            'G': ['green'],
+            'X': ['generic'],
+            '\\d+': ['generic'],
+            '\\(wu\\)': ['white', 'blue'],
+            '\\(wb\\)': ['white', 'black'],
+            '\\(wr\\)': ['white', 'red'],
+            '\\(wg\\)': ['white', 'green'],
+            '\\(ub\\)': ['blue',  'black'],
+            '\\(ur\\)': ['blue',  'red'],
+            '\\(ug\\)': ['blue',  'green'],
+            '\\(br\\)': ['black', 'red'],
+            '\\(bg\\)': ['black', 'green'],
+            '\\(rg\\)': ['red',   'green'],
+            '\\(uw\\)': ['blue' , 'white'],
+            '\\(bw\\)': ['black', 'white'],
+            '\\(rw\\)': ['red',   'white'],
+            '\\(gw\\)': ['green', 'white'],
+            '\\(bu\\)': ['black', 'blue'],
+            '\\(ru\\)': ['red',   'blue'],
+            '\\(gu\\)': ['green', 'blue'],
+            '\\(rb\\)': ['red',   'black'],
+            '\\(gb\\)': ['green', 'black'],
+            '\\(gr\\)': ['green', 'red'],
+            'C': ['colorless'],
+        },
+        'manaTypesToRepresentativeSymbols': {
+            'white': 'W',
+            'blue': 'U',
+            'black': 'B',
+            'red': 'R',
+            'green': 'G',
+            'generic': 'X',
+            'colorless': 'C',
+            'none': 'None'
+        },
+        'manaRepresentativeSymbolsToDescriptions': {
+            'W': 'White mana',
+            'U': 'Blue mana',
+            'B': 'Black mana',
+            'R': 'Red mana',
+            'G': 'Green mana',
+            'X': 'Generic mana',
+            'C': 'Colorless mana',
+            'None': 'No mana',
+        },
     },
     /** DOM elements that can be cached globally, and used in any function. */
     'elements': {
@@ -225,6 +283,8 @@ var global = {
             '\\(gb\\)',
             '\\(gr\\)',
         ],
+        /** A list of the five color symbols for mana. */
+        'manaColorSymbols': ['W', 'U', 'B', 'R', 'G'],
     },
     'advancedSearchIdPrefix': 'advancedSearch',
     'dimensions': {
@@ -287,21 +347,31 @@ var global = {
             'noResults': 'No cards found',
         },
     },
+    /** Various useful values. */
     'values': {
+        /** The "masses" of various units of text (how much they contribute to the total mass of a card's text). */
         'textMasses': {
             'character': 1,
             'newline': 35
         },
+        /**
+         * The threshold above which we'll shrink down card text to prevent it spilling off the bottom of a proxy card.
+         */
         'textMassThreshold': 450
     },
+    /** Information about how to paginate the results set, including the current page that the user is viewing. */
     'pagination': {
         'currentPage': 0,
         'cardsPerPage': 10,
         'numberOfPages': 1
     },
+    /** The results returned by the current search. */
     'search': {
         'results': []
     },
+    /**
+     * Statistics that have been gathered about the current card collection, filled in upon initialization of the app.
+     */
     'statistics': {
         'counts': {
             'numberOfCards': undefined,
@@ -309,7 +379,9 @@ var global = {
             'cardsPerCreator': {}
         }
     },
+    /** Information about the card collection (eg. which sets are in it), filled in upon initialization. */
     'information': {},
+    /** Any URL parameters passed to the application. */
     'urlParameters': {}
 };
 
@@ -339,6 +411,13 @@ function initialize() {
             return 0;
         }
     );
+
+    // For every card, there may be certain additional properties that we can derive from the information supplied, such
+    // as the card's colors. These are useful for refining searches.
+    for (var i=0; i < CARDS.length; i++) {
+        CARDS[i].derivedProperties = getDerivedCardProperties(CARDS[i]);
+    }
+
     global.elements.results = document.querySelector('#results');
 
     //global.elements.titleReference = document.querySelector('#titleReference');
@@ -408,8 +487,16 @@ function initialize() {
     searchByNameCheckbox.checked = true;
 
     // Default to displaying cards from all available sets.
-    var filterBySetCheckbox = document.querySelector('#filterBySet_selectAll');
+    var filterBySetCheckbox = document.querySelector('#'+global.advancedSearchIdPrefix+'_filterBySet_selectAll');
     filterBySetCheckbox.click();
+
+    // Default to searching all mana types.
+    var manaTypes = Object.keys(global.mappings.manaTypesToRepresentativeSymbols);
+    for (var i=0; i < manaTypes.length; i++) {
+        var manaType = manaTypes[i];
+        var filterByManaTypeCheckbox = document.querySelector('#'+global.advancedSearchIdPrefix+'_filterByManaType_'+manaType);
+        filterByManaTypeCheckbox.checked = true;
+    }
 
     // There are certain parameters that the user can pass in the URL to make the app perform special actions.
     // If a `name` and `set` are passed, the app will automatically display all cards that match that name and set.
@@ -485,11 +572,105 @@ function getSearchResults(regex, cards) {
     var matchingCards = [];
     var cardPropertiesToSearchIn = getSearchByChoices();
     var filterBySetChoices = getFilterBySetChoices();
+    var filterByManaTypeChoices = getFilterByManaTypeChoices();
     for (var i=0; i < cards.length; i++) {
         var card = cards[i];
 
         // If this card isn't in a set that the user has opted to search in, then skip to the next.
         if (filterBySetChoices.indexOf(card.set) === -1) {
+            continue;
+        }
+
+        cardSatisfiesFilterByManaTypeSearch = false;
+        // There are four different ways we can filter by set, which the user can select between. First, let's find
+        // out what was selected.
+        var filterByManaTypeSearchType = document.querySelector('#filterByManaTypeSearchType').value;
+
+        // And get the mana types of this card, so we can compare the two to decide if it satisfies the mana type search.
+        var cardManaTypes = card.derivedProperties.manaTypes;
+
+        // There are three facts about the card that will help us decide whether the card satisfies the mana type
+        // search:
+        //
+        // - whether it contains at least one of the selected mana types
+        // - whether it contains only the selected mana types (and no others)
+        // - whether it contains all of the selected mana types
+        //
+        // We'll analyze the card to learn those facts first.
+        var cardContainsAtLeastOneSelectedManaType = false;
+        var cardContainsOnlySelectedManaTypes = true;
+        var cardContainsAllSelectedManaTypes = true;
+
+        for (var j=0; j < cardManaTypes.length; j++) {
+            var cardManaType = cardManaTypes[j];
+            if (filterByManaTypeChoices.indexOf(cardManaType) !== -1) {
+                // One of the card's mana types does match one that was selected by the user.
+                cardContainsAtLeastOneSelectedManaType = true;
+                break;
+            }
+        }
+        for (var j=0; j < cardManaTypes.length; j++) {
+            var cardManaType = cardManaTypes[j];
+            if (filterByManaTypeChoices.indexOf(cardManaType) === -1) {
+                // The card contains a mana type that wasn't selected by the user.
+                cardContainsOnlySelectedManaTypes = false;
+                break;
+            }
+        }
+        for (var j=0; j < filterByManaTypeChoices.length; j++) {
+            var filterByManaTypeChoice = filterByManaTypeChoices[j];
+            if (cardManaTypes.indexOf(filterByManaTypeChoice) === -1) {
+                // The card did not contain one of the mana types selected by the user.
+                cardContainsAllSelectedManaTypes = false;
+                break;
+            }
+        }
+
+        // Now that we know those facts, we can see if the card satisfies the user's mana type search conditions.
+
+        switch (filterByManaTypeSearchType) {
+            // "All Exclusive": The least permissive search. Searches for all cards which contain all of the selected
+            // mana type, and no others. For example, a search for white and blue would be satisfied by "1WU", "2WUU"
+            // (these contain both white and blue), but not "3W" (this does not contain blue), "4UU" (this does not
+            // contain white), "5WUB" (this contains white and blue, but also black).
+            case 'allExclusive':
+                if (cardContainsOnlySelectedManaTypes && cardContainsAllSelectedManaTypes) {
+                    cardSatisfiesFilterByManaTypeSearch = true;
+                }
+                break;
+            // "Any Exclusive": Searches for all cards which contain any of the selected mana types, but no others. For
+            // example, a search for white and blue would be satisfied by "1W" (it contains white), "2UU" (it
+            // contains blue), "3WU" (it contains white and blue), but not "4WUG" (it contains white and blue, but
+            // also green).
+            case 'anyExclusive':
+                if (cardContainsOnlySelectedManaTypes) {
+                    cardSatisfiesFilterByManaTypeSearch = true;
+                }
+                
+                break;
+            // "All Inclusive ": Searches for all cards which contain all of the selected mana types. For example, a
+            // search for white and blue would be satisfied by "1WU" (it contains white and blue), "2WUR" (it
+            // contains white and blue, as well as red), but not "3WG" (it contains white, but not blue).
+            case 'allInclusive':
+                if (cardContainsAllSelectedManaTypes) {
+                    cardSatisfiesFilterByManaTypeSearch = true;
+                }
+                break;
+            // "Any Inclusive": The most permissive search type. This searches for all cards which contain any of
+            // the selected mana types. For example, a search for white and blue would be satisfied by "1WG" (it
+            // contains white), "2UR" (it contains blue), "3WUB" (it contains white and blue), and many others. The
+            // only way for a card not to appear in this search is if it contains none of the selected mana types.
+            case 'anyInclusive':
+            default:
+                if (cardContainsAtLeastOneSelectedManaType) {
+                    cardSatisfiesFilterByManaTypeSearch = true;
+                }
+                break;
+        }
+
+        if (!cardSatisfiesFilterByManaTypeSearch) {
+            // The card didn't satisfy the mana type search, so we won't consider it any further, and skip to the next
+            // card.
             continue;
         }
 
@@ -522,6 +703,8 @@ function displayResults(cards) {
     // Clear existing results.
     emptyElement(global.elements.results);
     
+    for (var i=0; i < cards.length; i++) {
+    }
     // Remove the title and tagline, they're only needed on the home screen.
     //global.elements.title.parentNode.removeChild(global.elements.title);
     //global.elements.tagline.parentNode.removeChild(global.elements.tagline);
@@ -562,6 +745,151 @@ function displayResults(cards) {
 }
 
 /**
+ * Given an object containing the properties of a single card, analyze them to see if there are any additional
+ * properties we can derive from them. An example would be a card's colors: these are usually not explicitly defined,
+ * but can be derived from the card's mana cost.
+ */
+function getDerivedCardProperties(card) {
+    var derivedProperties = {};
+    derivedProperties.colors = getCardColors(card);
+    derivedProperties.manaTypes = getCardManaTypes(card);
+    derivedProperties.monocolor = getCardMonocolor(card);
+    return derivedProperties;
+}
+
+/**
+ * Given an object containing the properties of a single card, attempt to determine the card's colors. A card's colors
+ * are typically determined by the mana symbols that appear in the card's mana cost. If a card has any hybrid mana
+ * then it has all of the colors that appear in those symbols (ie. a card with hybrid white-blue mana symbols is both
+ * white and blue).
+ *
+ * Card color may also be defined by fiat (ie. the card's rules text explicitly says that the card is a certain color or
+ * colors). In these cases, there may be a color identifier on the card that would indicate what colors it has.
+ *
+ * Note that a card's colors is not the same thing as its "color identity". Color identity is a concept used in
+ * Commander games, and it means "all colors in a card's mana cost, plus any that appear in its rules text, not
+ * including reminder text".
+ */
+function getCardColors(card) {
+    var cardColors = [];
+
+    // Before doing anything, check to see if the card has a color indicator. If it does, we consider this to be the
+    // definitive source of the card's color, overriding the mana cost.
+    if (card.colorIndicator !== undefined) {
+        // We're doing this very straightforwardly; for each of the five colors of mana, check the mana cost to see if it
+        // contains a symbol for that color of mana. If it does, this card is that color.
+        for (var i=0; i < global.lists.manaColorSymbols.length; i++) {
+            var manaColorSymbol = global.lists.manaColorSymbols[i];
+            if (card.colorIndicator.includes(manaColorSymbol)) {
+                cardColors.push(manaColorSymbol);
+            }
+        }
+        return cardColors;
+    }
+
+    // If a card has no cost, we'll consider it colorless.
+    if (!card.cost) {
+        return cardColors;
+    }
+    
+    // We're doing this very straightforwardly; for each of the five colors of mana, check the mana cost to see if it
+    // contains a symbol for that color of mana. If it does, this card is that color.
+    for (var i=0; i < global.lists.manaColorSymbols.length; i++) {
+        var manaColorSymbol = global.lists.manaColorSymbols[i];
+        if (card.cost.includes(manaColorSymbol)) {
+            cardColors.push(manaColorSymbol);
+        }
+    }
+
+    return cardColors;
+}
+
+/**
+ * Given an object containing the properties of a single card, attempt to determine the types of mana that are part of
+ * this card's identity.
+ */
+function getCardManaTypes(card) {
+    // Check for a color indicator first. If the card has one, this will be considered the source of the card's mana
+    // types.
+    if (card.colorIndicator !== undefined) {
+        return getCostManaTypes(card.colorIndicator);
+    }
+    // Otherwise, analyze its mana cost to see what kinds of mana it contains.
+    if (card.cost !== undefined) {
+        return getCostManaTypes(card.cost);
+    }
+
+    // If it has neither color indicator nor cost, return "none", indicating that this card does not have any mana types
+    // at all. Even though "none" is not really any type of mana, we would still like to know when a card has this
+    // property, as we would like to be able to filter by it.
+    return ['none'];
+}
+
+/**
+ * Given an mana cost, attempt to determine the types of mana in that cost (ie. "white", "generic", "colorless", etc.)
+ */
+function getCostManaTypes(cost) {
+    var cardManaTypes = [];
+
+    if (cost === undefined) {
+        return cardManaTypes;
+    }
+
+    // Get a list of mana symbol regex strings (strings).
+    var manaSymbolRegexStrings = Object.keys(global.mappings.manaSymbolsToManaTypes);
+
+    var manaSymbolRegexes = []
+    for (var i=0; i < manaSymbolRegexStrings.length; i++) {
+        var manaSymbolRegex = new RegExp(manaSymbolRegexStrings[i]);
+        manaSymbolRegexes.push(manaSymbolRegex);
+    }
+
+    // Tokenize the cost into a sequence containing token pieces and non-token pieces (in order).
+    var tokenizedCost = tokenizeString(cost, manaSymbolRegexes);
+
+    // Go through the tokenized cost pieces, and for each one, if it's a mana symbol, figure out what kind of mana that
+    // symbol represents, then add it to our list of mana types (if we don't already have it).
+    for (var i=0; i < tokenizedCost.length; i++) {
+        for (var j=0; j < manaSymbolRegexStrings.length; j++) {
+            // If this string piece is a token (ie. something that we identified to be a mana symbol), we now need to
+            // figure out which mana symbol it is. To do this, we just run through our list of mana symbol regexes until
+            // we find the one that matches.
+            var manaSymbolRegexString = manaSymbolRegexStrings[j];
+            var manaSymbolRegex = manaSymbolRegexes[j];
+            if (manaSymbolRegex.test(tokenizedCost[i])) {
+                // We've found the mana symbol that corresponds to this token. Now, figure out what type of mana this
+                // is. Some symbols represent more than one kind of mana (eg. hybrid mana symbols).
+                var manaTypeArray = global.mappings.manaSymbolsToManaTypes[manaSymbolRegexString]; 
+                for (var k=0; k < manaTypeArray.length; k++) {
+                    var manaType = manaTypeArray[k];
+                    // If this isn't in our list of mana types, add it.
+                    if (cardManaTypes.indexOf(manaType) === -1) {
+                        cardManaTypes.push(manaType);
+                    }
+                }
+            }
+        }
+    }
+    return cardManaTypes;
+}
+
+/**
+ * Given an object containing card properties for a single card, return the card's monocolor. This is a single word
+ * which describes the color of a monocolored card. For example, if the card has a mana cost of "1W", this will return
+ * "white", because the card is mono-white.
+ *
+ * If the supplied card has no color, or multiple colors, this function returns `undefined`.
+ */
+function getCardMonocolor(card) {
+    var cardColors = getCardColors(card);
+    if (cardColors.length !== 1) {
+        return undefined;
+    }
+    
+    return global.mappings.manaColorSymbolsToColorNames[cardColors[0]];
+}
+
+/**
  * Examine the choices made by the user in the "Search by" section of the advanced options, and return an array of card
  * property names.
  */
@@ -589,6 +917,22 @@ function getFilterBySetChoices() {
         var checkbox = document.querySelector('#'+checkboxId);
         if (checkbox.checked) {
             choices.push(set);
+        }
+    }
+
+    return choices;
+}
+
+function getFilterByManaTypeChoices() {
+    var choices = [];
+
+    var manaTypes = Object.keys(global.mappings.manaTypesToRepresentativeSymbols);
+    for (var i=0; i < manaTypes.length; i++) {
+        var color = manaTypes[i]; 
+        var checkboxId = global.advancedSearchIdPrefix+'_filterByManaType_'+color;
+        var checkbox = document.querySelector('#'+checkboxId);
+        if (checkbox.checked) {
+            choices.push(color);
         }
     }
 
@@ -653,20 +997,22 @@ function generatePaginationControlElement(id, scrollToElementId) {
  * Generates and returns a DOM element containing advanced search controls.
  */
 function generateAdvancedSearchElement() {
+    // Create a table element to hold all advanced search controls.
     var advancedSearchTableElement = document.createElement('table');
-    var advancedSearchTableRowElement = document.createElement('tr');
+    advancedSearchTableElement.id = global.advancedSearchIdPrefix+'_table';
+    advancedSearchTableElement.style.display = 'none';
+    advancedSearchTableElement.className = 'advancedSearchTable';
+
+    // The advanced search box is broken into vertical sections, each with a header at the top. So each section consists
+    // of a header row (which contains the section title) followed by a row containing all the controls for that
+    // section.
+
+    // First, do the "Search by card property" section. This will be a list of all card properties that we want to allow
+    // the user to search by.
     var searchByCardPropertyTableRowElement = document.createElement('tr');
     var searchByCardPropertyTableHeaderRowElement = document.createElement('tr');
     var searchByCardPropertyTableHeaderCellElement = document.createElement('th');
     var searchByCardPropertyTableCellElement = document.createElement('td');
-    var filterBySetTableHeaderRowElement = document.createElement('tr');
-    var filterBySetTableHeaderCellElement = document.createElement('th');
-    var filterBySetTableRowElement = document.createElement('tr');
-    var filterBySetTableCellElement = document.createElement('td');
-
-    advancedSearchTableElement.id = global.advancedSearchIdPrefix+'_table';
-    advancedSearchTableElement.style.display = 'none';
-    advancedSearchTableElement.className = 'advancedSearchTable';
 
     // Generate checkboxes for all properties that we'll allow the user to search by.
     var data = [];
@@ -674,7 +1020,7 @@ function generateAdvancedSearchElement() {
         var datum = {};
         var cardPropertyName = global.lists.searchableCardProperties[i]; 
         var cardPropertyDisplayName = global.mappings.cardPropertiesToDisplayNames[cardPropertyName];
-        datum.id = global.advancedSearchIdPrefix+'_searchByCardProperty_'+cardPropertyName;
+        datum.idSuffix = '_'+cardPropertyName;
         datum.label = cardPropertyDisplayName;
 
         data.push(datum);
@@ -682,10 +1028,16 @@ function generateAdvancedSearchElement() {
 
     searchByCardPropertyTableHeaderCellElement.innerHTML = 'Search by';
     searchByCardPropertyTableHeaderCellElement.style.backgroundColor = '#c0c0c0'
-    searchByCardPropertyTableCellElement.appendChild(generateCheckboxListElement('searchby', data, '20%'));
+    searchByCardPropertyTableCellElement.appendChild(generateCheckboxListElement(global.advancedSearchIdPrefix+'_searchByCardProperty', data, '20%', true));
     searchByCardPropertyTableCellElement.className = 'searchByCardProperty';
     searchByCardPropertyTableHeaderRowElement.appendChild(searchByCardPropertyTableHeaderCellElement);
     searchByCardPropertyTableRowElement.appendChild(searchByCardPropertyTableCellElement);
+
+    // Second section: Filter the results by a specific set or sets.
+    var filterBySetTableHeaderRowElement = document.createElement('tr');
+    var filterBySetTableHeaderCellElement = document.createElement('th');
+    var filterBySetTableRowElement = document.createElement('tr');
+    var filterBySetTableCellElement = document.createElement('td');
 
     // Generate checkboxes for all known sets.
     var data = [];
@@ -694,7 +1046,7 @@ function generateAdvancedSearchElement() {
         var set = global.information.sets[i]; 
         // We can't use the set name in the id, as it may contain spaces or unsuitable characters; instead, we're using
         // the index of the array that the set appears at.
-        datum.id = global.advancedSearchIdPrefix+'_filterBySet_'+i;
+        datum.idSuffix = '_'+i;
         datum.label = set;
 
         data.push(datum);
@@ -702,49 +1054,118 @@ function generateAdvancedSearchElement() {
 
     filterBySetTableHeaderCellElement.innerHTML = 'Search in sets';
     filterBySetTableHeaderCellElement.style.backgroundColor = '#c0c0c0'
-    filterBySetTableCellElement.appendChild(generateCheckboxListElement('filterBySet', data, '33%'));
+    filterBySetTableCellElement.appendChild(generateCheckboxListElement(global.advancedSearchIdPrefix+'_filterBySet', data, '33%', true));
     filterBySetTableCellElement.className = 'filterBySet';
     filterBySetTableHeaderRowElement.appendChild(filterBySetTableHeaderCellElement);
     filterBySetTableRowElement.appendChild(filterBySetTableCellElement);
 
-    //advancedSearchTableRowElement.appendChild(searchByCardPropertyTableCellElement);
-    //advancedSearchTableRowElement.appendChild(filterBySetTableCellElement);
+    // Third section: Filter the results by color.
+    var filterByManaTypeTableHeaderRowElement = document.createElement('tr');
+    var filterByManaTypeTableHeaderCellElement = document.createElement('th');
+    var filterByManaTypeTableRowElement = document.createElement('tr');
+    var filterByManaTypeTableCellElement = document.createElement('td');
 
+    // This section contains a drop-down list prompting the user to select how, exactly, they would like to search by
+    // color (as there are a few different ways that that can be interpreted).
+    var filterByManaTypeSearchTypeLabelElement = document.createElement('label');
+    filterByManaTypeSearchTypeLabelElement.innerHTML = 'Search for cards that: ';
+    filterByManaTypeSearchTypeLabelElement.style.fontSize = '0.8em';
+
+    var filterByManaTypeSearchTypeSelectElement = document.createElement('select');
+    filterByManaTypeSearchTypeSelectElement.id = 'filterByManaTypeSearchType';
+    filterByManaTypeSearchTypeSelectElement.style.display = 'inline-block';
+    var filterByManaTypeSearchTypeOptions = {
+        'anyInclusive': 'contain any of the selected mana types',
+        'allInclusive': 'contain all of the selected mana types',
+        'anyExclusive': 'contain any of the selected mana types, and no others',
+        'allExclusive': 'contain all of the selected mana types, and no others',
+    };
+
+    var filterByManaTypeSearchTypeOptionValues = Object.keys(filterByManaTypeSearchTypeOptions);
+    for (var i=0; i < filterByManaTypeSearchTypeOptionValues.length; i++) {
+        var optionValue = filterByManaTypeSearchTypeOptionValues[i];
+        var optionText = filterByManaTypeSearchTypeOptions[optionValue];
+        var filterByManaTypeSearchTypeOptionElement = document.createElement('option');
+        filterByManaTypeSearchTypeOptionElement.value = optionValue;
+        filterByManaTypeSearchTypeOptionElement.innerHTML = optionText;
+        filterByManaTypeSearchTypeSelectElement.appendChild(filterByManaTypeSearchTypeOptionElement);
+    }
+
+    // Generate checkboxes for the seven types of mana.
+    var data = [];
+    var manaTypes = Object.keys(global.mappings.manaTypesToRepresentativeSymbols);
+    for (var i=0; i < manaTypes.length; i++) {
+        var datum = {};
+        var manaType = manaTypes[i]; 
+        var representativeSymbol = global.mappings.manaTypesToRepresentativeSymbols[manaType];
+        datum.idSuffix = '_'+manaType;
+        datum.label = applyManaStyling(representativeSymbol);
+        datum.title = global.mappings.manaRepresentativeSymbolsToDescriptions[representativeSymbol];
+
+        data.push(datum);
+    }
+
+    filterByManaTypeCheckboxListElement = generateCheckboxListElement(global.advancedSearchIdPrefix+'_filterByManaType', data, '10%');
+    filterByManaTypeTableHeaderCellElement.innerHTML = 'Search by mana type';
+    filterByManaTypeTableHeaderCellElement.style.backgroundColor = '#c0c0c0'
+    filterByManaTypeTableCellElement.appendChild(filterByManaTypeSearchTypeLabelElement);
+    filterByManaTypeTableCellElement.appendChild(filterByManaTypeSearchTypeSelectElement);
+    filterByManaTypeTableCellElement.appendChild(filterByManaTypeCheckboxListElement);
+    filterByManaTypeTableCellElement.className = 'filterByManaType';
+    filterByManaTypeTableHeaderRowElement.appendChild(filterByManaTypeTableHeaderCellElement);
+    filterByManaTypeTableRowElement.appendChild(filterByManaTypeTableCellElement);
+
+    // Finally, add all sections to the advanced search table.
     advancedSearchTableElement.appendChild(searchByCardPropertyTableHeaderRowElement);
     advancedSearchTableElement.appendChild(searchByCardPropertyTableRowElement);
     advancedSearchTableElement.appendChild(filterBySetTableHeaderRowElement);
     advancedSearchTableElement.appendChild(filterBySetTableRowElement);
+    advancedSearchTableElement.appendChild(filterByManaTypeTableHeaderRowElement);
+    advancedSearchTableElement.appendChild(filterByManaTypeTableRowElement);
 
     return advancedSearchTableElement;
 }
 
-function generateCheckboxListElement(idPrefix, data, optionWidth) {
+/**
+ * Returns an elements containing a list of checkboxes. `data` must be an array of objects representing the checkboxes
+ * that should be created, each of which must have an `idSuffix` property and a `label` property, and may optionally
+ * contain a `title` property for title (mouseover) text. Checkboxes will be created with an id of `idPrefix`+`idSuffix`.
+ *
+ * `optionWidth` is how wide you want each checkbox+label block to be. It's best to set this to a percentage. For
+ * example, `25%` will mean that every checkbox takes up 25% of the list, so you should get rows of four.
+ *
+ * If `addSelectAll` is true, a "Select all" checkbox will be created at the beginning of the list, with an id of
+ * `idPrefix`+`selectAll`; when clicked, this will toggle all other checkboxes in the list to its value.
+ */
+function generateCheckboxListElement(idPrefix, data, optionWidth, addSelectAll) {
     var checkboxListContainer = document.createElement('div');
-
-    // Add a "Select all" checkbox which will check all the others when clicked.
-    var selectAllCheckboxElementContainer = document.createElement('div');
-    selectAllCheckboxElementContainer.style.display = 'inline-block';
-    selectAllCheckboxElementContainer.style.width = optionWidth;
     
-    var selectAllCheckboxElement = document.createElement('input');
-    selectAllCheckboxElement.id = idPrefix+'_selectAll';
-    selectAllCheckboxElement.type = 'checkbox';
-    selectAllCheckboxElement.onclick = function(e) {
-        for (var i=0; i < data.length; i++) {
-            var datum = data[i];
-            var otherCheckbox = document.querySelector('#'+datum['id']);
-            otherCheckbox.checked = selectAllCheckboxElement.checked;
-        }
-    };
-    var selectAllCheckboxLabelElement = document.createElement('label');
-    selectAllCheckboxLabelElement.htmlFor = selectAllCheckboxElement.id;
-    selectAllCheckboxLabelElement.style.fontSize = '0.9em';
-    selectAllCheckboxLabelElement.style.fontWeight = 'bold';
-    selectAllCheckboxLabelElement.innerHTML = 'Select all';
+    if (addSelectAll === true) {
+        // If requested, add a "Select all" checkbox which will check all the others when clicked.
+        var selectAllCheckboxElementContainer = document.createElement('div');
+        selectAllCheckboxElementContainer.style.display = 'inline-block';
+        selectAllCheckboxElementContainer.style.width = optionWidth;
+        
+        var selectAllCheckboxElement = document.createElement('input');
+        selectAllCheckboxElement.id = idPrefix+'_selectAll';
+        selectAllCheckboxElement.type = 'checkbox';
+        selectAllCheckboxElement.onclick = function(e) {
+            for (var i=0; i < data.length; i++) {
+                var datum = data[i];
+                var otherCheckbox = document.querySelector('#'+idPrefix+datum['idSuffix']);
+                otherCheckbox.checked = selectAllCheckboxElement.checked;
+            }
+        };
+        var selectAllCheckboxLabelElement = document.createElement('label');
+        selectAllCheckboxLabelElement.htmlFor = selectAllCheckboxElement.id;
+        selectAllCheckboxLabelElement.style.fontSize = '0.9em';
+        selectAllCheckboxLabelElement.style.fontWeight = 'bold';
+        selectAllCheckboxLabelElement.innerHTML = 'Select all';
 
-    selectAllCheckboxElementContainer.appendChild(selectAllCheckboxElement);
-    selectAllCheckboxElementContainer.appendChild(selectAllCheckboxLabelElement);
-    checkboxListContainer.appendChild(selectAllCheckboxElementContainer);
+        selectAllCheckboxElementContainer.appendChild(selectAllCheckboxElement);
+        selectAllCheckboxElementContainer.appendChild(selectAllCheckboxLabelElement);
+        checkboxListContainer.appendChild(selectAllCheckboxElementContainer);
+    }
 
     // Add a checkbox for each supplied datum.
     for (var i=0; i < data.length; i++) {
@@ -754,14 +1175,17 @@ function generateCheckboxListElement(idPrefix, data, optionWidth) {
         checkboxElementContainer.style.width = optionWidth;
         var checkboxElement = document.createElement('input');
         checkboxElement.type = 'checkbox';
-        checkboxElement.id = datum['id'];
+        checkboxElement.id = idPrefix+datum['idSuffix'];
 
         var checkboxLabelElement = document.createElement('label');
         checkboxLabelElement.htmlFor = checkboxElement.id;
         checkboxLabelElement.style.fontSize = '0.9em';
         checkboxLabelElement.innerHTML = datum['label'];
 
-        var lineBreak = document.createElement('br');
+        if (datum['title'] !== undefined) {
+            checkboxElementContainer.title = datum['title'];
+        }
+
         checkboxElementContainer.appendChild(checkboxElement);
         checkboxElementContainer.appendChild(checkboxLabelElement);
         checkboxListContainer.appendChild(checkboxElementContainer);
@@ -983,6 +1407,17 @@ function generateProxyElement(
         proxyElement.className += ' '+global.mappings.cardColorSchemesToCssClasses[proxyColorScheme];
     }
     
+    //var proxyBackgroundOverlay = document.createElement('div');
+    //proxyBackgroundOverlay.style.backgroundImage = 'url("images/solid_noise.png")';
+    //proxyBackgroundOverlay.style.opacity = '0.25';
+    //proxyBackgroundOverlay.style.position = 'absolute';
+    //proxyBackgroundOverlay.style.width = '100%';
+    //proxyBackgroundOverlay.style.height = '100%';
+    //proxyBackgroundOverlay.style.top = '0';
+    //proxyBackgroundOverlay.style.left = '0';
+    //proxyElement.style.position = 'relative';
+    //proxyElement.appendChild(proxyBackgroundOverlay);
+
     var proxyNameElement = document.createElement('p');
     var proxyNameAndCostLineElement = document.createElement('div');
     var proxyNameElement = document.createElement('div');
@@ -1011,6 +1446,9 @@ function generateProxyElement(
 
     // Since this is HTML, we need to replace line break characters with HTML breaks.
     cardText = cardText.replace(/\n/g, '<br />');
+
+    // Process the text to apply Magic-like styling to any recognized Magic card markup (eg. "T" for the tap symbol).
+    cardText = applyMagicStylingToText(cardText);
 
     proxyTextElement.className = 'card-text';
     // If this is a planeswalker card, add a secondary style to the card text box to make it look more interesting.
@@ -1140,6 +1578,13 @@ function applyManaStyling(string) {
     // now have appropriate styling applied to them. We can join them back together into a string again, and this will
     // be the final result.
     return tokenizedString.join('');
+}
+
+function applyMagicStylingToText(text) {
+    // Search for certain strings that we know will generally contain some Magic markup. For example, if we find the
+    // string "T: ", it is safe to say that that T represents the tap symbol and should therefore be styled accordingly.
+
+    return text;
 }
 
 /**
