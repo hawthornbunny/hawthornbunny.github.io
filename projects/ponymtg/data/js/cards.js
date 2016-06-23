@@ -17052,7 +17052,7 @@ var CARDS = [
         'cost': '3UUU',
         'supertype': 'Sorcery',
         'subtype': 'Arcane',
-        'text': 'Blessing of Seeing Winds can\'t be countered if you cast it from your hand.\n\nChoose a card type. Draw a card for each permanent you control of that type. If you cast Blessing of Seeing Winds from your hand, you have no maximum hand size for the rest of the game.Creatures your opponents control get -X/-X until end of turn.',
+        'text': 'Blessing of Seeing Winds can\'t be countered if you cast it from your hand.\n\nChoose a card type. Draw a card for each permanent you control of that type. If you cast Blessing of Seeing Winds from your hand, you have no maximum hand size for the rest of the game.',
         'flavorText': 'With the Kami War over, the Myojin himself spread secrets of healing and restoration among mortal minds.',
     },
     {
