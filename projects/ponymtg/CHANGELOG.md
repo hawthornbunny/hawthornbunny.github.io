@@ -1,3 +1,8 @@
+## 1.0.5
+
+* Added a virtual booster pack feature for Friendship is Card Games.
+* Added card set: "UWoodward".
+
 ## 1.0.4
 
 * Added search by mana type.

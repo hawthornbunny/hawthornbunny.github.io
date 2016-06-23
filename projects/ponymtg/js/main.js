@@ -6,7 +6,6 @@
 // Fimfiction: http://www.fimfiction.net/user/hawthornbunny                                                           //
 //                                                                                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-window.onload = initialize;
 
 /**
  * Global object that can be used by all functions. Configuration and common definitions are stored here.
@@ -43,6 +42,7 @@ var global = {
             'Grumpy-Moogle': 'Grumpy-Moogle/cards',
             'Twilight Falls': 'Bliss Authority/Twilight Falls (TLF)/cards',
             'StorycrafterKiro': 'StorycrafterKiro/cards',
+            'UWoodward': 'UWoodward/cards',
         },
         /** Maps the various properties of a card to a more human-readable display name.*/
         'cardPropertiesToDisplayNames': {
@@ -124,6 +124,33 @@ var global = {
             '\\(gb\\)': 'manaDecorationHybridBlackGreen',
             '\\(gr\\)': 'manaDecorationHybridRedGreen',
             'C': 'manaDecorationColorless',
+        },
+        'colorIndicatorsToCardColorSchemes': {
+            '(W)': 'white',
+            '(U)': 'blue',
+            '(B)': 'black',
+            '(R)': 'red',
+            '(G)': 'green',
+            '(WU)': 'whiteBlue',
+            '(WB)': 'whiteBlack',
+            '(WR)': 'whiteRed',
+            '(WG)': 'whiteGreen',
+            '(UB)': 'blueBlack',
+            '(UR)': 'blueRed',
+            '(UG)': 'blueGreen',
+            '(BR)': 'blackRed',
+            '(BG)': 'blackGreen',
+            '(RG)': 'redGreen',
+            '(UW)': 'whiteBlue',
+            '(BW)': 'whiteBlack',
+            '(RW)': 'whiteRed',
+            '(GW)': 'whiteGreen',
+            '(BU)': 'blueBlack',
+            '(RU)': 'blueRed',
+            '(GU)': 'blueGreen',
+            '(RB)': 'blackRed',
+            '(GB)': 'blackGreen',
+            '(GR)': 'redGreen',
         },
         /**
          * Maps the name of a card color scheme to the CSS style that defines that color scheme for the browser.
@@ -385,135 +412,11 @@ var global = {
     'urlParameters': {}
 };
 
+
 /**
- * Application setup.
+ * Initiate a search and display the results. This function is called when you press enter in the search field, or click
+ * the "Search" button.
  */
-function initialize() {
-    // Prepare the cards database, which should have been loaded into a variable already in a separate script.
-    // For the moment, we're keeping the Friendship is Card Games set in a separate variable for ease of updating, and
-    // appending it to the main database.
-    CARDS = CARDS.concat(FICG_CARDS);
-
-    // We're also keeping Sorden's IPU set separate for now.
-    CARDS = CARDS.concat(IPU_CARDS);
-
-    // Sort the entire database alphabetically by card name.
-    CARDS.sort(
-        function(cardA, cardB) {
-            cardNameA = cardA.name.toLowerCase();
-            cardNameB = cardB.name.toLowerCase();
-            if (cardNameA < cardNameB) {
-                return -1;
-            }
-            else if (cardNameA > cardNameB) {
-                return 1;
-            }
-            return 0;
-        }
-    );
-
-    // For every card, there may be certain additional properties that we can derive from the information supplied, such
-    // as the card's colors. These are useful for refining searches.
-    for (var i=0; i < CARDS.length; i++) {
-        CARDS[i].derivedProperties = getDerivedCardProperties(CARDS[i]);
-    }
-
-    global.elements.results = document.querySelector('#results');
-
-    //global.elements.titleReference = document.querySelector('#titleReference');
-    //global.elements.titleReference.onclick = function() {
-        //global.elements.titleReference.innerHTML = '* '+global.text.references.title;
-    //};
-
-    // Collect some statistics about the entire card database.
-    var statistics = getStatistics(CARDS);
-    global.statistics.counts.numberOfCards = statistics.counts.numberOfCards;
-    global.statistics.counts.cardsPerSet = statistics.counts.cardsPerSet;
-    global.statistics.counts.cardsPerCreator = statistics.counts.cardsPerCreator;
-
-    // Similarly, collect some information about the database as a whole (eg. a list of all sets that are in it).
-    global.information = getInformation(CARDS);
-
-    global.elements.title = document.querySelector('#title');
-
-    // The title screen has a dynamic tagline which depends on the number of cards, so set that now.
-    global.elements.tagline = document.querySelector('#tagline');
-    var tagline = global.text.tagline.dynamic;
-    tagline = tagline.replace('{NUMBER_OF_CARDS}', '<strong>'+global.statistics.counts.numberOfCards+'</strong>');
-    global.elements.tagline.innerHTML = tagline;
-
-    // Set up the search field to perform searches of the card database when Enter is pressed.
-    global.elements.searchField = document.querySelector('#searchField');
-    global.elements.searchField.onkeypress = function(event) {
-        if (event.keyCode == 13) {
-            initiateSearch();
-        }
-    };
-
-    // Also set up the search button to perform searches when clicked.
-    global.elements.searchButton = document.querySelector('#searchButton');
-    global.elements.searchButton.onclick = function(event) {
-        initiateSearch();
-    };
-    
-    // Set a placeholder message inside the search field to prompt the user to search for something (with a helpful
-    // randomly-selected suggestion).
-    var suggestedSearchTerm = global.text.search.suggestions[rnd(global.text.search.suggestions.length)];
-    var searchPlaceholderMessage = global.text.search.placeholder+' (example: "'+suggestedSearchTerm+'")';
-    global.elements.searchField.placeholder = searchPlaceholderMessage;
-
-    // Focus on the search box.
-    global.elements.searchField.focus();
-
-    // Add a control to expand the advanced search box.
-    var advancedSearchExpander = document.querySelector('#advancedSearchLink');
-    advancedSearchExpander.onclick = function(e) {
-        var table = document.querySelector('#'+global.advancedSearchIdPrefix+'_table');
-        if (table.style.display === 'none') {
-            table.style.display = 'block';
-        }
-        else {
-            table.style.display = 'none';
-        }
-    }
-
-    global.elements.advancedSearch = document.querySelector('#advancedSearch');
-
-    // Generate and add the advanced search control box.
-    global.elements.advancedSearch.appendChild(generateAdvancedSearchElement());
-
-    // Default to search by name only.
-    var searchByNameCheckbox = document.querySelector('#'+global.advancedSearchIdPrefix+'_searchByCardProperty_name');
-    searchByNameCheckbox.checked = true;
-
-    // Default to displaying cards from all available sets.
-    var filterBySetCheckbox = document.querySelector('#'+global.advancedSearchIdPrefix+'_filterBySet_selectAll');
-    filterBySetCheckbox.click();
-
-    // Default to searching all mana types.
-    var manaTypes = Object.keys(global.mappings.manaTypesToRepresentativeSymbols);
-    for (var i=0; i < manaTypes.length; i++) {
-        var manaType = manaTypes[i];
-        var filterByManaTypeCheckbox = document.querySelector('#'+global.advancedSearchIdPrefix+'_filterByManaType_'+manaType);
-        filterByManaTypeCheckbox.checked = true;
-    }
-
-    // There are certain parameters that the user can pass in the URL to make the app perform special actions.
-    // If a `name` and `set` are passed, the app will automatically display all cards that match that name and set.
-    // Unlike in a regular search, it will be an exact match, not a partial match.
-    global.urlParameters = getUrlParameters();
-    if (Object.keys(global.urlParameters).length > 0) {
-        if (global.urlParameters.name !== undefined && global.urlParameters.set !== undefined) {
-            var searchString = '^'+global.urlParameters.name+'$';
-            var searchRegex = new RegExp(searchString);
-            global.search.results = getSearchResults(searchRegex, CARDS);
-            global.pagination.currentPage = 0;
-            global.pagination.numberOfPages = Math.ceil(global.search.results.length/global.pagination.cardsPerPage);
-            displayResults(global.search.results);
-        }
-    }
-}
-
 function initiateSearch(isExactSearch) {
     var searchString = global.elements.searchField.value;
     // We do actually want to do a string search and not a regex search, so we need to escape any regex
@@ -565,23 +468,104 @@ function getStatistics(cards) {
 }
 
 /**
+ * Performs a full search, using the entered search term and applying all filters, and returns the resulting cards.
+ */
+function getSearchResults(regex, cards) {
+    return getMatchingCards(regex, getFilteredCards(cards));
+}
+
+/**
  * From the set of card data objects in `cards`, return an array containing only those card data objects which have a
  * property that matches the regular expression `regex`.
  */
-function getSearchResults(regex, cards) {
+function getMatchingCards(regex, cards) {
     var matchingCards = [];
     var cardPropertiesToSearchIn = getSearchByChoices();
+
+    for (var i=0; i < cards.length; i++) {
+        var card = cards[i];
+        var cardPropertyNames = Object.keys(card);
+
+        for (var j=0; j < cardPropertyNames.length; j++) {
+            var cardPropertyName = cardPropertyNames[j];
+
+            // If the card property isn't one that the user has opted to search in, don't bother and skip to the next
+            // property.
+            if (cardPropertiesToSearchIn.indexOf(cardPropertyName) === -1) {
+                continue;
+            }
+
+            var cardPropertyValue = card[cardPropertyName];
+
+            if (regex.test(cardPropertyValue)) {
+                matchingCards.push(card);
+                break;
+            }
+        }
+    }
+
+    return matchingCards; 
+}
+
+/**
+ * Runs a set of cards `cards` through the filters defined in the advanced search options (eg. filter by set) and
+ * returns the subset of cards that the filters will allow.
+ */
+function getFilteredCards(cards) {
+    var filteredCards = cards;
+
     var filterBySetChoices = getFilterBySetChoices();
     var filterByManaTypeChoices = getFilterByManaTypeChoices();
+
+    filteredCards = getCardsFilteredBySet(filteredCards, filterBySetChoices);
+    filteredCards = getCardsFilteredByManaType(filteredCards, filterByManaTypeChoices);
+
+    return filteredCards;
+}
+
+function getCardsFilteredBySet(cards, sets) {
+    var filteredCards = [];
     for (var i=0; i < cards.length; i++) {
         var card = cards[i];
 
         // If this card isn't in a set that the user has opted to search in, then skip to the next.
-        if (filterBySetChoices.indexOf(card.set) === -1) {
+        if (sets.indexOf(card.set) === -1) {
             continue;
         }
 
+        filteredCards.push(card);
+    }
+    return filteredCards;
+}
+
+function getCardsFilteredBySupertype(cards, supertypes) {
+    var filteredCards = [];
+    for (var i=0; i < cards.length; i++) {
+        var card = cards[i];
+
+        // Check that the card has at least one of the specified supertypes.
+        var cardIncludesSupertype = false;
+        for (var j=0; j < supertypes.length; j++) {
+            var supertype = supertypes[j];
+            if (card.supertype.includes(supertype)) {
+                cardIncludesSupertype = true;
+                break;
+            }
+        }
+
+        if (cardIncludesSupertype) {
+            filteredCards.push(card);
+        }
+    }
+    return filteredCards;
+}
+
+function getCardsFilteredByManaType(cards, manaTypes) {
+    var filteredCards = [];
+    for (var i=0; i < cards.length; i++) {
+        var card = cards[i];
         cardSatisfiesFilterByManaTypeSearch = false;
+
         // There are four different ways we can filter by set, which the user can select between. First, let's find
         // out what was selected.
         var filterByManaTypeSearchType = document.querySelector('#filterByManaTypeSearchType').value;
@@ -603,7 +587,7 @@ function getSearchResults(regex, cards) {
 
         for (var j=0; j < cardManaTypes.length; j++) {
             var cardManaType = cardManaTypes[j];
-            if (filterByManaTypeChoices.indexOf(cardManaType) !== -1) {
+            if (manaTypes.indexOf(cardManaType) !== -1) {
                 // One of the card's mana types does match one that was selected by the user.
                 cardContainsAtLeastOneSelectedManaType = true;
                 break;
@@ -611,15 +595,15 @@ function getSearchResults(regex, cards) {
         }
         for (var j=0; j < cardManaTypes.length; j++) {
             var cardManaType = cardManaTypes[j];
-            if (filterByManaTypeChoices.indexOf(cardManaType) === -1) {
+            if (manaTypes.indexOf(cardManaType) === -1) {
                 // The card contains a mana type that wasn't selected by the user.
                 cardContainsOnlySelectedManaTypes = false;
                 break;
             }
         }
-        for (var j=0; j < filterByManaTypeChoices.length; j++) {
-            var filterByManaTypeChoice = filterByManaTypeChoices[j];
-            if (cardManaTypes.indexOf(filterByManaTypeChoice) === -1) {
+        for (var j=0; j < manaTypes.length; j++) {
+            var manaType = manaTypes[j];
+            if (cardManaTypes.indexOf(manaType) === -1) {
                 // The card did not contain one of the mana types selected by the user.
                 cardContainsAllSelectedManaTypes = false;
                 break;
@@ -674,26 +658,10 @@ function getSearchResults(regex, cards) {
             continue;
         }
 
-        var cardPropertyNames = Object.keys(card);
-        for (var j=0; j < cardPropertyNames.length; j++) {
-            var cardPropertyName = cardPropertyNames[j];
-
-            // If the card property isn't one that the user has opted to search in, don't bother and skip to the next
-            // property.
-            if (cardPropertiesToSearchIn.indexOf(cardPropertyName) === -1) {
-                continue;
-            }
-
-            var cardPropertyValue = card[cardPropertyName];
-
-            if (regex.test(cardPropertyValue)) {
-                matchingCards.push(card);
-                break;
-            }
-        }
+        filteredCards.push(card);
     }
 
-    return matchingCards; 
+    return filteredCards;
 }
 
 /**
@@ -703,8 +671,6 @@ function displayResults(cards) {
     // Clear existing results.
     emptyElement(global.elements.results);
     
-    for (var i=0; i < cards.length; i++) {
-    }
     // Remove the title and tagline, they're only needed on the home screen.
     //global.elements.title.parentNode.removeChild(global.elements.title);
     //global.elements.tagline.parentNode.removeChild(global.elements.tagline);
@@ -1249,22 +1215,28 @@ function generateCardTableElement(cards) {
         cardTableCellInfo.className = 'cardInfo';
 
         // Check to see if we have an image for this card.
+        var cardImageLinkElement = undefined;
         var cardImageElement = undefined;
+        var cardProxyElement = undefined;
         if (card.image !== undefined) {
             // If a card image is available, create the card image element and set its source to the appropriate image
             // URL.
+            var cardImageLinkElement = document.createElement('a');
             var cardImageElement = document.createElement('img');
             var cardImageUrl = global.paths.sets+'/'+global.mappings.setsToPaths[card.set]+'/'+card.image;
             cardImageElement.src = cardImageUrl;
+            cardImageLinkElement.href = cardImageUrl;
+            cardImageLinkElement.target = '_blank';
 
             // Make all card images the same width (it looks better in results).
             cardImageElement.style.width = global.dimensions.displayCard.width+'px';
+            cardImageLinkElement.appendChild(cardImageElement);
         }
         else {
             // If a card image is not available, generate a "proxy" image from the available card information. This will
             // be a div, but should have the same dimensions as a card image.
 
-            cardImageElement = generateProxyElement(card, global.dimensions.displayCard.width);
+            cardProxyElement = generateProxyElement(card, global.dimensions.displayCard.width);
         }
 
         // Assemble relevant properties of the card into an information table.
@@ -1315,7 +1287,12 @@ function generateCardTableElement(cards) {
             cardInfoTable.appendChild(cardInfoTableRow);
         }
 
-        cardTableCellImage.appendChild(cardImageElement);
+        if (cardImageLinkElement !== undefined) {
+            cardTableCellImage.appendChild(cardImageLinkElement);
+        }
+        else if (cardProxyElement !== undefined) {
+            cardTableCellImage.appendChild(cardProxyElement);
+        }
         cardTableCellInfo.appendChild(cardInfoTable);
         cardTableRow.appendChild(cardTableCellImage);
         cardTableRow.appendChild(cardTableCellInfo);
@@ -1401,6 +1378,15 @@ function generateProxyElement(
         proxyColorScheme = getCardColorSchemeFromManaCost(cardProperties.cost);
     }
 
+    // Special case: if this card is a token, we use slightly different mappings to get the color scheme (which favors
+    // hybrid color schemes if it's a two-colored card).
+    if (cardProperties.cardType === 'token') {
+        if (cardProperties.colorIndicator !== undefined && global.mappings.colorIndicatorsToCardColorSchemes[cardProperties.colorIndicator] !== undefined) {
+            proxyColorScheme = global.mappings.colorIndicatorsToCardColorSchemes[cardProperties.colorIndicator];
+        }
+    }
+        
+
     // Apply an appropriate color scheme class to the proxy element, in accordance with its color scheme. (This will
     // change the proxy's background color).
     if (proxyColorScheme !== undefined) {
@@ -1432,35 +1418,47 @@ function generateProxyElement(
     }
 
     proxyNameAndCostLineElement.className = 'card-name-cost-line';
-
     proxyNameElement.className = 'card-name';
+
+    if (['token', 'emblem'].indexOf(cardProperties.cardType) !== -1) {
+        proxyNameAndCostLineElement.className = 'card-name-token';
+        proxyNameElement.className = '';
+    }
+
     proxyNameElement.innerHTML = cardProperties.name;
+    if (cardProperties.cardType === 'emblem') {
+        // For emblems, even if they've been given a name, we just display "Emblem" as the card name.
+        proxyNameElement.innerHTML = cardProperties.supertype;
+    }
 
     // Get the card text.
     var cardText = cardProperties.text;
 
-    // If we've got flavor text as well, add it in, italicizing it appropriately.
-    if (cardProperties.flavorText !== undefined) {
-        cardText += '\n\n<i>' + cardProperties.flavorText + '</i>';
-    }
+    if (cardText) { 
 
-    // Since this is HTML, we need to replace line break characters with HTML breaks.
-    cardText = cardText.replace(/\n/g, '<br />');
+        // If we've got flavor text as well, add it in, italicizing it appropriately.
+        if (cardProperties.flavorText !== undefined) {
+            cardText += '\n\n<i>' + cardProperties.flavorText + '</i>';
+        }
 
-    // Process the text to apply Magic-like styling to any recognized Magic card markup (eg. "T" for the tap symbol).
-    cardText = applyMagicStylingToText(cardText);
+        // Since this is HTML, we need to replace line break characters with HTML breaks.
+        cardText = cardText.replace(/\n/g, '<br />');
 
-    proxyTextElement.className = 'card-text';
-    // If this is a planeswalker card, add a secondary style to the card text box to make it look more interesting.
-    if (cardProperties.supertype.toLowerCase().indexOf('planeswalker') !== -1) {
-        proxyTextElement.className += ' card-text-planeswalker';
-    }
-    proxyTextElement.innerHTML = cardText;
+        // Process the text to apply Magic-like styling to any recognized Magic card markup (eg. "T" for the tap symbol).
+        cardText = applyMagicStylingToText(cardText);
 
-    // Check to see how massive the text is. If it's above a certain threshold, shrink it a bit.
-    var cardTextMass = calculateHtmlMass(cardText);
-    if (cardTextMass > global.values.textMassThreshold) {
-        proxyTextElement.style.fontSize = '0.8em';
+        proxyTextElement.className = 'card-text';
+        // If this is a planeswalker card, add a secondary style to the card text box to make it look more interesting.
+        if (cardProperties.supertype.toLowerCase().indexOf('planeswalker') !== -1) {
+            proxyTextElement.className += ' card-text-planeswalker';
+        }
+        proxyTextElement.innerHTML = cardText;
+
+        // Check to see how massive the text is. If it's above a certain threshold, shrink it a bit.
+        var cardTextMass = calculateHtmlMass(cardText);
+        if (cardTextMass > global.values.textMassThreshold) {
+            proxyTextElement.style.fontSize = '0.8em';
+        }
     }
 
     proxyTypeLineElement.className = 'card-type-line';
@@ -1480,7 +1478,9 @@ function generateProxyElement(
     proxyNameAndCostLineElement.appendChild(clearDiv);
     proxyElement.appendChild(proxyNameAndCostLineElement);
     proxyElement.appendChild(proxyTypeLineElement);
-    proxyElement.appendChild(proxyTextElement);
+    if (cardText) { 
+        proxyElement.appendChild(proxyTextElement);
+    }
 
     if (cardProperties.pt !== undefined) {
         var proxyPowerAndToughnessElement = document.createElement('div');
@@ -1797,7 +1797,7 @@ function transformToAssociativeArray(parametersString) {
         var parameterKeyValueString = parameterKeyValueStrings[i];
         var keyValue = parameterKeyValueString.split("=");
     
-        parameters[keyValue[0]] = keyValue[1];
+        parameters[decodeURIComponent(keyValue[0])] = decodeURIComponent(keyValue[1]);
     }
     return parameters;
 }

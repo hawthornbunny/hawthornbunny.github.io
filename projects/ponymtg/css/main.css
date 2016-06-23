@@ -381,6 +381,19 @@ td.cardPropertyValue {
 }
 
 /**
+ * The name of a proxy card if it's a token. This is styled a little more fancily than a regular card's name.
+ */
+.card-name-token {
+    color: #ffd010;
+    background-color: #110800;
+    border-radius: 4px;
+    border: 1px solid #000000;
+    font-size:1.2em;
+    font-variant: small-caps;
+    font-weight: bold;
+}
+
+/**
  * The mana cost of a proxy card (appears within the name-and-cost line, floated to the right).
  */
 .card-cost {
@@ -461,4 +474,8 @@ td.cardPropertyValue {
     padding:2px 4px;
     width:15%;
     box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+}
+
+#boosterPackImage:hover {
+    transform:scale(1.05);
 }
