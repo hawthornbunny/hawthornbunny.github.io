@@ -1,5 +1,7 @@
 ## 1.0.5
 
+* Made card images open in new tab when clicked.
+* Added URL parameters for linking to specific cards.
 * Added a virtual booster pack feature for Friendship is Card Games.
 * Added card set: "UWoodward".
 
