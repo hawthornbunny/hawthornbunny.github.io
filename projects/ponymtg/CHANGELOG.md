@@ -1,3 +1,11 @@
+## 1.0.6
+
+* Updated FICG parser so that it can handle Snow Instants.
+* Updated FICG parser so that it can handle leveler cards.
+* Conspiracies, Planes, and Schemes no longer appear in booster packs.
+* Added an extra text mass threshold to shrink very long card text.
+* Added card set: "Elementals of Harmony".
+* Added card set: "Sideboard of Harmony".
 ## 1.0.5
 
 * Made card images open in new tab when clicked.

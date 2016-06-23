@@ -82,7 +82,7 @@ def is_type_line(line):
     # - "Snow" is succeeded by the word "Enchantment".
     # - "Snow" is succeeded by the word "Land".
     if 'Snow' in line:
-        if 'Snow Creature' not in line and 'Snow Artifact' not in line and 'Snow Enchantment' not in line and 'Snow Land' not in line:
+        if 'Snow Creature' not in line and 'Snow Artifact' not in line and 'Snow Enchantment' not in line and 'Snow Land' not in line and 'Snow Instant' not in line:
             return False
             
     # If the line contains the word "Tribal", then it must meet one of the following conditions:
@@ -355,6 +355,15 @@ def parse_individual_card_dump_into_card_data_entry(individual_card_dump):
         # and everything else will be card text.
         card_data_entry['pt'] = individual_card_dump_lines[-1]
         text_lines = individual_card_dump_lines[2:-1]
+
+        if card_data_entry['pt'].split()[0] == 'Level':
+            # Special exception to the above: Leveler cards don't end with a power/toughness line. Instead, they have
+            # multiple lines in their rules text which end in a power/toughness.
+            # We're going to assume that if the power/toughness we obtained begins with the word "Level", then this is
+            # obviously not a power/toughness line, but a leveler line. In this case, we will not give this card a
+            # power/toughness, and just let the rules text speak for it.
+            del card_data_entry['pt']
+            text_lines = individual_card_dump_lines[2:]
     elif 'Planeswalker' in card_data_entry['supertype']:
         # If the card is a planeswalker, we expect that the last line in the dump will be the planeswalker's loyalty,
         # and everything else will be card text.

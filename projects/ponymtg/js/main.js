@@ -384,7 +384,8 @@ var global = {
         /**
          * The threshold above which we'll shrink down card text to prevent it spilling off the bottom of a proxy card.
          */
-        'textMassThreshold': 450
+        'textMassLongThreshold': 450,
+        'textMassVeryLongThreshold': 600
     },
     /** Information about how to paginate the results set, including the current page that the user is viewing. */
     'pagination': {
@@ -1456,8 +1457,11 @@ function generateProxyElement(
 
         // Check to see how massive the text is. If it's above a certain threshold, shrink it a bit.
         var cardTextMass = calculateHtmlMass(cardText);
-        if (cardTextMass > global.values.textMassThreshold) {
+        if (cardTextMass > global.values.textMassLongThreshold) {
             proxyTextElement.style.fontSize = '0.8em';
+        }
+        if (cardTextMass > global.values.textMassVeryLongThreshold) {
+            proxyTextElement.style.fontSize = '0.7em';
         }
     }
 
