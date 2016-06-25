@@ -22,7 +22,7 @@ function initialize() {
                 || ficgCards[i].supertype.includes('Scheme')
                 || ficgCards[i].supertype.includes('Plane')
                 || ficgCards[i].transformsInto !== undefined
-                || ficgCards[i].transformsInto !== undefined) {
+                || ficgCards[i].transformsFrom !== undefined) {
                 continue;
             }
             filteredCards.push(ficgCards[i]);
