@@ -10,7 +10,7 @@ function initialize() {
 
     var boosterPackImageElement = document.createElement('img');
     boosterPackImageElement.id = 'boosterPackImage';
-    boosterPackImageElement.style.width = global.dimensions.displayCard.width*1.5+'px';
+    boosterPackImageElement.style.width = global.dimensions.displayCard.width*1.25+'px';
     boosterPackImageElement.src = pickBoosterPackImageSrc();
     boosterPackImageElement.onclick = function() {
         var ficgCards = getCardsFilteredBySet(CARDS, ['Friendship is Card Games']);

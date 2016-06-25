@@ -187,52 +187,106 @@ def is_type_line(line):
 
 
 def split_name_and_cost_line_into_name_and_cost(name_and_cost_line):
-    # Splitting name and cost is easy if the cost is present, as the cost (if present) always comes last.
+    # There are two situations that we need to consider:
     #
-    # However, a card is not guaranteed to have a cost (lands don't, for example), so we need to be sure that the last
-    # word actually _is_ a mana cost. Although the card supertype is a good indicator (pretty much anything that's not a
-    # Land has a cost), this is not guaranteed.
+    # 1. The name and cost line consists of the card's name followed by the cost.
+    #
+    #    Example: "Applejack, Element of Honesty 4GG"
+    #
+    # 2. The name and cost line is for a split card, and thus consists of two name-cost pairs, separated by a
+    #    double-slash.
+    #
+    #    Example: "Bait 3G//Switch 5U"
 
-    name_and_cost_line_pieces = name_and_cost_line.split()
-    name = ' '.join(name_and_cost_line_pieces[0:-1])
-    cost = name_and_cost_line_pieces[-1]
-    return {'name': name, 'cost': cost}
+
+    if '//' in name_and_cost_line:
+        # The name and cost line contains a double slash, so we will assume that it is a split card.
+        name_and_cost_line_halves = [half.strip() for half in name_and_cost_line.split('//')]
+
+        # We should now have two name-and-cost pairs. We can treat these as if they were regular individual
+        # name-and-cost lines to extract the names and costs from each.
+
+        name_and_cost_1 = split_name_and_cost_line_into_name_and_cost(name_and_cost_line_halves[0])
+        name_and_cost_2 = split_name_and_cost_line_into_name_and_cost(name_and_cost_line_halves[1])
+
+        # For split cards, the way the database deals with them is to display their name as a combined name (eg.
+        # "Bait // Switch", and to use an extra cost parameter (`cost2`) to hold the second cost.
+        name = name_and_cost_1['name']+'//'+name_and_cost_2['name']
+        cost = name_and_cost_1['cost']
+        cost2 = name_and_cost_2['cost']
+        return {'name': name, 'cost': cost, 'cost2': cost2}
+    else:
+        # This is not a split card, so we assume that it is a regular name-and-cost line. In this case, we take the last
+        # word of the line to be the cost.
+        name_and_cost_line_pieces = name_and_cost_line.split()
+        name = ' '.join(name_and_cost_line_pieces[0:-1])
+        cost = name_and_cost_line_pieces[-1]
+        return {'name': name, 'cost': cost}
 
 
 
 # Given a type line, returns a dictionary containing the component parts of the type line. The component parts may be:
 # color indicator, supertype, and subtype. Of these, only supertype is guaranteed to be present; not all cards have a
 # subtype, and very few have color indicators.
+#
+# There is also a special case to look out for: split cards. These could have _two_ supertype-subtype pairs. For
+# example: "Instant//Enchantment — Aura".
 def split_type_line(type_line):
     type_line_parts = {}
-    # Search for a color indicator first. This will be a set of mana symbols (ie. W, U, B, R, G) enclosed in
-    # parentheses, and will be the first thing on the line if present.
-    color_indicator_regex = r'^\([WUBRG]+\) '
-    color_indicator_match = re.match(color_indicator_regex, type_line, re.IGNORECASE)
+    if '//' in type_line:
+        # We'll deal with the rare split card situation first. If the type line contains a double slash, we will assume
+        # this to be a split card.
+        
+        type_line_halves = [half.strip() for half in type_line.split('//')]
 
-    type_line_remainder = type_line
+        # We should now have what are essentially two separate type lines. So we'll split them as if they were each a
+        # separate type line.
+        type_pieces_1 = split_type_line(type_line_halves[0])
+        type_pieces_2 = split_type_line(type_line_halves[1])
 
-    if color_indicator_match:
-        # If we found a color indicator, store it and remove it from the string.
-        type_line_parts['colorIndicator'] = color_indicator_match.group(0)
-        # The regex looks for a trailing space at the end, so we need to slice that off.
-        type_line_parts['colorIndicator'] = type_line_parts['colorIndicator'][:-1]
+        # We now have the individual pieces of both halves of the type line. So for example, we might have two
+        # supertype-subtype pairs. Or, we might have a supertype and subtype for the first half, and just a supertype
+        # for the second half. Whichever it is, we'll use `supertype2` and `subtype2` for supertypes and subtypes that
+        # appear in the second half.
 
-        # For the rest of this function, we'll operate on the stuff after the color indicator, which will be the
-        # supertype and (if present) the subtype.
-        type_line_remainder = type_line[len(type_line_parts['colorIndicator'])+1:]
+        type_line_parts['supertype'] = type_pieces_1['supertype']
+        if 'subtype' in type_pieces_1:
+            type_line_parts['subtype'] = type_pieces_1['subtype']
 
-    # Attempt to split the line on a long dash.
-    type_line_remainder_pieces = type_line_remainder.split(EM_DASH)
-
-
-    if len(type_line_remainder_pieces) == 2:
-        # If the line split into two pieces, then the first piece is the supertype, and the second piece is the subtype.
-        type_line_parts['supertype'] = type_line_remainder_pieces[0].strip()
-        type_line_parts['subtype'] = type_line_remainder_pieces[1].strip()
+        type_line_parts['supertype2'] = type_pieces_2['supertype']
+        if 'subtype' in type_pieces_2:
+            type_line_parts['subtype2'] = type_pieces_2['subtype']
     else:
-        # Otherwise, we'll assume it's just one piece, which must be the supertype.
-        type_line_parts['supertype'] = type_line_remainder_pieces[0].strip()
+        # This isn't a split type line, so we'll treat it as a normal type line.
+
+        # Search for a color indicator first. This will be a set of mana symbols (ie. W, U, B, R, G) enclosed in
+        # parentheses, and will be the first thing on the line if present.
+        color_indicator_regex = r'^\([WUBRG]+\) '
+        color_indicator_match = re.match(color_indicator_regex, type_line, re.IGNORECASE)
+
+        type_line_remainder = type_line
+
+        if color_indicator_match:
+            # If we found a color indicator, store it and remove it from the string.
+            type_line_parts['colorIndicator'] = color_indicator_match.group(0)
+            # The regex looks for a trailing space at the end, so we need to slice that off.
+            type_line_parts['colorIndicator'] = type_line_parts['colorIndicator'][:-1]
+
+            # For the rest of this function, we'll operate on the stuff after the color indicator, which will be the
+            # supertype and (if present) the subtype.
+            type_line_remainder = type_line[len(type_line_parts['colorIndicator'])+1:]
+
+        # Attempt to split the line on a long dash.
+        type_line_remainder_pieces = type_line_remainder.split(EM_DASH)
+
+
+        if len(type_line_remainder_pieces) == 2:
+            # If the line split into two pieces, then the first piece is the supertype, and the second piece is the subtype.
+            type_line_parts['supertype'] = type_line_remainder_pieces[0].strip()
+            type_line_parts['subtype'] = type_line_remainder_pieces[1].strip()
+        else:
+            # Otherwise, we'll assume it's just one piece, which must be the supertype.
+            type_line_parts['supertype'] = type_line_remainder_pieces[0].strip()
 
     return type_line_parts
 
@@ -329,6 +383,10 @@ def parse_individual_card_dump_into_card_data_entry(individual_card_dump):
         name_and_cost_line_properties = split_name_and_cost_line_into_name_and_cost(name_and_cost_line)
         card_data_entry['name'] = name_and_cost_line_properties['name']
         card_data_entry['cost'] = name_and_cost_line_properties['cost']
+        if 'cost2' in name_and_cost_line_properties:
+            # If the card was a split card, we should have gotten back a second cost (`cost2`), so we'll include that in
+            # the card data.
+            card_data_entry['cost2'] = name_and_cost_line_properties['cost2']
 
     # META CASE: If the card before this one made reference to "transforming" itself, then we can surmise that this card
     # is the transformed version of it; that is, it is the reverse side of a double-sided card. Reverse sides of
@@ -475,8 +533,6 @@ def parse_individual_card_dump_into_card_data_entry(individual_card_dump):
         # reverse side of anything.
         META['previous_card_was_a_transformer'] = False
         META['previous_card_was_reverse_side'] = False
-        
-
 
     return card_data_entry
 
@@ -520,7 +576,6 @@ for typo in SPELLING_CORRECTIONS:
 META['set_name'] = set_name
 
 card_data_entries = parse_ficg_dump_into_card_data_entries(ficg_raw_dump)
-card_properties = ['name', 'image', 'set', 'creator', 'cost', 'colorIndicator', 'supertype', 'subtype', 'text', 'flavorText', 'pt',
-'loyalty', 'transformsInto', 'transformsFrom']
+card_properties = ['name', 'image', 'set', 'creator', 'cost', 'cost2', 'colorIndicator', 'supertype', 'subtype', 'supertype2', 'subtype2', 'text', 'flavorText', 'pt', 'loyalty', 'transformsInto', 'transformsFrom']
 
 print mtgJson.encapsulate_dict_list_in_js_variable(card_data_entries, card_properties, js_variable_name)

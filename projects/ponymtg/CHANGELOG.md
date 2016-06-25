@@ -1,3 +1,11 @@
+## 1.0.7
+
+* Updated FICG parser to correctly parse split card names, costs, and types.
+* Updated proxy card renderer to correctly render split cards.
+* Added a top bar to the application for accessing subpages.
+* Added an About page.
+* Made some minor style improvements.
+
 ## 1.0.6
 
 * Updated FICG parser so that it can handle Snow Instants.
@@ -6,6 +14,7 @@
 * Added an extra text mass threshold to shrink very long card text.
 * Added card set: "Elementals of Harmony".
 * Added card set: "Sideboard of Harmony".
+
 ## 1.0.5
 
 * Made card images open in new tab when clicked.

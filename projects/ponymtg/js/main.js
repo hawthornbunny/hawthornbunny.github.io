@@ -50,15 +50,19 @@ var global = {
             'set': 'Set',
             'creator': 'Creator',
             'cost': 'Cost',
+            'cost2': '2nd Cost',
             'colorIndicator': 'Color indicator',
             'supertype': 'Supertype',
             'subtype': 'Subtype',
+            'supertype2': '2nd Supertype',
+            'subtype2': '2nd Subtype',
             'text': 'Text',
             'flavorText': 'Flavor text',
             'pt': 'Power/Toughness',
             'loyalty': 'Loyalty',
             'transformsInto': 'Transforms into',
-            'transformsFrom': 'Transforms from'
+            'transformsFrom': 'Transforms from',
+            'artist': 'Artist'
         },
         /**
          * Maps regular expressions representing parts of a mana cost, to the color scheme that the card would have if
@@ -244,25 +248,25 @@ var global = {
         'titleReference': undefined,
     },
     'lists': {
-        /** A list of card properties that the application will attempt to find matches in when a search is made. */
-        'cardPropertiesToSearch':[
-            'name',
-        ],
         /** A list of card properties that the application will display in search results (if the card has them).*/
         'cardPropertiesToDisplay':[
             'name',
             'set',
             'creator',
             'cost',
+            'cost2',
             'colorIndicator',
             'supertype',
             'subtype',
+            'supertype2',
+            'subtype2',
             'text',
             'flavorText',
             'pt',
             'loyalty',
             'transformsInto',
             'transformsFrom',
+            'artist',
         ],
         /**
          * A list of card properties that we will allow the user to search for text matches in (ie. the options for the
@@ -282,6 +286,7 @@ var global = {
             'loyalty',
             'transformsInto',
             'transformsFrom',
+            'artist',
         ],
         /** A list of metacharacters used in regular expressions. We need to escape these when searching. */
         'regexMetacharacters': ['\\', '.','^','$','*','+','?','(',')','[',']','{','}','|'],
@@ -1418,19 +1423,20 @@ function generateProxyElement(
         typeLineHtml += ' &mdash; '+cardProperties.subtype;
     }
 
+    if (cardProperties.supertype2 !== undefined) {
+        // If this card has a second supertype, then we'll concatenate it (and the subtype, if it has one) to the type
+        // line HTML.
+        typeLineHtml += ' // ';
+        typeLineHtml += cardProperties.supertype2;
+
+        if (cardProperties.subtype2 !== undefined) {
+            typeLineHtml += ' &mdash; '+cardProperties.subtype2;
+        }
+    }
+
     proxyNameAndCostLineElement.className = 'card-name-cost-line';
     proxyNameElement.className = 'card-name';
-
-    if (['token', 'emblem'].indexOf(cardProperties.cardType) !== -1) {
-        proxyNameAndCostLineElement.className = 'card-name-token';
-        proxyNameElement.className = '';
-    }
-
-    proxyNameElement.innerHTML = cardProperties.name;
-    if (cardProperties.cardType === 'emblem') {
-        // For emblems, even if they've been given a name, we just display "Emblem" as the card name.
-        proxyNameElement.innerHTML = cardProperties.supertype;
-    }
+    proxyCostElement.className = 'card-cost';
 
     // Get the card text.
     var cardText = cardProperties.text;
@@ -1468,12 +1474,66 @@ function generateProxyElement(
     proxyTypeLineElement.className = 'card-type-line';
     proxyTypeLineElement.innerHTML = typeLineHtml;
 
-    proxyNameAndCostLineElement.appendChild(proxyNameElement);
     if (cardProperties.cost !== undefined) {
-        proxyCostElement.className = 'card-cost';
-        proxyCostElement.innerHTML = applyManaStyling(cardProperties.cost);
-        proxyNameAndCostLineElement.appendChild(proxyCostElement);
+        if (cardProperties.cost2 !== undefined) {
+            // If the cost has two costs, we assume this is a split card. We render these a little differently.
+            // First, split the name up into two names.
+            var cardNames = cardProperties.name.split('//')
+            cardNames[0] = cardNames[0].trim()
+            cardNames[1] = cardNames[1].trim()
+
+            // Instead of just one name and one cost on the name-and-cost line, it'll be like this:
+            //
+            //     name cost // name2 cost2
+            proxyNameElement.innerHTML = cardNames[0]; 
+            proxyCostElement.innerHTML = applyManaStyling(cardProperties.cost);
+            proxyCostElement.style.cssFloat = 'left';
+            proxyCostElement.style.margin = '0 8px';
+            var proxySplitElement = document.createElement('div');
+            proxySplitElement.innerHTML = '//';
+            proxySplitElement.className = 'card-name';
+            proxySplitElement.style.margin = '0 8px';
+            var proxyName2Element = document.createElement('div');
+            proxyName2Element.className = 'card-name';
+            proxyName2Element.innerHTML = cardNames[1]
+            var proxyCost2Element = document.createElement('div');
+            proxyCost2Element.className = 'card-cost';
+            proxyCost2Element.style.cssFloat = 'left';
+            proxyCost2Element.style.margin = '0 8px';
+            proxyCost2Element.innerHTML = applyManaStyling(cardProperties.cost2);
+
+            proxyNameAndCostLineElement.appendChild(proxyNameElement);
+            proxyNameAndCostLineElement.appendChild(proxyCostElement);
+            //proxyNameAndCostLineElement.appendChild(proxySplitElement);
+            proxyNameAndCostLineElement.appendChild(proxyName2Element);
+            proxyNameAndCostLineElement.appendChild(proxyCost2Element);
+            
+        }
+        else { 
+            // This is not a split card, so just add the name and cost as normal.
+            proxyNameElement.innerHTML = cardProperties.name;
+            proxyNameAndCostLineElement.appendChild(proxyNameElement);
+            proxyCostElement.innerHTML = applyManaStyling(cardProperties.cost);
+            proxyNameAndCostLineElement.appendChild(proxyCostElement);
+        }
     }
+    else {
+        // If the card has no cost, just add the name.
+            proxyNameElement.innerHTML = cardProperties.name;
+            proxyNameAndCostLineElement.appendChild(proxyNameElement);
+    }
+    
+    if (['token', 'emblem'].indexOf(cardProperties.cardType) !== -1) {
+        // If the card is a token or emblem, we use a more fancy-looking style for the card name.
+        proxyNameAndCostLineElement.className = 'card-name-token';
+        proxyNameElement.className = '';
+    }
+
+    if (cardProperties.cardType === 'emblem') {
+        // For emblems, even if they've been given a name, we just display "Emblem" as the card name.
+        proxyNameElement.innerHTML = cardProperties.supertype;
+    }
+
     // Add a `<div style="clear:both">` inside the name-and-cost line, so that it expands to fit its contents even when
     // those contents are floated. I hate this fix, but that's just how things go with CSS floats.
     var clearDiv = document.createElement('div');
