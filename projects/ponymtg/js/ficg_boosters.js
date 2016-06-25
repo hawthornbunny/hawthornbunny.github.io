@@ -18,9 +18,9 @@ function initialize() {
         for (var i=0; i < ficgCards.length; i++) {
             // Filter out a few things that we either don't want in a booster pack, or can't yet deal with.
             if (
-                 ficgCards[i].supertype.includes('Conspiracy') === undefined
-                || ficgCards[i].supertype.includes('Scheme') === undefined
-                || ficgCards[i].supertype.includes('Plane') === undefined
+                 ficgCards[i].supertype.includes('Conspiracy')
+                || ficgCards[i].supertype.includes('Scheme')
+                || ficgCards[i].supertype.includes('Plane')
                 || ficgCards[i].transformsInto !== undefined
                 || ficgCards[i].transformsInto !== undefined) {
                 continue;

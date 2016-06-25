@@ -2,6 +2,7 @@
 
 * Updated FICG parser to correctly parse split card names, costs, and types.
 * Updated proxy card renderer to correctly render split cards.
+* Fixed the booster pack generator so that it correctly filters out Conspiracies, Planes, and Schemes.
 * Added a top bar to the application for accessing subpages.
 * Added an About page.
 * Made some minor style improvements.
