@@ -246,7 +246,7 @@ td.cardPropertyValue {
  * A container for a faux-Magic card. Emulates the thick rounded border of a Magic card.
  */
 .proxy {
-    font-size: 1em;
+    font-size: 0.9em;
     font-family: serif;
     margin: 0 auto;
     border: solid #202020;
