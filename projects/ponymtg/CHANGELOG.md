@@ -1,3 +1,8 @@
+## 1.1.0
+
+* Added a Sets page which contains a details and notes on the various sets contained in the database.
+* Added a Cockatrice file generator.
+
 ## 1.0.7
 
 * Updated FICG parser to correctly parse split card names, costs, and types.

@@ -15,6 +15,159 @@ var global = {
         /** Path to the directory containing all the card sets. */
         'sets': 'data/sets'
     },
+    'sets': {
+        'A Warm Welcome': {
+            'path': 'A Warm Welcome/cards',
+            'url': 'https://sites.google.com/site/warmponywelcome/',
+        },
+        'Shards of Equestria': {
+            'path': 'Shards of Equestria/Shards of Equestria pack/cards',
+            'notes': '<i>Shards of Equestria</i> was shut down in 2012 after a Cease and Desist from Hasbro. The website no longer exists.',
+        },
+        'Nightfall': {
+            'path': 'Nightfall 1.15/cards',
+            'url': 'http://www.fimtg-nightfall.com/',
+            'notes': '<i>Nightfall</i> is the first set in a planned 3-set block of completely custom pony MTG cards.',
+        },
+        'Ponylude': {
+            'path': 'Ponylude/cards',
+            'url': 'https://sites.google.com/site/ponylude/home',
+        },
+        'Friendship is Magic the Gathering': {
+            'path': 'Kitonin/Friendship is Magic the Gathering/cards',
+            'url': 'http://kitonin.deviantart.com/gallery/30807826/Friendship-is-Magic-the-Gathering',
+        },
+        'CRISIS EQUESTRIA': {
+            'path': 'rowcla/CRISIS EQUESTRIA/cards',
+            'creator': 'rowcla',
+            'url': 'http://rowcla.deviantart.com/gallery/41464043/CRISIS-EQUESTRIA',
+        },
+        'New Lunar Republic': {
+            'path': 'rowcla/New Lunar Republic/cards',
+            'creator': 'rowcla',
+            'url': 'http://rowcla.deviantart.com/gallery/41960453/New-Lunar-Republic',
+            'notes': 'This set complements <i>The Solar Empire</i>.',
+        },
+        'The Solar Empire': {
+            'path': 'rowcla/The Solar Empire/cards',
+            'creator': 'rowcla',
+            'url': 'http://rowcla.deviantart.com/gallery/44804368/The-Solar-Empire',
+            'notes': 'This set complements <i>New Lunar Republic</i>.',
+        },
+        'Legends are Magic': {
+            'path': 'jrk08004/Legends are Magic set/cards',
+            'creator': 'jrk08004',
+            'url': 'http://jrk08004.deviantart.com/gallery/',
+        },
+        'Unponied': {
+            'path': 'jrk08004/Unponied/cards',
+            'creator': 'jrk08004',
+            'url': 'http://jrk08004.deviantart.com/gallery/32446335/Unponied',
+            'notes': 'This is an all-silver-bordered joke set, in the same vein as <i>Unhinged</i> and <i>Unglued</i>.'
+        },
+        'Friendship is Magic the Gathering (IPU)': {
+            'path': 'Sorden/cards',
+            'creator': 'Sorden',
+            'url': 'http://sorden.deviantart.com/gallery/',
+        },
+        'Derpibooru 7220': {
+            'path': 'Derpibooru 7220/cards',
+            'url': 'https://derpibooru.org/7220',
+            'notes': 'This set was posted on Derpibooru in 2012, without attribution.'
+        },
+        'alternatepony': {
+            'path': 'alternatepony/cards',
+            'creator': 'alternatepony',
+            'url': 'http://alternatepony.deviantart.com/gallery/35662789/Creatures',
+            'notes': 'A small collection of humanized, legendary cards.'
+        },
+        'Equestria Disturbed': {
+            'path': 'aurais/Equestria Disturbed/cards',
+            'creator': 'aurais',
+            'url': 'http://aurais.deviantart.com/gallery/38392103/MLP-set-one-Equestria-Disturbed',
+        },
+        'MLP:FiM Season 1 MTG Set': {
+            'path': 'AznDemonLord/MLP:FiM Season 1 MTG Set/cards',
+            'creator': 'AznDemonLord',
+            'url': 'http://azndemonlord.deviantart.com/gallery/34252989/MLP-FiM-Season-1-MTG-Set',
+        },
+        'MLP:FiM Season 2 MTG Set': {
+            'path': 'AznDemonLord/MLP:FiM Season 2 MTG Set/cards',
+            'creator': 'AznDemonLord',
+            'url': 'http://azndemonlord.deviantart.com/gallery/34272231/MLP-FiM-Season-2-MTG-Set',
+        },
+        'MTG mlp': {
+            'path': 'Modernwater/MTG mlp/cards',
+            'creator': 'Modernwater',
+            'url': 'http://modernwater.deviantart.com/gallery/46986050/MTG-mlp',
+        },
+        'Elements of Harmony': {
+            'path': 'Shadic-X-Hedgehog/Elements of Harmony/cards',
+            'creator': 'Shadic-X-Hedgehog',
+            'url': 'http://shadic-x-hedgehog.deviantart.com/art/Elements-of-Harmony-Set-for-Magic-the-Gathering-415755609',
+        },
+        'MLP-MTG': {
+            'path': 'Shirlendra/MLP-MTG/cards',
+            'creator': 'Shirlendra',
+            'url': 'http://shirlendra.deviantart.com/gallery/',
+        },
+        'My Little Multiverse: Knowledge is Magic': {
+            'path': 'ManaSparks/My Little Multiverse: Knowledge is Magic/cards',
+            'creator': 'ManaSparks',
+            'url': '',
+        },
+        'Grumpy-Moogle': {
+            'path': 'Grumpy-Moogle/cards',
+            'creator': 'Grumpy-Moogle',
+            'url': 'http://grumpy-moogle.deviantart.com/gallery/54328722/MTG-cards',
+        },
+        'Twilight Falls': {
+            'path': 'Bliss Authority/Twilight Falls (TLF)/cards',
+            'creator': 'Bliss Authority',
+            'notes': 'This is an unfinished demo version of the first set in the planned 3-set <i>Ahlogis</i> block.'
+        },
+        'StorycrafterKiro': {
+            'path': 'StorycrafterKiro/cards',
+            'creator': 'StorycrafterKiro',
+            'url': 'http://storycrafterkiro.deviantart.com/gallery/42263858/Pony-Cards',
+        },
+        'UWoodward': {
+            'path': 'UWoodward/cards',
+            'creator': 'UWoodward',
+            'url': 'http://uwoodward.deviantart.com/gallery/?catpath=%2F&sort=popularity',
+            'notes': 'A <i>Fallout: Equestria</i>-based set.'
+        },
+        'Friendship is Card Games': {
+            'creator': 'FanOfMostEverything',
+            'url': 'http://www.fimfiction.net/blog/406600/gathered-friendship-the-ficg-index',
+            'notes': 'This is a collection of text-only cards from the long-running  <i>Friendship is Card Games</i> blog. As the blog is continually updated, this collection may not necessarily be complete.',
+        },
+        'Elementals of Harmony': {
+            'creator': 'FanOfMostEverything',
+            'url': 'http://www.fimfiction.net/story/1048/elementals-of-harmony',
+            'notes': 'Bonus cards from the MLP/MTG crossover fanfic <i>Elementals of Harmony</i>.'
+        },
+        'Sideboard of Harmony': {
+            'creator': 'FanOfMostEverything',
+            'url': 'http://www.fimfiction.net/story/17719/sideboard-of-harmony',
+            'notes': 'Bonus cards from the MLP/MTG crossover fanfic <i>Sideboard of Harmony</i>. As this story is continually updated, this collection may not necessarily be complete.',
+        },
+        'The Implicit Neighs': {
+            'creator': 'FanOfMostEverything',
+            'url': 'http://www.fimfiction.net/story/99710/the-implicit-neighs',
+            'notes': 'Bonus cards from the MLP/MTG crossover fanfic <i>The Implicit Neighs</i>. These cards are set within the plane of Ravnica.'
+        },
+        'Shards of Friendship': {
+            'creator': 'FanOfMostEverything',
+            'url': 'http://www.fimfiction.net/blog/190012/shards-of-friendship',
+            'notes': 'This is a collection of pony cards based on <i>Shards of Alara</i>.',
+        },
+        'Oops, I Accidentally Changelings': {
+            'creator': 'FanOfMostEverything',
+            'url': 'http://www.fimfiction.net/blog/302475/oops-i-accidentally-changelings',
+            'notes': 'This is a collection of changeling-themed cards. (The MLP kind, not the MTG kind).',
+        },
+    },
     /** Various useful and commonly-used mappings. */
     'mappings': {
         /** Maps the set name to the directory path where it can be located. Path is relative to the sets path. */
@@ -23,7 +176,7 @@ var global = {
             'Shards of Equestria': 'Shards of Equestria/Shards of Equestria pack/cards',
             'Nightfall': 'Nightfall 1.15/cards',
             'Ponylude': 'Ponylude/cards',
-            'Friendship is Magic the Gathering': 'Friendship is Magic the Gathering/cards',
+            'Friendship is Magic the Gathering': 'Kitonin/Friendship is Magic the Gathering/cards',
             'CRISIS EQUESTRIA': 'rowcla/CRISIS EQUESTRIA/cards',
             'New Lunar Republic': 'rowcla/New Lunar Republic/cards',
             'The Solar Empire': 'rowcla/The Solar Empire/cards',
@@ -725,6 +878,7 @@ function getDerivedCardProperties(card) {
     var derivedProperties = {};
     derivedProperties.colors = getCardColors(card);
     derivedProperties.manaTypes = getCardManaTypes(card);
+    derivedProperties.cmc = getCardConvertedManaCost(card);
     derivedProperties.monocolor = getCardMonocolor(card);
     return derivedProperties;
 }
@@ -774,6 +928,57 @@ function getCardColors(card) {
     }
 
     return cardColors;
+}
+
+function getCardConvertedManaCost(card) {
+    if (card.cost === undefined) {
+        return 0;
+    }
+    return convertManaCost(card.cost);
+}
+
+function convertManaCost(cost) {
+    var convertedManaCost = 0;
+    // Get a list of mana symbol regex strings (strings).
+    var manaSymbolRegexStrings = Object.keys(global.mappings.manaSymbolsToManaTypes);
+
+    var manaSymbolRegexes = []
+    for (var i=0; i < manaSymbolRegexStrings.length; i++) {
+        var manaSymbolRegex = new RegExp(manaSymbolRegexStrings[i]);
+        manaSymbolRegexes.push(manaSymbolRegex);
+    }
+
+    // Tokenize the cost into a sequence containing token pieces and non-token pieces (in order).
+    var tokenizedCost = tokenizeString(cost, manaSymbolRegexes);
+
+    // Go through the tokenized cost pieces, and for each one, if it's a mana symbol, add the appropriate amount of mana
+    // to the converted mana cost.
+    for (var i=0; i < tokenizedCost.length; i++) {
+        for (var j=0; j < manaSymbolRegexStrings.length; j++) {
+            // If this string piece is a token (ie. something that we identified to be a mana symbol), we now need to
+            // figure out which mana symbol it is.
+            var manaSymbolRegexString = manaSymbolRegexStrings[j];
+            var manaSymbolRegex = manaSymbolRegexes[j];
+            if (manaSymbolRegex.test(tokenizedCost[i])) {
+                // This is a mana symbol. Now we can figure out how much that adds to the converted mana cost.
+                // If it is a generic mana symbol, then it is worth the amount of mana corresponding to the number on
+                // the symbol.
+                var manaTypeArray = global.mappings.manaSymbolsToManaTypes[manaSymbolRegexString]; 
+                if (manaTypeArray[0] == 'generic') {
+                    if (tokenizedCost[i] === 'X') {
+                        // Special case: "X" is considered generic mana, but is worth zero, so disregard it.
+                        continue;
+                    }
+                    convertedManaCost += parseInt(tokenizedCost[i]);
+                }
+                else {
+                    // All other occurrences of a mana symbol are worth 1 mana each.
+                    convertedManaCost += 1;
+                }
+            }
+        }
+    }
+    return convertedManaCost;    
 }
 
 /**
@@ -1250,6 +1455,7 @@ function generateCardTableElement(cards) {
         var cardInfoHtml = '';
 
         var cardInfoTable = document.createElement('table');
+        cardInfoTable.style.width = '100%';
 
         for (var j=0; j < global.lists.cardPropertiesToDisplay.length; j++) {
             var cardPropertyName = global.lists.cardPropertiesToDisplay[j];
@@ -1823,6 +2029,35 @@ function calculateHtmlMass(html) {
     return (numberOfCharactersNotIncludingNewlines*global.values.textMasses.character) + (numberOfNewlines*global.values.textMasses.newline);
 }
 
+function generateSetCode(setName) {
+    var setNameWords = setName.split(' ');
+    if (setNameWords.length >= 3) {
+        // If the set name has three or more words in it, take the first letters of the first three words.
+        setCode = setNameWords[0].substring(0, 1) + setNameWords[1].substring(0, 1) + setNameWords[2].substring(0, 1); 
+    }
+    else if (setNameWords.length === 2) {
+        // Otherwise, if the set name has two words, take the first letter of the first word, and the first two letters
+        // of the second word.
+        setCode = setNameWords[0].substring(0, 1) + setNameWords[1].substring(0, 2);
+    }
+    else {
+        // Otherwise, if it's just one word, take the first 3 letters of that word.
+        setCode = setNameWords[0].substring(0, 3);
+    }
+
+    // If the set code we obtained is still too short (perhaps there weren't enough for even three letters), pad it out
+    // with '0's.
+    if (setCode.length === 2) {
+        setCode = '0'+setcode;
+    }
+    if (setCode.length === 1) {
+        setCode = '00'+setcode;
+    }
+
+    // Make the set code uppercase and return it.
+    setCode = setCode.toUpperCase();
+    return setCode;
+}
 /**
  * Return a random integer from 0 to `max`-1.
  */
