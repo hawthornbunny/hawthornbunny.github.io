@@ -1,5 +1,5 @@
 html {
-    background-color:#ffffff;
+    background-color:#f0f0f0;
     color:#000000;
     height:100%;
     font-family:sans-serif;
@@ -38,14 +38,14 @@ body {
     text-align:center;
     width:12.5%;
     text-decoration:none;
-    background-color:#e0e0e0;
+    background-color:#d0d0d0;
     color:#101010;
     padding:2px;
 }
 
 #topBar a:hover {
     text-decoration:none;
-    background-color:#f0f0f0;
+    background-color:#e0e0e0;
     color:#202020;
 }
 
@@ -99,12 +99,12 @@ body {
 #advancedSearchLink {
     font-size: 0.9em;
     cursor: pointer;   
-    background-color:#e0e0e0;
+    background-color:#d0d0d0;
     padding:2px;
 }
 
 #advancedSearchLink:hover {
-    background-color:#f0f0f0;
+    background-color:#e0e0e0;
 }
 /**
  * The advanced search container box.
@@ -116,7 +116,7 @@ body {
 }
 
 table.advancedSearchTable {
-    background-color:#e0e0e0;
+    background-color:#d0d0d0;
     margin:0px auto 32px auto;
     border-radius: 8px;
 }
@@ -143,12 +143,12 @@ table.paginationControl {
     padding:4px;
     text-align:center;
     border-radius:8px;
-    background-color: #e0e0e0;
+    background-color: #d0d0d0;
 }
 td.paginationPreviousPage {
     width: 25%;
     border-radius:4px;
-    background-color: #c0c0c0;
+    background-color: #b0b0b0;
     margin:4px;
     padding:4px;
     box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
@@ -177,7 +177,7 @@ td.paginationPageNumber {
 td.paginationNextPage {
     width: 25%;
     border-radius:4px;
-    background-color: #c0c0c0;
+    background-color: #b0b0b0;
     margin:4px;
     padding:4px;
     box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
@@ -218,7 +218,7 @@ td.cardInfo {
     vertical-align:top;
     border:1px solid #c0c0c0;
     border-radius:4px;
-    background-color: #e0e0e0;
+    background-color: #d0d0d0;
 }
 
 /**

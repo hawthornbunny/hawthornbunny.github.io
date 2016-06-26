@@ -6713,7 +6713,7 @@ var FICG_CARDS =
         'text': 'Equipped creatures you control gain flying until end of turn.\n\nAerodynamics seems to pretend that Equestria doesn\'t exist sometimes.',
     },
     {
-        'name': 'High//Low',
+        'name': 'High // Low',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': 'U',
@@ -7308,7 +7308,7 @@ var FICG_CARDS =
         'pt': '3/3',
     },
     {
-        'name': 'Pros//Cons',
+        'name': 'Pros // Cons',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2WU',
@@ -8542,7 +8542,7 @@ var FICG_CARDS =
         'pt': '2/3',
     },
     {
-        'name': 'Bought//Sold',
+        'name': 'Bought // Sold',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': 'XUU',
@@ -9315,7 +9315,7 @@ var FICG_CARDS =
         'text': 'Bursting with Happiness deals 4 damage divided as you choose among any number of target creatures and/or players. You gain 4 life.\n\nIt’s never hard to tell how Pinkie Pie feels.',
     },
     {
-        'name': 'Happy//Sad',
+        'name': 'Happy // Sad',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': 'W',
@@ -9325,7 +9325,7 @@ var FICG_CARDS =
         'text': 'Happy: Target creature gains lifelink until end of turn.\n\nSad: Whenever target creature is dealt damage this turn, its controller loses that much life.',
     },
     {
-        'name': 'Open//Shut',
+        'name': 'Open // Shut',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '2R',
@@ -9335,7 +9335,7 @@ var FICG_CARDS =
         'text': 'Open: Creatures with defender can’t block this turn.\n\nShut: Prevent all combat damage blocked creatures would deal this turn.',
     },
     {
-        'name': 'Yes//No',
+        'name': 'Yes // No',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1G',
@@ -15186,7 +15186,7 @@ var FICG_CARDS =
         'pt': '2/3',
     },
     {
-        'name': 'Friends//Family',
+        'name': 'Friends // Family',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '3GG',
@@ -15971,7 +15971,7 @@ var FICG_CARDS =
         'flavorText': '"Love makes you crazy. I should know."\n—Cadence, Princess of Serenity',
     },
     {
-        'name': 'Compare//Contrast',
+        'name': 'Compare // Contrast',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '3U',
@@ -19174,7 +19174,7 @@ var FICG_CARDS =
         'text': 'Target creature you control gets +1/+1 until end of turn for each creature you control. Untap all creatures you control.\n\nA shout of joy so loud, most ponies will rush in expecting to care for the dying.',
     },
     {
-        'name': 'Bait//Switch',
+        'name': 'Bait // Switch',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '3G',
@@ -25445,7 +25445,7 @@ var FICG_CARDS =
         'pt': '4/4',
     },
     {
-        'name': 'Sweet//Sour',
+        'name': 'Sweet // Sour',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1W',
@@ -27330,7 +27330,7 @@ var FICG_CARDS =
         'pt': '2/2',
     },
     {
-        'name': 'Pain//Pleasure',
+        'name': 'Pain // Pleasure',
         'set': 'Friendship is Card Games',
         'creator': 'FanOfMostEverything',
         'cost': '1R',

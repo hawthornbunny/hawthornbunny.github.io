@@ -999,7 +999,7 @@ function generateAdvancedSearchElement() {
     }
 
     searchByCardPropertyTableHeaderCellElement.innerHTML = 'Search by';
-    searchByCardPropertyTableHeaderCellElement.style.backgroundColor = '#c0c0c0'
+    searchByCardPropertyTableHeaderCellElement.style.backgroundColor = '#b0b0b0'
     searchByCardPropertyTableCellElement.appendChild(generateCheckboxListElement(global.advancedSearchIdPrefix+'_searchByCardProperty', data, '20%', true));
     searchByCardPropertyTableCellElement.className = 'searchByCardProperty';
     searchByCardPropertyTableHeaderRowElement.appendChild(searchByCardPropertyTableHeaderCellElement);
@@ -1025,7 +1025,7 @@ function generateAdvancedSearchElement() {
     }
 
     filterBySetTableHeaderCellElement.innerHTML = 'Search in sets';
-    filterBySetTableHeaderCellElement.style.backgroundColor = '#c0c0c0'
+    filterBySetTableHeaderCellElement.style.backgroundColor = '#b0b0b0'
     filterBySetTableCellElement.appendChild(generateCheckboxListElement(global.advancedSearchIdPrefix+'_filterBySet', data, '33%', true));
     filterBySetTableCellElement.className = 'filterBySet';
     filterBySetTableHeaderRowElement.appendChild(filterBySetTableHeaderCellElement);
@@ -1079,7 +1079,7 @@ function generateAdvancedSearchElement() {
 
     filterByManaTypeCheckboxListElement = generateCheckboxListElement(global.advancedSearchIdPrefix+'_filterByManaType', data, '10%');
     filterByManaTypeTableHeaderCellElement.innerHTML = 'Search by mana type';
-    filterByManaTypeTableHeaderCellElement.style.backgroundColor = '#c0c0c0'
+    filterByManaTypeTableHeaderCellElement.style.backgroundColor = '#b0b0b0'
     filterByManaTypeTableCellElement.appendChild(filterByManaTypeSearchTypeLabelElement);
     filterByManaTypeTableCellElement.appendChild(filterByManaTypeSearchTypeSelectElement);
     filterByManaTypeTableCellElement.appendChild(filterByManaTypeCheckboxListElement);

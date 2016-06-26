@@ -211,7 +211,7 @@ def split_name_and_cost_line_into_name_and_cost(name_and_cost_line):
 
         # For split cards, the way the database deals with them is to display their name as a combined name (eg.
         # "Bait // Switch", and to use an extra cost parameter (`cost2`) to hold the second cost.
-        name = name_and_cost_1['name']+'//'+name_and_cost_2['name']
+        name = name_and_cost_1['name']+' // '+name_and_cost_2['name']
         cost = name_and_cost_1['cost']
         cost2 = name_and_cost_2['cost']
         return {'name': name, 'cost': cost, 'cost2': cost2}

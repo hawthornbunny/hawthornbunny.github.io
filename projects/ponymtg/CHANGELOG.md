@@ -6,7 +6,8 @@
 * Fixed the booster pack generator so that it correctly filters out double-sided cards.
 * Added a top bar to the application for accessing subpages.
 * Added an About page.
-* Made some minor style improvements.
+* Added a PonyMTG logo.
+* Changed the overall style to very light grays.
 
 ## 1.0.6
 
