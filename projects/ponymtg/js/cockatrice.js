@@ -79,7 +79,9 @@ function getCockatriceXml(setName) {
 
         var picURL = undefined;
         if (card.image !== undefined) {
-            var picURL = window.location.origin+'/'+global.paths.sets+'/'+global.mappings.setsToPaths[card.set]+'/'+card.image;
+            var baseUrl = window.location.origin;
+            baseUrl += window.location.pathname.split('/').slice(0, -1).join('/');
+            var picURL = baseUrl+'/'+global.paths.sets+'/'+global.mappings.setsToPaths[card.set]+'/'+card.image;
         }
         var name = card.name;
 
