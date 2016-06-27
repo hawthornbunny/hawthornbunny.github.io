@@ -7,7 +7,6 @@ function initialize() {
     CARDS = CARDS.concat(FICG_CARDS);
     CARDS = CARDS.concat(IPU_CARDS);
 
-    global.statistics = getStatistics(CARDS);
     global.information = getInformation(CARDS);
     var container = document.querySelector('#container');
     container.appendChild(getSetsTableElement(global.information.sets));
@@ -62,6 +61,7 @@ function getSetsTableElement(sets) {
 
         var numberOfCardsTableCellElement = document.createElement('td');
         numberOfCardsTableCellElement.style.width = '5%';
+        numberOfCardsTableCellElement.style.textAlign = 'center';
 
         var notesTableCellElement = document.createElement('td');
 
@@ -75,8 +75,8 @@ function getSetsTableElement(sets) {
         if (setDetails.creator !== undefined) {
             creatorTableCellElement.innerHTML = setDetails.creator;
         }
-        if (global.statistics.counts.cardsPerSet[setName] !== undefined) {
-            numberOfCardsTableCellElement.innerHTML = global.statistics.counts.cardsPerSet[setName];
+        if (global.information.perSet[setName] !== undefined) {
+            numberOfCardsTableCellElement.innerHTML = global.information.perSet[setName].numberOfCards;
         }
         if (setDetails.notes !== undefined) {
             notesTableCellElement.innerHTML = setDetails.notes;

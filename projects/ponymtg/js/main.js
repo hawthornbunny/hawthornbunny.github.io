@@ -73,13 +73,13 @@ var global = {
         'Derpibooru 7220': {
             'path': 'Derpibooru 7220/cards',
             'url': 'https://derpibooru.org/7220',
-            'notes': 'This set was posted on Derpibooru in 2012, without attribution.'
+            'notes': 'This set was posted on Derpibooru in 2012, without any creator attribution.'
         },
         'alternatepony': {
             'path': 'alternatepony/cards',
             'creator': 'alternatepony',
             'url': 'http://alternatepony.deviantart.com/gallery/35662789/Creatures',
-            'notes': 'A small collection of humanized, legendary cards.'
+            'notes': 'A small collection of humanized pony legendary cards.'
         },
         'Equestria Disturbed': {
             'path': 'aurais/Equestria Disturbed/cards',
@@ -485,6 +485,11 @@ var global = {
         },
         'proxy': {
             /**
+             * The font size, in pixels, of proxy card text. In order to ensure consistent rendering of proxy cards
+             * across all browsers, it is necessary to use absolute font dimensions.
+             */
+            'fontSize': 16,
+            /**
              * The amount of padding between the border and the interior of a proxy card. We're defining it here rather
              * than in the stylesheet, because we need to know the value in order to correctly calculate dimensions when
              * rendering a proxy card.
@@ -542,8 +547,15 @@ var global = {
         /**
          * The threshold above which we'll shrink down card text to prevent it spilling off the bottom of a proxy card.
          */
-        'textMassLongThreshold': 500,
-        'textMassVeryLongThreshold': 700
+        'textMassThreshold': 350,
+        /**
+         * A coefficient that determines much text shrinks the further it goes over the text mass threshold.
+         */
+        'textShrinkageCoefficient': 0.012,
+        /**
+         * The lower limit on card text size. We won't shrink any smaller than this.
+         */
+        'textSizeLowerLimit': 11,
     },
     /** Information about how to paginate the results set, including the current page that the user is viewing. */
     'pagination': {
@@ -559,6 +571,8 @@ var global = {
      * Statistics that have been gathered about the current card collection, filled in upon initialization of the app.
      */
     'statistics': {
+        'perSet': {},
+        'overall': {},
         'counts': {
             'numberOfCards': undefined,
             'cardsPerSet': {},
@@ -599,6 +613,7 @@ function initiateSearch(isExactSearch) {
 function getStatistics(cards) {
     var statistics = {};
     statistics.counts = {};
+    statistics.perSet = {};
 
     // Count the total number of cards.
     statistics.counts.numberOfCards = cards.length;
@@ -624,6 +639,87 @@ function getStatistics(cards) {
     }
 
     return statistics;
+}
+
+/**
+ * Given an array of cards `cards`, returns an object containing certain information about the cards in it (eg. a list
+ * of all sets that are represented in those cards).
+ */
+function getInformation(cards) {
+    var information = {};
+
+    // Collect some overall information about the card collection.
+    information.overall = {};
+    information.overall.numberOfCards = cards.count; 
+
+    var imagelessCardWithGreatestTextMass = undefined;
+    var greatestImagelessCardTextMass = 0;
+    var cardWithLongestText = undefined;
+    var longestCardTextLength = 0;
+    for (var i=0; i < cards.length; i++) {
+        var card = cards[i];
+        if (card.text !== undefined) {
+            if (card.text.length > longestCardTextLength) {
+                longestCardTextLength = card.text.length;
+                cardWithLongestText = card;
+            }
+            if (card.image === undefined) {
+                var cardTextMass = calculateHtmlMass(card.text);
+                if (cardTextMass > greatestImagelessCardTextMass) {
+                    greatestImagelessCardTextMass = cardTextMass;
+                    imagelessCardWithGreatestTextMass = card;
+                }
+            }
+        }
+    }
+    information.cardWithLongestText = cardWithLongestText;
+    information.longestCardTextLength = longestCardTextLength;
+    information.imagelessCardWithGreatestTextMass = imagelessCardWithGreatestTextMass;
+
+    // Get a list of all distinct sets that the supplied cards belong to.
+    information.sets = [];
+    for (var i=0; i < cards.length; i++) {
+        var card = cards[i];
+        if (information.sets.indexOf(card.set) === -1) {
+            information.sets.push(card.set);
+        }
+    };
+
+    // Sort the sets in alphabetical order.
+    information.sets.sort();
+
+    // Collect statistics about each set.
+    // Create a per-set entry for each set, to hold information gathered about each specific set.
+    information.perSet = {};
+    for (var i=0; i < information.sets.length; i++) {
+        var set = information.sets[i];
+        information.perSet[set] = {};
+    }
+
+    // Count up the number of cards in each set.
+    for (var i=0; i < cards.length; i++) {
+        var set = cards[i].set;
+        // If the card has no set recorded, we considered this to be in a special "undefined" set, and will add to the
+        // count of that set.
+        if (set === undefined) {
+            information.perSet[undefined] = {};
+        }
+        if (information.perSet[set].numberOfCards === undefined) {
+            information.perSet[set].numberOfCards = 0;
+        }
+        information.perSet[set].numberOfCards++;
+    }
+
+    // Get a list of all distinct card set creators that the supplied cards were made by.
+    information.creators = [];
+    for (var i=0; i < cards.length; i++) {
+        var card = cards[i];
+        if (information.sets.indexOf(card.set) === -1) {
+            information.sets.push(card.set);
+        }
+    };
+
+    return information;
 }
 
 /**
@@ -1372,37 +1468,6 @@ function generateCheckboxListElement(idPrefix, data, optionWidth, addSelectAll) 
 }
 
 /**
- * Given an array of cards `cards`, returns an object containing certain information about the cards in it (eg. a list
- * of all sets that are represented in those cards).
- */
-function getInformation(cards) {
-    var information = {};
-
-    // Get a list of all distinct sets that the supplied cards belong to.
-    information.sets = [];
-    for (var i=0; i < cards.length; i++) {
-        var card = cards[i];
-        if (information.sets.indexOf(card.set) === -1) {
-            information.sets.push(card.set);
-        }
-    };
-
-    // Get a list of all distinct card set creators that the supplied cards were made by.
-    information.creators = [];
-    for (var i=0; i < cards.length; i++) {
-        var card = cards[i];
-        if (information.sets.indexOf(card.set) === -1) {
-            information.sets.push(card.set);
-        }
-    };
-
-    // Sort the sets in alphabetical order.
-    information.sets.sort();
-
-    return information;
-}
-
-/**
  * Given a set of card data objects `cards`, generate a table of those cards, which displays an image (if available) and
  * known, relevant properties of the card.
  */
@@ -1535,6 +1600,7 @@ function generateProxyElement(
 ) {
     var proxyElement = document.createElement('div');
     proxyElement.className = 'proxy';
+    proxyElement.style.fontSize = global.dimensions.proxy.fontSize+'px';
 
     // Determine the card's height.
     var cardHeight = getCardHeightFromCardWidth(cardWidth);
@@ -1667,13 +1733,27 @@ function generateProxyElement(
         }
         proxyTextElement.innerHTML = cardText;
 
+        // If the mass of the text on this card is above a certain threshold, shrink it down a bit. The exact amount of
+        // shrinkage is proportional to how much over the threshold it is.
+
         // Check to see how massive the text is. If it's above a certain threshold, shrink it a bit.
         var cardTextMass = calculateHtmlMass(cardText);
-        if (cardTextMass > global.values.textMassLongThreshold) {
-            proxyTextElement.style.fontSize = '0.9em';
-        }
-        if (cardTextMass > global.values.textMassVeryLongThreshold) {
-            proxyTextElement.style.fontSize = '0.8em';
+        //console.log(cardProperties.name+': '+cardTextMass);
+        if (cardTextMass > global.values.textMassThreshold) {
+            // The amount of mass by which the card's text exceeds the threshold.
+            var excessTextMass = cardTextMass - global.values.textMassThreshold;
+            // The size (in px) that will be deducted from the standard text size.
+            var textShrinkAmount = excessTextMass * global.values.textShrinkageCoefficient;
+            // The newly shrunken card text size.
+            var shrunkenTextSize = global.dimensions.proxy.fontSize - textShrinkAmount;
+
+            // Set a lower limit on how much the text can shrink (it's possible, if there's enough text, that the text
+            // size could go negative, which doesn't make sense to a browser.
+            if (shrunkenTextSize < global.values.textSizeLowerLimit) {
+                shrunkenTextSize = global.values.textSizeLowerLimit;
+            }
+
+            proxyTextElement.style.fontSize = shrunkenTextSize+'px';
         }
     }
 

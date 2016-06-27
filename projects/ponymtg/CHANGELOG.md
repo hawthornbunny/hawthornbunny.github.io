@@ -1,3 +1,9 @@
+## 1.1.1
+
+* Switched to absolute card font sizes to render consistently across browsers.
+* Set the card font to Times New Roman rather than generic serif.
+* Reworked the card text shrinking algorithm to scale excess text linearly.
+
 ## 1.1.0
 
 * Added a Sets page which contains a details and notes on the various sets contained in the database.

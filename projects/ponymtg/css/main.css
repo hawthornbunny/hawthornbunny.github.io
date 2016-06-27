@@ -246,8 +246,7 @@ td.cardPropertyValue {
  * A container for a faux-Magic card. Emulates the thick rounded border of a Magic card.
  */
 .proxy {
-    font-size: 0.9em;
-    font-family: serif;
+    font-family: "Times New Roman", Times, serif;
     margin: 0 auto;
     border: solid #202020;
     border-radius: 16px;
@@ -460,7 +459,6 @@ td.cardPropertyValue {
  */
 .card-text {
     background-color: rgba(240, 240, 240, 0.75);
-    font-size:0.9em;
     border: 1px solid #000000;
     border-radius: 2px;
     padding:8px;
@@ -473,7 +471,6 @@ td.cardPropertyValue {
  */
 .card-text-planeswalker {
     border-radius: 0px 32px;
-    font-size:0.8em;
 }
 
 
