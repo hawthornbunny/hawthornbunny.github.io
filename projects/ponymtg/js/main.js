@@ -650,7 +650,7 @@ function getInformation(cards) {
 
     // Collect some overall information about the card collection.
     information.overall = {};
-    information.overall.numberOfCards = cards.count; 
+    information.overall.numberOfCards = cards.length; 
 
     var imagelessCardWithGreatestTextMass = undefined;
     var greatestImagelessCardTextMass = 0;

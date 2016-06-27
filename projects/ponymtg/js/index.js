@@ -40,12 +40,6 @@ function initialize() {
         //global.elements.titleReference.innerHTML = '* '+global.text.references.title;
     //};
 
-    // Collect some statistics about the entire card database.
-    var statistics = getStatistics(CARDS);
-    global.statistics.counts.numberOfCards = statistics.counts.numberOfCards;
-    global.statistics.counts.cardsPerSet = statistics.counts.cardsPerSet;
-    global.statistics.counts.cardsPerCreator = statistics.counts.cardsPerCreator;
-
     // Similarly, collect some information about the database as a whole (eg. a list of all sets that are in it).
     global.information = getInformation(CARDS);
 
@@ -54,8 +48,19 @@ function initialize() {
     // The title screen has a dynamic tagline which depends on the number of cards, so set that now.
     global.elements.tagline = document.querySelector('#tagline');
     var tagline = global.text.tagline.dynamic;
-    tagline = tagline.replace('{NUMBER_OF_CARDS}', '<strong>'+global.statistics.counts.numberOfCards+'</strong>');
+    tagline = tagline.replace('{NUMBER_OF_CARDS}', '<strong>'+global.information.overall.numberOfCards+'</strong>');
     global.elements.tagline.innerHTML = tagline;
+
+    // The "random card" link should select a random set, then select a random card from that set, and open PonyMTG in a
+    // new tab with the set and card name passed in the URL.
+    var randomCardElement = document.querySelector('#randomCard');
+    randomCardElement.onclick = function () {
+        var randomSet = global.information.sets[rnd(global.information.sets.length)];
+        var randomSetCards = getCardsFilteredBySet(CARDS, [randomSet]);
+        var randomCard = randomSetCards[rnd(randomSetCards.length)];
+        var randomCardUrl = '?name='+randomCard.name+'&set='+randomCard.set;
+        window.open(randomCardUrl, '_blank');
+    }
 
     // Set up the search field to perform searches of the card database when Enter is pressed.
     global.elements.searchField = document.querySelector('#searchField');

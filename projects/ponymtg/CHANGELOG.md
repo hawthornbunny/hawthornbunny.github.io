@@ -3,6 +3,7 @@
 * Switched to absolute card font sizes to render consistently across browsers.
 * Set the card font to Times New Roman rather than generic serif.
 * Reworked the card text shrinking algorithm to scale excess text linearly.
+* Reworked the Cockatrice file generator and provided a more user-friendly guide to Cockatrice.
 
 ## 1.1.0
 
