@@ -9,18 +9,31 @@ function initialize() {
 
     var htmlElement = document.querySelector('html');
     htmlElement.style.fontFamily = 'monospace';
-    var setName = undefined;
+    var sets = undefined;
+    var allSetsName = '[All PonyMTG sets]';
+
+    information = getInformation(CARDS);
 
     global.urlParameters = getUrlParameters();
     if (Object.keys(global.urlParameters).length > 0) {
         if (global.urlParameters.set !== undefined) {
-            if (global.sets[global.urlParameters.set] !== undefined) {
-                setName = global.urlParameters.set; 
+            if (information.sets.indexOf(global.urlParameters.set) !== -1) {
+                sets = [global.urlParameters.set];
+            }
+            else if (global.urlParameters.set === allSetsName) {
+                sets = information.sets;
             }
         }
     }
 
-    if (setName !== undefined) {
+    if (sets !== undefined) {
+        var setName = undefined;
+        if (sets.length === 1) {
+            setName = sets[0];
+        }
+        else if (global.urlParameters.set === allSetsName) {
+            setName = allSetsName;
+        }
         var cockatriceXml = '';
         cockatriceXml += '<!--\n';
         cockatriceXml += '    Cockatrice XML file for custom MtG set "'+setName+'"\n';
@@ -28,7 +41,7 @@ function initialize() {
         cockatriceXml += '\n';
         cockatriceXml += '    Save this text data as a file with a .xml extension, then use Cockatrice\'s Import feature to add the file to your local Cockatrice database.\n';
         cockatriceXml += '-->\n';
-        cockatriceXml += getCockatriceXml(global.urlParameters.set);
+        cockatriceXml += getCockatriceXml(sets);
 
         var cockatriceXmlHtml = '';
         cockatriceXmlHtml += escapeXml(cockatriceXml);
@@ -44,141 +57,163 @@ function initialize() {
 }
 
 /**
- *
- *
+ * Returns Cockatrice XML data for the given set.
  */
-function getCockatriceXml(setName) {
+function getCockatriceXml(sets) {
     var xml = '';
-    var cards = getCardsFilteredBySet(CARDS, [setName]);
-    var setCode = generateSetCode(setName);
-
     // Add the Cockatrice XML set information header.
     xml += '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += '<cockatrice_carddatabase version="3">\n';
     xml += '    <sets>\n';
-    xml += '        <set>\n';
-    xml += '            <name>'+setCode+'</name>\n';
-    xml += '            <longname>'+setName+'</longname>\n';
-    xml += '        </set>\n';
+
+    var setCodes = [];
+    for (var i=0; i < sets.length; i++) {
+        var setName = sets[i];
+        var setCode = generateSetCode(setName);
+        var incrementedSetCode = setCode;
+        var trailingNumber = 1;
+        while (setCodes.indexOf(incrementedSetCode) !== -1) {
+            trailingNumber++;
+            incrementedSetCode = setCode + trailingNumber;
+        }
+        setCode = incrementedSetCode;
+        setCodes.push(setCode);
+    }
+
+    for (var i=0; i < sets.length; i++) {
+        var setName = sets[i];
+        var setCode = setCodes[i];
+        xml += '        <set>\n';
+        xml += '            <name>'+setCode+'</name>\n';
+        xml += '            <longname>'+setName+'</longname>\n';
+        xml += '        </set>\n';
+    }
+
     xml += '    </sets>\n';
     xml += '    <cards>\n';
 
-    // Add card data for each card in the set.
-    for (var i=0; i < cards.length; i++) {
-        var card = cards[i];
+    for (var i=0; i < sets.length; i++) {
+        var setName = sets[i];
+        var setCode = generateSetCode(setName);
+        var cards = getCardsFilteredBySet(CARDS, [setName]);
 
-        var picURL = undefined;
-        if (card.image !== undefined) {
-            var baseUrl = window.location.origin;
-            baseUrl += window.location.pathname.split('/').slice(0, -1).join('/');
-            var picURL = baseUrl+'/'+global.paths.sets+'/'+global.mappings.setsToPaths[card.set]+'/'+card.image;
-        }
-        var name = card.name;
+        // Add card data for each card in the set.
+        for (var j=0; j < cards.length; j++) {
+            var card = cards[j];
 
-        var manacost = '';
-        if (card.cost !== undefined) {
-            manacost = card.cost;
-            if (card.cost2 !== undefined) {
-                manacost += ' // '+card.cost2;
+            var picURL = undefined;
+            if (card.image !== undefined) {
+                var baseUrl = window.location.origin;
+                baseUrl += window.location.pathname.split('/').slice(0, -1).join('/');
+                var picURL = baseUrl+'/'+global.paths.sets+'/'+global.mappings.setsToPaths[card.set]+'/'+card.image;
             }
-        }
-        
-        var type = '';
-        if (card.supertype !== undefined) {
-            type = card.supertype;
-            if (card.subtype !== undefined) {
-                type += ' - '+card.subtype;
-            }
-        }
-        if (card.supertype2 !== undefined) {
-            type += ' // '+card.supertype2;
-            if (card.subtype2 !== undefined) {
-                type += ' - '+card.subtype2;
-            }
-        }
-            
-        var pt = undefined;
-        if (card.pt !== undefined) {
-            pt = card.pt;
-        }
-        
-        var loyalty = undefined;
-        if (card.loyalty !== undefined) {
-            loyalty = card.loyalty;
-        }
-        
-        // Cockatrice has a special `tablerow` parameter which it uses internally to decide where cards should be placed
-        // on the board. This generally depends on the card's type.
-        var tablerow = 1;
-        if (/Land/i.test(type)) {
-           tablerow = 0; 
-        }
-        else if (/Creature/i.test(type)) {
-           tablerow = 2; 
-        }
-        else if (
-            /Instant/i.test(type)
-            || /Sorcery/i.test(type)
-        ) {
-           tablerow = 3; 
-        }
+            var name = card.name;
 
-        var text = '';
-        if (card.text !== undefined) {
-            text = card.text;
-        }
-
-        // Get a list of colors present in this card.
-        var colors = [];
-        var manaTypes = getCardManaTypes(card);
-        var cmc = getCardConvertedManaCost(card);
-        for (var j=0; j < manaTypes.length; j++) {
-            if (global.mappings.manaTypesToRepresentativeSymbols[manaTypes[j]] !== undefined) {
-                var color = global.mappings.manaTypesToRepresentativeSymbols[manaTypes[j]];
-                if (['W','U','B','R','G'].indexOf(color) === -1) {
-                    // If it's not a WUBRG color, ignore it.
-                    continue;
+            var manacost = '';
+            if (card.cost !== undefined) {
+                manacost = card.cost;
+                if (card.cost2 !== undefined) {
+                    manacost += ' // '+card.cost2;
                 }
-                colors.push(color);
             }
-        }
+            
+            var type = '';
+            if (card.supertype !== undefined) {
+                type = card.supertype;
+                if (card.subtype !== undefined) {
+                    type += ' - '+card.subtype;
+                }
+            }
+            if (card.supertype2 !== undefined) {
+                type += ' // '+card.supertype2;
+                if (card.subtype2 !== undefined) {
+                    type += ' - '+card.subtype2;
+                }
+            }
+                
+            var pt = undefined;
+            if (card.pt !== undefined) {
+                pt = card.pt;
+            }
+            
+            var loyalty = undefined;
+            if (card.loyalty !== undefined) {
+                loyalty = card.loyalty;
+            }
+            
+            // Cockatrice has a special `tablerow` parameter which it uses internally to decide where cards should be placed
+            // on the board. This generally depends on the card's type.
+            var tablerow = 1;
+            if (/Land/i.test(type)) {
+               tablerow = 0; 
+            }
+            else if (/Creature/i.test(type)) {
+               tablerow = 2; 
+            }
+            else if (
+                /Instant/i.test(type)
+                || /Sorcery/i.test(type)
+            ) {
+               tablerow = 3; 
+            }
 
-        // If the card transforms to or from something, add that to the `<related>` tag.
-        var related = undefined;
-        if (card.transformsInto !== undefined) {
-            related = card.transformsInto;
+            var text = '';
+            if (card.text !== undefined) {
+                text = card.text;
+            }
+
+            // Get a list of colors present in this card.
+            var colors = [];
+            var manaTypes = getCardManaTypes(card);
+            var cmc = getCardConvertedManaCost(card);
+            for (var k=0; k < manaTypes.length; k++) {
+                if (global.mappings.manaTypesToRepresentativeSymbols[manaTypes[k]] !== undefined) {
+                    var color = global.mappings.manaTypesToRepresentativeSymbols[manaTypes[k]];
+                    if (['W','U','B','R','G'].indexOf(color) === -1) {
+                        // If it's not a WUBRG color, ignore it.
+                        continue;
+                    }
+                    colors.push(color);
+                }
+            }
+
+            // If the card transforms to or from something, add that to the `<related>` tag.
+            var related = undefined;
+            if (card.transformsInto !== undefined) {
+                related = card.transformsInto;
+            }
+            if (card.transformsFrom !== undefined) {
+                related = card.transformsFrom;
+            }
+            
+            // Assemble the XML for this `<card>` element.
+            xml += '        <card>\n'
+            for (var k=0; k < colors.length; k++) {
+                xml += '            '+createXmlElementString('color', colors[k]);
+            }
+            if (related !== undefined) {
+                xml += '            '+createXmlElementString('related', related);
+            }
+            xml += '            '+createXmlElementString('name', name);
+            if (picURL !== undefined) {
+                xml += '            '+createXmlElementString('set', setCode, {'picURL': picURL});
+            }
+            else {
+                xml += '            '+createXmlElementString('set', setCode);
+            }
+            xml += '            '+createXmlElementString('manacost', manacost);
+            xml += '            '+createXmlElementString('cmc', cmc);
+            xml += '            '+createXmlElementString('type', type);
+            xml += '            '+createXmlElementString('text', text);
+            if (pt !== undefined) {
+                xml += '            '+createXmlElementString('pt', pt);
+            }
+            if (loyalty !== undefined) {
+                xml += '            '+createXmlElementString('loyalty', loyalty);
+            }
+            xml += '            '+createXmlElementString('tablerow', tablerow);
+            xml += '        </card>\n';
         }
-        if (card.transformsFrom !== undefined) {
-            related = card.transformsFrom;
-        }
-        
-        // Assemble the XML for this `<card>` element.
-        xml += '        <card>\n'
-        for (var j=0; j < colors.length; j++) {
-            xml += '            '+createXmlElementString('color', colors[j]);
-        }
-        if (related !== undefined) {
-            xml += '            '+createXmlElementString('related', related);
-        }
-        xml += '            '+createXmlElementString('name', name);
-        if (picURL !== undefined) {
-            xml += '            '+createXmlElementString('set', setCode, {'picURL': picURL});
-        }
-        else {
-            xml += '            '+createXmlElementString('set', setCode);
-        }
-        xml += '            '+createXmlElementString('manacost', manacost);
-        xml += '            '+createXmlElementString('cmc', cmc);
-        xml += '            '+createXmlElementString('type', type);
-        xml += '            '+createXmlElementString('text', text);
-        if (pt !== undefined) {
-            xml += '            '+createXmlElementString('pt', pt);
-        }
-        if (loyalty !== undefined) {
-            xml += '            '+createXmlElementString('loyalty', loyalty);
-        }
-        xml += '            '+createXmlElementString('tablerow', tablerow);
-        xml += '        </card>\n'
     }
 
     xml += '    </cards>\n';
