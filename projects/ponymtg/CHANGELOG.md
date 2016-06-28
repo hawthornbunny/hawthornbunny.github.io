@@ -1,7 +1,8 @@
 ## 1.1.2
 
-* Removed `setsToPaths` mapping.
+* Fixed schema validation errors in generated Cockatrice files.
 * Slight reworking of card sorting to correctly sort on name and set.
+* Removed `setsToPaths` mapping.
 * Added full details for "MTG mlp" set.
 
 ## 1.1.1
