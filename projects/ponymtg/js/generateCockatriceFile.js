@@ -108,13 +108,13 @@ function getCockatriceXml(sets) {
         for (var j=0; j < cards.length; j++) {
             var card = cards[j];
 
-            var picUrl = undefined;
+            var picURL = undefined;
             if (card.image !== undefined) {
                 var baseUrl = window.location.origin;
                 baseUrl += window.location.pathname.split('/').slice(0, -1).join('/');
                 if (global.sets[card.set] !== undefined) {
                     if (global.sets[card.set].path !== undefined) {
-                        var picUrl = baseUrl+'/'+global.paths.sets+'/'+global.sets[card.set].path+'/'+card.image;
+                        var picURL = baseUrl+'/'+global.paths.sets+'/'+global.sets[card.set].path+'/'+card.image;
                     }
                 }
             }
@@ -201,8 +201,11 @@ function getCockatriceXml(sets) {
             // Assemble the XML for this `<card>` element.
             xml += '        <card>\n'
             xml += '            '+createXmlElementString('name', name);
-            if (picUrl !== undefined) {
-                xml += '            '+createXmlElementString('set', setCode, {'picUrl': picUrl});
+            if (picURL !== undefined) {
+                // Note: the `cards.xsd` schema currently provided on
+                // https://github.com/Cockatrice/Cockatrice/wiki/Custom-Cards-&-Sets is incorrect; it mandates that the
+                // attribute be called "picUrl", but the Cockatrice client only recognises "picURL".
+                xml += '            '+createXmlElementString('set', setCode, {'picURL': picURL});
             }
             else {
                 xml += '            '+createXmlElementString('set', setCode);
