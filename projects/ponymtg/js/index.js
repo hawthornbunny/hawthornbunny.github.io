@@ -12,20 +12,12 @@ function initialize() {
     // We're also keeping Sorden's IPU set separate for now.
     CARDS = CARDS.concat(IPU_CARDS);
 
-    // Sort the entire database alphabetically by card name.
-    CARDS.sort(
-        function(cardA, cardB) {
-            cardNameA = cardA.name.toLowerCase();
-            cardNameB = cardB.name.toLowerCase();
-            if (cardNameA < cardNameB) {
-                return -1;
-            }
-            else if (cardNameA > cardNameB) {
-                return 1;
-            }
-            return 0;
-        }
-    );
+    global.urlParameters = getUrlParameters();
+
+    if (!global.urlParameters.noSort) {
+        // Sort the entire database alphabetically by set, then name.
+        CARDS = sortByProperties(CARDS, ['name', 'set'], true);
+    }
 
     // For every card, there may be certain additional properties that we can derive from the information supplied, such
     // as the card's colors. These are useful for refining searches.
@@ -121,7 +113,6 @@ function initialize() {
     // There are certain parameters that the user can pass in the URL to make the app perform special actions.
     // If a `name` and `set` are passed, the app will automatically display all cards that match that name and set.
     // Unlike in a regular search, it will be an exact match, not a partial match.
-    global.urlParameters = getUrlParameters();
     if (Object.keys(global.urlParameters).length > 0) {
         if (global.urlParameters.name !== undefined && global.urlParameters.set !== undefined) {
             var searchString = '^'+escapeRegex(global.urlParameters.name)+'$';

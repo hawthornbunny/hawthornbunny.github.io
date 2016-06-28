@@ -1,3 +1,9 @@
+## 1.1.2
+
+* Removed `setsToPaths` mapping.
+* Slight reworking of card sorting to correctly sort on name and set.
+* Added full details for "MTG mlp" set.
+
 ## 1.1.1
 
 * Switched to absolute card font sizes to render consistently across browsers.
@@ -77,7 +83,6 @@
 * Wrote Python scripts for parsing the FICG dump and Cockatrice files.
 * Added the following card sets:
   * "A Warm Welcome"
-  * "Shards of Equestria"
   * "Nightfall"
   * "Ponylude"
   * "Friendship is Magic the Gathering"

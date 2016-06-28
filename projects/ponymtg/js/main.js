@@ -170,33 +170,6 @@ var global = {
     },
     /** Various useful and commonly-used mappings. */
     'mappings': {
-        /** Maps the set name to the directory path where it can be located. Path is relative to the sets path. */
-        'setsToPaths': {
-            'A Warm Welcome': 'A Warm Welcome/cards',
-            'Shards of Equestria': 'Shards of Equestria/Shards of Equestria pack/cards',
-            'Nightfall': 'Nightfall 1.15/cards',
-            'Ponylude': 'Ponylude/cards',
-            'Friendship is Magic the Gathering': 'Kitonin/Friendship is Magic the Gathering/cards',
-            'CRISIS EQUESTRIA': 'rowcla/CRISIS EQUESTRIA/cards',
-            'New Lunar Republic': 'rowcla/New Lunar Republic/cards',
-            'The Solar Empire': 'rowcla/The Solar Empire/cards',
-            'Legends are Magic': 'jrk08004/Legends are Magic set/cards',
-            'Unponied': 'jrk08004/Unponied/cards',
-            'Friendship is Magic the Gathering (IPU)': 'Sorden/cards',
-            'Derpibooru 7220': 'Derpibooru 7220/cards',
-            'alternatepony': 'alternatepony/cards',
-            'Equestria Disturbed': 'aurais/Equestria Disturbed/cards',
-            'MLP:FiM Season 1 MTG Set': 'AznDemonLord/MLP:FiM Season 1 MTG Set/cards',
-            'MLP:FiM Season 2 MTG Set': 'AznDemonLord/MLP:FiM Season 2 MTG Set/cards',
-            'MTG mlp': 'Modernwater/MTG mlp/cards',
-            'Elements of Harmony': 'Shadic-X-Hedgehog/Elements of Harmony/cards',
-            'MLP-MTG': 'Shirlendra/MLP-MTG/cards',
-            'My Little Multiverse: Knowledge is Magic': 'ManaSparks/My Little Multiverse: Knowledge is Magic/cards',
-            'Grumpy-Moogle': 'Grumpy-Moogle/cards',
-            'Twilight Falls': 'Bliss Authority/Twilight Falls (TLF)/cards',
-            'StorycrafterKiro': 'StorycrafterKiro/cards',
-            'UWoodward': 'UWoodward/cards',
-        },
         /** Maps the various properties of a card to a more human-readable display name.*/
         'cardPropertiesToDisplayNames': {
             'name': 'Name',
@@ -1499,13 +1472,18 @@ function generateCardTableElement(cards) {
             // URL.
             var cardImageLinkElement = document.createElement('a');
             var cardImageElement = document.createElement('img');
-            var cardImageUrl = global.paths.sets+'/'+global.mappings.setsToPaths[card.set]+'/'+card.image;
-            cardImageElement.src = cardImageUrl;
-            cardImageLinkElement.href = cardImageUrl;
-            cardImageLinkElement.target = '_blank';
+            if (global.sets[card.set] !== undefined) {
+                if (global.sets[card.set].path !== undefined) {
+                    var cardImageUrl = global.paths.sets+'/'+global.sets[card.set].path+'/'+card.image;
 
-            // Make all card images the same width (it looks better in results).
-            cardImageElement.style.width = global.dimensions.displayCard.width+'px';
+                    cardImageElement.src = cardImageUrl;
+                    cardImageLinkElement.href = cardImageUrl;
+                    cardImageLinkElement.target = '_blank';
+
+                    // Make all card images the same width (it looks better in results).
+                    cardImageElement.style.width = global.dimensions.displayCard.width+'px';
+                }
+            }
             cardImageLinkElement.appendChild(cardImageElement);
         }
         else {
@@ -2179,4 +2157,67 @@ function transformToAssociativeArray(parametersString) {
         parameters[decodeURIComponent(keyValue[0])] = decodeURIComponent(keyValue[1]);
     }
     return parameters;
+}
+
+/**
+ * Given a collection of objects `objects`, returns the collection sorted alphabetically by the values of the specified
+ * object properties.
+ *
+ * Example: Suppose we have a collection of objects `cards`, in which each object is known to have a `name` property and
+ * a * `set` property. We could sort the collection by name and secondarily by set by calling:
+ *
+ *    sortByProperties(cards, ['name', 'set']);
+ *
+ * If `ignoreCase` is true, the function will treat all property values as if they were lowercase.
+ */
+function sortByProperties(objects, properties, ignoreCase) {
+    return objects.sort(
+        function(objectA, objectB) {
+            for (var i=0; i < properties.length; i++) {
+                // Go through each of the listed properties, and attempt to compare objectA and objectB by each
+                // property. If any property comparison yields a definite "this is smaller" or "this is larger" answer,
+                // then we return that. If it determines that the two properties are the same, it moves on and tries to
+                // compare the next property.
+                var property = properties[i];
+                var comparisonResult = undefined;
+
+                // If the object does not have the specified property, assume the value of that property to be the empty
+                // string.
+                var objectPropertyA = '';
+                var objectPropertyB = '';
+
+                if (objectA[property] !== undefined) {
+                    objectPropertyA = objectA[property];
+                }
+                if (objectB[property] !== undefined) {
+                    objectPropertyB = objectB[property];
+                }
+
+                if (ignoreCase) {
+                    // If set to ignore case, treat both object properties as if they were lowercase.
+                    objectPropertyA = objectPropertyA.toLowerCase();
+                    objectPropertyB = objectPropertyB.toLowerCase();
+                }
+
+                if (objectPropertyA < objectPropertyB) {
+                    comparisonResult = -1;
+                }
+                else if (objectPropertyA > objectPropertyB) {
+                    comparisonResult = 1;
+                }
+                
+                if (comparisonResult !== undefined) {
+                    // If we determined that the two properties are definitely different, we return the comparison
+                    // result (smaller or larger). 
+                    return comparisonResult;
+                }
+
+                // Otherwise, we move on to try comparing the next property in the list.
+            }
+
+            // If after comparing every property, we still couldn't definitely determine an ordering, the two objects
+            // must have exactly the same values for all properties that we're interested in, so return 0.
+            return 0;
+        }
+    );
 }
