@@ -244,10 +244,37 @@ td.cardPropertyValue {
 }
 
 /**
+ * A set of specific font faces to use on proxy cards. We don't want to leave the choice of font up to the browser, as
+ * we need to ensure that proxy cards render consistently across all browsers. We're using the Liberation font, which is
+ * an open source font very close to Times New Roman.
+ */
+@font-face {
+    font-family: proxyFont;
+    src: url(../fonts/liberation/LiberationSerif-Regular.ttf);
+}
+@font-face {
+    font-family: proxyFont;
+    font-weight: bold;
+    src: url(../fonts/liberation/LiberationSerif-Bold.ttf);
+}
+@font-face {
+    font-family: proxyFont;
+    font-style: italic;
+    src: url(../fonts/liberation/LiberationSerif-Italic.ttf);
+}
+@font-face {
+    font-family: proxyFont;
+    font-weight: bold;
+    font-style: italic;
+    src: url(../fonts/liberation/LiberationSerif-BoldItalic.ttf);
+}
+
+/**
  * A container for a faux-Magic card. Emulates the thick rounded border of a Magic card.
  */
 .proxy {
-    font-family: "Times New Roman", Times, serif;
+    /* font-family: "Times New Roman", Times, serif; */
+    font-family: proxyFont;
     margin: 0 auto;
     border: solid #202020;
     border-radius: 16px;

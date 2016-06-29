@@ -1,6 +1,7 @@
 ## 1.1.3
 
 * Added some preprocessing to the Cockatrice file generator to ensure a unique name for every card.
+* Forced proxy cards to use font from file instead of allowing browser to decide font.
 
 ## 1.1.2
 
