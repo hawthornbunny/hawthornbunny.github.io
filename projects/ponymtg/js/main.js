@@ -2116,6 +2116,117 @@ function generateSetCode(setName) {
     setCode = setCode.toUpperCase();
     return setCode;
 }
+
+function generateUniqueSetCodes(sets) {
+    var setCodes = [];
+    for (var i=0; i < sets.length; i++) {
+        // Some sets have pre-set codes, but if they don't, we'll generate one based on the set's name.
+        var setName = sets[i];
+        var setCode = global.sets[setName].code;
+        if (!setCode) {
+            var setCode = generateSetCode(setName);
+            // Perform some checking to ensure that the set code is unique. If it isn't, we'll append a number to the
+            // end of the code, and keep incrementing it until it is unique.
+            var incrementedSetCode = setCode;
+            var trailingNumber = 1;
+            while (setCodes.indexOf(incrementedSetCode) !== -1) {
+                trailingNumber++;
+                incrementedSetCode = setCode + trailingNumber;
+            }
+            setCode = incrementedSetCode;
+        }
+        setCodes.push(setCode);
+    }
+    return setCodes;
+}
+/**
+ * Given a list of set names `sets`, return an object containing lists of card names for each set in which each card
+ * name has been modified to make it unique in both its set, and the collection of cards as a whole.
+ *
+ * For example, suppose we have a set "AAA" containing cards named "Card 1", "Card 2", and a set "BBB" containing cards
+ * named "Card 2", "Card 2". We would like all cards to have distinct names. "Card 1" is fine (there is only one
+ * instance of "Card 1" in all sets under consideration), but "Card 2" is not (there are 3 cards named "Card 2", and two
+ * of them occur in the same set). Therefore, if this function was supplied a list of sets ["AAA", "BBB"], it would
+ * return the following:
+ *
+ *  {
+ *      "AAA": {
+ *          "Card 1",
+ *          "Card 2"
+ *      },
+ *      "BBB": {
+ *          "Card 2 (BBB)",
+ *          "Card 2 (BBB) (2)"
+ *      }
+ *  }
+ *
+ * The reason for this function is because the Cockatrice MtG client does not appear to be able to handle images for
+ * cards that have the same name, even if they are clearly in different sets and are different cards. Since pony sets
+ * are very likely to contain cards with the same name (as they're all based on the same source material), the only way
+ * around this is to give the cards unique names.
+ */
+function getUniqueCardNames(sets) {
+    var sets = information.sets;
+
+    // Now obtain a list of unique set codes for these sets. (Some will be defined, others generated).
+    var setCodes = generateUniqueSetCodes(sets);
+
+    // Create a set-to-set-code mapping.
+    var setsToSetCodes = {};
+    for (var i=0; i < sets.length; i++) {
+        setsToSetCodes[sets[i]] = setCodes[i];
+    }
+
+    // Initialize a collection of cards categorized by set.
+    var uniqueCardNamesBySet = {};
+    for (var i=0; i < sets.length; i++) {
+        uniqueCardNamesBySet[sets[i]] = [];
+    }
+
+    // Go through all cards and collect a list of unique card names, performing modifications as appropriate to ensure
+    // the list stays unique.
+    var uniqueCardNames = [];
+    for (var i=0; i < sets.length; i++) {
+        var cards = getCardsFilteredBySet(CARDS, [sets[i]]);
+        for (var j=0; j < cards.length; j++) {
+            var card = cards[j];
+            var uniqueCardName = card.name;
+            while (uniqueCardNames.indexOf(uniqueCardName) !== -1) {
+                // If we already recorded a card with this name, we'll have to rename it so that it's unique.
+                // First, find out if the card is currently unique within its own set (at least, among all the cards we've
+                // recorded so far).
+                if (uniqueCardNamesBySet[card.set].indexOf(uniqueCardName) === -1) {
+                    // If the card is currently unique within its own set, that means that there must be a card with this
+                    // name in a different set. To distinguish it from that card, we append this card with the code of the
+                    // set to which it belongs.
+                    var setCode = setsToSetCodes[card.set];
+                    if (setCode) {
+                        uniqueCardName += ' ('+setCode+')';
+                    }
+                }
+                else {
+                    // If the card is _not_ unique within its own set, then obviously, this set contains more than one card
+                    // with the same name. In this situation, we eppend a digit to the end of the card's name, and increment
+                    // it until the card's name is unique.
+                    var incrementedName = uniqueCardName;
+                    var trailingNumber = 1;
+                    while (uniqueCardNamesBySet[card.set].indexOf(incrementedName) !== -1) {
+                        trailingNumber++;
+                        incrementedName = uniqueCardName + ' ('+trailingNumber+')';
+                    }
+                    uniqueCardName = incrementedName;
+                }
+            }
+            // Add the name to our list of unique names.
+            uniqueCardNames.push(uniqueCardName);
+            // Also add the name to a collection that's categorized by set. As you can see above, we use this information to
+            // decide if a card is unique within its own set or not.
+            uniqueCardNamesBySet[card.set].push(uniqueCardName);
+        }
+    }
+    return uniqueCardNamesBySet;
+}
+
 /**
  * Return a random integer from 0 to `max`-1.
  */

@@ -64,7 +64,7 @@ function initialize() {
 }
 
 /**
- * Returns Cockatrice XML data for the given set.
+ * Returns Cockatrice XML data for the given sets.
  */
 function getCockatriceXml(sets) {
     var xml = '';
@@ -73,20 +73,23 @@ function getCockatriceXml(sets) {
     xml += '<cockatrice_carddatabase version="3">\n';
     xml += '    <sets>\n';
 
-    var setCodes = [];
-    for (var i=0; i < sets.length; i++) {
-        var setName = sets[i];
-        var setCode = generateSetCode(setName);
-        var incrementedSetCode = setCode;
-        var trailingNumber = 1;
-        while (setCodes.indexOf(incrementedSetCode) !== -1) {
-            trailingNumber++;
-            incrementedSetCode = setCode + trailingNumber;
-        }
-        setCode = incrementedSetCode;
-        setCodes.push(setCode);
-    }
+    // Get a list of set codes (a set code is the short, usually three-letter code that can be used to refer to the set,
+    // eg. "AWW".
+    var setCodes = generateUniqueSetCodes(sets);
 
+    // Get a list of unique card names categorized by set. Cockatrice currently has a deficiency whereby it cannot
+    // display different images for cards that have the same name (even if those cards are obviously from different
+    // sets). To get around this, we are generating unique names for all cards in the specified sets, and using those in
+    // place of the actual names.
+
+    // Note that we're making the slightly dangerous assumption that the ordering of the cards in each set contained
+    // within this object, will be the same as the ordering of the cards that we're about to run through to generate the
+    // XML. We make that assumption in order to be able to match card name to unique name by the index at which each
+    // appear in their respective sets. If the ordering is _not_ the same, then cards will be matched to the wrong
+    // unique names.
+    var uniqueCardNamesBySet = getUniqueCardNames(sets);
+
+    // Populate the `<sets>` part of the XML.
     for (var i=0; i < sets.length; i++) {
         var setName = sets[i];
         var setCode = setCodes[i];
@@ -97,16 +100,18 @@ function getCockatriceXml(sets) {
     }
 
     xml += '    </sets>\n';
-    xml += '    <cards>\n';
 
+    // Next, populate `<cards>`.
+    xml += '    <cards>\n';
     for (var i=0; i < sets.length; i++) {
         var setName = sets[i];
-        var setCode = generateSetCode(setName);
+        var setCode = setCodes[i];
         var cards = getCardsFilteredBySet(CARDS, [setName]);
 
         // Add card data for each card in the set.
         for (var j=0; j < cards.length; j++) {
             var card = cards[j];
+            var uniqueCardName = uniqueCardNamesBySet[card.set][j];
 
             var picURL = undefined;
             if (card.image !== undefined) {
@@ -118,7 +123,7 @@ function getCockatriceXml(sets) {
                     }
                 }
             }
-            var name = card.name;
+            var name = uniqueCardName;
 
             var manacost = '';
             if (card.cost !== undefined) {
@@ -152,8 +157,8 @@ function getCockatriceXml(sets) {
                 loyalty = card.loyalty;
             }
             
-            // Cockatrice has a special `tablerow` parameter which it uses internally to decide where cards should be placed
-            // on the board. This generally depends on the card's type.
+            // Cockatrice has a special `tablerow` parameter which it uses internally to decide where cards should be
+            // placed on the board. This generally depends on the card's type.
             var tablerow = 1;
             if (/Land/i.test(type)) {
                tablerow = 0; 
@@ -290,4 +295,3 @@ function escapeXml(string) {
 
     return escapedString;
 }
-

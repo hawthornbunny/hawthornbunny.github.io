@@ -1,3 +1,7 @@
+## 1.1.3
+
+* Added some preprocessing to the Cockatrice file generator to ensure a unique name for every card.
+
 ## 1.1.2
 
 * Fixed schema validation errors in generated Cockatrice files.
