@@ -15,6 +15,9 @@ var global = {
         /** Path to the directory containing all the card sets. */
         'sets': 'data/sets'
     },
+    /**
+     * A collection of data about each set in the database.
+     */
     'sets': {
         'A Warm Welcome': {
             'path': 'A Warm Welcome/cards',
@@ -448,9 +451,16 @@ var global = {
     'dimensions': {
         /** Dimensions for a standard Magic card as produced by Magic Set Editor. */
         'standardCard': {
-            'width': 375,
-            'height': 523,
-            'borderThickness': 17
+            'px': {
+                'width': 375,
+                'height': 523,
+                'borderThickness': 17
+            },
+            'mm': {
+                'width': 63,
+                'height': 88,
+                'borderThickness': 3
+            },
         },
         /** The desired width for card images in search results. */
         'displayCard': {
@@ -468,6 +478,9 @@ var global = {
              * rendering a proxy card.
              */
             'padding': 4
+        },
+        'printSheet': {
+            'cardSpacing': 8
         }
     },
     /** Various pieces of predefined text. */
@@ -751,6 +764,57 @@ function getFilteredCards(cards) {
     return filteredCards;
 }
 
+/**
+ * Given a collection of cards `cards`, and an object `properties` containing arrays of property values keyed to
+ * property names, filter and return the subset of cards which have those specified properties.
+ *
+ * For example:
+ *
+ *     getCardsFilteredByProperties(
+ *         cards,
+ *         {
+ *             'name': ['Applejack', 'Rarity'],
+ *             'set': ['A Warm Welcome', 'Friendship is Card Games']
+ *         }
+ *     );
+ *
+ * would return all cards named exactly "Applejack" or "Rarity" in either the "A Warm Welcome" set or the "Friendship is
+ * Card Games" set (if such cards exist).
+ */
+function getCardsFilteredByProperties(cards, properties) {
+    var filteredCards = [];
+    // Go through each card.
+    for (var i=0; i < cards.length; i++) {
+        var card = cards[i];
+
+        var propertyNames = Object.keys(properties);
+
+        var cardMatchedAllProperties = true;
+        // Go through each property that we're interested in for each card.
+        for (var j=0; j < propertyNames.length; j++) {
+            var propertyName = propertyNames[j];
+            var propertyValues = properties[propertyName];
+            // Check to see if the card matches any of the specified property values.
+                if (propertyValues.indexOf(card[propertyName]) === -1) {
+                    cardMatchedAllProperties = false;
+                    break;
+                }
+            if (!cardMatchedAllProperties) {
+                // If the card failed to match a property, we won't consider it for inclusion in our filtered set. (It
+                // isn't enough for a card to match one property, because that's quite easy; it has to match everything
+                // that we're looking for).
+                break;
+            }
+        }
+
+        if (!cardMatchedAllProperties) {
+            continue;
+        }
+        filteredCards.push(card);
+    }
+    return filteredCards;
+}
+
 function getCardsFilteredBySet(cards, sets) {
     var filteredCards = [];
     for (var i=0; i < cards.length; i++) {
@@ -905,9 +969,13 @@ function displayResults(cards) {
 
     // Display the new results.
     // Before the results table, add a quick message to say how many results were found.
-    var foundCardsMessageElement = document.createElement('div');
+    var foundCardsMessageElement = document.createElement('span');
+    foundCardsMessageElement.id = 'foundCardsMessagePanel';
+    foundCardsMessageElement.style.display = 'inline-block';
+    foundCardsMessageElement.className = 'alert alert-warning';
     var foundCardsMessage = global.text.search.noResults+'.';
     if (cards.length > 0) {
+        foundCardsMessageElement.className = 'alert alert-info';
         foundCardsMessage = global.text.search.foundResults.replace('{NUMBER_OF_RESULTS}', '<strong>'+cards.length+'</strong>') + '.';
         if (cards.length === 1) {
             foundCardsMessage = foundCardsMessage.replace('cards.', 'card.');
@@ -915,7 +983,6 @@ function displayResults(cards) {
     }
 
     foundCardsMessageElement.innerHTML = foundCardsMessage;
-    foundCardsMessageElement.style.marginBottom = '32px';
 
     // We only want to display a page of results, not all of them. The application is keeping track of which page the
     // user is on, so we just need to figure out what subset of the results should be on the current page, generate a
@@ -945,11 +1012,20 @@ function displayResults(cards) {
  */
 function getDerivedCardProperties(card) {
     var derivedProperties = {};
+    derivedProperties.hash = getCardHash(card);
     derivedProperties.colors = getCardColors(card);
     derivedProperties.manaTypes = getCardManaTypes(card);
     derivedProperties.cmc = getCardConvertedManaCost(card);
     derivedProperties.monocolor = getCardMonocolor(card);
     return derivedProperties;
+}
+
+function getCardHash(card) {
+    var hashString = card.name + card.set;
+    if (card.image !== undefined) {
+        hashString += card.image;
+    }
+    return md5(hashString);
 }
 
 /**
@@ -1191,18 +1267,20 @@ function getFilterByManaTypeChoices() {
  * page button is pressed. This can be used to return the user to the top of the page after changing pages, for example.
  */
 function generatePaginationControlElement(id, scrollToElementId) {
-    var paginationControlTableElement = document.createElement('table');
-    var paginationControlTableRowElement = document.createElement('tr');
-    var previousPageTableCellElement = document.createElement('td');
-    var pageNumberTableCellElement = document.createElement('td');
-    var nextPageTableCellElement = document.createElement('td');
+    var navElement = document.createElement('nav');
+    var navListElement = document.createElement('ul');
+    navListElement.className = 'panel panel-default pager';
+    navListElement.style.padding = '4px';
+    var prevElement = document.createElement('li');
+    prevElement.className = 'previous';
+    var pageNumberTableCellElement = document.createElement('li');
+    var nextElement = document.createElement('li');
+    nextElement.className = 'next';
 
-    paginationControlTableElement.className = 'paginationControl';
-    paginationControlTableElement.id = id;
+    navElement.id = id;
 
-    previousPageTableCellElement.className = 'paginationPreviousPage';
-    previousPageTableCellElement.innerHTML = '< Previous page';
-    previousPageTableCellElement.onclick = function() {
+    prevElement.innerHTML = '<a>&larr; Previous page</a>';
+    prevElement.onclick = function() {
         global.pagination.currentPage--;
         if (global.pagination.currentPage < 0) {
             global.pagination.currentPage = 0;
@@ -1215,12 +1293,10 @@ function generatePaginationControlElement(id, scrollToElementId) {
         }
     };
 
-    pageNumberTableCellElement.className = 'paginationPageNumber';
-    pageNumberTableCellElement.innerHTML = 'Page '+(global.pagination.currentPage+1)+' of '+global.pagination.numberOfPages;
+    pageNumberTableCellElement.innerHTML = '<span style="border:0">Page <strong>'+(global.pagination.currentPage+1)+'</strong> of <strong>'+global.pagination.numberOfPages+'</strong></span>';
 
-    nextPageTableCellElement.className = 'paginationNextPage';
-    nextPageTableCellElement.innerHTML = 'Next page >';
-    nextPageTableCellElement.onclick = function() {
+    nextElement.innerHTML = '<a>Next page &rarr;</a>';
+    nextElement.onclick = function() {
         global.pagination.currentPage++;
         if (global.pagination.currentPage >= global.pagination.numberOfPages) {
             global.pagination.currentPage = global.pagination.numberOfPages - 1;
@@ -1232,33 +1308,29 @@ function generatePaginationControlElement(id, scrollToElementId) {
         }
     };
 
-    paginationControlTableRowElement.appendChild(previousPageTableCellElement);
-    paginationControlTableRowElement.appendChild(pageNumberTableCellElement);
-    paginationControlTableRowElement.appendChild(nextPageTableCellElement);
-    paginationControlTableElement.appendChild(paginationControlTableRowElement);
-    return paginationControlTableElement;
+    navListElement.appendChild(prevElement);
+    navListElement.appendChild(pageNumberTableCellElement);
+    navListElement.appendChild(nextElement);
+    navElement.appendChild(navListElement);
+    return navElement;
 }
 
 /**
  * Generates and returns a DOM element containing advanced search controls.
  */
 function generateAdvancedSearchElement() {
-    // Create a table element to hold all advanced search controls.
-    var advancedSearchTableElement = document.createElement('table');
-    advancedSearchTableElement.id = global.advancedSearchIdPrefix+'_table';
-    advancedSearchTableElement.style.display = 'none';
-    advancedSearchTableElement.className = 'advancedSearchTable';
-
-    // The advanced search box is broken into vertical sections, each with a header at the top. So each section consists
-    // of a header row (which contains the section title) followed by a row containing all the controls for that
-    // section.
+    var advancedSearchPanelElement = document.createElement('div');
+    advancedSearchPanelElement.id = global.advancedSearchIdPrefix+'_table';
+    advancedSearchPanelElement.style.display = 'none';
 
     // First, do the "Search by card property" section. This will be a list of all card properties that we want to allow
     // the user to search by.
-    var searchByCardPropertyTableRowElement = document.createElement('tr');
-    var searchByCardPropertyTableHeaderRowElement = document.createElement('tr');
-    var searchByCardPropertyTableHeaderCellElement = document.createElement('th');
-    var searchByCardPropertyTableCellElement = document.createElement('td');
+    var searchByCardPropertyPanelElement = document.createElement('div');
+    searchByCardPropertyPanelElement.className = 'panel panel-default';
+    var searchByCardPropertyHeaderElement = document.createElement('div');
+    searchByCardPropertyHeaderElement.className = 'panel-heading';
+    var searchByCardPropertyBodyElement = document.createElement('div');
+    searchByCardPropertyBodyElement.className = 'panel-body';
 
     // Generate checkboxes for all properties that we'll allow the user to search by.
     var data = [];
@@ -1272,18 +1344,23 @@ function generateAdvancedSearchElement() {
         data.push(datum);
     }
 
-    searchByCardPropertyTableHeaderCellElement.innerHTML = 'Search by';
-    searchByCardPropertyTableHeaderCellElement.style.backgroundColor = '#b0b0b0'
-    searchByCardPropertyTableCellElement.appendChild(generateCheckboxListElement(global.advancedSearchIdPrefix+'_searchByCardProperty', data, '20%', true));
-    searchByCardPropertyTableCellElement.className = 'searchByCardProperty';
-    searchByCardPropertyTableHeaderRowElement.appendChild(searchByCardPropertyTableHeaderCellElement);
-    searchByCardPropertyTableRowElement.appendChild(searchByCardPropertyTableCellElement);
+    searchByCardPropertyHeaderElement.innerHTML = 'Search by';
+    searchByCardPropertyBodyElement.appendChild(
+        generateCheckboxListElement(
+            global.advancedSearchIdPrefix+'_searchByCardProperty',
+            data,
+            '20%',
+            true
+        )
+    );
 
     // Second section: Filter the results by a specific set or sets.
-    var filterBySetTableHeaderRowElement = document.createElement('tr');
-    var filterBySetTableHeaderCellElement = document.createElement('th');
-    var filterBySetTableRowElement = document.createElement('tr');
-    var filterBySetTableCellElement = document.createElement('td');
+    var filterBySetPanelElement = document.createElement('div');
+    filterBySetPanelElement.className = 'panel panel-default';
+    var filterBySetHeaderElement = document.createElement('div');
+    filterBySetHeaderElement.className = 'panel-heading';
+    var filterBySetBodyElement = document.createElement('div');
+    filterBySetBodyElement.className = 'panel-body';
 
     // Generate checkboxes for all known sets.
     var data = [];
@@ -1298,23 +1375,29 @@ function generateAdvancedSearchElement() {
         data.push(datum);
     }
 
-    filterBySetTableHeaderCellElement.innerHTML = 'Search in sets';
-    filterBySetTableHeaderCellElement.style.backgroundColor = '#b0b0b0'
-    filterBySetTableCellElement.appendChild(generateCheckboxListElement(global.advancedSearchIdPrefix+'_filterBySet', data, '33%', true));
-    filterBySetTableCellElement.className = 'filterBySet';
-    filterBySetTableHeaderRowElement.appendChild(filterBySetTableHeaderCellElement);
-    filterBySetTableRowElement.appendChild(filterBySetTableCellElement);
+    filterBySetHeaderElement.innerHTML = 'Search in sets';
+    filterBySetBodyElement.appendChild(
+        generateCheckboxListElement(
+            global.advancedSearchIdPrefix+'_filterBySet',
+            data,
+            '33%',
+            true
+        )
+    );
 
     // Third section: Filter the results by color.
-    var filterByManaTypeTableHeaderRowElement = document.createElement('tr');
-    var filterByManaTypeTableHeaderCellElement = document.createElement('th');
-    var filterByManaTypeTableRowElement = document.createElement('tr');
-    var filterByManaTypeTableCellElement = document.createElement('td');
+    var filterByManaTypePanelElement = document.createElement('div');
+    filterByManaTypePanelElement.className = 'panel panel-default';
+    var filterByManaTypeHeaderElement = document.createElement('div');
+    filterByManaTypeHeaderElement.className = 'panel-heading';
+    var filterByManaTypeBodyElement = document.createElement('div');
+    filterByManaTypeBodyElement.className = 'panel-body';
 
     // This section contains a drop-down list prompting the user to select how, exactly, they would like to search by
     // color (as there are a few different ways that that can be interpreted).
     var filterByManaTypeSearchTypeLabelElement = document.createElement('label');
     filterByManaTypeSearchTypeLabelElement.innerHTML = 'Search for cards that: ';
+    filterByManaTypeSearchTypeLabelElement.style.margin = '4px';
     filterByManaTypeSearchTypeLabelElement.style.fontSize = '0.8em';
 
     var filterByManaTypeSearchTypeSelectElement = document.createElement('select');
@@ -1352,24 +1435,25 @@ function generateAdvancedSearchElement() {
     }
 
     filterByManaTypeCheckboxListElement = generateCheckboxListElement(global.advancedSearchIdPrefix+'_filterByManaType', data, '10%');
-    filterByManaTypeTableHeaderCellElement.innerHTML = 'Search by mana type';
-    filterByManaTypeTableHeaderCellElement.style.backgroundColor = '#b0b0b0'
-    filterByManaTypeTableCellElement.appendChild(filterByManaTypeSearchTypeLabelElement);
-    filterByManaTypeTableCellElement.appendChild(filterByManaTypeSearchTypeSelectElement);
-    filterByManaTypeTableCellElement.appendChild(filterByManaTypeCheckboxListElement);
-    filterByManaTypeTableCellElement.className = 'filterByManaType';
-    filterByManaTypeTableHeaderRowElement.appendChild(filterByManaTypeTableHeaderCellElement);
-    filterByManaTypeTableRowElement.appendChild(filterByManaTypeTableCellElement);
+    filterByManaTypeHeaderElement.innerHTML = 'Search by mana type';
+    filterByManaTypeBodyElement.appendChild(filterByManaTypeSearchTypeLabelElement);
+    filterByManaTypeBodyElement.appendChild(filterByManaTypeSearchTypeSelectElement);
+    filterByManaTypeBodyElement.appendChild(filterByManaTypeCheckboxListElement);
 
     // Finally, add all sections to the advanced search table.
-    advancedSearchTableElement.appendChild(searchByCardPropertyTableHeaderRowElement);
-    advancedSearchTableElement.appendChild(searchByCardPropertyTableRowElement);
-    advancedSearchTableElement.appendChild(filterBySetTableHeaderRowElement);
-    advancedSearchTableElement.appendChild(filterBySetTableRowElement);
-    advancedSearchTableElement.appendChild(filterByManaTypeTableHeaderRowElement);
-    advancedSearchTableElement.appendChild(filterByManaTypeTableRowElement);
+    searchByCardPropertyPanelElement.appendChild(searchByCardPropertyHeaderElement);
+    searchByCardPropertyPanelElement.appendChild(searchByCardPropertyBodyElement);
+    advancedSearchPanelElement.appendChild(searchByCardPropertyPanelElement);
 
-    return advancedSearchTableElement;
+    filterBySetPanelElement.appendChild(filterBySetHeaderElement);
+    filterBySetPanelElement.appendChild(filterBySetBodyElement);
+    advancedSearchPanelElement.appendChild(filterBySetPanelElement);
+
+    filterByManaTypePanelElement.appendChild(filterByManaTypeHeaderElement);
+    filterByManaTypePanelElement.appendChild(filterByManaTypeBodyElement);
+    advancedSearchPanelElement.appendChild(filterByManaTypePanelElement);
+
+    return advancedSearchPanelElement;
 }
 
 /**
@@ -1391,6 +1475,7 @@ function generateCheckboxListElement(idPrefix, data, optionWidth, addSelectAll) 
         var selectAllCheckboxElementContainer = document.createElement('div');
         selectAllCheckboxElementContainer.style.display = 'inline-block';
         selectAllCheckboxElementContainer.style.width = optionWidth;
+        selectAllCheckboxElementContainer.style.textAlign = 'left';
         
         var selectAllCheckboxElement = document.createElement('input');
         selectAllCheckboxElement.id = idPrefix+'_selectAll';
@@ -1406,6 +1491,7 @@ function generateCheckboxListElement(idPrefix, data, optionWidth, addSelectAll) 
         selectAllCheckboxLabelElement.htmlFor = selectAllCheckboxElement.id;
         selectAllCheckboxLabelElement.style.fontSize = '0.9em';
         selectAllCheckboxLabelElement.style.fontWeight = 'bold';
+        selectAllCheckboxLabelElement.style.margin = '2px';
         selectAllCheckboxLabelElement.innerHTML = 'Select all';
 
         selectAllCheckboxElementContainer.appendChild(selectAllCheckboxElement);
@@ -1419,6 +1505,7 @@ function generateCheckboxListElement(idPrefix, data, optionWidth, addSelectAll) 
         var checkboxElementContainer = document.createElement('div');
         checkboxElementContainer.style.display = 'inline-block';
         checkboxElementContainer.style.width = optionWidth;
+        checkboxElementContainer.style.textAlign = 'left';
         var checkboxElement = document.createElement('input');
         checkboxElement.type = 'checkbox';
         checkboxElement.id = idPrefix+datum['idSuffix'];
@@ -1426,6 +1513,8 @@ function generateCheckboxListElement(idPrefix, data, optionWidth, addSelectAll) 
         var checkboxLabelElement = document.createElement('label');
         checkboxLabelElement.htmlFor = checkboxElement.id;
         checkboxLabelElement.style.fontSize = '0.9em';
+        checkboxLabelElement.style.fontWeight = 'normal';
+        checkboxLabelElement.style.margin = '2px';
         checkboxLabelElement.innerHTML = datum['label'];
 
         if (datum['title'] !== undefined) {
@@ -1445,23 +1534,22 @@ function generateCheckboxListElement(idPrefix, data, optionWidth, addSelectAll) 
  * known, relevant properties of the card.
  */
 function generateCardTableElement(cards) {
-    // Create a table to hold the results.
-    var cardTable = document.createElement('table');
-    cardTable.className = 'cardTable';
-
-    // Preset the height of the table to the expected height of the displayed card. This makes it a bit less jarring
-    // when the image is in a half-loaded state, as the table will usually try to resize itself to fit its contents.
-    // (This currently doesn't work).
-    cardTable.style.height = getCardHeightFromCardWidth(global.dimensions.displayCard.width)+'px';
+    var cardTable = document.createElement('div');
+    cardTable.className = 'container-fluid';
 
     for (var i=0; i < cards.length; i++) {
         var card = cards[i];
 
         // Create a table row for this card result. Card image on the left, card information on the right.
-        var cardTableRow = document.createElement('tr');
-        var cardTableCellImage = document.createElement('td');
-        var cardTableCellInfo = document.createElement('td');
-        cardTableCellInfo.className = 'cardInfo';
+        var cardTableRow = document.createElement('div');
+        cardTableRow.className = 'row';
+
+        var cardTableCellImage = document.createElement('div');
+        var cardTableCellInfo = document.createElement('div');
+        cardTableCellInfo.style.minHeight = getCardHeightFromCardWidth(global.dimensions.displayCard.width)+'px';
+        cardTableCellInfo.style.marginBottom = '4px';
+        cardTableCellImage.className = 'col-md-3';
+        cardTableCellInfo.className = 'panel panel-default col-md-9';
 
         // Check to see if we have an image for this card.
         var cardImageLinkElement = undefined;
@@ -1474,7 +1562,7 @@ function generateCardTableElement(cards) {
             var cardImageElement = document.createElement('img');
             if (global.sets[card.set] !== undefined) {
                 if (global.sets[card.set].path !== undefined) {
-                    var cardImageUrl = global.paths.sets+'/'+global.sets[card.set].path+'/'+card.image;
+                    var cardImageUrl = getCardImageUrl(card);
 
                     cardImageElement.src = cardImageUrl;
                     cardImageLinkElement.href = cardImageUrl;
@@ -1494,11 +1582,17 @@ function generateCardTableElement(cards) {
         }
 
         // Assemble relevant properties of the card into an information table.
-        var cardInfoElement = document.createElement('p');
-        var cardInfoHtml = '';
 
-        var cardInfoTable = document.createElement('table');
-        cardInfoTable.style.width = '100%';
+        var cardTableCellInfoBody = document.createElement('div');
+        cardTableCellInfoBody.className = 'panel-body';
+
+        // Create a description list for this property.
+        var cardPropertiesDescriptionList = document.createElement('dl');
+        // Use the Bootstrap `dl-horizontal` class to make it a two-column list, with titles on the left and
+        // descriptions on the right. This is a quick and easy way to list out property names and their values in a
+        // nice-looking format.
+        cardPropertiesDescriptionList.className = 'dl-horizontal';
+
 
         for (var j=0; j < global.lists.cardPropertiesToDisplay.length; j++) {
             var cardPropertyName = global.lists.cardPropertiesToDisplay[j];
@@ -1509,38 +1603,96 @@ function generateCardTableElement(cards) {
                 continue;
             }
 
+            // Check to see if this card property is one that we want to display. If it isn't, skip this property.
+            if (global.lists.cardPropertiesToDisplay.indexOf(cardPropertyName) === -1) {
+                continue;
+            }
+
+
             // Attempt to get a more human-readable display name for this property, if one is available.
             var cardPropertyDisplayName = cardPropertyName;
             if (global.mappings.cardPropertiesToDisplayNames[cardPropertyName] !== undefined) {
                 cardPropertyDisplayName = global.mappings.cardPropertiesToDisplayNames[cardPropertyName];
             }
 
-            // Check to see if this card property is one that we want to display. If it isn't, skip this property.
-            if (global.lists.cardPropertiesToDisplay.indexOf(cardPropertyName) === -1) {
-                continue;
-            }
+            var cardPropertyNameElement = document.createElement('dt');
+            var cardPropertyValueElement = document.createElement('dd');
 
-            // Create a table row for the card property. Property name on the left, property value on the right.
-            var cardInfoTableRow = document.createElement('tr');
-
-            var cardInfoTableCellPropertyName = document.createElement('td');
-            cardInfoTableCellPropertyName.className = 'cardPropertyName';
-
-            var cardInfoTableCellPropertyValue = document.createElement('td');
-            cardInfoTableCellPropertyValue.className = 'cardPropertyValue';
-
-            cardInfoTableCellPropertyName.innerHTML = cardPropertyDisplayName+':';
+            cardPropertyNameElement.innerHTML = cardPropertyDisplayName+':';
             cardPropertyValue = cardPropertyValue.replace(/\n/g, '<br />');
-            cardInfoTableCellPropertyValue.innerHTML = cardPropertyValue;
+            cardPropertyValueElement.style.textAlign = 'left';
+            cardPropertyValueElement.innerHTML = cardPropertyValue;
+            // Special case for "set" property: We do have descriptions for some sets, which we can add as a title
+            // property, allowing the user to mouse over to find out information about the set.
+            if (cardPropertyName === 'set') {
+                if (global.sets[cardPropertyValue] !== undefined && global.sets[cardPropertyValue].notes !== undefined) {
+                    cardPropertyValueElement.title = global.sets[cardPropertyValue].notes;
+                }
+            }
             // Special case for "flavorText" property: We'd like that to be italicized.
             if (cardPropertyName === 'flavorText') {
-                cardInfoTableCellPropertyValue.style.fontStyle = 'italic';
+                cardPropertyValueElement.style.fontStyle = 'italic';
             }
 
-            cardInfoTableRow.appendChild(cardInfoTableCellPropertyName);
-            cardInfoTableRow.appendChild(cardInfoTableCellPropertyValue);
-            cardInfoTable.appendChild(cardInfoTableRow);
+            cardPropertiesDescriptionList.appendChild(cardPropertyNameElement);
+            cardPropertiesDescriptionList.appendChild(cardPropertyValueElement);
         }
+        cardTableCellInfoBody.appendChild(cardPropertiesDescriptionList);
+
+        var cardOptionsContainer = document.createElement('div');
+
+        var cardHyperlinkUrl = window.location.pathname+'?hash='+card.derivedProperties.hash;
+        cardOptionsContainer.style.fontSize = '0.9em';
+        cardOptionsContainer.style.textAlign = 'right';
+
+        // Create the "Add to print sheet" button. For this button, we would like to include some indication of whether
+        // or not the user has already added the card to the print sheet (and how many they have added). Therefore, we
+        // will obtain the print sheet object from local storage and check to see if this card is on it.
+        var printSheetCardsObject = getPrintSheetCards();
+        var printSheetCardQuantity = printSheetCardsObject[card.derivedProperties.hash];
+        if (printSheetCardQuantity === undefined) {
+            printSheetCardQuantity = 0;
+        }
+
+        var addToPrintSheetLink = document.createElement('button');
+        addToPrintSheetLink.className = 'btn btn-default';
+        var addToPrintSheetLinkText = '<span class="glyphicon glyphicon-file"></span> Add to print sheet'; 
+        addToPrintSheetLink.innerHTML = addToPrintSheetLinkText;
+        if (printSheetCardQuantity > 0) {
+            addToPrintSheetLink.innerHTML += ' <span class="badge">'+printSheetCardQuantity+'</span>'; 
+        }
+        addToPrintSheetLink.ponymtg = {};
+        addToPrintSheetLink.ponymtg.hash = card.derivedProperties.hash;
+        addToPrintSheetLink.ponymtg.quantity = printSheetCardQuantity;
+        addToPrintSheetLink.onclick = function(e) {
+            // Add the card to the print sheet and increment the number on the button's badge.
+            // NOTE: Use `currentTarget`, not `target`! `target` identifies the element that was clicked on; however,
+            // this is not _necessarily_ the button itself. Buttons can contain child elements such as images and icons;
+            // if you happened to click on the 'icon' part of a button, then `target` will be set to that, not the
+            // button itself!
+            //
+            // Instead, use `currentTarget`, which identifies the element that actually has the event on it (in this
+            // case, `onclick`).
+            addCardToPrintSheet(e.currentTarget.ponymtg.hash);
+            e.currentTarget.ponymtg.quantity++;
+            e.currentTarget.innerHTML = addToPrintSheetLinkText+' <span class="badge">'+e.currentTarget.ponymtg.quantity+'</span>';
+
+            // Also increment the number on the main print sheets button in the navbar.
+            var printSheetCountBadge = document.querySelector('#printSheetCountBadge');
+            printSheetCountBadge.innerHTML = getNumberOfCardsInPrintSheet();
+        };
+
+        var cardLink = document.createElement('a');
+        cardLink.className = 'btn btn-default';
+        cardLink.href = cardHyperlinkUrl; 
+        cardLink.target = '_blank'; 
+        cardLink.innerHTML = '<span class="glyphicon glyphicon-link"></span> Link'; 
+
+        cardOptionsContainer.appendChild(addToPrintSheetLink);
+        cardOptionsContainer.appendChild(cardLink);
+
+        cardTableCellInfoBody.appendChild(cardOptionsContainer);
+
 
         if (cardImageLinkElement !== undefined) {
             cardTableCellImage.appendChild(cardImageLinkElement);
@@ -1548,8 +1700,8 @@ function generateCardTableElement(cards) {
         else if (cardProxyElement !== undefined) {
             cardTableCellImage.appendChild(cardProxyElement);
         }
-        cardTableCellInfo.appendChild(cardInfoTable);
         cardTableRow.appendChild(cardTableCellImage);
+        cardTableCellInfo.appendChild(cardTableCellInfoBody);
         cardTableRow.appendChild(cardTableCellInfo);
         cardTable.appendChild(cardTableRow);
     }
@@ -1558,12 +1710,92 @@ function generateCardTableElement(cards) {
 }
 
 /**
+ * Quick funfction to construct the (relative) path to a card's image. This assumes that the card actually has an
+ * `image` property defined.
+ */
+function getCardImageUrl(card) {
+    return global.paths.sets+'/'+global.sets[card.set].path+'/'+card.image;
+}
+
+/**
+ * Reads the `printSheetCards` local storage variable and parses it into an object. If the variable doesn't exist in
+ * local storage (perhaps the user hasn't started a print sheet yet, for example), an empty object is returned.
+ */
+function getPrintSheetCards() {
+    var printSheetCardsString = localStorage.getItem('printSheetCards');
+    var printSheetCardsObject = {};
+    if (printSheetCardsString !== null) {
+        printSheetCardsObject = JSON.parse(printSheetCardsString);
+    }
+    return printSheetCardsObject;
+}
+
+function clearPrintSheet() {
+    localStorage.removeItem('printSheetCards');
+}
+
+/**
+ * Stringifies `object` and stores it in the local storage variable `printSheetCards`. `object` should be an object
+ * containing card hashes associated to quantities; that is, it stores how many of each card should be on the print
+ * sheet.
+ */
+function putPrintSheetCards(printSheetCardsObject) {
+    localStorage.setItem('printSheetCards', JSON.stringify(printSheetCardsObject));
+}
+
+/**
+ */
+function addCardToPrintSheet(hash) {
+    var printSheetCardsObject = getPrintSheetCards();
+    if (printSheetCardsObject[hash] === undefined) {
+        printSheetCardsObject[hash] = 0;
+    }
+
+    printSheetCardsObject[hash]++;
+    putPrintSheetCards(printSheetCardsObject);
+}
+
+/**
+ */
+function removeCardFromPrintSheet(hash) {
+    var printSheetCardsObject = getPrintSheetCards();
+    if (printSheetCardsObject[hash] !== undefined) {
+        printSheetCardsObject[hash]--;
+        if (printSheetCardsObject[hash] <= 0) {
+            delete printSheetCardsObject[hash];
+        }
+    }
+
+    putPrintSheetCards(printSheetCardsObject);
+}
+
+function removeAllCardsWithHashFromPrintSheet(hash) {
+    var printSheetCardsObject = getPrintSheetCards();
+    if (printSheetCardsObject[hash] !== undefined) {
+        delete printSheetCardsObject[hash];
+    }
+
+    putPrintSheetCards(printSheetCardsObject);
+}
+
+function getNumberOfCardsInPrintSheet() {
+    var printSheetCards = getPrintSheetCards();
+    var printSheetCardHashes = Object.keys(printSheetCards);
+
+    var numberOfCardsInPrintSheet = 0;
+    for (var i=0; i < printSheetCardHashes.length; i++) {
+        var printSheetCardHash = printSheetCardHashes[i];
+        numberOfCardsInPrintSheet += printSheetCards[printSheetCardHash];    
+    }
+    return numberOfCardsInPrintSheet;
+}
+/**
  * Using the global standard card dimensions defined in the config, determine the aspect ratio of a standard Magic card,
  * and use it to calculate the height of a card of width `cardWidth`
  */
 function getCardHeightFromCardWidth(cardWidth) {
     // Use the global standard card dimensions to determine the card's aspect ratio, and thus the height of the proxy.
-    var cardAspectRatio = global.dimensions.standardCard.height/global.dimensions.standardCard.width;
+    var cardAspectRatio = global.dimensions.standardCard.px.height/global.dimensions.standardCard.px.width;
     return cardWidth*cardAspectRatio;
 
 }
@@ -1594,8 +1826,7 @@ function generateProxyElement(
     // the border thickness of the global standard card, so we can work out how big the border needs to be for our
     // proxy.
 
-    var relativeBorderThickness = global.dimensions.standardCard.borderThickness/global.dimensions.standardCard.width;
-    var proxyBorderThickness = cardWidth * relativeBorderThickness;
+    var proxyBorderThickness = calculateCardBorderThickness(cardWidth);
 
     // We also need to take into account padding. This is simply a small gap between the contents of the proxy container
     // (ie. the card name, text, etc.) and the border. There is no Magic standard for this; we're just adding it to make
@@ -1692,7 +1923,6 @@ function generateProxyElement(
     var cardText = cardProperties.text;
 
     if (cardText) { 
-
         // If we've got flavor text as well, add it in, italicizing it appropriately.
         if (cardProperties.flavorText !== undefined) {
             cardText += '\n\n<i>' + cardProperties.flavorText + '</i>';
@@ -1711,6 +1941,8 @@ function generateProxyElement(
         }
         proxyTextElement.innerHTML = cardText;
 
+        proxyTextElement.style.fontSize = estimateProxyCardTextFontSize(cardText, cardWidth)+'px';
+/*
         // If the mass of the text on this card is above a certain threshold, shrink it down a bit. The exact amount of
         // shrinkage is proportional to how much over the threshold it is.
 
@@ -1733,6 +1965,7 @@ function generateProxyElement(
 
             proxyTextElement.style.fontSize = shrunkenTextSize+'px';
         }
+*/
     }
 
     proxyTypeLineElement.className = 'card-type-line';
@@ -1827,6 +2060,60 @@ function generateProxyElement(
     }
 
     return proxyElement;
+}
+
+/**
+ * Idea borrowed from StackOverflow. In HTML, there is no direct way to determine whether text is overflowing its
+ * container or not, but there is a really clever trick we can use.
+ *
+ * The trick works by creating an invisible dummy container with similar properties to the one we're interested in, but
+ * we make it so that it will expand with the more text we put into it.
+ *
+ * Then, we pick a really small font size, put our text into the container with that font size, and measure the
+ * container's size. If the container is still at an acceptable size, we try again with a larger font size, and we keep
+ * trying until the container goes beyond our desired size. At that point, we will know which font size is just right
+ * for the container.
+ */
+function estimateProxyCardTextFontSize(html, cardWidth) {
+    var dummyElement = document.createElement('div');
+    document.querySelector('body').appendChild(dummyElement);
+    
+    dummyElement.style.position = 'absolute';
+    dummyElement.style.visibility = 'hidden';
+    dummyElement.style.whitespace = 'nowrap';
+    dummyElement.style.overflow = 'visible';
+    dummyElement.style.fontFamily = 'proxyFont';
+
+    var cardHeight = getCardHeightFromCardWidth(cardWidth);
+
+    // Estimate the dimensions of the dummy element. We won't be too precise about this; we just want it to be roughly
+    // the same size as the card text area on a card.
+    var dummyElementWidth = cardWidth - (2 * calculateCardBorderThickness(cardWidth)) - (2 * global.dimensions.proxy.padding);
+    var dummyElementHeight = cardHeight * 0.5;
+    dummyElement.style.width = dummyElementWidth+'px';
+    dummyElement.innerHTML = html;
+    
+    var minFontSize = 1;
+    var maxFontSize = 16;
+    var fontSizeIncrement = 0.5;
+    
+    var bestFontSize = minFontSize;
+    for (var i=minFontSize; i <= maxFontSize; i += fontSizeIncrement) {
+        dummyElement.style.fontSize = i+'px';
+        if (dummyElement.offsetHeight > dummyElementHeight) {
+            break;
+        }
+        bestFontSize = i;
+    }
+
+    document.querySelector('body').removeChild(dummyElement);
+    return bestFontSize;
+}
+
+function calculateCardBorderThickness(cardWidth) {
+    var relativeBorderThickness = global.dimensions.standardCard.px.borderThickness/global.dimensions.standardCard.px.width;
+    var proxyBorderThickness = cardWidth * relativeBorderThickness;
+    return proxyBorderThickness;
 }
 
 /**
@@ -2331,4 +2618,25 @@ function sortByProperties(objects, properties, ignoreCase) {
             return 0;
         }
     );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Polyfills
+
+/**
+ * Polyfill for the `includes` method, which isn't supported in Internet Explorer.
+ */
+if (!String.prototype.includes) {
+  String.prototype.includes = function(search, start) {
+    'use strict';
+    if (typeof start !== 'number') {
+      start = 0;
+    }
+    
+    if (start + search.length > this.length) {
+      return false;
+    } else {
+      return this.indexOf(search, start) !== -1;
+    }
+  };
 }

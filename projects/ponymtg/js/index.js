@@ -23,7 +23,15 @@ function initialize() {
     // as the card's colors. These are useful for refining searches.
     for (var i=0; i < CARDS.length; i++) {
         CARDS[i].derivedProperties = getDerivedCardProperties(CARDS[i]);
+
+        // For the card's hash, we'll also put this directly on the card itself, as the filtering function only looks at
+        // the card's static properties, and we do sometimes want to filter by hash.
+        CARDS[i].hash = CARDS[i].derivedProperties.hash;
     }
+
+    // Obtain the list of print sheet cards from local storage. This is a persistent object that associates a set of
+    // card hashes (each hash of which uniquely identifies a single card) to a quantity value, representing numbers of
+    // cards selected by the user to be put onto a print sheet, which they can generate from another page.
 
     global.elements.results = document.querySelector('#results');
 
@@ -43,14 +51,16 @@ function initialize() {
     tagline = tagline.replace('{NUMBER_OF_CARDS}', '<strong>'+global.information.overall.numberOfCards+'</strong>');
     global.elements.tagline.innerHTML = tagline;
 
-    // The "random card" link should select a random set, then select a random card from that set, and open PonyMTG in a
-    // new tab with the set and card name passed in the URL.
+    // The "random card" link selects a random set, then a random card from that set, then gets the card hash, and opens
+    // PonyMTG in a new tab with the hash passed in the URL. Although we could simply pick a random card from anywhere
+    // in the database, we select by set first to give every set an equal chance of being picked (otherwise, the largest
+    // sets would dominate the random card selection).
     var randomCardElement = document.querySelector('#randomCard');
     randomCardElement.onclick = function () {
         var randomSet = global.information.sets[rnd(global.information.sets.length)];
         var randomSetCards = getCardsFilteredBySet(CARDS, [randomSet]);
         var randomCard = randomSetCards[rnd(randomSetCards.length)];
-        var randomCardUrl = '?name='+randomCard.name+'&set='+randomCard.set;
+        var randomCardUrl = '?hash='+randomCard.hash;
         window.open(randomCardUrl, '_blank');
     }
 
@@ -110,17 +120,24 @@ function initialize() {
         filterByManaTypeCheckbox.checked = true;
     }
 
-    // There are certain parameters that the user can pass in the URL to make the app perform special actions.
-    // If a `name` and `set` are passed, the app will automatically display all cards that match that name and set.
-    // Unlike in a regular search, it will be an exact match, not a partial match.
+    // Maintain a global reference to the print sheet link in the navbar. This contains a dynamic count of how many
+    // cards are currently on the print sheet, which we would like to update as cards are added.
+    global.elements.printSheetLink = document.querySelector('#printSheetLink');
+
+    // Initialize the badge on the print sheet button to the appropriate number.
+    global.elements.printSheetLink.innerHTML += ' <span id="printSheetCountBadge" class="badge">'+getNumberOfCardsInPrintSheet()+'</span>';
+
+    // If a `hash` parameter is passed in the URL, auto-search for a card that matches that hash.
     if (Object.keys(global.urlParameters).length > 0) {
-        if (global.urlParameters.name !== undefined && global.urlParameters.set !== undefined) {
-            var searchString = '^'+escapeRegex(global.urlParameters.name)+'$';
-            var searchRegex = new RegExp(searchString, 'i');
-            global.search.results = getMatchingCards(searchRegex, getCardsFilteredBySet(CARDS, global.urlParameters.set));
+        if (global.urlParameters.hash !== undefined) {
+            global.search.results = getCardsFilteredByProperties(CARDS, { 'hash': global.urlParameters.hash } );
             global.pagination.currentPage = 0;
             global.pagination.numberOfPages = Math.ceil(global.search.results.length/global.pagination.cardsPerPage);
             displayResults(global.search.results);
+            // Since this is an auto-search from which we only ever expect to get one result, don't show the "found X
+            // cards" message.
+            var foundCardsMessageElement = document.querySelector('#foundCardsMessagePanel');
+            foundCardsMessageElement.parentNode.removeChild(foundCardsMessageElement);
         }
     }
 }

@@ -19,10 +19,13 @@ function initialize() {
 function getSetsTableElement(sets) {
     var tableElement = document.createElement('table');
     tableElement.id = 'setsTable';
-    tableElement.style.width = '75%';
-    tableElement.style.margin = '2.5% auto';
-    tableElement.style.borderSpacing = '0';
+    tableElement.className = 'table table-bordered table-hover';
+    //tableElement.style.width = '75%';
+    //tableElement.style.margin = '2.5% auto';
+    //tableElement.style.borderSpacing = '0';
 
+    var tableHeadElement = document.createElement('thead');
+    var tableBodyElement = document.createElement('tbody');
     var tableHeaderRowElement = document.createElement('tr');
     var nameTableHeaderCellElement = document.createElement('th');
     var creatorTableHeaderCellElement = document.createElement('th');
@@ -41,8 +44,9 @@ function getSetsTableElement(sets) {
     tableHeaderRowElement.appendChild(numberOfCardsTableHeaderCellElement);
     tableHeaderRowElement.appendChild(notesTableHeaderCellElement);
     tableHeaderRowElement.appendChild(cockatriceTableHeaderCellElement);
+    tableHeadElement.appendChild(tableHeaderRowElement);
 
-    tableElement.appendChild(tableHeaderRowElement);
+    tableElement.appendChild(tableHeadElement);
 
     for (var i=0; i < sets.length; i++) {
         var setName = sets[i];
@@ -82,7 +86,7 @@ function getSetsTableElement(sets) {
             notesTableCellElement.innerHTML = setDetails.notes;
         }
 
-        cockatriceTableCellElement.innerHTML = '<a href="cockatrice2.html?set='+setName+'" target="blank" style="text-decoration:none;color:#202020;background-color:#e0e0e0;padding:2px;font-size:0.9em">Get Cockatrice File</a>';
+        cockatriceTableCellElement.innerHTML = '<a href="cockatrice2.html?set='+setName+'" target="blank" class="btn btn-default">Get Cockatrice File</a>';
         cockatriceTableCellElement.style.textAlign = 'center';
 
         tableRowElement.appendChild(nameTableCellElement);
@@ -91,8 +95,9 @@ function getSetsTableElement(sets) {
         tableRowElement.appendChild(notesTableCellElement);
         tableRowElement.appendChild(cockatriceTableCellElement);
 
-        tableElement.appendChild(tableRowElement);
+        tableBodyElement.appendChild(tableRowElement);
         
     }
+    tableElement.appendChild(tableBodyElement);
     return tableElement;
 }

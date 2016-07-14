@@ -1,14 +1,14 @@
 html {
-    background-color:#f0f0f0;
-    color:#000000;
-    height:100%;
+    /*background-color:#f0f0f0;*/
+    /*color:#000000;*/
+    /*height:100%;*/
     font-family:sans-serif;
 }
 
 body {
-    height:90%;
-    margin:0px;
-    padding:0px;
+    /*height:90%;*/
+    /*margin:0px;*/
+    /*padding:0px;*/
 }
 
 /**
@@ -22,34 +22,25 @@ body {
 }
 
 /**
- * The bar at the top of the page.
+ * A class used for simple "button-like" clickable links.
  */
-#topBar {
-    width:90%;
-    padding:16px;
-    text-align:left;
-}
-
-/**
- * The advanced search link that expands the advanced search box.
- */
-#topBar a {
+.link {
     display:inline-block;
     text-align:center;
-    width:12.5%;
+    width:20%;
     text-decoration:none;
     background-color:#d0d0d0;
     color:#101010;
     padding:2px;
+    margin:4px;
 }
 
-#topBar a:hover {
+.link:hover {
     text-decoration:none;
-    background-color:#e0e0e0;
+    background-color:#e8e8e8;
     color:#202020;
     cursor: pointer;
 }
-
 /**
  * The large logotype that appears on the home screen.
  */
@@ -95,19 +86,6 @@ body {
 }
 
 /**
- * The advanced search link that expands the advanced search box.
- */
-#advancedSearchLink {
-    font-size: 0.9em;
-    cursor: pointer;   
-    background-color:#d0d0d0;
-    padding:2px;
-}
-
-#advancedSearchLink:hover {
-    background-color:#e0e0e0;
-}
-/**
  * The advanced search container box.
  */
 #advancedSearch {
@@ -117,7 +95,7 @@ body {
 }
 
 table.advancedSearchTable {
-    background-color:#d0d0d0;
+    background-color:#e0e0e0;
     margin:0px auto 32px auto;
     border-radius: 8px;
 }
@@ -144,7 +122,7 @@ table.paginationControl {
     padding:4px;
     text-align:center;
     border-radius:8px;
-    background-color: #d0d0d0;
+    background-color: #e0e0e0;
 }
 td.paginationPreviousPage {
     width: 25%;
@@ -199,6 +177,9 @@ td.paginationNextPage:hover {
  * The card results container.
  */
 #results {
+    width:75%;
+    margin-left:auto;
+    margin-right:auto;
     text-align:center;
 }
 
@@ -217,9 +198,9 @@ table.cardTable {
 td.cardInfo {
     width:75%;
     vertical-align:top;
-    border:1px solid #c0c0c0;
+    border:1px solid #808080;
     border-radius:4px;
-    background-color: #d0d0d0;
+    background-color: #e0e0e0;
 }
 
 /**
@@ -270,17 +251,48 @@ td.cardPropertyValue {
 }
 
 /**
- * A container for a faux-Magic card. Emulates the thick rounded border of a Magic card.
+ * A container for a faux-Magic card. Emulates the thick rounded border of a Magic card. We have to be very specific in
+ * our style definitions for this class, especially when it comes to fonts and dimensions. If we're not, then it's
+ * possible that other browsers or stylesheets will make the proxy use their style choices instead, and we don't want
+ * that; we want proxies to look practically the same across all browsers and devices.
  */
 .proxy {
     /* font-family: "Times New Roman", Times, serif; */
+    /** Use the loaded proxyFont that we defined earlier, to ensure that all browsers use the same font. */
     font-family: proxyFont;
     margin: 0 auto;
+    /**
+     * Give the proxy a dark, rounded border. The actual thickness of the border will be decided when the proxy is
+     * generated, as it depends on the scale that the proxy is generated at.
+     */
     border: solid #202020;
     border-radius: 16px;
+    /**
+     * Default to a light gray background. This will be overridden with an appropriate card color by the proxy
+     * generator.
+     */
     background-color: #e0e0e0;
     color: #101010;
+    /**
+     * If the card contents would overflow off the bottom of the page, we have to simply cut them off; we can't resize
+     * the proxy as it has to meet specific card dimension criteria, and we can't add a scroll bar because these cards
+     * need to be printable.
+     */
     overflow: hidden;
+    /** Default the line height to normal, so that it can't be overridden by other styles (eg. Bootstrap). */
+    line-height: normal;
+    /**
+     * Default the box sizing to `content-box`. `box-sizing` is a CSS style which changes the way browsers interpret the
+     * width and height of a block element; specifically, it deals with whether or not borders and padding are included
+     * in the width and height. By default, it is `content-box` (don't include borders and padding), which is what the
+     * app expects (that's why, when generating the proxy, we calculate the width and height ourselves by adding up the
+     * dimensions of content, borders, and padding).
+     *
+     * However, for some reason Bootstrap prefers to set this to `border-box`, which _does_ include borders and padding.
+     * Presumably Bootstrap needs that in order to work, but it messes up the dimensions of displayed proxies (which
+     * must have fixed dimensions). Therefore, we explicitly set this style to its default for proxies.
+     */
+    box-sizing: content-box;
 }
 
 /**
@@ -544,6 +556,7 @@ td.cardPropertyValue {
     transform:scale(1.05);
 }
 
+/*
 #setsTable {
     border-spacing: 0;
     background-color: #ffffff;
@@ -561,7 +574,7 @@ td.cardPropertyValue {
     padding:4px;
     text-align:left;
 }
-
+*/
 #xmlContainer {
     width:50%;
     height:50%;
@@ -574,3 +587,29 @@ td.cardPropertyValue {
     width:100%;
     height:100%;
 }
+
+/***********************************************************************************************************************
+ * Bootstrap tweaks
+ *
+ * Sometimes Bootstrap's default style conflicts with our desired layout, so in certain cases, we will tweak Bootstrap
+ * styles to work a little better with our intended design.
+***********************************************************************************************************************/
+
+/**
+ * By default, the `dt` element in a description list is 160px wide, which is a bit too wide when we use it inside the
+ * card results table. So, we shrink it a little.
+ */
+/*
+#results dl.dl-horizontal dt {
+    width:80px;
+}
+*/
+/**
+ * Since we shrunk the `dt` element above, we also have to decrease the left margin on the `dd` element so that it still
+ * lines up correctly.
+ */
+/*
+#results dl.dl-horizontal dd {
+    margin-left:100px;
+}
+*/

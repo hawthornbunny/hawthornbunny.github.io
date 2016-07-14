@@ -121,7 +121,7 @@ var FICG_TOKENS =
         'supertype': 'Creature',
         'subtype': 'Dragon',
         'text': 'Flying',
-        'pt': '3/3',
+        'pt': '5/5',
         'cardType': 'token'
     },
     {
