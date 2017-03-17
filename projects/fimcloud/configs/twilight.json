@@ -1,0 +1,14 @@
+{
+    "blacklists": [],
+    "whitelists": [],
+    "ranges": {
+        "phrase_length": {
+            "min": 2,
+            "max": 2
+        }
+    },
+    "frequency_lower_limit": 1,
+    "regex_filters": ["^Twilight "]
+}
+
+

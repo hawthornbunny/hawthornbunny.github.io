@@ -1,13 +1,27 @@
-import json, math, sys
+# Given a JSON-formatted input containing frequency data, this script generates an HTML file with some embedded
+# Javascript which will generate an SVG word cloud from that frequency data.
+#
+# The input is expected to be a JSON-formatted object containing only key-value pairs, where each property name is a
+# string and each property value is the frequency of that string. For example:
+#
+#     {
+#         "Applejack": 97,
+#         "Fluttershy": 39,
+#         "Pinkie": 63,
+#         "Rarity": 86,
+#         "Rainbow": 43,
+#         "Twilight": 55,
+#     }
 
+import json, sys
+
+# Path to a simple HTML template which sets up the container for the word cloud, and includes necessary Javascript
+# scripts.
 TEMPLATE_PATH = 'templates/cloud.html'
-input_string = sys.stdin.read()
-frequency_data = json.loads(input_string)
-cloud_generator_min_weight_threshold = 10
 
-body = ''
-metadata = frequency_data['metadata']
-frequencies = frequency_data['data']
+input_string = sys.stdin.read()
+frequencies = json.loads(input_string)
+
 sorted_strings = sorted(frequencies, key=frequencies.__getitem__, reverse=True)
 
 js = ''
@@ -20,11 +34,10 @@ for string in sorted_strings:
     js += "            'content': '{}',\n".format(string.replace("'", "\\'"))
     js += "            'weight': {},\n".format(frequencies[string])
     js += "        },\n"
-js += "    ],\n"
-js += "    {}\n".format(cloud_generator_min_weight_threshold)
+js += "    ]\n"
 js += ");\n"
 
 
-html = open(TEMPLATE_PATH, 'r').read().format(metadata['author'], js)
+html = open(TEMPLATE_PATH, 'r').read().format(js)
 
 sys.stdout.write(html)
