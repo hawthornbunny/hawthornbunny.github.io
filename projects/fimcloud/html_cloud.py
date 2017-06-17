@@ -13,7 +13,7 @@
 #         "Twilight": 55,
 #     }
 
-import json, sys
+import json, re, sys
 
 # Path to a simple HTML template which sets up the container for the word cloud, and includes necessary Javascript
 # scripts.
@@ -30,8 +30,13 @@ js += "    document.querySelector('#container'),\n"
 js += "    [\n"
 
 for string in sorted_strings:
+    # If the string contains a backslash, this needs to be escaped, otherwise javascript might interpret it as an escape
+    # character.
+    escaped_string = string
+    escaped_string = escaped_string.replace("\\", "\\\\")
+    escaped_string = escaped_string.replace("'", "\\'")
     js += "        {\n"
-    js += "            'content': '{}',\n".format(string.replace("'", "\\'"))
+    js += "            'content': '{}',\n".format(escaped_string)
     js += "            'weight': {},\n".format(frequencies[string])
     js += "        },\n"
 js += "    ]\n"

@@ -2,8 +2,8 @@ var global = {
     'dimensions': {
         'svg':  {
             'px': {
-                'width': 1280 * 1.5,
-                'height': 720 * 1.5,
+                'width': 1280,
+                'height': 720,
             },
         },
         'desiredHeaviestStringWidth': 640,
@@ -46,7 +46,7 @@ function initialize() {
  * `weightedStrings`: An array of objects each with attributes `content` and `weight`.
  * `minWeight`: If given, strings with a weight below this value will be disregarded.
  */
-function produceStringCloud(containingElement, weightedStrings, minWeight) {
+function produceStringCloud(containingElement, weightedStrings, minWeight, maxStrings) {
     if (minWeight === undefined) {
         minWeight = 0;
     }
@@ -79,8 +79,16 @@ function produceStringCloud(containingElement, weightedStrings, minWeight) {
     var cloudElements = [];
 
     var numberOfStrings = weightedStrings.length;
-    if (global.maxStrings !== undefined) {
-        numberOfStrings = global.maxStrings;
+
+    // If the user specified a maximum number of strings, use that. Otherwise, check to see if there's a globally-set
+    // maximum number of strings. If there isn't, then we can't set an upper limit on the number of strings.
+    if (maxStrings === undefined) {
+        if (global.maxStrings !== undefined) {
+            maxStrings = global.maxStrings;
+        }
+    }
+    if (maxStrings !== undefined && numberOfStrings > maxStrings) {
+        numberOfStrings = maxStrings;
     }
 
     var cachedPositions = [];
@@ -127,7 +135,7 @@ function produceStringCloud(containingElement, weightedStrings, minWeight) {
         // elements.
         //
         // Our position calculation algorithm is as follows:
-        // 1. Define a circle with its center, c, at the average center position of the cloud, and a radius r.
+        // 1. Define a circle with its center, c, at the center position of the cloud, and with a radius r.
         // 2. Starting at the top of that circle, define N positions that are spaced evenly around the circumference of
         //    the circle, a circumference-distance s apart.
         // 3. Check to see if the element could be placed with its center at any of those N positions, without
@@ -285,6 +293,7 @@ function produceStringCloud(containingElement, weightedStrings, minWeight) {
 
     // Get the bounding rect for the cloud group (which completely encloses all elements in the cloud).
     var cloudGroupRect = cloudGroup.getBoundingClientRect();
+    console.log(cloudGroupRect);
 
     // Calculate the coefficient required to scale the cloud group so that it is the same height as the SVG.
     var scaleCoefficient = svgHeight / cloudGroupRect.height;
@@ -292,9 +301,40 @@ function produceStringCloud(containingElement, weightedStrings, minWeight) {
     // Make the scale a teensy bit smaller. At present the group still ends up slightly too large for some reason.
     scaleCoefficient *= 0.9;
 
-    // Apply the scale transformation to the cloud group, and translate it to the center of the SVG.
-    cloudGroup.setAttributeNS(null, 'transform', 'translate('+(svgWidth/2)+', '+(svgHeight/2)+') scale('+scaleCoefficient+')');
+    // Apply the scale transformation to the cloud group. At this point, it's still centered on the origin, but that's
+    // okay. We'll move it in a moment.
+    cloudGroup.setAttributeNS(null, 'transform',  'scale('+scaleCoefficient+')');
 
+    // Obtain the new, scaled dimensions of the cloud group.
+    var scaledCloudGroupRect = cloudGroup.getBoundingClientRect();
+    console.log(scaledCloudGroupRect);
+
+    // Since we know the dimensions of the cloud group, we can now resize the SVG so that the cloud group fits snugly
+    // inside it. We'll make the SVG a tiny bit larger than the cloud group.
+    svg.setAttributeNS(null, 'width', (scaledCloudGroupRect.width * 1.1)+'px');
+    svg.setAttributeNS(null, 'height', (scaledCloudGroupRect.height * 1.1)+'px');
+
+    // Obtain the new, scaled dimensions of the SVG.
+    var resizedSvgRect = svg.getBoundingClientRect();
+    console.log(resizedSvgRect);
+
+    // Apply a translation to move the cloud group to the center of the now-resized SVG. (Don't forget that we still
+    // need the scale transformation, too. The only reason we did one earlier was so that we could obtain the bounding
+    // rect).
+    cloudGroup.setAttributeNS(
+        null,
+        'transform',
+        'translate('+(resizedSvgRect.width/2)+', '+(resizedSvgRect.height/2)+')'
+        + ' scale('+scaleCoefficient+')');
+
+    // To get an SVG string out, we can use the XMLSerializer class. This works on Firefox, but might not work on
+    // Chrome. We'll write this into a textarea so that the user can copy/paste it.
+    var xmlSerializer = new XMLSerializer();
+    var serializedSvg = xmlSerializer.serializeToString(svg);
+    var svgTextarea = document.createElement('textarea');
+    svgTextarea.innerHTML = serializedSvg;
+    containingElement.appendChild(svgTextarea);
+    
 }
 
 /**
