@@ -1,6 +1,6 @@
 # FimCloud: Fimfiction word frequency counting and visualization suite
 
-This is a set of command line scripts and tools for gathering, analyzing, and visualizing text data from Fimfiction.
+FimCloud is a set of command line scripts and tools for gathering, analyzing, and visualizing text data from Fimfiction.
 
 ## Components
 

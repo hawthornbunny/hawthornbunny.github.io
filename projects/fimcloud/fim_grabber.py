@@ -22,6 +22,7 @@ CONFIG = {
     'protocol': 'https',
     'site_domain': 'fimfiction.net',
     'cache_dir_name': 'cache',
+    'fetch_mode': 'stories',
     'path_separator': '/',
     'paths': {
         'current': os.path.dirname(os.path.abspath(__file__)),
@@ -68,6 +69,12 @@ parser.add_argument(
     help='The username of a Fimfiction author'
 )
 parser.add_argument(
+    '-f',
+    '--fetch_mode',
+    type=str,
+    help='The fetch mode; can be one of "stories" or "blogs". If not given, this defaults to fetching stories.'
+)
+parser.add_argument(
     '-c',
     '--config',
     type=str,
@@ -77,12 +84,17 @@ parser.add_argument(
 args = parser.parse_args()
 
 author_username = args.author
+fetch_mode = args.fetch_mode
 config_file_path = args.config
 
 # If no arguments are supplied, there's nothing to do, so print the help information and exit.
 if not author_username and not config_file_path:
     parser.print_help()
     sys.exit()
+
+# Allow config override if a config file path is supplied.
+if fetch_mode is not None:
+    CONFIG['fetch_mode'] = fetch_mode
 
 # Allow config override if a config file path is supplied.
 if config_file_path is not None:
@@ -115,76 +127,117 @@ if 'stories' in CONFIG:
 # Create a UrlFetcher class which will do all the fetching for us (using a cache to prevent hammering the server)
 fetcher = UrlFetcher(CONFIG['paths']['cache_dir'])
 
-# If `include_mature` was set, Create the `view_mature` cookie to send to Fimfiction.
-requests_cookie_jar = None
-if 'include_mature' in CONFIG and CONFIG['include_mature'] is True:
-    requests_cookie_jar = requests.cookies.RequestsCookieJar()
-    requests_cookie_jar.set('view_mature', 'true', domain='www.fimfiction.net', path='/')
+if CONFIG['fetch_mode'] == 'stories':
+    # If `include_mature` was set, Create the `view_mature` cookie to send to Fimfiction.
+    requests_cookie_jar = None
+    if 'include_mature' in CONFIG and CONFIG['include_mature'] is True:
+        requests_cookie_jar = requests.cookies.RequestsCookieJar()
+        requests_cookie_jar.set('view_mature', 'true', domain='www.fimfiction.net', path='/')
 
-# For all requested authors, crawl Fimfiction to find their stories and obtain a list of story ids.
-for author in authors:
-    print_stderr('Grabbing stories for author "{}"...'.format(author))
-    # Fetch the profile page for the given user, and from it, obtain the URL of their stories page.
-    user_profile_url = CONFIG['base_url']+'/user/'+username_escape(author_username)
-    user_profile_html = fetcher.fetch_url(user_profile_url, cookie_jar=requests_cookie_jar)
+    # For all requested authors, crawl Fimfiction to find their stories and obtain a list of story ids.
+    for author in authors:
+        print_stderr('Grabbing stories for author "{}"...'.format(author))
+        # Fetch the profile page for the given user, and from it, obtain the URL of their stories page.
+        user_profile_url = CONFIG['base_url']+'/user/'+username_escape(author_username)
+        user_profile_html = fetcher.fetch_url(user_profile_url, cookie_jar=requests_cookie_jar)
 
-    soup = BeautifulSoup(user_profile_html, 'html.parser')
-    stories_page_link = soup.find(class_='tab-stories').find('a')
-    stories_page_url = CONFIG['base_url']+stories_page_link['href']
-    stories_page_html = fetcher.fetch_url(stories_page_url, cookie_jar=requests_cookie_jar)
+        soup = BeautifulSoup(user_profile_html, 'html.parser')
+        stories_page_link = soup.find(class_='tab-stories').find('a')
+        stories_page_url = CONFIG['base_url']+stories_page_link['href']
+        stories_page_html = fetcher.fetch_url(stories_page_url, cookie_jar=requests_cookie_jar)
 
-    author_stories = []
-    # From the author's stories page, fetch all text download links for all stories on the page.
-    while True:
-        soup = BeautifulSoup(stories_page_html, 'html.parser')
-        for chapters_uls in soup(class_='chapters'):
-            story_download_url = CONFIG['base_url']+chapters_uls.find(class_='bottom').find(title='Download Story (.txt)')['href']
-            # Extract the story id from the download link. We'll download it later once we've collected up all the
-            # stories we intend to download.
-            story_id = re.search(r'\?story=(\d+)', story_download_url)[1]
-            author_stories.append(int(story_id))
+        author_stories = []
+        # From the author's stories page, fetch all text download links for all stories on the page.
+        while True:
+            soup = BeautifulSoup(stories_page_html, 'html.parser')
+            # Get all the "chapters footers" (the bar at the bottom of each story card which contains a download
+            # button).
+            chapters_footers = soup.find_all(class_='chapters-footer')
+            for chapters_footer in chapters_footers:
+                story_download_link = chapters_footer.find(title='Download Story (.txt)')
+                story_download_url = CONFIG['base_url']+story_download_link['href']
+                # Extract the story id from the download link. We'll download it later once we've collected up all the
+                # stories we intend to download.
+                story_id = re.search(r'/story/download/(\d+)/txt', story_download_url)[1]
+                author_stories.append(int(story_id))
 
-        # Check the navigation at the bottom to see if there's a "▶" button, which indicates a next page of stories. If
-        # there is, get the URL of the next page, and fetch that.
-        next_stories_page_link = soup.find(class_='page_list').find('ul').find('a', string='▶')
-        if next_stories_page_link:
-            next_stories_page_url = CONFIG['base_url']+next_stories_page_link['href']
-            print_stderr('Checking next stories page...')
-            print_stderr('    ('+next_stories_page_url+')')
-            stories_page_html = fetcher.fetch_url(next_stories_page_url, cookie_jar=requests_cookie_jar)
-        else:
-            break
+            # Check the navigation at the bottom to see if there's a next page of stories. If there is, get the URL of
+            # the next page, and fetch that.
+            next_stories_page_button = soup.find(class_='page_list').find(class_='fa-chevron-right')
+            if next_stories_page_button:
+                next_stories_page_link = next_stories_page_button.parent
+                next_stories_page_url = CONFIG['base_url']+next_stories_page_link['href']
+                print_stderr('Checking next stories page...')
+                print_stderr('    ('+next_stories_page_url+')')
+                stories_page_html = fetcher.fetch_url(next_stories_page_url, cookie_jar=requests_cookie_jar)
+            else:
+                break
 
-    print_stderr('Found {} stories for author {}.'.format(str(len(author_stories)), author))
+        print_stderr('Found {} stories for author {}.'.format(str(len(author_stories)), author))
 
-    # Add all story ids found to the stories list.
-    for story_id in author_stories:
-        if story_id not in stories:
-            stories.append(story_id)
+        # Add all story ids found to the stories list.
+        for story_id in author_stories:
+            if story_id not in stories:
+                stories.append(story_id)
 
-print_stderr('Found {} stories in total.'.format(str(len(stories))))
+    print_stderr('Found {} stories in total.'.format(str(len(stories))))
 
-# If any `excluded_stories` have been specified, exclude them from the stories list.
-if 'excluded_stories' in CONFIG and len(CONFIG['excluded_stories']) > 0:
-    print_stderr('{} stories were excluded and will not be fetched.'.format(len(CONFIG['excluded_stories'])))
-    stories = [story_id for story_id in stories if story_id not in CONFIG['excluded_stories']]
+    # If any `excluded_stories` have been specified, exclude them from the stories list.
+    if 'excluded_stories' in CONFIG and len(CONFIG['excluded_stories']) > 0:
+        print_stderr('{} stories were excluded and will not be fetched.'.format(len(CONFIG['excluded_stories'])))
+        stories = [story_id for story_id in stories if story_id not in CONFIG['excluded_stories']]
 
-# Construct all download URLs for all stories we're going to download.
-story_download_urls = [
-    '{}/{}?story={}'.format(CONFIG['base_url'], 'download_story.php', story_id) for story_id in stories
-]
+    # Construct all download URLs for all stories we're going to download.
+    story_download_urls = [
+        '{}/story/download/{}/txt'.format(CONFIG['base_url'], story_id) for story_id in stories
+    ]
 
-# Fetch and concatenate all text data from all story download URLs.
-print_stderr('Fetching stories text for {} stories...'.format(len(stories)))
-stories_text = ''
-for story_download_url in story_download_urls:
-    stories_text += fetcher.fetch_url(story_download_url, cookie_jar=requests_cookie_jar)
+    # Fetch and concatenate all text data from all story download URLs.
+    print_stderr('Fetching stories text for {} stories...'.format(len(stories)))
+    stories_text = ''
+    for story_download_url in story_download_urls:
+        stories_text += fetcher.fetch_url(story_download_url, cookie_jar=requests_cookie_jar)
 
-# Post-processing: remove any lines that contain a string like "//------------------------------//". These are story
-# title/chapter headings and are not part of the story text.
-print_stderr('Removing headings...')
-stories_text = '\n'.join([line for line in stories_text.split('\n') if not re.search(r'//-+//', line)])
+    # Post-processing: remove any lines that contain a string like "//------------------------------//". These are story
+    # title/chapter headings and are not part of the story text.
+    print_stderr('Removing headings...')
+    stories_text = '\n'.join([line for line in stories_text.split('\n') if not re.search(r'//-+//', line)])
 
-print_stderr('Finished.');
+    print_stderr('Finished.');
 
-sys.stdout.write(stories_text)
+    sys.stdout.write(stories_text)
+elif CONFIG['fetch_mode'] == 'blogs':
+    for author in authors:
+        print_stderr('Grabbing blog posts for author "{}"...'.format(author))
+        # Fetch the profile page for the given user, and from it, obtain the URL of their blog page.
+        user_profile_url = CONFIG['base_url']+'/user/'+username_escape(author_username)
+        user_profile_html = fetcher.fetch_url(user_profile_url)
+
+        soup = BeautifulSoup(user_profile_html, 'html.parser')
+        blogs_page_link = soup.find(class_='tab-blog').find('a')
+        blogs_page_url = CONFIG['base_url']+blogs_page_link['href']
+        blogs_page_html = fetcher.fetch_url(blogs_page_url)
+
+        blog_posts = []
+        # From the author's blog page, fetch all text download links for all blog posts on the page.
+        while True:
+            soup = BeautifulSoup(blogs_page_html, 'html.parser')
+            for blog_post_div in soup(class_='blog_post_content'):
+                for p in blog_post_div.find_all('p'):
+                    blog_posts.append(p.text)
+
+            # Check the navigation at the bottom to see if there's a "▶" button, which indicates a next page of blog
+            # posts. If there is, get the URL of the next page, and fetch that.
+            next_blogs_page_link = soup.find(class_='page_list').find('ul').find('a', string='▶')
+            if next_blogs_page_link:
+                next_blogs_page_url = CONFIG['base_url']+next_blogs_page_link['href']
+                print_stderr('Checking next blogs page...')
+                print_stderr('    ('+next_blogs_page_url+')')
+                blogs_page_html = fetcher.fetch_url(next_blogs_page_url)
+            else:
+                break
+
+    blog_posts_text = '\n\n'.join(blog_posts)
+    sys.stdout.write(blog_posts_text)
+else:
+    print_stderr('Fetch mode "{}" not recognized'.format(CONFIG['fetch_mode']))
