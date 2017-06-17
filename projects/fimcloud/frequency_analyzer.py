@@ -45,6 +45,9 @@ CONFIG = {
     # `regex_filters`: If supplied, only strings that match these regular expressions will appear in the results. The
     # regex filters are applied sequentially.
     'regex_filters': [],
+    # `merge_english_possessives`: If True, a processing step will be added to merge English possessive words with their
+    # non-possessive equivalents before frequencies are counted.
+    'merge_english_possessives': True,
 }
 
 ########################################################################################################################
@@ -62,7 +65,7 @@ def has_prose(string):
 def get_phrase_frequencies(word_list, phrase_length):
     phrase_frequencies = {}
 
-    for i in range(len(stories_words) - phrase_length - 1):
+    for i in range(len(word_list) - (phrase_length - 1)):
         phrase_words = word_list[i:i+phrase_length]
         phrase = ' '.join(phrase_words)
         if phrase not in phrase_frequencies:
@@ -182,27 +185,28 @@ for i in range(min_phrase_length, max_phrase_length+1):
 # For single-word phrases only, we make a special exception for the common English possessive suffix "'s". For such
 # words, we consider them to be the same as their non-possessive version (eg. "Maud's" is considered the same as "Maud",
 # and is counted as an instance of "Maud" in the frequency count).
-if 1 in phrase_frequencies:
-    print_stderr('Merging possessive single words...')
-    single_word_frequencies = phrase_frequencies[1]
-    possessive_word_frequencies = {}
+if CONFIG['merge_english_possessives'] is True:
+    if 1 in phrase_frequencies:
+        print_stderr('Merging possessive single words...')
+        single_word_frequencies = phrase_frequencies[1]
+        possessive_word_frequencies = {}
 
-    # Count the frequencies of all possessive words (words ending in "'s").
-    for word in single_word_frequencies:
-        if word[-2:] == "'s":
-            possessive_word = word
-            if possessive_word not in possessive_word_frequencies:
-                possessive_word_frequencies[possessive_word] = 0
-            possessive_word_frequencies[possessive_word] += 1
+        # Count the frequencies of all possessive words (words ending in "'s").
+        for word in single_word_frequencies:
+            if word[-2:] == "'s":
+                possessive_word = word
+                if possessive_word not in possessive_word_frequencies:
+                    possessive_word_frequencies[possessive_word] = 0
+                possessive_word_frequencies[possessive_word] += 1
 
-    # Merge the possessive words into their non-possessive versions, dropping the suffix but combining their frequency
-    # totals.
-    for possessive_word in possessive_word_frequencies:
-        non_possessive_word = possessive_word[:-2]
-        if non_possessive_word not in phrase_frequencies[1]:
-            phrase_frequencies[1][non_possessive_word] = 0
-        phrase_frequencies[1][non_possessive_word] += possessive_word_frequencies[possessive_word]
-        del phrase_frequencies[1][possessive_word]
+        # Merge the possessive words into their non-possessive versions, dropping the suffix but combining their
+        # frequency totals.
+        for possessive_word in possessive_word_frequencies:
+            non_possessive_word = possessive_word[:-2]
+            if non_possessive_word not in phrase_frequencies[1]:
+                phrase_frequencies[1][non_possessive_word] = 0
+            phrase_frequencies[1][non_possessive_word] += possessive_word_frequencies[possessive_word]
+            del phrase_frequencies[1][possessive_word]
         
 # Filter out blacklisted words from the results.
 for phrase_length in phrase_frequencies:
