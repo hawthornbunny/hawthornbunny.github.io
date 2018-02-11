@@ -25,6 +25,7 @@ var global = {
         'dropOrderByFrequency': false,
         'dropOrderChronological': false,
         'dropOrderRandom': false,
+        'ignoreCommonWords': true,
         'horizontalDispersion': 0,
         'sortDirectionAscending': true,
         'sortDirectionDescending': false,
@@ -41,6 +42,7 @@ var global = {
         'dropOrderChronological',
         'dropOrderRandom',
         'horizontalDispersion',
+        'ignoreCommonWords',
         'sortDirectionAscending',
         'sortDirectionDescending',
         'errorMessage',
@@ -173,12 +175,14 @@ function begin() {
         }
     );
 
-    // Filter out blacklisted words.
-    global.wordsToDrop = global.wordsToDrop.filter(
-        function (word) {
-            return global.lists.words.blacklisted.indexOf(word.toLowerCase()) === -1;
-        }
-    );
+    // Filter out blacklisted words if requested.
+    if (global.elements.ignoreCommonWords.checked) {
+        global.wordsToDrop = global.wordsToDrop.filter(
+            function (word) {
+                return global.lists.words.blacklisted.indexOf(word.toLowerCase()) === -1;
+            }
+        );
+    }
 
     // Filter out words that don't contain at least one alphabet letter or numeral.
     global.wordsToDrop = global.wordsToDrop.filter(

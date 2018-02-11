@@ -25,7 +25,7 @@
                     <tr>
                         <td class="settingName">
                             Minimum frequency threshold
-                            <span class="tip" title="Words with a frequency lower than this threshold will not be shown."> ? </span>
+                            <span class="tip" title="Words with a frequency lower than this threshold will not be shown. Turn this value down to get more words. You can enter values lower than 1 (eg. 0.25)."> ? </span>
                         </td>
                         <td>
                             <input id="minFrequencyThreshold" type="text" size="4" value="1" />%
@@ -96,6 +96,15 @@
                                 <input id="sortDirectionDescending" name="sortDirection" type="radio" value="descending" />
                                 <label for="sortDirectionDescending">descending</label>
                             </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="settingName">
+                            Ignore common words
+                            <span class="tip" title='If checked, common words such as "the", "and", etc. will not be included in the results.'> ? </span>
+                        </td>
+                        <td>
+                            <input id="ignoreCommonWords" type="checkbox" checked="checked" />
                         </td>
                     </tr>
                 </table>

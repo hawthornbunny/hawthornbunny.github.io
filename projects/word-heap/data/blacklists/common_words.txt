@@ -10,6 +10,7 @@ are
 aren't
 as
 at
+back
 be
 been
 before
@@ -64,6 +65,7 @@ I've
 just
 know
 let's
+like
 may
 me
 mightn't
@@ -88,6 +90,8 @@ out
 over
 page
 said
+say
+says
 search
 see
 she
