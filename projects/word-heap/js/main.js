@@ -25,8 +25,10 @@ var global = {
         'dropOrderByFrequency': false,
         'dropOrderChronological': false,
         'dropOrderRandom': false,
+        'friction': 10,
         'ignoreCommonWords': true,
         'horizontalDispersion': 0,
+        'restitution': 0,
         'sortDirectionAscending': true,
         'sortDirectionDescending': false,
     },
@@ -37,6 +39,7 @@ var global = {
         'minTextSize',
         'maxWordsToDisplay',
         'dropChance',
+        'friction',
         'dropOrderAlphabetical',
         'dropOrderByFrequency',
         'dropOrderChronological',
@@ -47,6 +50,7 @@ var global = {
         'sortDirectionDescending',
         'errorMessage',
         'errorPanel',
+        'restitution',
         'settingsButton',
         'settingsPanel',
         'text',
@@ -54,7 +58,9 @@ var global = {
     'engine': undefined,
     'frames': 0,
     'parameters': {
+        'backgroundColor': '#ffffff',
         'dropChance': 0.1,
+        'friction': 0.1,
         'fontFamily': 'serif',
         'fontScaleCoefficient': 128,
         'horizontalDispersionCoefficient': 0,
@@ -62,6 +68,7 @@ var global = {
         'minFontSize': 14,
         'minFrequency': 10,
         'minFrequencyCoefficient': 0.01,
+        'restitution': 0,
         'wallThickness': 64,
     },
     'wordBodies': {},
@@ -104,6 +111,8 @@ function begin() {
     global.parameters.minFontSize = parseInt(global.elements.minTextSize.value);
     global.parameters.dropChance = parseInt(global.elements.dropChance.value) / 100;
     global.parameters.horizontalDispersionCoefficient = parseInt(global.elements.horizontalDispersion.value) / 100;
+    global.parameters.friction = parseInt(global.elements.friction.value) / 100;
+    global.parameters.restitution = parseInt(global.elements.restitution.value) / 100;
 
     var dropOrderSettings = {
         'dropOrderAlphabetical': 'alphabetical',
@@ -290,14 +299,16 @@ function begin() {
 
     // Our four walls will contain an area twice the height of the visible canvas (such that we'll be looking into the
     // bottom half of a tall box). This is so that we can drop things in from above the screen.
+    //
+    // The floor is intentionally very thick, to stop objects being pushed through it.
     var walls = [
         // North wall
         Matter.Bodies.rectangle(w / 2, 0 - h, w, wallThickness, { 'isStatic': true, 'label': 'wall'}),
         // East wall
         Matter.Bodies.rectangle(w, 0, wallThickness, h * 2, { 'isStatic': true, 'label': 'wall' }),
-        // South wall
-        Matter.Bodies.rectangle(w / 2, h, w, wallThickness, { 'isStatic': true, 'label': 'wall' }),
-        // Bottom wall
+        // South wall (floor)
+        Matter.Bodies.rectangle(w / 2, h * 1.5, w * 3, h, { 'isStatic': true, 'label': 'wall' }),
+        // West wall 
         Matter.Bodies.rectangle(0, 0, wallThickness, h * 2, { 'isStatic': true, 'label': 'wall' }),
     ];
 
@@ -403,6 +414,10 @@ function createTextBody(text, fontSize, context) {
     // Create the rectangular body. We'll keep it at (0, 0) for now.
     var rect = Matter.Bodies.rectangle(0, 0, rectDimensions.w, rectDimensions.h);
 
+    rect.friction = global.parameters.friction;
+    rect.restitution = global.parameters.restitution;
+    rect.density = 0.5;
+
     // Add some custom properties to the rectangular body to use when rendering it later.
     rect.custom = {
         'text': text,
@@ -461,7 +476,7 @@ function renderWordBodies() {
     var h = global.canvas.height;
 
     // Clear the canvas before drawing each frame.
-    context.fillStyle = 'hsla(0, 100%, 100%, 1)';
+    context.fillStyle = global.parameters.backgroundColor;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     context.textBaseLine = 'top';
