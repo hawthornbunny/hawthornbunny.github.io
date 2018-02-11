@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+    <meta charset="UTF-8" />
+    <head>
+        <title>Word frequency heap visualizer</title>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div id="main">
+            <h1>Word frequency heap visualizer</h1>
+            <!--<p style="font-style: italic">"What is a fic? A miserable little pile of words." - Albert Einstein</p>-->
+            <!--<br />-->
+            <p>Paste some text into the box below, and click Begin.</p>
+                <textarea id="text" cols="128" rows="16"></textarea>
+            <p>
+                <input id="beginButton" style="font-weight:bold" class="button" type="button" value="Begin" />
+                <input id="settingsButton" class="button" type="button" value="Settings" />
+            </p>
+            <div id="errorPanel" style="display:none">
+                <p id="errorMessage"></p>
+            </div>
+
+            <div id="settingsPanel" style="display:none">
+                <table>
+                    <tr>
+                        <td class="settingName">
+                            Minimum frequency threshold
+                            <span class="tip" title="Words with a frequency lower than this threshold will not be shown."> ? </span>
+                        </td>
+                        <td>
+                            <input id="minFrequencyThreshold" type="text" size="4" value="1" />%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="settingName">
+                            Maximum number of words to display
+                        </td>
+                        <td>
+                            <input id="maxWordsToDisplay" type="text" size="4" value="300" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="settingName">
+                            Minimum text size
+                            <span class="tip" title="The mininum text size that words will display at. You can make this smaller to get a truer representation of the very low frequency words, although they'll probably be too small to read."> ? </span>
+                        </td>
+                        <td>
+                            <input id="minTextSize" type="text" size="4" value="14" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="settingName">
+                            Drop frequency
+                            <span class="tip" title="The chance per frame for a word to drop."> ? </span>
+                        </td>
+                        <td>
+                            <input id="dropChance" type="text" size="4" value="10" />%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="settingName">
+                            Horizontal dispersion
+                            <span class="tip" title="The size of the horizontal region over which the words fall. If 0%, the words always fall from the middle in a stream; if 100%, they can fall from anywhere, like rain."> ? </span>
+                        </td>
+                        <td>
+                            <input id="horizontalDispersion" type="text" size="4" value="0" />%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="settingName">
+                            Drop order
+                        </td>
+                        <td>
+                            <p>
+                                <input id="dropOrderAlphabetical" name="dropOrder" type="radio" value="alphabetical" checked="checked" />
+                                <label for="dropOrderAlphabetical">alphabetical</label>
+                            </p>
+                            <p>
+                                <input id="dropOrderChronological" name="dropOrder" type="radio" value="chronological" />
+                                <label for="dropOrderChronological">chronological</label>
+                            </p>
+                            <p>
+                                <input id="dropOrderByFrequency" name="dropOrder" type="radio" value="byFrequency" />
+                                <label for="dropOrderByFrequency">by frequency</label>
+                            </p>
+                            <p>
+                                <input id="dropOrderRandom" name="dropOrder" type="radio" value="random" />
+                                <label for="dropOrderRandom">random</label>
+                            </p>
+                            <br />
+                            <p>
+                                <input id="sortDirectionAscending" name="sortDirection" type="radio" value="ascending" checked="checked" />
+                                <label for="sortDirectionAscending">ascending</label>
+                            </p>
+                            <p>
+                                <input id="sortDirectionDescending" name="sortDirection" type="radio" value="descending" />
+                                <label for="sortDirectionDescending">descending</label>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <p class="author">Made by <a href="https://www.fimfiction.net/user/77473/hawthornbunny">hawthornbunny</p>
+        </div>
+    </body>
+</html>
+<script type="text/javascript" src="third-party/blueimp/md5.min.js"></script>
+<script src="third-party/matter.js/matter.min.js" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
