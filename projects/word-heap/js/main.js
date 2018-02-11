@@ -228,8 +228,8 @@ function begin() {
     // Create and add a canvas to the DOM, the size of the browser window.
     global.elements.canvas = document.createElement('canvas');
     global.elements.canvas.id = 'canvas';
-    global.elements.canvas.width = window.innerWidth - 8;
-    global.elements.canvas.height = window.innerHeight - 8;
+    global.elements.canvas.width = window.innerWidth - 16;
+    global.elements.canvas.height = window.innerHeight - 16;
     document.body.appendChild(global.elements.canvas);
 
     global.canvas.width = global.elements.canvas.width;
@@ -259,7 +259,17 @@ function begin() {
     for (var i=0; i < global.wordsToDrop.length; i++) {
         var word = global.wordsToDrop[i];
         var frequency = wordFrequencies[word];
-        var fontSize = frequency * fontScaleNormalizationCoefficient * global.parameters.fontScaleCoefficient;
+
+        // The font size calculation incorporates several scaling factors:
+        // - The word frequency (higher frequency = larger size)
+        // - A normalization coefficient (scales so that the highest frequency has a magnitude of 1)
+        // - A scale coefficient (for making the font large enough to be visible)
+        // - A canvas width-dependent scaling factor (so that the font looks the same size regardless of resolution)
+        var fontSize =
+            frequency
+            * fontScaleNormalizationCoefficient
+            * global.parameters.fontScaleCoefficient
+            * (global.canvas.width / 1600);
         // Clamp the font size to a reasonable minimum, so that words don't get too tiny to see.
         fontSize = Math.max(global.parameters.minFontSize, fontSize);
 
@@ -392,11 +402,6 @@ function createTextBody(text, fontSize, context) {
 
     // Create the rectangular body. We'll keep it at (0, 0) for now.
     var rect = Matter.Bodies.rectangle(0, 0, rectDimensions.w, rectDimensions.h);
-
-    // I don't really understand what slop is; something to do with how far objects can sink into each other. I'm
-    // setting it here because the simulation has a weird problem where a large pile of objects just "melts" and jumbles
-    // into itself, and it looks bad. Setting this value seems to prevent that from happening.
-    rect.slop = 1;
 
     // Add some custom properties to the rectangular body to use when rendering it later.
     rect.custom = {
