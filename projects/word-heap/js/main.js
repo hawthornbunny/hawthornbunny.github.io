@@ -82,7 +82,7 @@ function initialize() {
     }
 
     // Load a blacklist file so that we can filter out common words.
-    loadFile('data/blacklists/common_words.txt')
+    Util.loadFile('data/blacklists/common_words.txt')
     .then(
         function(response) {
             global.lists.words.blacklisted = response.split('\n').map(
@@ -222,7 +222,7 @@ function begin() {
     }
 
     if (randomizeDropOrder) {
-        global.wordsToDrop = shuffle(global.wordsToDrop);
+        global.wordsToDrop = Util.shuffle(global.wordsToDrop);
     }
 
     if (reverseDropOrder) {
@@ -422,7 +422,7 @@ function createTextBody(text, fontSize, context) {
     rect.custom = {
         'text': text,
         'fontSize': fontSize,
-        'color': md5ToHsl(md5(text)),
+        'color': Util.md5ToHsl(md5(text)),
     }
 
     return rect;
@@ -437,7 +437,7 @@ function render() {
     
     // At random intervals, spawn a word body from the body list into the world.
 
-    if (rnd(0, 1 / global.parameters.dropChance) === 0 && global.wordsToDrop.length > 0) {
+    if (Util.randomInt(0, 1 / global.parameters.dropChance) === 0 && global.wordsToDrop.length > 0) {
         // Shift the next word off the list of words to drop, and determine the corresponding body.
         var wordToDrop = global.wordsToDrop.shift();
         var wordBody = global.wordBodies[wordToDrop];
@@ -449,7 +449,7 @@ function render() {
 
         // If there's any horizontal dispersion, randomly shift the x-position accordingly.
         if (global.parameters.horizontalDispersionCoefficient) {
-            dropPosition.x += (rnd(0, global.canvas.width) - (global.canvas.width / 2))
+            dropPosition.x += (Util.randomInt(0, global.canvas.width) - (global.canvas.width / 2))
                 * global.parameters.horizontalDispersionCoefficient;
         }
 
@@ -524,90 +524,6 @@ function renderWordBodies() {
     }
 
 
-}
-
-function rnd(min, max) {
-    return min + Math.floor(Math.random() * (max - min));
-}
-
-/**
- * Randomize the ordering of an array.
- *
- * @param array array
- * @return array The shuffled array
- */
-function shuffle(array) {
-    var shuffledArray = [];
-    for (var i=0; i < array.length; i++) {
-        var element = array[i];
-        var insertIndex = rnd(0, shuffledArray.length+1);
-        shuffledArray.splice(insertIndex, 0, element);
-    }
-    return shuffledArray;
-}
-
-function md5ToHsl(hash) {
-    var hslHex = {
-        'h': '0x'+hash.substr(0, 2),
-        's': '0x'+hash.substr(2, 2),
-        'l': '0x'+hash.substr(4, 2),
-    };
-
-    var hslDec = {
-        'h': parseInt(hslHex.h, 16),
-        's': parseInt(hslHex.s, 16),
-        'l': parseInt(hslHex.l, 16),
-    };
-
-    var hsl = {
-        'h': 360 * (hslDec.h / 255),
-        's': 100 * (hslDec.s / 255),
-        'l': 100 * (hslDec.l / 255),
-    };
-
-    return hsl;
-}
-
-/**
- * Given an object `object` containing key-value pairs, return a new object containing only those key-value pairs for
- * values for which `filterFunction` returns true.
- *
- * @param object object
- * @param function filterFunction
- * @return object
- */
-function filterObjectByValue(object, filterFunction) {
-    var filteredObject = {};
-    for (var key in object) {
-        var value = object[key];
-        if (filterFunction(value)) {
-            filteredObject[key] = value;
-        }
-    }
-    return filteredObject;
-}
-
-function loadFile(url) {
-    return new Promise(
-        function(resolve, reject) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url);
-
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    resolve(xhr.response);
-                } else {
-                    reject(xhr.statusText);
-                }
-            }
-            
-            xhr.onerror = function() {
-                reject(Error('Could not load URL "'+ url + '"'));
-            }
-            
-            xhr.send();
-        }
-    );
 }
 
 function resetSettingsToDefaults(ifUnset) {
