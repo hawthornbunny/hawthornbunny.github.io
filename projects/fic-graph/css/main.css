@@ -1,0 +1,65 @@
+html {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+.button {
+    font-size: 1em;
+}
+
+#errorMessage {
+    color: hsla(20, 90%, 50%);
+    font-weight: bold;
+}
+
+.tip {
+    background-color: hsla(40, 80%, 50%, 1);
+    color: #ffffff;
+    font-size: 0.75em;
+    font-weight: bold;
+    vertical-align: top;
+    padding: 2px;
+    border-radius: 4px;
+}
+
+#settingsPanel {
+    width: 75%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 8px;
+    background-color: #f0f0f0;
+    border: 1px solid #808080;
+    font-size: 0.8em;
+    vertical-align: top;
+}
+
+#settingsPanel td {
+    text-align: left;
+    vertical-align: top;
+    padding: 8px;
+}
+
+#settingsPanel p {
+    margin: 0;
+}
+
+#settingsPanel td.settingName {
+    text-align: right;
+}
+
+.author {
+    font-size: 0.75em;
+}

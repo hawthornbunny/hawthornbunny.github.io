@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+    <meta charset="UTF-8" />
+    <head>
+        <title>Graph</title>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body style="display:none">
+        <div id="main">
+            <h1>Graph</h1>
+            <p class="author">by <a href="https://www.fimfiction.net/user/77473/hawthornbunny">hawthornbunny</a></p>
+            <br />
+            <p>Paste some text into the box below, and click Begin.</p>
+                <textarea id="text" cols="128" rows="16"></textarea>
+            <p>
+                <input id="beginButton" style="font-weight:bold" class="button" type="button" value="Begin" />
+                <input id="settingsButton" class="button" type="button" value="Settings" />
+            </p>
+            <div id="errorPanel" style="display:none">
+                <p id="errorMessage"></p>
+            </div>
+
+            <div id="settingsPanel" style="display:none">
+                <table>
+                    <tr>
+                        <td class="settingName">
+                            Setting
+                            <span class="tip" title="Tip text"> ? </span>
+                        </td>
+                        <td>
+                            <input id="setting" type="text" size="4" value="1" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="js/Util.js" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
+
+
