@@ -21,7 +21,7 @@ var global = {
         'connectionStrengthExponent': 2,
         'fontSizeCoefficient': 0.4,
         'minFontSize': 12,
-        'minNodeRadius': 6,
+        'minNodeRadius': 4,
         'minHoverCircleRadius': 10,
         // Determines the attenuation of the repulsion force with distance.
         'nodeRepulsionExponent': 1,
