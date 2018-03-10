@@ -389,7 +389,7 @@ function applyForceDirection(nodes) {
     // Move all nodes such that their mean position is at the origin.
     shiftNodesToCenter(nodes);
 
-    setTimeout(function() { applyForceDirection(nodes); }, 100);
+    setTimeout(function() { applyForceDirection(nodes); }, 50);
 }
 
 /**
