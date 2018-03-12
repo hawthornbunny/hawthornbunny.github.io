@@ -1114,6 +1114,13 @@ function testAnalyze() {
     isValid = isValid && analysis.chapters[1].mentions['David'] === undefined;
     isValid = isValid && analysis.chapters[1].mentions['Erin'] === undefined;
 
+    isValid = isValid && analysis.chapterAppearances['Alice A'] === 2;
+    isValid = isValid && analysis.chapterAppearances['Alice B'] === 1;
+    isValid = isValid && analysis.chapterAppearances['Bob'] === 1;
+    isValid = isValid && analysis.chapterAppearances['Carol'] === 2;
+    isValid = isValid && analysis.chapterAppearances['David'] === 1;
+    isValid = isValid && analysis.chapterAppearances['Erin'] === 0;
+
     return isValid;
 }
 
