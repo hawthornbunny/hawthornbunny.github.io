@@ -47,6 +47,9 @@ var global = {
 
 
 function initialize() {
+    if (!testAnalyze()) {
+        throw new Error('Analysis test failed.');
+    }
     // The body is hidden by default in the template, so that we can skip the UI here if needed.
     var urlParameters = Util.getUrlParameters();
     var text = undefined;
@@ -223,8 +226,7 @@ function analyze(text, characterNames) {
 
             var regexp = new RegExp('\\b' + nameVariant + '\\b', 'g');
 
-            var result = regexp.exec(chapterText);
-            if (result !== null) {
+            while ((result = regexp.exec(chapterText)) !== null) {
                 var matchedString = result[0];
                 var matchIndex = result.index;
                 chapterText = chapterText.slice(0, matchIndex) + chapterText.slice(matchIndex + matchedString.length);
@@ -260,8 +262,7 @@ function analyze(text, characterNames) {
 
 function begin(text, characters) {
     var analysis = analyze(text, characters);
-    //analysis.chapters = analysis.chapters.slice(0, 50);
-    console.log(analysis);
+
     // Wipe out all elements from the body.
     Util.emptyElement(document.body);
 
@@ -334,7 +335,6 @@ function begin(text, characters) {
     for (var character in nodes) {
         nodesArray.push(nodes[character]);
     }
-    console.log(nodesArray);
 
 	document.querySelector('html').style.height = '100%';
 	var body = document.querySelector('body');
@@ -1055,3 +1055,65 @@ function Connection(nodeA, nodeB, restLength, strength) {
 
     this.form(nodeA, nodeB);
 }
+
+/**
+ * Poor-man's unit test for the `analyze` function.
+ */
+function testAnalyze() {
+    var text = '';
+    text += '> Test Fic\n';
+    text += '>  by Test Author\n';
+    text += '> --------------------------------------------------------------------------\n';
+    text += '\n';
+    text += '> Test Chapter 1, by Test Author 1\n';
+    text += '> --------------------------------------------------------------------------\n';
+    text += '\n';
+    text += '"Hi, Dave," said Alice A. "Bob said Carol bobbed a bob."\n';
+    text += '\n';
+    text += '"No," replied Dave. "It was \'Alice\'."\n';
+    text += '\n';
+    text += '"Who, me?" Alice asked.\n';
+    text += '\n';
+    text += 'Dave shook his head. "No, Alice B."\n';
+    text += '\n';
+    text += '"The Caroller?"\n';
+    text += '\n';
+    text += '"Yes." Dave confirmed.\n';
+    text += '\n';
+    text += '> Erin Is Not In This Chapter, by Test Author 2\n';
+    text += '> --------------------------------------------------------------------------\n';
+    text += '\n';
+    text += '"Alice had better not be talking about me again," Carol growled.\n';
+
+    var characters = {
+        'Alice A': ['Alice', 'Alice A'],
+        'Alice B': ['Alice B'],
+        'Bob': ['Bob', 'Robert'],
+        'Carol': ['Carol'],
+        'David': ['Dave', 'David'],
+        'Erin': ['Erin'],
+    };
+
+    var analysis = analyze(text, characters);
+    var isValid = true;    
+
+    isValid = isValid && analysis.chapters.length === 2;
+    isValid = isValid && analysis.characters.length === 6;
+
+    isValid = isValid && analysis.chapters[0].mentions['Alice A'] === 3;
+    isValid = isValid && analysis.chapters[0].mentions['Alice B'] === 1;
+    isValid = isValid && analysis.chapters[0].mentions['Bob'] === 1;
+    isValid = isValid && analysis.chapters[0].mentions['Carol'] === 1;
+    isValid = isValid && analysis.chapters[0].mentions['David'] === 4;
+    isValid = isValid && analysis.chapters[0].mentions['Erin'] === undefined;
+
+    isValid = isValid && analysis.chapters[1].mentions['Alice A'] === 1;
+    isValid = isValid && analysis.chapters[1].mentions['Alice B'] === undefined;
+    isValid = isValid && analysis.chapters[1].mentions['Bob'] === undefined;
+    isValid = isValid && analysis.chapters[1].mentions['Carol'] === 1;
+    isValid = isValid && analysis.chapters[1].mentions['David'] === undefined;
+    isValid = isValid && analysis.chapters[1].mentions['Erin'] === undefined;
+
+    return isValid;
+}
+
