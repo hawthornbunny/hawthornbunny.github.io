@@ -65,8 +65,8 @@ bobble_radius = separation * 0.75
 geometry = {
     'lines': {
         'dates': {
-            'lower': ('Joined', 0, 0, 0, graph_size[1], 2, 'rgb(64, 64, 64)'),
-            'upper': ('Now', graph_size[0], 0, graph_size[0], graph_size[1], 2, 'rgb(64, 64, 64)'),
+            'lower': ('Joined', 0, 0, 0, graph_size[1], 4, 'rgb(64, 64, 64)'),
+            'upper': ('Now', graph_size[0], 0, graph_size[0], graph_size[1], 4, 'rgb(64, 64, 64)'),
             'years': [],
         },
         'followers': [],
@@ -128,7 +128,7 @@ graph_group = svg.add(
 
 graph_group.add(
     svg.line(
-        start = (geometry['lines']['dates']['lower'][1], geometry['lines']['dates']['lower'][2]),
+        start = (geometry['lines']['dates']['lower'][1], geometry['lines']['dates']['lower'][2] - 16),
         end = (geometry['lines']['dates']['lower'][3], geometry['lines']['dates']['lower'][4]),
         stroke_width = geometry['lines']['dates']['lower'][5],
         stroke = geometry['lines']['dates']['lower'][6]
@@ -137,7 +137,7 @@ graph_group.add(
 
 graph_group.add(
     svg.line(
-        start = (geometry['lines']['dates']['upper'][1], geometry['lines']['dates']['upper'][2]),
+        start = (geometry['lines']['dates']['upper'][1], geometry['lines']['dates']['upper'][2] - 16),
         end = (geometry['lines']['dates']['upper'][3], geometry['lines']['dates']['upper'][4]),
         stroke_width = geometry['lines']['dates']['upper'][5],
         stroke = geometry['lines']['dates']['upper'][6]
