@@ -10,6 +10,16 @@ body {
     height: 100%;
 }
 
+.tag {
+    font-family: sans-serif;
+    font-size: 1.25em;
+}
+
+.option {
+    font-family: sans-serif;
+    font-size: 1.25em;
+}
+
 #tagsContainer {
     margin: 2em;
 }

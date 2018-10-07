@@ -60,11 +60,15 @@ function begin() {
             'render': {
                 'item': function (item, escapeFunc) {
                     var color = getTagColor(item.name);
-                    return '<div style="background-image: none;'
-                        + 'font-family: sans-serif; font-size: 1.25em;'
-                        + 'color: rgb(0, 0, 0);' + 'background-color: hsla('
-                        + color.h + ', ' + color.s + '%, ' + color.l
-                        + '%, 0.5)">' + escapeFunc(item.name) + '</div>';
+                    return '<div class="tag" style="background-image: none;'
+                        + 'background-color: hsla(' + color.h + ', '
+                        + color.s + '%, ' + color.l + '%, 0.5);'
+                        + 'color: rgb(0, 0, 0)">'
+                        + escapeFunc(item.name) + '</div>';
+                },
+                'option': function (option, escapeFunc) {
+                    return '<div class="option">' + escapeFunc(option.name)
+                        + '</div>';
                 }
             }
         }
