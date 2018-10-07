@@ -61,7 +61,7 @@ function begin() {
                 'item': function (item, escapeFunc) {
                     var color = getTagColor(item.name);
                     return '<div style="background-image: none;'
-                        + 'font-family: serif; font-size: 1.25em;'
+                        + 'font-family: sans-serif; font-size: 1.25em;'
                         + 'color: rgb(0, 0, 0);' + 'background-color: hsla('
                         + color.h + ', ' + color.s + '%, ' + color.l
                         + '%, 0.5)">' + escapeFunc(item.name) + '</div>';
