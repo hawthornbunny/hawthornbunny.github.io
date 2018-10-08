@@ -46,6 +46,22 @@ function begin() {
     var tags = global.data.tags;
     var fics = global.data.fics;
 
+    // Update the tags collection with a little extra information that we can
+    // derive from the fic data - namely, how many times each tag is used. This
+    // information can help indicate to the user which tags are more popular
+    // than others.
+    for (var storyId in fics) {
+        var ficData = fics[storyId];
+        for (var i = 0; i < ficData.tags.length; i++) {
+            var tagId = ficData.tags[i];
+            var tagData = tags[tagId];
+            if (tagData.numberOfUsages === undefined) {
+                tagData.numberOfUsages = 0;
+            }
+            tagData.numberOfUsages++;
+        }
+    }
+
     // Get a sorted list of all tag objects.
     var options = Object.values(tags);
     options = UTIL.sortByProperties(options, ['name']);
@@ -69,7 +85,16 @@ function begin() {
                         + 'background-color: hsla(' + color.h + ', '
                         + color.s + '%, ' + color.l + '%, 0.5);'
                         + 'color: rgb(0, 0, 0)">'
-                        + escapeFunc(item.name) + '</div>';
+                        + escapeFunc(item.name)
+                        + ' <span style="font-size: 0.75em;font-weight:bold">('
+                        + escapeFunc(item.numberOfUsages) + ')</span></div>';
+                },
+                'option': function (item, escapeFunc) {
+                    var color = getTagColor(item.name);
+                    return '<div class="option">'
+                        + escapeFunc(item.name)
+                        + ' <span style="font-size: 0.75em;font-weight:bold">('
+                        + escapeFunc(item.numberOfUsages) + ')</span></div>';
                 }
             }
         }

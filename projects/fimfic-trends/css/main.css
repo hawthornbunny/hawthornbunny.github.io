@@ -11,6 +11,17 @@ body {
     height: 100%;
 }
 
+.title {
+    font-size: 2em;
+    margin: 1em 0 0 0;
+    text-align: center;
+}
+
+.author {
+    font-size: 0.75em;
+    text-align: center;
+}
+
 #tagsContainer {
     margin: 2em;
     text-align: center;
@@ -45,7 +56,8 @@ body {
 
 #infoMessage {
     text-align: center;
-    font-size: 1.25em;
+    font-size: 1em;
+    font-weight: bold;
     color: hsl(30, 100%, 50%);
 }
 
