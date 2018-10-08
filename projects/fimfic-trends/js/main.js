@@ -65,10 +65,6 @@ function begin() {
                         + color.s + '%, ' + color.l + '%, 0.5);'
                         + 'color: rgb(0, 0, 0)">'
                         + escapeFunc(item.name) + '</div>';
-                },
-                'option': function (option, escapeFunc) {
-                    return '<div class="option">' + escapeFunc(option.name)
-                        + '</div>';
                 }
             }
         }
