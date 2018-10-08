@@ -6,6 +6,9 @@ var global = {
     'elementIds': [
         'main',
         'chartContainer',
+        'infoMessage',
+        'loadingMessage',
+        'tagsContainer',
     ],
     'paths': {
         'reducedIndex': 'data/reduced-index.json',
@@ -26,6 +29,8 @@ function initialize() {
     UTIL.loadFile(global.paths.reducedIndex).then(
         function(file) {
             global.data = JSON.parse(file);
+            global.elements.loadingMessage.style.display = 'none';
+            global.elements.tagsContainer.style.display = 'block';
             begin();
         },
         function(file) {
@@ -76,6 +81,7 @@ function begin() {
 }
 
 function showTrends() {
+    global.elements.infoMessage.style.display = 'none';
     // Get the list of selected tags (as IDs)
     var tagsSelect = $('#tags');
     var selectedTagIds = tagsSelect.val();
@@ -88,6 +94,13 @@ function showTrends() {
             return tagNameA.localeCompare(tagNameB);
         }
     );
+
+    if (selectedTagIds.length < 2) {
+        global.elements.infoMessage.innerHTML
+            = 'Please select at least 2 tags.';
+        global.elements.infoMessage.style.display = 'block';
+        return;
+    }
 
     var tagCounts = global.data.timeIntervals;
 
@@ -182,6 +195,35 @@ function showTrends() {
     UTIL.emptyElement(global.elements.chartContainer);
     global.elements.chartContainer.appendChild(svg);
     global.elements.chartContainer.style.display = 'block';
+
+    // Create the striped "no-data" pattern for use later.
+    var defs = document.createElementNS(svgNamespace, 'defs');
+    var pattern = document.createElementNS(svgNamespace, 'pattern');
+
+    pattern.setAttribute('id', 'pattern-no-data')
+    pattern.setAttribute('width', 20)
+    pattern.setAttribute('height', 20)
+    pattern.setAttribute('patternUnits', 'userSpaceOnUse') 
+    pattern.setAttribute('patternTransform', 'rotate(45)');
+
+    var patternFill = document.createElementNS(svgNamespace, 'rect');
+    patternFill.setAttribute('x', 0)
+    patternFill.setAttribute('y', 0)
+    patternFill.setAttribute('width', 20)
+    patternFill.setAttribute('height', 20)
+    patternFill.setAttribute('fill', 'hsl(0, 0%, 20%)');
+
+    var patternLine = document.createElementNS(svgNamespace, 'rect');
+    patternLine.setAttribute('x', 0)
+    patternLine.setAttribute('y', 0)
+    patternLine.setAttribute('width', 4)
+    patternLine.setAttribute('height', 32)
+    patternLine.setAttribute('fill', 'hsl(0, 0%, 15%)');
+
+    pattern.appendChild(patternFill);
+    pattern.appendChild(patternLine);
+    defs.appendChild(pattern);
+    svg.appendChild(defs);
 
     // Create linear mapping functions to map the x- and y- domains (time and
     // proportion) into x- and y- ranges (pixel positions). To do this, we get
@@ -308,7 +350,7 @@ function showTrends() {
     }
     var upperPath = document.createElementNS(svgNamespace, 'path')
     upperPath.setAttribute('d', upperPathDefinition);
-    upperPath.setAttribute('fill',  'hsla(0, 0%, 0%, 1)');
+    upperPath.setAttribute('fill',  'url(#pattern-no-data)');
     upperPath.setAttribute('stroke',  'hsl(0, 0%, 0%)');
     upperPath.setAttribute('stroke-width', '1');
     svg.appendChild(upperPath);
@@ -341,6 +383,15 @@ function showTrends() {
         yearLine.setAttribute('y2', yDomainToRange(1));
         yearLine.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.5)');
         yearLine.setAttribute('stroke-width', '1');
+        var yearLabelBacking = document.createElementNS(svgNamespace, 'text');
+        yearLabelBacking.setAttribute('x', yearLineX);
+        yearLabelBacking.setAttribute('y', yDomainToRange(0.975));
+        yearLabelBacking.setAttribute('text-anchor', 'middle');
+        yearLabelBacking.setAttribute('stroke',  'hsla(0, 0%, 100%, 0.5)');
+        yearLabelBacking.setAttribute('stroke-width', '10');
+        yearLabelBacking.setAttribute('stroke-linejoin', 'round');
+        yearLabelBacking.setAttribute('fill',  'hsla(0, 0%, 10%, 0.5)');
+        yearLabelBacking.innerHTML = year;
         var yearLabel = document.createElementNS(svgNamespace, 'text');
         yearLabel.setAttribute('x', yearLineX);
         yearLabel.setAttribute('y', yDomainToRange(0.975));
@@ -349,6 +400,7 @@ function showTrends() {
         yearLabel.setAttribute('fill',  'hsla(0, 0%, 10%, 0.5)');
         yearLabel.innerHTML = year;
         svg.appendChild(yearLine);
+        svg.appendChild(yearLabelBacking);
         svg.appendChild(yearLabel);
     }
 }

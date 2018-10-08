@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    font-family: sans-serif;
 }
 
 body {
@@ -8,6 +9,11 @@ body {
 
 #main {
     height: 100%;
+}
+
+#tagsContainer {
+    margin: 2em;
+    text-align: center;
 }
 
 .selectize-control {
@@ -21,6 +27,7 @@ body {
 }
 
 .selectize-dropdown {
+    font-size: 1em;
     font-family: sans-serif;
     text-align: left;
 }
@@ -30,14 +37,16 @@ body {
     font-size: 1.25em;
 }
 
-#tagsContainer {
-    margin: 2em;
-}
-
 #showTrendsButton {
     font-size: 1.25em;
     display: inline;
     vertical-align: top;
+}
+
+#infoMessage {
+    text-align: center;
+    font-size: 1.25em;
+    color: hsl(30, 100%, 50%);
 }
 
 #chartContainer {
