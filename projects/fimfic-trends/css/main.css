@@ -10,8 +10,12 @@ body {
     height: 100%;
 }
 
+.selectize-control {
+    display: inline;
+}
+
 .selectize-input {
-    width: 75%;
+    width: 50%;
     font-family: sans-serif;
     text-align: left;
 }
@@ -31,7 +35,9 @@ body {
 }
 
 #showTrendsButton {
-    font-size: 1em;
+    font-size: 1.25em;
+    display: inline;
+    vertical-align: top;
 }
 
 #chartContainer {
