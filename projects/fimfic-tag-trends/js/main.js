@@ -270,7 +270,7 @@ function showTrends() {
         var tagName = global.data.tags[selectedTagId].name;
         var color = getTagColor(tagName);
         path.setAttribute('fill',  'hsla(' + color.h + ', ' + color.s + '%, '
-            + color.l + '%, ' + 0.5 + ')');
+            + color.l + '%, 0.75)');
         path.setAttribute('stroke', 'hsl(' + color.h + ', ' + color.s + '%, '
             + color.l + '%)');
         path.setAttribute('stroke-width', '1');
@@ -307,8 +307,8 @@ function showTrends() {
     }
     var upperPath = document.createElementNS(svgNamespace, 'path')
     upperPath.setAttribute('d', upperPathDefinition);
-    upperPath.setAttribute('fill',  'hsla(0, 0%, 0%, 0.75)');
-    upperPath.setAttribute('stroke',  'hsla(0, 0%, 0%, 0.75)');
+    upperPath.setAttribute('fill',  'hsla(0, 0%, 0%, 1)');
+    upperPath.setAttribute('stroke',  'hsl(0, 0%, 0%)');
     upperPath.setAttribute('stroke-width', '1');
     svg.appendChild(upperPath);
 
@@ -382,7 +382,7 @@ function groupTagsByTimeIntervals(fics, intervalLength) {
 function getTagColor(tagName) {
     var color = UTIL.md5ToHsl(md5(tagName));
     color.h = Math.floor(color.h);
-    color.s = Math.floor(color.s);
-    color.l = Math.floor(Math.min(75, color.l));
+    color.s = Math.floor(Math.max(25, color.s));
+    color.l = Math.floor(Math.max(50, color.l));
     return color;
 }
