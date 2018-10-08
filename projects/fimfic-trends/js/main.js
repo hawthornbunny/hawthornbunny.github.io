@@ -100,6 +100,11 @@ function showTrends() {
     var times = Object.keys(tagCounts);
     times.sort();
 
+    // Get the first time and last time. This tells us the range of time covered
+    // by the data and helps us to add time indicators to the chart.
+    var beginTime = times[0];
+    var endTime = times[times.length - 1];
+
     // Process the collection of time intervals chronologically and produce a
     // collection of tag counts for the selected tags only. This ensures that we
     // have a count for all selected tags at every point in time, even if the
@@ -312,6 +317,44 @@ function showTrends() {
     upperPath.setAttribute('stroke-width', '1');
     svg.appendChild(upperPath);
 
+    // Add year indicators to the chart. We already have the timestamps of each
+    // end of the chart, so we just need to determine year boundaries for all
+    // years in between.
+
+    // Find out what years the chart begins and ends.
+    var beginDate = new Date(beginTime*1000);
+    var endDate = new Date(endTime*1000);
+    var beginYear = beginDate.getFullYear();
+    var endYear = endDate.getFullYear();
+
+    // Find time points for January 1st of all years in between.
+    var yearTimes = {};
+    for (var year = beginYear + 1; year <= endYear; year++) {
+        var yearDate = new Date(year + '-01-01T00:00:00');
+        yearTimes[year] = yearDate.getTime() / 1000;
+    }
+    
+    // Draw vertical indicators for each year.
+    for (var year in yearTimes) {
+        var yearTime = yearTimes[year];
+        var yearLineX = xDomainToRange(yearTime);
+        var yearLine = document.createElementNS(svgNamespace, 'line');
+        yearLine.setAttribute('x1', yearLineX);
+        yearLine.setAttribute('y1', yDomainToRange(0));
+        yearLine.setAttribute('x2', yearLineX);
+        yearLine.setAttribute('y2', yDomainToRange(1));
+        yearLine.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.5)');
+        yearLine.setAttribute('stroke-width', '1');
+        var yearLabel = document.createElementNS(svgNamespace, 'text');
+        yearLabel.setAttribute('x', yearLineX);
+        yearLabel.setAttribute('y', yDomainToRange(0.975));
+        yearLabel.setAttribute('text-anchor', 'middle');
+        yearLabel.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.5)');
+        yearLabel.setAttribute('fill',  'hsla(0, 0%, 10%, 0.5)');
+        yearLabel.innerHTML = year;
+        svg.appendChild(yearLine);
+        svg.appendChild(yearLabel);
+    }
 }
 
 /**
