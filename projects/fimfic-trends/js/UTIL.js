@@ -164,6 +164,46 @@ UTIL.sum = function(array)  {
     );
 };
 
+/**
+ * Return the smallest value in the given array. While you can use a `reduce`
+ * array function for this, MDN advises against doing so on very large arrays;
+ * therefore, this does it the old-school iterative way.
+ *
+ * @param array array
+ * @return mixed
+ */
+UTIL.getArrayMin = function(array) {
+    var minValue = undefined;
+    for (var i = 0; i < array.length; i++) {
+        var value = array[i];
+
+        if (minValue === undefined || value < minValue) {
+            minValue = value;
+        }
+    }
+
+    return minValue;
+};
+
+/**
+ * Return the largest value in the given array.
+ *
+ * @param array array
+ * @return mixed
+ */
+UTIL.getArrayMax = function(array) {
+    var maxValue = undefined;
+    for (var i = 0; i < array.length; i++) {
+        var value = array[i];
+
+        if (maxValue === undefined || value > maxValue) {
+            maxValue = value;
+        }
+    }
+
+    return maxValue;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // Assertion functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -571,142 +611,4 @@ UTIL.md5ToHsl = function(hash) {
     };
 
     return hsl;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-// Unit tests
-////////////////////////////////////////////////////////////////////////////////
-
-UTIL.tests = {};
-
-UTIL.tests.test = function () {
-    UTIL.tests.testGetCumulativeSeries();
-    UTIL.tests.testNormalizeSeriesCollection();
-    UTIL.tests.testStackSeriesCollection();
-};
-
-UTIL.tests.testGetCumulativeSeries = function () {
-    var series = [
-        [1, 2],
-        [2, 0],
-        [3, 5],
-        [4, 1]
-    ];
-
-    var cumulativeSeries = UTIL.getCumulativeSeries(series);
-
-    // cumulativeSeries = [
-    //     [1, 2],
-    //     [2, 2],
-    //     [3, 7],
-    //     [4, 8]
-    // ]
-
-    UTIL.assertEquals(1, cumulativeSeries[0][0]);
-    UTIL.assertEquals(2, cumulativeSeries[0][1]);
-    UTIL.assertEquals(2, cumulativeSeries[1][0]);
-    UTIL.assertEquals(2, cumulativeSeries[1][1]);
-    UTIL.assertEquals(3, cumulativeSeries[2][0]);
-    UTIL.assertEquals(7, cumulativeSeries[2][1]);
-    UTIL.assertEquals(4, cumulativeSeries[3][0]);
-    UTIL.assertEquals(8, cumulativeSeries[3][1]);
-};
-
-UTIL.tests.testNormalizeSeriesCollection = function () {
-    var seriesCollection = {
-        'Series 1': [ [1, 10], [2, 5],  [3, 20], [4, 9] ],
-        'Series 2': [ [1, 0],  [2, 5],  [3, 20], [4, 9] ],
-        'Series 3': [ [1, 0],  [2, 0],  [3,  5], [4, 9] ],
-        'Series 4': [ [1, 0],  [2, 0],  [3,  5], [4, 9] ],
-    };
-
-    var normalizedSeriesCollection = UTIL.normalizeSeriesCollection(
-        seriesCollection
-    );
-
-    UTIL.assertEquals(   1, normalizedSeriesCollection['Series 1'][0][0]);
-    UTIL.assertEquals(   1, normalizedSeriesCollection['Series 1'][0][1]);
-    UTIL.assertEquals(   2, normalizedSeriesCollection['Series 1'][1][0]);
-    UTIL.assertEquals( 0.5, normalizedSeriesCollection['Series 1'][1][1]);
-    UTIL.assertEquals(   3, normalizedSeriesCollection['Series 1'][2][0]);
-    UTIL.assertEquals( 0.4, normalizedSeriesCollection['Series 1'][2][1]);
-    UTIL.assertEquals(   4, normalizedSeriesCollection['Series 1'][3][0]);
-    UTIL.assertEquals(0.25, normalizedSeriesCollection['Series 1'][3][1]);
-
-    UTIL.assertEquals(   1, normalizedSeriesCollection['Series 2'][0][0]);
-    UTIL.assertEquals(   0, normalizedSeriesCollection['Series 2'][0][1]);
-    UTIL.assertEquals(   2, normalizedSeriesCollection['Series 2'][1][0]);
-    UTIL.assertEquals( 0.5, normalizedSeriesCollection['Series 2'][1][1]);
-    UTIL.assertEquals(   3, normalizedSeriesCollection['Series 2'][2][0]);
-    UTIL.assertEquals( 0.4, normalizedSeriesCollection['Series 2'][2][1]);
-    UTIL.assertEquals(   4, normalizedSeriesCollection['Series 2'][3][0]);
-    UTIL.assertEquals(0.25, normalizedSeriesCollection['Series 2'][3][1]);
-
-    UTIL.assertEquals(   1, normalizedSeriesCollection['Series 3'][0][0]);
-    UTIL.assertEquals(   0, normalizedSeriesCollection['Series 3'][0][1]);
-    UTIL.assertEquals(   2, normalizedSeriesCollection['Series 3'][1][0]);
-    UTIL.assertEquals(   0, normalizedSeriesCollection['Series 3'][1][1]);
-    UTIL.assertEquals(   3, normalizedSeriesCollection['Series 3'][2][0]);
-    UTIL.assertEquals( 0.1, normalizedSeriesCollection['Series 3'][2][1]);
-    UTIL.assertEquals(   4, normalizedSeriesCollection['Series 3'][3][0]);
-    UTIL.assertEquals(0.25, normalizedSeriesCollection['Series 3'][3][1]);
-
-    UTIL.assertEquals(   1, normalizedSeriesCollection['Series 4'][0][0]);
-    UTIL.assertEquals(   0, normalizedSeriesCollection['Series 4'][0][1]);
-    UTIL.assertEquals(   2, normalizedSeriesCollection['Series 4'][1][0]);
-    UTIL.assertEquals(   0, normalizedSeriesCollection['Series 4'][1][1]);
-    UTIL.assertEquals(   3, normalizedSeriesCollection['Series 4'][2][0]);
-    UTIL.assertEquals( 0.1, normalizedSeriesCollection['Series 4'][2][1]);
-    UTIL.assertEquals(   4, normalizedSeriesCollection['Series 4'][3][0]);
-    UTIL.assertEquals(0.25, normalizedSeriesCollection['Series 4'][3][1]);
-};
-
-UTIL.tests.testStackSeriesCollection = function () {
-    var seriesCollection = {
-        'Series 4': [ [1, 5],  [2, 0],  [3, 1], [4, 9] ],
-        'Series 3': [ [1, 4],  [2, 7],  [3, 1], [4, 8] ],
-        'Series 2': [ [1, 0],  [2, 2],  [3, 1], [4, 0] ],
-        'Series 1': [ [1, 1],  [2, 0],  [3, 1], [4, 0] ],
-    };
-
-    var stackedSeriesCollection = UTIL.stackSeriesCollection(
-        seriesCollection,
-        ['Series 1', 'Series 2', 'Series 3', 'Series 4']
-    );
-
-    UTIL.assertEquals( 1, stackedSeriesCollection['Series 1'][0][0]);
-    UTIL.assertEquals( 1, stackedSeriesCollection['Series 1'][0][1]);
-    UTIL.assertEquals( 2, stackedSeriesCollection['Series 1'][1][0]);
-    UTIL.assertEquals( 0, stackedSeriesCollection['Series 1'][1][1]);
-    UTIL.assertEquals( 3, stackedSeriesCollection['Series 1'][2][0]);
-    UTIL.assertEquals( 1, stackedSeriesCollection['Series 1'][2][1]);
-    UTIL.assertEquals( 4, stackedSeriesCollection['Series 1'][3][0]);
-    UTIL.assertEquals( 0, stackedSeriesCollection['Series 1'][3][1]);
-
-    UTIL.assertEquals( 1, stackedSeriesCollection['Series 2'][0][0]);
-    UTIL.assertEquals( 1, stackedSeriesCollection['Series 2'][0][1]);
-    UTIL.assertEquals( 2, stackedSeriesCollection['Series 2'][1][0]);
-    UTIL.assertEquals( 2, stackedSeriesCollection['Series 2'][1][1]);
-    UTIL.assertEquals( 3, stackedSeriesCollection['Series 2'][2][0]);
-    UTIL.assertEquals( 2, stackedSeriesCollection['Series 2'][2][1]);
-    UTIL.assertEquals( 4, stackedSeriesCollection['Series 2'][3][0]);
-    UTIL.assertEquals( 0, stackedSeriesCollection['Series 2'][3][1]);
-
-    UTIL.assertEquals( 1, stackedSeriesCollection['Series 3'][0][0]);
-    UTIL.assertEquals( 5, stackedSeriesCollection['Series 3'][0][1]);
-    UTIL.assertEquals( 2, stackedSeriesCollection['Series 3'][1][0]);
-    UTIL.assertEquals( 9, stackedSeriesCollection['Series 3'][1][1]);
-    UTIL.assertEquals( 3, stackedSeriesCollection['Series 3'][2][0]);
-    UTIL.assertEquals( 3, stackedSeriesCollection['Series 3'][2][1]);
-    UTIL.assertEquals( 4, stackedSeriesCollection['Series 3'][3][0]);
-    UTIL.assertEquals( 8, stackedSeriesCollection['Series 3'][3][1]);
-
-    UTIL.assertEquals( 1, stackedSeriesCollection['Series 4'][0][0]);
-    UTIL.assertEquals(10, stackedSeriesCollection['Series 4'][0][1]);
-    UTIL.assertEquals( 2, stackedSeriesCollection['Series 4'][1][0]);
-    UTIL.assertEquals( 9, stackedSeriesCollection['Series 4'][1][1]);
-    UTIL.assertEquals( 3, stackedSeriesCollection['Series 4'][2][0]);
-    UTIL.assertEquals( 4, stackedSeriesCollection['Series 4'][2][1]);
-    UTIL.assertEquals( 4, stackedSeriesCollection['Series 4'][3][0]);
-    UTIL.assertEquals(17, stackedSeriesCollection['Series 4'][3][1]);
 };

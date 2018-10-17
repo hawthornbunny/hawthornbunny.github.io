@@ -18,12 +18,20 @@
             </p>
             <p id="infoMessage" style="display: none"></p>
             <div id="chartContainer"></div>
+            <p id="chartOptionsContainer">
+                <strong>Chart type:</strong>
+                <input id="chartTypeLine" name="chartType" type="radio" checked="checked" />
+                <label for="chartTypeLine">Normal</label>
+                <input id="chartTypeStacked" name="chartType" type="radio" />
+                <label for="chartTypeStacked">Stacked</label>
+            </p>
         </div>
     </body>
 </html>
 <script src="third-party/jquery/jquery-3.3.1.min.js"></script>
 <script src="third-party/selectize.js/selectize.min.js"></script>
 <script src="third-party/blueimp/md5.min.js"></script>
+<script src="js/UTIL_TESTS.js"></script>
 <script src="js/UTIL.js"></script>
 <script src="js/test.js"></script>
 <script src="js/main.js"></script>
