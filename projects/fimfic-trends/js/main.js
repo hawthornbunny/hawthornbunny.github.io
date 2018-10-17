@@ -153,12 +153,12 @@ function showTrends() {
         }
     );
 
-    if (selectedTagIds.length < 2) {
-        global.elements.infoMessage.innerHTML
-            = 'Please select at least 2 tags.';
-        global.elements.infoMessage.style.display = 'block';
-        return;
-    }
+//    if (selectedTagIds.length < 2) {
+//        global.elements.infoMessage.innerHTML
+//            = 'Please select at least 2 tags.';
+//        global.elements.infoMessage.style.display = 'block';
+//        return;
+//    }
 
     var tagCounts = global.data.timeIntervals;
 
