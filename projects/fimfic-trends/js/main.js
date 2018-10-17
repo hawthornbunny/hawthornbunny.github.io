@@ -1,6 +1,11 @@
 window.onload = initialize;
 
 var global = {
+    'colors': {
+        'chart': {
+            'background': '#f8f8f8',
+        },
+    },
     'elements': {
     },
     'elementIds': [
@@ -705,30 +710,39 @@ function createChartSvg() {
     var defs = document.createElementNS(global.svgNamespace, 'defs');
     var pattern = document.createElementNS(global.svgNamespace, 'pattern');
 
-    pattern.setAttribute('id', 'pattern-no-data')
-    pattern.setAttribute('width', 20)
-    pattern.setAttribute('height', 20)
-    pattern.setAttribute('patternUnits', 'userSpaceOnUse') 
+    pattern.setAttribute('id', 'pattern-no-data');
+    pattern.setAttribute('width', 20);
+    pattern.setAttribute('height', 20);
+    pattern.setAttribute('patternUnits', 'userSpaceOnUse');
     pattern.setAttribute('patternTransform', 'rotate(45)');
 
     var patternFill = document.createElementNS(global.svgNamespace, 'rect');
-    patternFill.setAttribute('x', 0)
-    patternFill.setAttribute('y', 0)
-    patternFill.setAttribute('width', 20)
-    patternFill.setAttribute('height', 20)
+    patternFill.setAttribute('x', 0);
+    patternFill.setAttribute('y', 0);
+    patternFill.setAttribute('width', 20);
+    patternFill.setAttribute('height', 20);
     patternFill.setAttribute('fill', 'hsl(0, 0%, 20%)');
 
     var patternLine = document.createElementNS(global.svgNamespace, 'rect');
-    patternLine.setAttribute('x', 0)
-    patternLine.setAttribute('y', 0)
-    patternLine.setAttribute('width', 4)
-    patternLine.setAttribute('height', 32)
+    patternLine.setAttribute('x', 0);
+    patternLine.setAttribute('y', 0);
+    patternLine.setAttribute('width', 4);
+    patternLine.setAttribute('height', 32);
     patternLine.setAttribute('fill', 'hsl(0, 0%, 15%)');
 
     pattern.appendChild(patternFill);
     pattern.appendChild(patternLine);
     defs.appendChild(pattern);
     svg.appendChild(defs);
+
+    // Fill the full SVG area with a rectangular background.
+    var backgroundRect = document.createElementNS(global.svgNamespace, 'rect');
+    backgroundRect.setAttribute('x', 0);
+    backgroundRect.setAttribute('y', 0);
+    backgroundRect.setAttribute('width', '100%');
+    backgroundRect.setAttribute('height', '100%');
+    backgroundRect.setAttribute('fill', global.colors.chart.background);
+    svg.appendChild(backgroundRect);
 
     return svg;
 }
