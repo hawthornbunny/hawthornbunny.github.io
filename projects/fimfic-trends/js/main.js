@@ -25,6 +25,10 @@ var global = {
         'subtitle',
         'tagsContainer',
     ],
+    'parameters': {
+        'intervalLength': 60 * 60 * 24, // 1 day in seconds
+        //'cacheExpiryTime': 90 * 24 * 60 * 60 * 1000, // 90 days in milliseconds
+    },
     'svgNamespace': 'http://www.w3.org/2000/svg',
 };
 
@@ -43,27 +47,38 @@ function initialize() {
         global.elements[elementId] = document.querySelector('#'+elementId);
     }
 
-    UTIL.loadFile(global.dataSources.fimfarchive.file).then(
-        function(file) {
-            global.data = JSON.parse(file);
+    var showTrendsButton = document.querySelector('#showTrendsButton');
+    showTrendsButton.onclick = showTrends;
+
+    // Add a simple loading progress message.
+    var progressFunc = function(progressEvent) {
+        var progress = Math.floor(progressEvent.loaded / progressEvent.total);
+        global.elements.loadingMessage.innerHTML = 'Loading fic data (<strong>'
+            + progress + '%</strong>)'
+    };
+
+    UTIL.loadFile(global.dataSources.fimfarchive.file, progressFunc).then(
+        function(fileJson) {
+            var data = JSON.parse(fileJson);
+
+            global.data = data;
+
             global.elements.loadingMessage.style.display = 'none';
             global.elements.tagsContainer.style.display = 'block';
-            begin();
+
+            start();
         },
-        function(file) {
+        function(fileJson) {
             console.log('Error');
         }
     );
-
-    var showTrendsButton = document.querySelector('#showTrendsButton');
-    showTrendsButton.onclick = showTrends;
 }
 
 /**
  * Analyze and process the fic data. This function is called after the fic data
- * has finished loaded.
+ * has finished loading.
  */
-function begin() {
+function start() {
     var tags = global.data.tags;
     var fics = global.data.fics;
 
@@ -135,9 +150,13 @@ function begin() {
     );
 
     // Process the fic tags into time intervals (days).
-    var intervalLength = 60 * 60 * 24;
-    global.data.timeIntervals = groupTagsByTimeIntervals(fics, intervalLength);
+    global.data.timeIntervals = groupTagsByTimeIntervals(
+        fics,
+        global.parameters.intervalLength
+    );
 
+    // Add a subtitle that displays some information about the data; where it
+    // came from, and the range of dates that it covers.
     var times = Object.keys(global.data.timeIntervals);
     var beginTime = UTIL.getArrayMin(times);
     var endTime = UTIL.getArrayMax(times);
@@ -156,10 +175,9 @@ function begin() {
         'en-GB', dateFormatOptions
     );
 
-    // Add a subtitle that displays some information about the data; where it
-    // came from, and the range of dates that it covers.
     global.elements.subtitle.innerHTML = 'Powered by '
-        + '<a href="' + global.dataSources.fimfarchive.url + '">'
+        + '<a href="' + global.dataSources.fimfarchive.url + '"'
+        + ' target="_blank">'
         + global.dataSources.fimfarchive.name + '</a> data ('
         + beginDateFormatted + ' \u2014 ' + endDateFormatted + ')';
 }
