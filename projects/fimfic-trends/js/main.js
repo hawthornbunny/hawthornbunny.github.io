@@ -6,6 +6,13 @@ var global = {
             'background': '#f8f8f8',
         },
     },
+    'dataSources': {
+        'fimfarchive': {
+            'name': 'Fimfarchive',
+            'url': 'https://www.fimfiction.net/user/116950/Fimfarchive',
+            'file': 'data/reduced-index.json',
+        }
+    },
     'elements': {
     },
     'elementIds': [
@@ -15,11 +22,9 @@ var global = {
         'chartTypeStacked',
         'infoMessage',
         'loadingMessage',
+        'subtitle',
         'tagsContainer',
     ],
-    'paths': {
-        'reducedIndex': 'data/reduced-index.json',
-    },
     'svgNamespace': 'http://www.w3.org/2000/svg',
 };
 
@@ -38,7 +43,7 @@ function initialize() {
         global.elements[elementId] = document.querySelector('#'+elementId);
     }
 
-    UTIL.loadFile(global.paths.reducedIndex).then(
+    UTIL.loadFile(global.dataSources.fimfarchive.file).then(
         function(file) {
             global.data = JSON.parse(file);
             global.elements.loadingMessage.style.display = 'none';
@@ -132,6 +137,31 @@ function begin() {
     // Process the fic tags into time intervals (days).
     var intervalLength = 60 * 60 * 24;
     global.data.timeIntervals = groupTagsByTimeIntervals(fics, intervalLength);
+
+    var times = Object.keys(global.data.timeIntervals);
+    var beginTime = UTIL.getArrayMin(times);
+    var endTime = UTIL.getArrayMax(times);
+    var beginDate = new Date(beginTime * 1000);
+    var endDate = new Date(endTime * 1000);
+    var dateFormatOptions = {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+    };
+
+    var beginDateFormatted = beginDate.toLocaleDateString(
+        'en-GB', dateFormatOptions
+    );
+    var endDateFormatted = endDate.toLocaleDateString(
+        'en-GB', dateFormatOptions
+    );
+
+    // Add a subtitle that displays some information about the data; where it
+    // came from, and the range of dates that it covers.
+    global.elements.subtitle.innerHTML = 'Powered by '
+        + '<a href="' + global.dataSources.fimfarchive.url + '">'
+        + global.dataSources.fimfarchive.name + '</a> data ('
+        + beginDateFormatted + ' \u2014 ' + endDateFormatted + ')';
 }
 
 /**
@@ -153,12 +183,12 @@ function showTrends() {
         }
     );
 
-//    if (selectedTagIds.length < 2) {
-//        global.elements.infoMessage.innerHTML
-//            = 'Please select at least 2 tags.';
-//        global.elements.infoMessage.style.display = 'block';
-//        return;
-//    }
+    if (selectedTagIds.length == 0) {
+        global.elements.infoMessage.innerHTML
+            = 'Please select at least one tag.';
+        global.elements.infoMessage.style.display = 'block';
+        return;
+    }
 
     var tagCounts = global.data.timeIntervals;
 
