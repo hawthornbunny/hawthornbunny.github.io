@@ -52,9 +52,11 @@ function initialize() {
 
     // Add a simple loading progress message.
     var progressFunc = function(progressEvent) {
-        var progress = Math.floor(progressEvent.loaded / progressEvent.total);
+        var progress = Math.floor(
+            (progressEvent.loaded / progressEvent.total) * 100
+        );
         global.elements.loadingMessage.innerHTML = 'Loading fic data (<strong>'
-            + progress + '%</strong>)'
+            + progress + '%</strong>)';
     };
 
     UTIL.loadFile(global.dataSources.fimfarchive.file, progressFunc).then(
