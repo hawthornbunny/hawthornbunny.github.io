@@ -23,6 +23,10 @@ body {
     text-align: center;
 }
 
+#loadingMessage {
+    text-align: center;
+}
+
 .author {
     font-size: 0.75em;
     text-align: center;

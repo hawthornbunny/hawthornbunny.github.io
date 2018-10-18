@@ -18,6 +18,7 @@ var global = {
     'elementIds': [
         'main',
         'chartContainer',
+        'chartOptionsContainer',
         'chartTypeLine',
         'chartTypeStacked',
         'infoMessage',
@@ -67,6 +68,7 @@ function initialize() {
 
             global.elements.loadingMessage.style.display = 'none';
             global.elements.tagsContainer.style.display = 'block';
+            global.elements.chartOptionsContainer.style.display = 'block';
 
             start();
         },
