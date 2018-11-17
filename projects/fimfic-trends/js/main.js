@@ -48,8 +48,8 @@ function initialize() {
         global.elements[elementId] = document.querySelector('#'+elementId);
     }
 
-    var showTrendsButton = document.querySelector('#showTrendsButton');
-    showTrendsButton.onclick = showTrends;
+    // var showTrendsButton = document.querySelector('#showTrendsButton');
+    // showTrendsButton.onclick = showTrends;
 
     var periodInputs = document.querySelectorAll('input[name=period]');
     periodInputs.forEach(
@@ -163,6 +163,8 @@ function start() {
                         };
                     }
                 );
+
+                showTrends();
             }
         }
     );
@@ -198,6 +200,7 @@ function start() {
         + ' target="_blank">'
         + global.dataSources.fimfarchive.name + '</a> data ('
         + beginDateFormatted + ' \u2014 ' + endDateFormatted + ')';
+    showEmptyChart();
 }
 
 /**
@@ -220,9 +223,10 @@ function showTrends() {
     );
 
     if (selectedTagIds.length == 0) {
-        global.elements.infoMessage.innerHTML
-            = 'Please select at least one tag.';
-        global.elements.infoMessage.style.display = 'block';
+//        global.elements.infoMessage.innerHTML
+//            = 'Please select at least one tag.';
+//        global.elements.infoMessage.style.display = 'block';
+        showEmptyChart();
         return;
     }
 
@@ -269,6 +273,25 @@ function showTrends() {
             throw 'Chart type not recognized';
             break;
     }
+}
+
+/**
+ * Show an empty chart, for when there's no tag data to display.
+ */
+function showEmptyChart() {
+    var svg = createChartSvg();
+    var svgBoundingRect = svg.getBoundingClientRect();
+
+    var message = document.createElementNS(global.svgNamespace, 'text');
+    message.setAttribute('x', svgBoundingRect.width / 2);
+    message.setAttribute('y', svgBoundingRect.height / 2);
+    message.setAttribute('font-size', '2em');
+    message.setAttribute('text-anchor', 'middle');
+    //message.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.25)');
+    message.setAttribute('fill',  'hsla(0, 0%, 10%, 0.25)');
+    message.innerHTML = 'No tags selected';
+    svg.appendChild(message);
+    
 }
 
 /**
