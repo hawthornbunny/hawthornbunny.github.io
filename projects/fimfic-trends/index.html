@@ -20,11 +20,32 @@
             <p id="infoMessage" style="display: none"></p>
             <div id="chartContainer"></div>
             <p id="chartOptionsContainer" style="display: none">
-                <strong>Chart type:</strong>
-                <input id="chartTypeLine" name="chartType" type="radio" checked="checked" />
-                <label for="chartTypeLine">Normal</label>
-                <input id="chartTypeStacked" name="chartType" type="radio" />
-                <label for="chartTypeStacked">Stacked</label>
+                <span>
+                    <strong>Period:</strong>
+                    <input id="period1Day" name="period" data-value="1" type="radio" />
+                    <label for="period1Day">1 day</label>
+                    <input id="period1Week" name="period" data-value="7" type="radio" />
+                    <label for="period1Week">1 week</label>
+                    <input id="period1Month" name="period" data-value="30" type="radio" />
+                    <label for="period1Month">1 month</label>
+                    <input id="period6Months" name="period" data-value="182" type="radio" />
+                    <label for="period6Months">6 months</label>
+                    <input id="period1Year" name="period" data-value="365" type="radio" />
+                    <label for="period1Year">1 year</label>
+                    <input id="period2Years" name="period" data-value="730" type="radio" />
+                    <label for="period2Years">2 years</label>
+                    <input id="periodAll" name="period" type="radio" checked="checked" />
+                    <label for="periodAll">All</label>
+                </span>
+                <br />
+                <br />
+                <span>
+                    <strong>Chart type:</strong>
+                    <input id="chartTypeLine" name="chartType" data-value="line" type="radio" checked="checked" />
+                    <label for="chartTypeLine">Line</label>
+                    <input id="chartTypeStacked" name="chartType" data-value="stacked" type="radio" />
+                    <label for="chartTypeStacked">Stacked</label>
+                </span>
             </p>
         </div>
     </body>

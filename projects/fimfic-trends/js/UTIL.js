@@ -306,18 +306,49 @@ UTIL.scaleLinear = function (domainMin, domainMax, rangeMin, rangeMax) {
  *         [3, 7],
  *         [4, 8],
  *     ]
+ *
+ * If `cutoff` is given, then the cumulative sum doesn't backtrack all the way
+ * to the beginning of the series; instead, it only goes back a certain number
+ * of data points, and then cuts off. This can be useful for showing short-term
+ * trends in data.
+ *
+ * Another way to imagine cutoff is to suppose that each data point can only
+ * "look back" a certain distance; for example, if the cutoff is 3, then each
+ * data point can only take the cumulative sum from itself and the 2 data points
+ * preceding it.
+ *
+ * @param float[][] series
+ * @param int cutoff
  */
-UTIL.getCumulativeSeries = function (series) {
+UTIL.getCumulativeSeries = function (series, cutoff) {
     var cumulativeSeries = [];
     var sum = 0;
+
     for (var i = 0; i < series.length; i++) {
-        var dataPoint = series[i];
-        var x = dataPoint[0];
-        var y = dataPoint[1];
+        // Figure out the start and end of the range of values that we need to
+        // sum, in order to give the cumulative value at this index.
 
-        sum += y;
+        // Without cutoff, this is straightforward; the range always starts at
+        // 0, and each cumulative data point is just the sum of all values up to
+        // that point.
+        var rangeStart = 0;
 
-        cumulativeSeries.push([x, sum]);
+        if (cutoff !== undefined) {
+            // If there is cutoff, we instead start the range a fixed x-distance
+            // prior to the interval, taking care to clip the range if needed so
+            // that it doesn't start at a negative index.
+            rangeStart = Math.max(0, (i - cutoff) + 1);
+        }
+        var rangeSum = 0;
+        for (var j = rangeStart; j <= i; j++) {
+            var dataPoint = series[j];
+            var x = dataPoint[0];
+            var y = dataPoint[1];
+
+            rangeSum += y;
+        }
+
+        cumulativeSeries.push([x, rangeSum]);
     }
 
     return cumulativeSeries;

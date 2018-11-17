@@ -51,6 +51,20 @@ function initialize() {
     var showTrendsButton = document.querySelector('#showTrendsButton');
     showTrendsButton.onclick = showTrends;
 
+    var periodInputs = document.querySelectorAll('input[name=period]');
+    periodInputs.forEach(
+        function (periodInput) {
+            periodInput.onclick = showTrends;
+        }
+    );
+
+    var chartTypeInputs = document.querySelectorAll('input[name=chartType]');
+    chartTypeInputs.forEach(
+        function (chartTypeInput) {
+            chartTypeInput.onclick = showTrends;
+        }
+    );
+
     // Add a simple loading progress message.
     var progressFunc = function(progressEvent) {
         var progress = Math.floor(
@@ -218,62 +232,38 @@ function showTrends() {
     // tags.
     var seriesCollection = getTagSeriesCollection(selectedTagIds, tagCounts);
 
-    // For each series, produce a corresponding cumulative series, where each
-    // data-point includes the sum of all preceding data points. In the context
-    // of our tag counts, this means that for each tag, we will get a series
-    // representing the total number of usages of the tag up to that point in
-    // time.
-    var cumulativeSeriesCollection = {};
-    for (var tagId in seriesCollection) {
-        var series = seriesCollection[tagId];
-        cumulativeSeriesCollection[tagId] = UTIL.getCumulativeSeries(series)
-    }
-
+    // Get the selected chart type.
     var chartType = undefined;
-    var chartTypeElementIds = ['chartTypeLine', 'chartTypeStacked'];
-    for (var i = 0; i < chartTypeElementIds.length; i++) {
-        var chartTypeElementId = chartTypeElementIds[i];
-        var chartTypeElement = document.querySelector(
-            '#' + chartTypeElementId
-        );
-
-        if (chartTypeElement.checked) {
-            chartType = chartTypeElementId;
+    var chartTypeInputs = document.querySelectorAll('input[name=chartType]');
+    for (var i = 0; i < chartTypeInputs.length; i++) {
+        var chartTypeInput = chartTypeInputs[i];
+        if (chartTypeInput.checked) {
+            chartType = chartTypeInput.dataset.value;
             break;
         }
     }
 
-    switch (chartType) {
-        case 'chartTypeLine':
-            showLineChart(cumulativeSeriesCollection);
+    // Get the selected "period" (equivalent to the cumulative cutoff).
+    var cutoff = undefined;
+    var periodInputs = document.querySelectorAll('input[name=period]');
+    for (var i = 0; i < periodInputs.length; i++) {
+        var periodInput = periodInputs[i];
+        if (periodInput.checked) {
+            cutoff = periodInput.dataset.value
+            if (cutoff === null) {
+                cutoff = undefined;
+            }
             break;
-        case 'chartTypeStacked':
-            // Normalize all the series, such that at each point in time, the
-            // combined total of all values equals 1. Or in other words, instead
-            // of tag counts at each point in time, we instead get the
-            // proportion of tag usage in relation to all the other selected
-            // tags.
-            //
-            // In order to do this, we need to have data on every tag at every
-            // time point; fortunately, we do, since each series has the same
-            // number of time points, allowing us to map them all one-to-one.
-            var normalizedSeriesCollection = UTIL.normalizeSeriesCollection(
-                cumulativeSeriesCollection
-            );
-            
-            // Query the DOM to find the ordering of the tags in the tags
-            // drop-down. It's important that we retain this ordering for the
-            // stacking. The tag id is stored in the `data-value` attribute on
-            // each tag item element.
-            var orderedTagIds = [];
-            var tagItemElements = $('.selectize-input').find('.tag');
-            tagItemElements.each(
-                function (index, tagItemElement) {
-                    orderedTagIds.push(tagItemElement.dataset.value);
-                }
-            );
+        }
+    }
 
-            showStackedChart(normalizedSeriesCollection, orderedTagIds);
+    // Show the selected chart.
+    switch (chartType) {
+        case 'line':
+            showLineChart(seriesCollection, cutoff);
+            break;
+        case 'stacked':
+            showStackedChart(seriesCollection, cutoff);
             break;
         default:
             throw 'Chart type not recognized';
@@ -282,12 +272,36 @@ function showTrends() {
 }
 
 /**
- * Clear the chart area and draw a new line chart for the given tags.
+ * Given a collection of data series, clear the chart area and draw a new line
+ * chart of those series, showing the cumulative number of fics at each time
+ * interval.
+ *
+ * If `cutoff` is given, then the graph will use a cutoff when calculating the
+ * cumulative value at each time interval, and will only show the cumulative
+ * total of all fics within a given period. For example, if period is 30, then
+ * each time interval will show the number of fics containing each tag within
+ * the last 30 days. This allows the user to see more transient, short-term
+ * trends.
  *
  * @param object seriesCollection
+ * @param int cutoff
  * @param int[] tagIds
  */
-function showLineChart(seriesCollection) {
+function showLineChart(seriesCollection, cutoff) {
+    // For each series, produce a corresponding cumulative series, where each
+    // data-point includes the sum of all preceding data points. In the context
+    // of our tag counts, this means that for each tag, we will get a series
+    // representing the total number of usages of the tag up to that point in
+    // time.
+    var cumulativeSeriesCollection = {};
+    for (var tagId in seriesCollection) {
+        var series = seriesCollection[tagId];
+        cumulativeSeriesCollection[tagId] = UTIL.getCumulativeSeries(
+            series,
+            cutoff
+        );
+    }
+
     // Create an SVG to hold the chart.
     var svg = createChartSvg();
 
@@ -296,14 +310,14 @@ function showLineChart(seriesCollection) {
     //
     // Since all series should have the same time indices, we'll just take them
     // from the first series.
-    var tagIds = Object.keys(seriesCollection);
-    var firstSeries = seriesCollection[tagIds[0]];
+    var tagIds = Object.keys(cumulativeSeriesCollection);
+    var firstSeries = cumulativeSeriesCollection[tagIds[0]];
     var timeLower = firstSeries[0][0];
     var timeUpper = firstSeries[firstSeries.length - 1][0];
 
     var allCounts = [];
-    for (var tagId in seriesCollection) {
-        var series = seriesCollection[tagId];
+    for (var tagId in cumulativeSeriesCollection) {
+        var series = cumulativeSeriesCollection[tagId];
         var counts = series.map(
             function (coord) {
                 return coord[1];
@@ -328,7 +342,7 @@ function showLineChart(seriesCollection) {
     // 0 is the "max" value); this is because otherwise, the scales get drawn
     // with 0 at the top.
     var yDomainToRange = UTIL.scaleLinear(
-        countMin,
+        0,
         countMax,
         svgBoundingRect.height,
         0
@@ -337,8 +351,8 @@ function showLineChart(seriesCollection) {
     // Calculate the actual coordinate values where the chart will be drawn on
     // the SVG.
     var seriesCoordsCollection = {};
-    for (var tagId in seriesCollection) {
-        var series = seriesCollection[tagId];
+    for (var tagId in cumulativeSeriesCollection) {
+        var series = cumulativeSeriesCollection[tagId];
         var seriesCoords = [];
         for (var i = 0; i < series.length; i++) {
             var dataPoint = series[i];
@@ -386,25 +400,65 @@ function showLineChart(seriesCollection) {
         svg.appendChild(path);
     }
 
+    addYAxisLabelsToSvg(svg, 0, countMax, yDomainToRange);
     addYearIndicatorsToSvg(svg, timeLower, timeUpper, xDomainToRange);
 }
 
 /**
  * Clear the chart area and draw a new stacked area chart for the given tags.
- * Note that the ordering of the specified tagIds determines the order of
- * stacking.
+ *
+ * As with the line chart, if `cutoff` is given, the cumulative totals at each
+ * point will only be for a spcific number of preceding time intervals.
  *
  * @param object seriesCollection
+ * @param int cutoff
  * @param int[] tagIds
  */
-function showStackedChart(seriesCollection, tagIds) {
+function showStackedChart(seriesCollection, cutoff) {
+    // For each series, produce a corresponding cumulative series, where each
+    // data-point includes the sum of all preceding data points. In the context
+    // of our tag counts, this means that for each tag, we will get a series
+    // representing the total number of usages of the tag up to that point in
+    // time.
+    var cumulativeSeriesCollection = {};
+    for (var tagId in seriesCollection) {
+        var series = seriesCollection[tagId];
+        cumulativeSeriesCollection[tagId] = UTIL.getCumulativeSeries(
+            series,
+            cutoff
+        );
+    }
+
+    // Normalize all the series, such that at each point in time, the
+    // combined total of all values equals 1. Or in other words, instead
+    // of tag counts at each point in time, we instead get the
+    // proportion of tag usage in relation to all the other selected
+    // tags.
+    //
+    // In order to do this, we need to have data on every tag at every
+    // time point; fortunately, we do, since each series has the same
+    // number of time points, allowing us to map them all one-to-one.
+    var normalizedSeriesCollection = UTIL.normalizeSeriesCollection(
+        cumulativeSeriesCollection
+    );
+    
+    // Query the DOM to find the ordering of the tags in the tags
+    // drop-down. It's important that we retain this ordering for the
+    // stacking. The tag id is stored in the `data-value` attribute on
+    // each tag item element.
+    var orderedTagIds = [];
+    var tagItemElements = $('.selectize-input').find('.tag');
+    tagItemElements.each(
+        function (index, tagItemElement) {
+            orderedTagIds.push(tagItemElement.dataset.value);
+        }
+    );
+
     // Calculate a "stacked" collection of the series, where each series'
-    // y-values include the sum of the y-values of series beneath them. Since we
-    // already sorted the tag ids alphabetically, we use that
-    // as the stack ordering.
+    // y-values include the sum of the y-values of series beneath them.
     var stackedSeriesCollection = UTIL.stackSeriesCollection(
-        seriesCollection,
-        tagIds
+        normalizedSeriesCollection,
+        orderedTagIds
     );
 
     var svg = createChartSvg();
@@ -414,7 +468,7 @@ function showStackedChart(seriesCollection, tagIds) {
     // the upper and lower bounds of time and (normalized and stacked) tag
     // counts. (If we did our calculations correctly above, all tag counts
     // should by now have an upper and lower bound of 1 and 0).
-    var firstSeries = stackedSeriesCollection[tagIds[0]];
+    var firstSeries = stackedSeriesCollection[orderedTagIds[0]];
     var timeLower = firstSeries[0][0];
     var timeUpper = firstSeries[firstSeries.length - 1][0];
 
@@ -457,8 +511,8 @@ function showStackedChart(seriesCollection, tagIds) {
     // for the series underneath it (the "lower series"). Our filled shape is
     // then the region between these two paths.
     var lowerSeriesCoords = undefined;
-    for (var i = 0; i < tagIds.length; i++) {
-        var tagId = tagIds[i];
+    for (var i = 0; i < orderedTagIds.length; i++) {
+        var tagId = orderedTagIds[i];
         var seriesCoords = seriesCoordsCollection[tagId];
         // For the first series, there is no lower series, so we create a fake
         // one with a constant y = 0 (ie. just a horizontal line).
@@ -530,6 +584,73 @@ function showStackedChart(seriesCollection, tagIds) {
 }
 
 /**
+ * Add y-axis value labels to an SVG chart. This method assumes that the
+ * y-values are integers. In order to add correct labels, some pieces of
+ * information must be supplied:
+ *
+ * - the min y-value
+ * - the max y-value
+ * - a routine for mapping y-values to y-positions on the chart.
+ *
+ * @param DOMElement svg
+ * @param int beginTime
+ * @param int endTime
+ * @param function xDomainToRange
+ */
+function addYAxisLabelsToSvg(svg, minYValue, maxYValue, yDomainToRange) {
+    // Figure out an appropriate granularity for the y-labels. This depends on
+    // the size of the domain that needs labelling. For example, if the axis
+    // goes from 0 to 5000, there's no point in labelling every 1 tick, or even
+    // every 10 ticks; it would be too many.
+
+    // As a rule, we use the order of magnitude; so in our above example, the
+    // order of magnitude is between 3 and 4 (ie. between 1000 and 10000). We
+    // would round that down to 3, giving us ticks that are 10^3 = 1000 units
+    // apart.
+    var orderOfMagnitude = Math.floor(Math.log10(maxYValue - minYValue));
+    var granularity = Math.pow(10, orderOfMagnitude);
+
+    // Draw horizontal lines for each tick.
+    var svgBoundingRect = svg.getBoundingClientRect();
+    for (var y = minYValue; y <= maxYValue; y += granularity) {
+        var tickY = yDomainToRange(y);
+        var line = document.createElementNS(global.svgNamespace, 'line');
+        line.setAttribute('x1', 0);
+        line.setAttribute('y1', tickY);
+        line.setAttribute('x2', svgBoundingRect.width);
+        line.setAttribute('y2', tickY);
+        line.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.25)');
+        line.setAttribute('stroke-width', '1');
+
+        var tickLabelBacking = document.createElementNS(
+            global.svgNamespace,
+            'text'
+        );
+        tickLabelBacking.setAttribute('x', 2);
+        tickLabelBacking.setAttribute('y', tickY + 4);
+        tickLabelBacking.setAttribute('font-size', '0.75em');
+        tickLabelBacking.setAttribute('text-anchor', 'left');
+        tickLabelBacking.setAttribute('stroke',  'hsla(0, 0%, 100%, 0.5)');
+        tickLabelBacking.setAttribute('stroke-width', '10');
+        tickLabelBacking.setAttribute('stroke-linejoin', 'round');
+        tickLabelBacking.setAttribute('fill',  'hsla(0, 0%, 10%, 0.5)');
+        tickLabelBacking.innerHTML = y;
+        var tickLabel = document.createElementNS(global.svgNamespace, 'text');
+        tickLabel.setAttribute('x', 2);
+        tickLabel.setAttribute('y', tickY + 4);
+        tickLabel.setAttribute('font-size', '0.75em');
+        tickLabel.setAttribute('text-anchor', 'left');
+        tickLabel.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.5)');
+        tickLabel.setAttribute('fill',  'hsla(0, 0%, 10%, 0.5)');
+        tickLabel.innerHTML = y;
+        svg.appendChild(line);
+        svg.appendChild(tickLabelBacking);
+        svg.appendChild(tickLabel);
+    }
+}
+
+
+/**
  * Add year indicators to an SVG chart. In order to do this, some pieces of
  * information must be supplied:
  *
@@ -541,12 +662,7 @@ function showStackedChart(seriesCollection, tagIds) {
  * @param int endTime
  * @param function xDomainToRange
  */
-function addYearIndicatorsToSvg(
-    svg,
-    beginTime,
-    endTime,
-    xDomainToRange,
-) {
+function addYearIndicatorsToSvg(svg, beginTime, endTime, xDomainToRange) {
     // Add year indicators to the chart. We already have the timestamps of each
     // end of the chart, so we just need to determine year boundaries for all
     // years in between.
@@ -576,7 +692,7 @@ function addYearIndicatorsToSvg(
         yearLine.setAttribute('y1', 0);
         yearLine.setAttribute('x2', yearLineX);
         yearLine.setAttribute('y2', svgBoundingRect.height);
-        yearLine.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.5)');
+        yearLine.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.25)');
         yearLine.setAttribute('stroke-width', '1');
         var yearLabelBacking = document.createElementNS(
             global.svgNamespace,

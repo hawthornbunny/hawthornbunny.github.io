@@ -55,6 +55,29 @@ UTIL_TESTS.testGetCumulativeSeries = function () {
     UTIL.assertEquals(7, cumulativeSeries[2][1]);
     UTIL.assertEquals(4, cumulativeSeries[3][0]);
     UTIL.assertEquals(8, cumulativeSeries[3][1]);
+
+    // Test the same series but with a cutoff of 2 this time. This means that
+    // each index can't look back further than 2 data points (ie. it can only
+    // see itself, and the preceding data point).
+
+    var cumulativeSeries = UTIL.getCumulativeSeries(series, 2);
+
+    // cumulativeSeries = [
+    //     [1, 2],
+    //     [2, 2],
+    //     [3, 5],
+    //     [4, 6]
+    // ]
+
+    UTIL.assertEquals(1, cumulativeSeries[0][0]);
+    UTIL.assertEquals(2, cumulativeSeries[0][1]);
+    UTIL.assertEquals(2, cumulativeSeries[1][0]);
+    UTIL.assertEquals(2, cumulativeSeries[1][1]);
+    UTIL.assertEquals(3, cumulativeSeries[2][0]);
+    UTIL.assertEquals(5, cumulativeSeries[2][1]);
+    UTIL.assertEquals(4, cumulativeSeries[3][0]);
+    UTIL.assertEquals(6, cumulativeSeries[3][1]);
+
 };
 
 UTIL_TESTS.testNormalizeSeriesCollection = function () {
