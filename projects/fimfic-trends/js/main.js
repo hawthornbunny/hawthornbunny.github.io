@@ -237,15 +237,15 @@ function showTrends() {
     var seriesCollection = getTagSeriesCollection(selectedTagIds, tagCounts);
 
     // Get the selected chart type.
-    var chartType = undefined;
-    var chartTypeInputs = document.querySelectorAll('input[name=chartType]');
-    for (var i = 0; i < chartTypeInputs.length; i++) {
-        var chartTypeInput = chartTypeInputs[i];
-        if (chartTypeInput.checked) {
-            chartType = chartTypeInput.dataset.value;
-            break;
-        }
-    }
+//    var chartType = undefined;
+//    var chartTypeInputs = document.querySelectorAll('input[name=chartType]');
+//    for (var i = 0; i < chartTypeInputs.length; i++) {
+//        var chartTypeInput = chartTypeInputs[i];
+//        if (chartTypeInput.checked) {
+//            chartType = chartTypeInput.dataset.value;
+//            break;
+//        }
+//    }
 
     // Get the selected "period" (equivalent to the cumulative cutoff).
     var cutoff = undefined;
@@ -262,17 +262,19 @@ function showTrends() {
     }
 
     // Show the selected chart.
-    switch (chartType) {
-        case 'line':
-            showLineChart(seriesCollection, cutoff);
-            break;
-        case 'stacked':
-            showStackedChart(seriesCollection, cutoff);
-            break;
-        default:
-            throw 'Chart type not recognized';
-            break;
-    }
+//    switch (chartType) {
+//        case 'line':
+//            showLineChart(seriesCollection, cutoff);
+//            break;
+//        case 'stacked':
+//            showStackedChart(seriesCollection, cutoff);
+//            break;
+//        default:
+//            throw 'Chart type not recognized';
+//            break;
+//    }
+
+    showLineChart(seriesCollection, cutoff);
 }
 
 /**

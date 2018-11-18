@@ -1,6 +1,7 @@
 ## 1.3.0
 * Add cumulative cutoff selector
 * Remove "Show trends button", make trend display automatic
+* Remove chart type selector, always use line chart
 
 ## 1.2.0
 * Add line chart mode
