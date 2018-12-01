@@ -1,3 +1,8 @@
+## 1.3.1
+* Update with fimfarchive-20181201 data.
+* Add dynamic resizing of chart.
+* Update UTIL.js to new version.
+
 ## 1.3.0
 * Add cumulative cutoff selector
 * Remove "Show trends button", make trend display automatic

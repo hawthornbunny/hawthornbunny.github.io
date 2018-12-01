@@ -1,4 +1,5 @@
 window.onload = initialize;
+window.onresize = showTrends;
 
 var global = {
     'colors': {
