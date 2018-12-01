@@ -1,20 +1,37 @@
-/*******************************************************************************
- * UTIL library
- * v1.0.1
- * by hawthornbunny
- *
- * This package contains utility methods commonly used across all hawthornbunny
- * projects.
- *
- ******************************************************************************/
+/**
+ * @file Utility methods commonly used across all hawthornbunny projects.
+ * @author hawthornbunny
+ */
 var UTIL = {};
 
 ////////////////////////////////////////////////////////////////////////////////
-// AJAX functions
+// Asynchronous functions
+//
+// These are all largely Promise-based. See the following material for guidance:
+// <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise>
+// <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises>
+// <https://developers.google.com/web/fundamentals/primers/promises>
+// <https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html>
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Return a Promise to load the resource from the given URL.
+ * Return a Promise that resolves after a user-defined timeout.
+ *
+ * @param {number} milliseconds
+ * @return {Promise}
+ */
+UTIL.sleep = function(milliseconds) {
+    return new Promise(
+        function (resolve, reject) {
+            setTimeout(resolve, milliseconds);
+        }
+    );
+};
+
+/**
+ * Return a Promise to load the resource from the given URL. If `progressFunc`
+ * is supplied, this will be fired when the loader sends a progress update; this
+ * can be used to show loading progress visually.
  *
  * To use:
  *
@@ -23,10 +40,13 @@ var UTIL = {};
  *            // do something with loaded file
  *         }
  *     );
- * @param string url
+ *
+ *
+ * @param {string} url
+ * @param {function} progressFunc
  * @return Promise
  */
-UTIL.loadFile = function(url, progressFunc) {
+UTIL.loadUrl = function(url, progressFunc) {
     return new Promise(
         function(resolve, reject) {
             var xhr = new XMLHttpRequest();
@@ -53,7 +73,6 @@ UTIL.loadFile = function(url, progressFunc) {
     );
 };
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // Array and object functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -63,9 +82,9 @@ UTIL.loadFile = function(url, progressFunc) {
  * containing only those key-value pairs for values for which `filterFunction`
  * returns true.
  *
- * @param object object
- * @param function filterFunction
- * @return object
+ * @param {Object} object
+ * @param {function(*): boolean} filterFunction
+ * @return {Object}
  */
 UTIL.filterObjectByValue = function(object, filterFunction) {
     var filteredObject = {};
@@ -91,9 +110,9 @@ UTIL.filterObjectByValue = function(object, filterFunction) {
  * If `ignoreCase` is true, all property values will be treated as if they are
  * lowercase when sorting.
  *
- * @param object[] objects
- * @param string[] properties
- * @param bool ignoreCase
+ * @param {Object[]} objects
+ * @param {string[]} properties
+ * @param {boolean} ignoreCase
  */
 UTIL.sortByProperties = function (objects, properties, ignoreCase) {
     return objects.sort(
@@ -156,8 +175,8 @@ UTIL.sortByProperties = function (objects, properties, ignoreCase) {
 /**
  * Return the sum of all elements in the given array.
  *
- * @param array array
- * @return mixed
+ * @param {Array} array
+ * @return {(number|string)}
  */
 UTIL.sum = function(array)  {
     return array.reduce(
@@ -173,8 +192,8 @@ UTIL.sum = function(array)  {
  * array function for this, MDN advises against doing so on very large arrays;
  * therefore, this does it the old-school iterative way.
  *
- * @param array array
- * @return mixed
+ * @param {number} array
+ * @return {number}
  */
 UTIL.getArrayMin = function(array) {
     var minValue = undefined;
@@ -192,8 +211,8 @@ UTIL.getArrayMin = function(array) {
 /**
  * Return the largest value in the given array.
  *
- * @param array array
- * @return mixed
+ * @param {number} array
+ * @return {number}
  */
 UTIL.getArrayMax = function(array) {
     var maxValue = undefined;
@@ -209,47 +228,73 @@ UTIL.getArrayMax = function(array) {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+// Set functions
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Return true if `setA` is a subset of `setB`.
+ *
+ * @param {Set} setA
+ * @param {Set} setB
+ * return {boolean}
+ */
+UTIL.isSubsetOf = function(setA, setB) {
+    for (var element of setA) {
+        if (!setB.has(element)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Assertion functions
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Throw an exception if the two given values are not equal.
  *
- * @param mixed expectedValue
- * @param mixed actualValue
- * @param string message An optional message to include in the output.
+ * @param {*} expectedValue
+ * @param {*} actualValue
+ * @param {string} message An optional message to include in the output.
+ * @throws {Error}
  */
 UTIL.assertEquals = function(expectedValue, actualValue, message) {
     if (expectedValue != actualValue) {
-        var assertionMessage = 'Assertion failed: "' + expectedValue + '" != "' + actualValue
-            + '"';
+        var assertionMessage = 'Assertion failed: "' + expectedValue + '" != "'
+            + actualValue + '"';
 
         if (message !== undefined) {
             assertionMessage += ' (' + message + ')';
         }
 
-        throw assertionMessage;
+        throw new Error(assertionMessage);
     }
 };
 
 /**
  * Throw an exception if the two given values are equal.
  *
- * @param expectedValue
- * @param actualValue
+ * @param {*} expectedValue
+ * @param {*} actualValue
+ * @throws {Error}
  */
 UTIL.assertNotEquals = function(expectedValue, actualValue) {
     if (expectedValue == actualValue) {
-        throw 'Assertion failed: "' + expectedValue + '" == "' + actualValue
-            + '"';
+        throw new Error(
+            'Assertion failed: "' + expectedValue + '" == "' + actualValue
+            + '"'
+        );
     }
 };
 
 /**
  * Throw an exception if the given array does not contain the expected value.
  *
- * @param expectedValue
- * @param array array
+ * @param {*} expectedValue
+ * @param {Array} array
+ * @throws {Error}
  */
 UTIL.assertContains = function(expectedValue, array) {
     if (array.indexOf(expectedValue) === -1) {
@@ -267,14 +312,18 @@ UTIL.assertContains = function(expectedValue, array) {
  * values in the given domain to the given range, which can then be used to
  * convert real values into pixel positions for drawing a chart.
  *
- * @param mixed domainMin
- * @param mixed domainMax
- * @param mixed rangeMin
- * @param mixed rangeMax
- * @return function
+ * @param {number} domainMin
+ * @param {number} domainMax
+ * @param {number} rangeMin
+ * @param {number} rangeMax
+ * @return {function(number): number}
  */
 UTIL.scaleLinear = function (domainMin, domainMax, rangeMin, rangeMax) {
     return function (domainValue) {
+        if (domainMax - domainMin == 0) {
+            // If the scale has zero length, just return 0.
+            return 0;
+        }
         var relativeValue = domainValue - domainMin;
         var domainCoefficient = relativeValue / (domainMax - domainMin);
         var rangeValue = rangeMin + ((rangeMax - rangeMin) * domainCoefficient);
@@ -317,8 +366,8 @@ UTIL.scaleLinear = function (domainMin, domainMax, rangeMin, rangeMax) {
  * data point can only take the cumulative sum from itself and the 2 data points
  * preceding it.
  *
- * @param float[][] series
- * @param int cutoff
+ * @param {number[][]} series
+ * @param {number} cutoff
  */
 UTIL.getCumulativeSeries = function (series, cutoff) {
     var cumulativeSeries = [];
@@ -368,8 +417,8 @@ UTIL.getCumulativeSeries = function (series, cutoff) {
  * are lined up; instead, we assume that all data-points at the same index in
  * each series have the same x-value).
  *
- * @param object seriesCollection
- * @return object
+ * @param {Object<string, number[][]>} seriesCollection
+ * @return {Object<string, number[][]>}
  */
 UTIL.normalizeSeriesCollection = function(seriesCollection) {
     // Take the first series from the list. We're assuming that all the series
@@ -432,9 +481,9 @@ UTIL.normalizeSeriesCollection = function(seriesCollection) {
  * As with normalization, this function assumes that all series have the same
  * number of data points and matching x-values at each index.
  *
- * @param object seriesCollection
- * @param string[] keys
- * @return object
+ * @param {Object<string, number[][]>} seriesCollection
+ * @param {string[]} keys
+ * @return {Object<string, number[][]>}
  */
 UTIL.stackSeriesCollection = function(seriesCollection, keys) {
     UTIL.assertEquals(Object.keys(seriesCollection).length, keys.length);
@@ -474,9 +523,18 @@ UTIL.stackSeriesCollection = function(seriesCollection, keys) {
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * Remove an element from the DOM.
+ *
+ * @param {Element} element
+ */
+UTIL.deleteElement = function (element) {
+    element.parentNode.removeChild(element);
+};
+
+/**
  * Remove all children from the given element.
  *
- * @param Element element
+ * @param {Element} element
  */
 UTIL.emptyElement = function (element) {
     while (element.firstChild) {
@@ -484,6 +542,17 @@ UTIL.emptyElement = function (element) {
     }
 };
 
+/**
+ * Convert a DOM NodeList to an array.
+ *
+ * Borrowed from <https://davidwalsh.name/nodelist-array>
+ *
+ * @param {NodeList} nodeList
+ * @return array
+ */
+UTIL.nodeListToArray = function (nodeList) {
+    return Array.prototype.slice.call(nodeList);
+};
 ////////////////////////////////////////////////////////////////////////////////
 // Random functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -491,46 +560,56 @@ UTIL.emptyElement = function (element) {
 /**
  * Return a random float between `min` and `max`.
  *
- * @param float min
- * @param float max
- * @return float
+ * @param {number} min
+ * @param {number} max
+ * @return {number}
  */
 UTIL.randomFloat = function(min, max) {
-    return min + Math.random() * (max - min);
+    return min + (Math.random() * (max - min));
 };
 
 /**
  * Return a random integer greater than or equal to `min`, and less than `max`.
  *
- * @param float min
- * @param float max
- * @return int
+ * @param {number} min
+ * @param {number} max
+ * @return {number}
  */
 UTIL.randomInt = function(min, max) {
-    return Math.floor(Util.randomFloat(min, max));
+    return Math.floor(UTIL.randomFloat(min, max));
 };
 
 /**
- * Alias for `randomInt`.
+ * Return a random integer greater than or equal to zero, and less than `max`.
  *
- * @param int max
- * @return int
+ * @param {number} max
+ * @return {number}
  */
 UTIL.rnd = function(max) {
-    return UTIL.randomInt(max);
+    return UTIL.randomInt(0, max);
 };
+
+/**
+ * Return true with probability `p`, where p is a number between 0 and 1.
+ *
+ * @param {number} p
+ * return {boolean}
+ */
+UTIL.probability = function(p) {
+    return p > UTIL.randomFloat(0, 1);
+}
 
 /**
  * Randomize the ordering of an array.
  *
- * @param array array
- * @return array The shuffled array
+ * @param {Array} array
+ * @return {Array} The shuffled array
  */
 UTIL.shuffle = function(array) {
     var shuffledArray = [];
     for (var i=0; i < array.length; i++) {
         var element = array[i];
-        var insertIndex = Util.randomInt(0, shuffledArray.length+1);
+        var insertIndex = UTIL.randomInt(0, shuffledArray.length+1);
         shuffledArray.splice(insertIndex, 0, element);
     }
     return shuffledArray;
@@ -539,9 +618,9 @@ UTIL.shuffle = function(array) {
 /**
  * Return a random integer between `min` and `max-1` inclusive.
  *
- * @param int min
- * @param int max
- * @return int
+ * @param {number} min
+ * @param {number} max
+ * @return {number}
  */
 UTIL.rndMinMax = function(min, max) {
     return min + Math.floor(Math.random() * (max - min));
@@ -550,15 +629,15 @@ UTIL.rndMinMax = function(min, max) {
 /**
  * Simulate an XdY dice roll.
  *
- * @param int numberOfDice
- * @param int sidesPerDie
- * @return int
+ * @param {number} numberOfDice
+ * @param {number} sidesPerDie
+ * @return {number}
  */
 UTIL.roll = function(numberOfDice, sidesPerDie) {
     var total = 0;
     for (var i=0; i < numberOfDice; i++) {
         if (sidesPerDie > 0) {
-            total += this.rnd(sidesPerDie)+1;
+            total += UTIL.rnd(sidesPerDie)+1;
         }
     }
     return total;
@@ -567,15 +646,43 @@ UTIL.roll = function(numberOfDice, sidesPerDie) {
 /**
  * Return a randomly-selected element from an array.
  *
- * @param array array
- * @return mixed
+ * @param {Array} array
+ * @return {*}
  */
 UTIL.choice = function(array) {
     if (array.length > 0) {
-        return array[this.rnd(array.length)];
+        return array[UTIL.rnd(array.length)];
     }
     return undefined;
 };
+
+/**
+ * Given a table of strings mapped to weightings, randomly choose a string from
+ * the table, with the choice biased toward strings with higher weightings. This
+ * method uses a simple "wheel of fortune" algorithm where higher weights are
+ * given a larger slice of the wheel.
+ *
+ * @param {Object<string, number>} weightingsTable
+ * @return {string}
+ */
+UTIL.weightedChoice = function (weightingsTable) {
+    var strings = Object.keys(weightingsTable);
+
+    var totalWeight = UTIL.sum(Object.values(weightingsTable));
+
+    // Randomly select a point within the sum of frequencies.
+    var randomNumber = UTIL.randomFloat(0, totalWeight);
+
+    var cumulativeSum = 0;
+    for (var i=0; i < strings.length; i++) {
+        var string = strings[i];
+        cumulativeSum += weightingsTable[string];
+        if (cumulativeSum > randomNumber) {
+            return string;
+        }
+    }
+    return undefined;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // URL functions
@@ -584,7 +691,7 @@ UTIL.choice = function(array) {
 /**
  * Get parameters (if any) from the URL as an object.
  *
- * @return object
+ * @return {Object}
  */
 UTIL.getUrlParameters = function() {
     var parameterString = window.location.search.substr(1);
@@ -598,8 +705,8 @@ UTIL.getUrlParameters = function() {
  * Convert a URL parameter string (eg. `key1=value1&key2=value2`) to an object.
  * The parameter string should not include the initial '?'.
  *
- * @param string parameterString
- * @return object
+ * @param {string} parameterString
+ * @return {Object<string, string>}
  */
 UTIL.convertParameterStringToObject = function(parameterString) {
     var parameters = {};
@@ -623,8 +730,8 @@ UTIL.convertParameterStringToObject = function(parameterString) {
 /**
  * Given an MD5 hash, convert it into an HSL color string.
  *
- * @param string hash
- * @return string
+ * @param {string} hash
+ * @return {string}
  */
 UTIL.md5ToHsl = function(hash) {
     var hslHex = {
@@ -654,8 +761,8 @@ UTIL.md5ToHsl = function(hash) {
  * This method returns true if storage of the given type is available. Possible
  * types are "localStorage" and "sessionStorage".
  *
- * @param string type
- * @return bool
+ * @param {string} type
+ * @return {boolean}
  */
 UTIL.isStorageAvailable = function (type) {
     try {

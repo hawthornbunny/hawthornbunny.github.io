@@ -74,7 +74,7 @@ function initialize() {
             + progress + '%</strong>)';
     };
 
-    UTIL.loadFile(global.dataSources.fimfarchive.file, progressFunc).then(
+    UTIL.loadUrl(global.dataSources.fimfarchive.file, progressFunc).then(
         function(fileJson) {
             var data = JSON.parse(fileJson);
 

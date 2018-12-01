@@ -7,6 +7,7 @@ UTIL_TESTS.test = function () {
     UTIL_TESTS.testSum();
     UTIL_TESTS.testGetArrayMin();
     UTIL_TESTS.testGetArrayMax();
+    UTIL_TESTS.testIsSubsetOf();
     UTIL_TESTS.testGetCumulativeSeries();
     UTIL_TESTS.testNormalizeSeriesCollection();
     UTIL_TESTS.testStackSeriesCollection();
@@ -27,6 +28,45 @@ UTIL_TESTS.testGetArrayMax = function () {
     UTIL.assertEquals(
         6533,
         UTIL.getArrayMax([0, -255, 1,7, 64, 63.1, 100, 6533])
+    );
+};
+
+UTIL_TESTS.testIsSubsetOf = function () {
+    UTIL.assertEquals(
+        true,
+        UTIL.isSubsetOf(new Set([1]), new Set([1, 2, 3]))
+    );
+    UTIL.assertEquals(
+        true,
+        UTIL.isSubsetOf(new Set([2]), new Set([1, 2, 3]))
+    );
+    UTIL.assertEquals(
+        true,
+        UTIL.isSubsetOf(new Set([3]), new Set([1, 2, 3]))
+    );
+    UTIL.assertEquals(
+        true,
+        UTIL.isSubsetOf(new Set([1, 2]), new Set([1, 2, 3]))
+    );
+    UTIL.assertEquals(
+        true,
+        UTIL.isSubsetOf(new Set([1, 3]), new Set([1, 2, 3]))
+    );
+    UTIL.assertEquals(
+        true,
+        UTIL.isSubsetOf(new Set([2, 3]), new Set([1, 2, 3]))
+    );
+    UTIL.assertEquals(
+        true,
+        UTIL.isSubsetOf(new Set([1, 2, 3]), new Set([1, 2, 3]))
+    );
+    UTIL.assertEquals(
+        false,
+        UTIL.isSubsetOf(new Set([4]), new Set([1, 2, 3]))
+    );
+    UTIL.assertEquals(
+        false,
+        UTIL.isSubsetOf(new Set([1, 2, 4]), new Set([1, 2, 3]))
     );
 };
 
