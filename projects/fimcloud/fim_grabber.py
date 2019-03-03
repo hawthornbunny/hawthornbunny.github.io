@@ -1,10 +1,10 @@
-########################################################################################################################
-# Fimfiction author text fetcher                                                                                       #
-# by hawthornbunny (<https://fimfiction.net/user/hawthornbunny>)                                                       #
-#                                                                                                                      #
-# Usage:                                                                                                               #
-#     python fim_grabber.py AUTHOR_USERNAME [CONFIG_FILE_PATH]                                                         #
-########################################################################################################################
+################################################################################
+# Fimfiction author text fetcher
+# by hawthornbunny (<https://fimfiction.net/user/hawthornbunny>)
+#
+# Usage:
+#     python fim_grabber.py AUTHOR_USERNAME [CONFIG_FILE_PATH]
+################################################################################
 
 import argparse, json, os.path, re, sys
 import requests
@@ -12,12 +12,12 @@ from bs4 import BeautifulSoup
 from url_fetcher import UrlFetcher
 from general import print_stderr
 
-########################################################################################################################
+################################################################################
 # CONFIGURATION
-########################################################################################################################
+################################################################################
 
-# Default configuration. Any of these settings can be overridden by supplying an optional JSON file containing new
-# definitions.
+# Default configuration. Any of these settings can be overridden by supplying an
+# optional JSON file containing new definitions.
 CONFIG = {
     'protocol': 'https',
     'site_domain': 'fimfiction.net',
@@ -27,39 +27,45 @@ CONFIG = {
     'paths': {
         'current': os.path.dirname(os.path.abspath(__file__)),
     },
-    # `include_mature`: If True, the fetcher will supply the appropriate cookies to request mature content.
+    # If True, the fetcher will supply the appropriate cookies to request mature
+    # content.
     'include_mature': True,
-    # `authors`: If usernames are supplied, all stories from the given users will be fetched.
+    # If usernames are supplied, all stories from the given users will be
+    # fetched.
     'authors': [],
-    # `stories`: If ids are supplied, stories with these ids will be fetched.
+    # If ids are supplied, stories with these ids will be fetched.
     'stories': [],
-    # `excluded_story_ids`: If ids are supplied, stories with these ids will be excluded from the results (if present).
+    # If ids are supplied, stories with these ids will be excluded from the
+    #results (if present).
     'excluded_stories': [],
 }
 
 PS = CONFIG['path_separator']
 
-CONFIG['paths']['cache_dir'] = CONFIG['paths']['current']+PS+CONFIG['cache_dir_name']
-CONFIG['base_url'] = CONFIG['protocol']+'://'+CONFIG['site_domain']
+CONFIG['paths']['cache_dir'] = CONFIG['paths']['current'] + PS + CONFIG['cache_dir_name']
+CONFIG['base_url'] = CONFIG['protocol'] + '://' + CONFIG['site_domain']
 
-########################################################################################################################
+################################################################################
 # FUNCTION DEFINITIONS
-########################################################################################################################
+################################################################################
 
 # Quick and simple escape to turn a username into its URL equivalent.
 def username_escape(username):
     return '+'.join(username.split(' '))
 
-########################################################################################################################
+################################################################################
 # MAIN SCRIPT
-########################################################################################################################
+################################################################################
 
 parser = argparse.ArgumentParser(
     description='''
-Fetches and outputs a concatentation of all published stories by the specified Fimfiction author.
+Fetches and outputs a concatentation of all published stories by the specified
+Fimfiction author.
 
-The default configuration can be optionally overridden by supplying the `-c` option, which should be the path to a JSON-formatted file defining an object with configuration key/value pairs.
-    '''
+The default configuration can be optionally overridden by supplying the `-c`
+option, which should be the path to a JSON-formatted file defining an object
+with configuration key/value pairs.
+'''
 )
 
 parser.add_argument(
@@ -87,7 +93,8 @@ author_username = args.author
 fetch_mode = args.fetch_mode
 config_file_path = args.config
 
-# If no arguments are supplied, there's nothing to do, so print the help information and exit.
+# If no arguments are supplied, there's nothing to do, so print the help
+# information and exit.
 if not author_username and not config_file_path:
     parser.print_help()
     sys.exit()
@@ -124,20 +131,24 @@ stories = []
 if 'stories' in CONFIG:
     stories += CONFIG['stories']
 
-# Create a UrlFetcher class which will do all the fetching for us (using a cache to prevent hammering the server)
+# Create a UrlFetcher class which will do all the fetching for us (using a cache
+# to prevent hammering the server)
 fetcher = UrlFetcher(CONFIG['paths']['cache_dir'])
 
 if CONFIG['fetch_mode'] == 'stories':
-    # If `include_mature` was set, Create the `view_mature` cookie to send to Fimfiction.
+    # If `include_mature` was set, Create the `view_mature` cookie to send to
+    # Fimfiction.
     requests_cookie_jar = None
     if 'include_mature' in CONFIG and CONFIG['include_mature'] is True:
         requests_cookie_jar = requests.cookies.RequestsCookieJar()
         requests_cookie_jar.set('view_mature', 'true', domain='www.fimfiction.net', path='/')
 
-    # For all requested authors, crawl Fimfiction to find their stories and obtain a list of story ids.
+    # For all requested authors, crawl Fimfiction to find their stories and
+    # obtain a list of story ids.
     for author in authors:
         print_stderr('Grabbing stories for author "{}"...'.format(author))
-        # Fetch the profile page for the given user, and from it, obtain the URL of their stories page.
+        # Fetch the profile page for the given user, and from it, obtain the URL
+        # of their stories page.
         user_profile_url = CONFIG['base_url']+'/user/'+username_escape(author_username)
         user_profile_html = fetcher.fetch_url(user_profile_url, cookie_jar=requests_cookie_jar)
 
