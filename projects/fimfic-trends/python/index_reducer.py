@@ -1,5 +1,9 @@
 import json, math, re, sys
 
+# Reads in a Fimfarchive `index.json` file and reduces it according to the given
+# structure specification. This allows the very large file to be condensed to
+# something that contains only the fields of interest, which can then be more
+# easily consumed by other scripts.
 class IndexReducer:
     def __init__(self):
         self.number_of_progress_reports = 10
