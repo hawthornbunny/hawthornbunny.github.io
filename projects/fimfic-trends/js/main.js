@@ -11,7 +11,7 @@ var global = {
         'fimfarchive': {
             'name': 'Fimfarchive',
             'url': 'https://www.fimfiction.net/user/116950/Fimfarchive',
-            'file': 'data/reduced-index.json',
+            'file': 'data/compact-index.json',
         }
     },
     'elements': {
