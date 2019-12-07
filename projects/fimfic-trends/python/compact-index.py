@@ -4,11 +4,11 @@
 #
 # Note that you can't just pipe the Fimfarchive `index.json` straight into this
 # script; it's way too big for that. Instead, use the `jq` filter in
-# `sh/jq-index-json.sh` to reduce it to an simplified array, and use that
+# `sh/jq-index-json.sh` to reduce it to a simplified array, and use that
 # instead.
 
 import datetime, json, re, sys
-from index_reducer import *
+#from index_reducer import *
 
 DATETIME_FORMAT='%Y-%m-%dT%H:%M:%S+00:00'
 
