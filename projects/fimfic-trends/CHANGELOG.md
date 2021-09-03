@@ -1,3 +1,6 @@
+## 1.3.2
+* Update with fimfarchive-20210901 data.
+
 ## 1.3.1
 * Update with fimfarchive-20181201 data.
 * Add dynamic resizing of chart.
