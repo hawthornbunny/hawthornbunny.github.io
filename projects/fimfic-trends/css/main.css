@@ -92,3 +92,10 @@ body {
     border-radius: 16px;
     /*box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);*/
 }
+
+#treemaps {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+

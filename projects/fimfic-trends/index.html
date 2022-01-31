@@ -20,8 +20,18 @@
             <p id="infoMessage" style="display: none"></p>
             <div id="chartContainer"></div>
             <p id="chartOptionsContainer" style="display: none">
+                <span id="analysisType">
+                    <strong>Analysis type:</strong>
+                    <input id="rollingTotal" name="analysisType" data-value="rollingTotal" type="radio" checked="checked"/>
+                    <label for="rollingTotal">Rolling total</label>
+                    <input id="rollingAverage" name="analysisType" data-value="rollingAverage" type="radio" />
+                    <label for="rollingAverage">Rolling average</label>
+                    <input id="rollingAverageDerivative" name="analysisType" data-value="rollingAverageDerivative" type="radio" />
+                    <label for="rollingAverageDerivative">Rolling average derivative</label>
+                </span>
+                <br /><br />
                 <span>
-                    <strong>Period<sup class="tip" title="The height of each line at any given time represents the number of fics published within the preceding period. Use this option to control the period duration.">?</sup>:</strong>
+                    <strong>Period<sup class="tip" title="The length of time over which the rolling total/average/derivative is taken.">?</sup>:</strong>
                     <input id="period1Day" name="period" data-value="1" type="radio" />
                     <label for="period1Day">1 day</label>
                     <input id="period1Week" name="period" data-value="7" type="radio" />
