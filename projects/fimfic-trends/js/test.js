@@ -4,7 +4,7 @@
 const test = function test() {
     testGroupTagsByTimeIntervals();
     testGetRollingTotalSeries();
-    testGetRollingAverageSeries();
+    //testGetRollingAverageSeries();
 };
 
 const testGroupTagsByTimeIntervals = function testGroupTagsByTimeIntervals() {

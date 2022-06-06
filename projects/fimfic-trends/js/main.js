@@ -4,6 +4,15 @@ var global = {
             'background': '#f8f8f8',
         },
     },
+    'chartData': {
+        'loaded': {
+            'fics': undefined,
+            'episodes': undefined
+        },
+        'derived': {
+            'timeIntervals': undefined
+        }
+    },
     'dataSources': {
         'fimfarchive': {
             'name': 'Fimfarchive',
@@ -29,13 +38,22 @@ var global = {
         //'cacheExpiryTime': 90 * 24 * 60 * 60 * 1000, // 90 days in milliseconds
     },
     'svgNamespace': 'http://www.w3.org/2000/svg',
+    'eventMarkerTags': {
+        'eventFim': 'Friendship is Magic',
+        'eventEqg': 'Equestria Girls',
+        'eventPl': 'Pony Life',
+        'eventG5': 'Generation 5',
+    },
+    'urls': {
+        'episodesData': 'data/episode-dates.json'
+    }
 };
 
 /**
  * Initialize the app, load fic data, set up event handlers. This function is
  * called first after the window has loaded.
  */
-const initialize = function initialize() {
+const initialize = async function initialize() {
     // Run unit tests.
     UTIL_TESTS.test();
     test();
@@ -49,7 +67,9 @@ const initialize = function initialize() {
     // var showTrendsButton = document.querySelector('#showTrendsButton');
     // showTrendsButton.onclick = showTrends;
 
-    const analysisTypeInputs = document.querySelectorAll('input[name=analysisType]');
+    const analysisTypeInputs = document.querySelectorAll(
+        'input[name=analysisType]'
+    );
     analysisTypeInputs.forEach(
         function (analysisTypeInput) {
             analysisTypeInput.onclick = showTrends;
@@ -63,10 +83,23 @@ const initialize = function initialize() {
         }
     );
 
+    /*
     const chartTypeInputs = document.querySelectorAll('input[name=chartType]');
     chartTypeInputs.forEach(
         chartTypeInput => {
             chartTypeInput.onclick = showTrends;
+        }
+    );
+    */
+
+    const eventMarkerCheckboxes = document.querySelectorAll(
+        '#eventMarkers > input'
+    );
+
+    console.log(eventMarkerCheckboxes);
+    eventMarkerCheckboxes.forEach(
+        eventMarkerCheckbox => {
+            eventMarkerCheckbox.onclick = showTrends;
         }
     );
 
@@ -81,9 +114,7 @@ const initialize = function initialize() {
 
     UTIL.loadUrl(global.dataSources.fimfarchive.file, progressFunc).then(
         fileJson => {
-            var data = JSON.parse(fileJson);
-
-            global.data = data;
+            global.chartData.fics = JSON.parse(fileJson);
 
             global.elements.loadingMessage.style.display = 'none';
             global.elements.tagsContainer.style.display = 'block';
@@ -95,15 +126,22 @@ const initialize = function initialize() {
             console.log('Error');
         }
     );
-}
+
+    const episodesData = await fetchEpisodesData();
+    global.chartData.episodes = episodesData;
+};
+
+const fetchEpisodesData = async function fetchEpisodesData() {
+    return await fetch(global.urls.episodesData).then(response => response.json());
+};
 
 /**
  * Analyze and process the fic data. This function is called after the fic data
  * has finished loading.
  */
 const start = function start() {
-    const tags = global.data.tags;
-    const fics = global.data.fics;
+    const tags = global.chartData.fics.tags;
+    const fics = global.chartData.fics.fics;
 
     // Update the tags collection with a little extra information that we can
     // derive from the fic data - namely, how many times each tag is used. This
@@ -180,14 +218,14 @@ const start = function start() {
     // Fimfiction without at least one fic being published, so there must be at
     // least one tag count for every day - although we are not assuming that's
     // the case).
-    global.data.timeIntervals = groupTagsByTimeIntervals(
+    global.chartData.timeIntervals = groupTagsByTimeIntervals(
         fics,
         global.parameters.intervalLength
     );
 
     // Add a subtitle that displays some information about the data; where it
     // came from, and the range of dates that it covers.
-    const times = Object.keys(global.data.timeIntervals);
+    const times = Object.keys(global.chartData.timeIntervals);
     const beginTime = UTIL.getArrayMin(times);
     const endTime = UTIL.getArrayMax(times);
     const beginDate = new Date(beginTime * 1000);
@@ -227,8 +265,8 @@ const showTrends = function showTrends() {
     // For consistency, sort the selected tag ids alphabetically by tag name.
     selectedTagIds.sort(
         function (tagIdA, tagIdB) {
-            const tagNameA = global.data.tags[tagIdA].name;
-            const tagNameB = global.data.tags[tagIdB].name;
+            const tagNameA = global.chartData.fics.tags[tagIdA].name;
+            const tagNameB = global.chartData.fics.tags[tagIdB].name;
             return tagNameA.localeCompare(tagNameB);
         }
     );
@@ -239,11 +277,45 @@ const showTrends = function showTrends() {
         return;
     }
 
-    const tagCounts = global.data.timeIntervals;
+    const tagCounts = global.chartData.timeIntervals;
 
     // Convert the tag counts into a collection of data series for the selected
     // tags.
     const seriesCollection = getTagSeriesCollection(selectedTagIds, tagCounts);
+
+    // Get a list of episodes (or just timeline events, really, but we're
+    // calling them episodes) to display as vertical lines on the chart, to
+    // provide historical points of reference.
+
+    const eventMarkerCheckboxes = document.querySelectorAll(
+        '#eventMarkers > input'
+    );
+
+    const selectedEventTags = [];
+
+    eventMarkerCheckboxes.forEach(
+        eventMarkerCheckbox => {
+            if (eventMarkerCheckbox.checked) {
+                const tag = global.eventMarkerTags[eventMarkerCheckbox.name];
+                selectedEventTags.push(tag);
+            }
+        }
+    );
+    let episodes = global.chartData.episodes;
+    episodes = episodes.filter(
+        episode => {
+            const tags = episode.tags;
+            if (tags === undefined) {
+                return false;
+            }
+
+            const matchingSelectedTags = tags.filter(
+                tag => selectedEventTags.includes(tag)
+            ); 
+
+            return matchingSelectedTags.length > 0;
+        }
+    );
 
     // Get the selected chart type.
 //    var chartType = undefined;
@@ -258,7 +330,10 @@ const showTrends = function showTrends() {
 
     // Get the selected analysis type. There are currently 3 types: rolling
     // total, rolling average, and rolling average derivative.
+    // 2022-06-04 - Rolling average and derivative are disabled.
     let analysisType = undefined;
+    analysisType = 'rollingTotal';
+    /*
     const inputs = document.querySelectorAll('input[name=analysisType]');
     for (var i = 0; i < inputs.length; i++) {
         const input = inputs[i];
@@ -270,6 +345,7 @@ const showTrends = function showTrends() {
             break;
         }
     }
+    */
 
     // Get the selected "period" (equivalent to the cumulative cutoff).
     let period = undefined;
@@ -315,8 +391,9 @@ const showTrends = function showTrends() {
                 );
             }
 
-            showLineChart(rollingTotalSeriesCollection, period);
+            showLineChart(rollingTotalSeriesCollection, period, episodes);
             break;
+/*
         case 'rollingAverage':
             const rollingAverageSeriesCollection = {};
             for (let tagId in seriesCollection) {
@@ -329,7 +406,7 @@ const showTrends = function showTrends() {
                 //console.log(rollingAverageSeriesCollection[tagId]);
             }
 
-            showLineChart(rollingAverageSeriesCollection, period);
+            showLineChart(rollingAverageSeriesCollection, period, episodes);
             break;
         case 'rollingAverageDerivative':
             const rollingAverageDerivativeSeriesCollection = {};
@@ -338,8 +415,9 @@ const showTrends = function showTrends() {
                 const rollingAverageSeries = getRollingAverageSeries(series, period);
                 rollingAverageDerivativeSeriesCollection[tagId] = getDerivativeSeries(rollingAverageSeries);
             }
-            showLineChart(rollingAverageDerivativeSeriesCollection, period);
+            showLineChart(rollingAverageDerivativeSeriesCollection, period, episodes);
             break;
+*/
     }
 }
 
@@ -377,7 +455,7 @@ const showEmptyChart = function showEmptyChart() {
  * @param int cutoff
  * @param int[] tagIds
  */
-const showLineChart = function showLineChart(seriesCollection, cutoff) {
+const showLineChart = function showLineChart(seriesCollection, cutoff, episodes) {
     // For each series, produce a corresponding cumulative series, where each
     // data-point includes the sum of all preceding data points. In the context
     // of our tag counts, this means that for each tag, we will get a series
@@ -405,6 +483,8 @@ const showLineChart = function showLineChart(seriesCollection, cutoff) {
     const timeLower = firstSeries[0][0];
     const timeUpper = firstSeries[firstSeries.length - 1][0];
 
+    // Get a list of all count values for every timestamp and for every series
+    // in the collection.
     let allCounts = [];
     for (const tagId in seriesCollection) {
         const series = seriesCollection[tagId];
@@ -416,7 +496,10 @@ const showLineChart = function showLineChart(seriesCollection, cutoff) {
         allCounts = allCounts.concat(counts);
     }
 
-    const countMin = UTIL.getArrayMin(allCounts);
+    // Get the largest count value (ie. the highest y-value that we will need to
+    // display on the chart).
+    //const countMin = UTIL.getArrayMin(allCounts);
+    const countMin = 0;
     const countMax = UTIL.getArrayMax(allCounts);
 
     const svgBoundingRect = svg.getBoundingClientRect();
@@ -477,7 +560,7 @@ const showLineChart = function showLineChart(seriesCollection, cutoff) {
         const path = document.createElementNS(global.svgNamespace, 'path')
         path.setAttribute('d', pathDefinition);
 
-        const tagName = global.data.tags[tagId].name;
+        const tagName = global.chartData.fics.tags[tagId].name;
         const color = colors[tagId];
         path.setAttribute('fill',  'none');
         path.setAttribute('stroke', 'hsl(' + color.h + ', ' + color.s + '%, '
@@ -492,6 +575,7 @@ const showLineChart = function showLineChart(seriesCollection, cutoff) {
     }
 
     addYAxisLabelsToSvg(svg, countMin, countMax, yDomainToRange);
+    addEpisodeLabelsToSvg(svg, episodes, xDomainToRange);
     addYearIndicatorsToSvg(svg, timeLower, timeUpper, xDomainToRange);
 }
 
@@ -501,9 +585,9 @@ const showLineChart = function showLineChart(seriesCollection, cutoff) {
  * As with the line chart, if `cutoff` is given, the cumulative totals at each
  * point will only be for a spcific number of preceding time intervals.
  *
- * @param object seriesCollection
- * @param int cutoff
- * @param int[] tagIds
+ * @param {object} seriesCollection
+ * @param {number} cutoff
+ * @param {number[]} tagIds
  */
 function showStackedChart(seriesCollection, cutoff) {
     // For each series, produce a corresponding cumulative series, where each
@@ -683,10 +767,10 @@ function showStackedChart(seriesCollection, cutoff) {
  * - the max y-value
  * - a routine for mapping y-values to y-positions on the chart.
  *
- * @param DOMElement svg
- * @param int beginTime
- * @param int endTime
- * @param function xDomainToRange
+ * @param {Element} svg
+ * @param {number} beginTime
+ * @param {number} endTime
+ * @param {function} yDomainToRange
  */
 const addYAxisLabelsToSvg = function addYAxisLabelsToSvg(
     svg,
@@ -725,7 +809,7 @@ const addYAxisLabelsToSvg = function addYAxisLabelsToSvg(
         tickLabelBacking.setAttribute('x', 2);
         tickLabelBacking.setAttribute('y', tickY + 4);
         tickLabelBacking.setAttribute('font-size', '0.75em');
-        tickLabelBacking.setAttribute('text-anchor', 'left');
+        tickLabelBacking.setAttribute('text-anchor', 'start');
         tickLabelBacking.setAttribute('stroke',  'hsla(0, 0%, 100%, 0.5)');
         tickLabelBacking.setAttribute('stroke-width', '10');
         tickLabelBacking.setAttribute('stroke-linejoin', 'round');
@@ -736,7 +820,7 @@ const addYAxisLabelsToSvg = function addYAxisLabelsToSvg(
         tickLabel.setAttribute('x', 2);
         tickLabel.setAttribute('y', tickY + 4);
         tickLabel.setAttribute('font-size', '0.75em');
-        tickLabel.setAttribute('text-anchor', 'left');
+        tickLabel.setAttribute('text-anchor', 'start');
         tickLabel.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.5)');
         tickLabel.setAttribute('fill',  'hsla(0, 0%, 10%, 0.5)');
         tickLabel.innerHTML = y;
@@ -746,6 +830,49 @@ const addYAxisLabelsToSvg = function addYAxisLabelsToSvg(
     }
 }
 
+/**
+ * Add episode labels to an SVG chart.
+ *
+ * @param {Element} svg
+ * @param {array} episodes
+ * @param {function} xDomainToRange
+ */
+const addEpisodeLabelsToSvg = function addEpisodeLabelsToSvg(
+    svg,
+    episodes,
+    xDomainToRange
+) {
+    const svgBoundingRect = svg.getBoundingClientRect();
+
+    episodes.forEach(
+        episode => {
+            const episodeDate = new Date(episode.date);
+            const timestamp = episodeDate.getTime() / 1000;
+            const labelX = xDomainToRange(timestamp);
+
+            const line = document.createElementNS(global.svgNamespace, 'line');
+            line.setAttribute('x1', labelX);
+            line.setAttribute('y1', 0);
+            line.setAttribute('x2', labelX);
+            line.setAttribute('y2', svgBoundingRect.height);
+            line.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.75)');
+            line.setAttribute('stroke-width', '1');
+            line.setAttribute('stroke-dasharray', '2');
+
+            const label = document.createElementNS(global.svgNamespace, 'text');
+            //label.setAttribute('x', labelX + 2);
+            //label.setAttribute('y', 4);
+            label.setAttribute('font-size', '0.75em');
+            label.setAttribute('text-anchor', 'start');
+            label.setAttribute('stroke',  'hsla(0, 0%, 10%, 0.5)');
+            label.setAttribute('fill',  'hsla(0, 0%, 10%, 0.5)');
+            label.setAttribute('transform',  `translate(${labelX + 2}, 4) rotate(90)`);
+            label.innerHTML = episode.title;
+            svg.appendChild(line);
+            svg.appendChild(label);
+        }
+    );
+}
 
 /**
  * Add year indicators to an SVG chart. In order to do this, some pieces of
@@ -754,10 +881,10 @@ const addYAxisLabelsToSvg = function addYAxisLabelsToSvg(
  * - the dates at which the chart begins and ends.
  * - a routine for mapping timestamps to x-positions on the chart.
  *
- * @param DOMElement svg
- * @param int beginTime
- * @param int endTime
- * @param function xDomainToRange
+ * @param {Element} svg
+ * @param {number} beginTime
+ * @param {number} endTime
+ * @param {function} xDomainToRange
  */
 const addYearIndicatorsToSvg = function addYearIndicatorsToSvg(
     svg,
@@ -825,9 +952,9 @@ const addYearIndicatorsToSvg = function addYearIndicatorsToSvg(
  * Given an object containing tags grouped by story id, return an array
  * containing tags grouped by time interval.
  *
- * @param object fics
- * @param int intervalLength Time interval length, in seconds.
- * @return object
+ * @param {object} fics
+ * @param {number} intervalLength Time interval length, in seconds.
+ * @return {object}
  */
 function groupTagsByTimeIntervals(fics, intervalLength) {
     // Turn the fics object into an array, since we don't actually care about
@@ -898,9 +1025,9 @@ function groupTagsByTimeIntervals(fics, intervalLength) {
  * since we can guarantee that each data point index occurs at the same
  * x-position.
  *
- * @param int[] tagIds
- * @param object tagCounts
- * @return object
+ * @param {number[]} tagIds
+ * @param {object} tagCounts
+ * @return {object}
  */
 function getTagSeriesCollection(tagIds, tagCounts) {
     // Get an ordered list of keys for the time intervals, so that we can
@@ -943,8 +1070,8 @@ function getTagSeriesCollection(tagIds, tagCounts) {
  * method will produce incorrect results as it iterates through the points in
  * order.
  *
- * @param {int[][]} series
- * @param {int} period
+ * @param {number[][]} series
+ * @param {number} period
  */
 const getRollingTotalSeries = function getRollingTotalSeries(series, period) {
     const rollingTotalSeries = [];
@@ -976,6 +1103,7 @@ const getRollingTotalSeries = function getRollingTotalSeries(series, period) {
     return rollingTotalSeries;
 };
 
+/*
 const getRollingAverageSeries = function getRollingAverageSeries(series, period) {
     const rollingAverageSeries = getRollingTotalSeries(series, period);
 
@@ -1003,7 +1131,6 @@ const getDerivativeSeries = function getDerivativeSeries(series) {
         } else {
             pointA = series[i-1];
         }
-        
 
         const tA = pointA[0];
         const vA = pointA[1];
@@ -1020,6 +1147,7 @@ const getDerivativeSeries = function getDerivativeSeries(series) {
 
     return derivativeSeries;
 };
+*/
 
 /**
  * Given a list of [x, y] coordinates, return an SVG path definition string for

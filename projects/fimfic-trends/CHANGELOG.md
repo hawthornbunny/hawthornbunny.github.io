@@ -1,3 +1,8 @@
+## 1.5.0
+* Add event markers
+* Disable rolling average and rolling average derivative (they aren't very useful or meaningful measures)
+* Update with fimfarchive-20220601 data
+
 ## 1.4.0
 * Update with fimfarchive-20211201 data.
 

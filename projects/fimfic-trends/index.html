@@ -20,6 +20,7 @@
             <p id="infoMessage" style="display: none"></p>
             <div id="chartContainer"></div>
             <p id="chartOptionsContainer" style="display: none">
+                <!--
                 <span id="analysisType">
                     <strong>Analysis type:</strong>
                     <input id="rollingTotal" name="analysisType" data-value="rollingTotal" type="radio" checked="checked"/>
@@ -30,8 +31,9 @@
                     <label for="rollingAverageDerivative">Rolling average derivative</label>
                 </span>
                 <br /><br />
+                -->
                 <span>
-                    <strong>Period<sup class="tip" title="The length of time over which the rolling total/average/derivative is taken.">?</sup>:</strong>
+                    <strong>Rolling period<sup class="tip" title="The length of time over which the rolling total is taken.">?</sup>:</strong>
                     <input id="period1Day" name="period" data-value="1" type="radio" />
                     <label for="period1Day">1 day</label>
                     <input id="period1Week" name="period" data-value="7" type="radio" />
@@ -46,6 +48,18 @@
                     <label for="period2Years">2 years</label>
                     <input id="periodAll" name="period" type="radio" checked="checked" />
                     <label for="periodAll">All</label>
+                </span>
+                <br /><br />
+                <span id="eventMarkers">
+                    <strong>Event markers:</strong>
+                    <input id="eventFim" name="eventFim" type="checkbox" checked="checked" />
+                    <label for="eventFim">Friendship is Magic</label>
+                    <input id="eventEqg" name="eventEqg" type="checkbox" />
+                    <label for="eventEqg">Equestria Girls</label>
+                    <input id="eventPl" name="eventPl" type="checkbox" />
+                    <label for="eventPl">Pony Life</label>
+                    <input id="eventG5" name="eventG5" type="checkbox" />
+                    <label for="eventG5">Generation 5</label>
                 </span>
                 <!--
                 <br />
