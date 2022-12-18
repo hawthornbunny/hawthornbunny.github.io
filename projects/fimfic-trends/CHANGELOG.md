@@ -1,3 +1,8 @@
+## 1.6.0
+* Updated the compact index generator to be able to process the full Fimfarchive index.json file without needing it to be reduced first.
+* Changed the compact format to remove redundant `date` and `tags` keys for fic data (the date and tag ids are now stored as a flat list for each fic)
+* Update with fimfarchive-20221201 data
+
 ## 1.5.0
 * Add event markers
 * Disable rolling average and rolling average derivative (they aren't very useful or meaningful measures)

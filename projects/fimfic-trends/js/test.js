@@ -10,12 +10,12 @@ const test = function test() {
 const testGroupTagsByTimeIntervals = function testGroupTagsByTimeIntervals() {
     const data = {
         'fics': {
-            '1': { 'tags':       [1], 'date': 0 },
-            '2': { 'tags':       [2], 'date': 3 },
-            '3': { 'tags':       [2], 'date': 7 },
-            '4': { 'tags': [1, 2, 3], 'date': 25 },
-            '5': { 'tags':    [1, 2], 'date': 40 },
-            '6': { 'tags':    [2, 3], 'date': 59 },
+            '1': [0, 1],
+            '2': [3, 2],
+            '3': [7, 2],
+            '4': [25, 1, 2, 3],
+            '5': [40, 1, 2],
+            '6': [59, 2, 3],
         },
         'tags': {
             '1': { 'id': 1, 'name': 'Tag 1' },

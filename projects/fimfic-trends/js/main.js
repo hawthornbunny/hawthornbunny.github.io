@@ -96,7 +96,6 @@ const initialize = async function initialize() {
         '#eventMarkers > input'
     );
 
-    console.log(eventMarkerCheckboxes);
     eventMarkerCheckboxes.forEach(
         eventMarkerCheckbox => {
             eventMarkerCheckbox.onclick = showTrends;
@@ -149,8 +148,8 @@ const start = function start() {
     // than others.
     for (let storyId in fics) {
         const ficData = fics[storyId];
-        for (var i = 0; i < ficData.tags.length; i++) {
-            const tagId = ficData.tags[i];
+        for (var i = 1; i < ficData.length; i++) {
+            const tagId = ficData[i];
             const tagData = tags[tagId];
             if (tagData.numberOfUsages === undefined) {
                 tagData.numberOfUsages = 0;
@@ -963,11 +962,12 @@ function groupTagsByTimeIntervals(fics, intervalLength) {
     let tagCollections = Object.values(fics);
 
     // Sort the tag collections by fic publication date.
-    tagCollections = UTIL.sortByProperties(tagCollections, ['date']);
+    //tagCollections = UTIL.sortByProperties(tagCollections, ['date']);
+    tagCollections.sort((tagsA, tagsB) => tagsA[0] - tagsB[0]);
 
     // Get the upper and lower bounds of the time range spanned by all fics.
-    const timeLower = tagCollections[0].date;
-    const timeUpper = tagCollections[tagCollections.length - 1].date;
+    const timeLower = tagCollections[0][0];
+    const timeUpper = tagCollections[tagCollections.length - 1][0];
 
     // Create an object to contain all time intervals (keyed by the interval's
     // start time).
@@ -982,7 +982,7 @@ function groupTagsByTimeIntervals(fics, intervalLength) {
         const tagCollection = tagCollections[i];
 
         // Get the absolute time at which this tag collection appears.
-        const time = tagCollection.date;
+        const time = tagCollection[0];
 
         // Get the time of this tag collection relative to the start of the time
         // range (ie. if it occurs at the very start, it has time 0).
@@ -1002,8 +1002,9 @@ function groupTagsByTimeIntervals(fics, intervalLength) {
         // can be multiple tags in the same interval, we track a count of each
         // tag.
         const interval = timeIntervals[intervalStartTime];
-        for (let j = 0; j < tagCollection.tags.length; j++) {
-            const tag = tagCollection.tags[j];
+        const tags = tagCollection.slice(1);
+        for (let j = 0; j < tags.length; j++) {
+            const tag = tags[j];
             if (interval[tag] === undefined) {
                 interval[tag] = 0;
             }

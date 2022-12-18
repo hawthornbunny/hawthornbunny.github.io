@@ -1497,7 +1497,17 @@
     },
     {
         "date": "2022-05-26",
-        "title": "My Little Pony: Make Your Mark",
+        "title": "My Little Pony: Make Your Mark: Chapter 1",
+        "tags": ["Generation 5"]
+    },
+    {
+        "date": "2022-09-26",
+        "title": "My Little Pony: Make Your Mark: Chapter 2",
+        "tags": ["Generation 5"]
+    },
+    {
+        "date": "2022-11-21",
+        "title": "My Little Pony: Winter Wishday",
         "tags": ["Generation 5"]
     }
 ]
