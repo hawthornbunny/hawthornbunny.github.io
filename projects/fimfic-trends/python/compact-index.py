@@ -69,6 +69,11 @@ with open(index_file_path) as file:
         if fic_record['date_published'] is None:
             continue
 
+        # Ignore fics that were not found on Fimfiction the last time
+        # Fimfarchive checked (ie. deleted fics).
+        if fic_record['archive']['date_checked'] != fic_record['archive']['date_fetched']:
+            continue
+
         flattened_fic_record = flatten_fic_record(fic_record)
         compact_index['fics'][fic_id] = flattened_fic_record
 
