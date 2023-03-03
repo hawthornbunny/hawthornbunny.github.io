@@ -33,7 +33,7 @@
                 <br /><br />
                 -->
                 <span>
-                    <strong>Rolling period<sup class="tip" title="The length of time over which the rolling total is taken.">?</sup>:</strong>
+                    <strong>Rolling period<sup class="tip" title="Each point on the chart represents the total number of fics published in the period prior to that time point.">?</sup>:</strong>
                     <input id="period1Day" name="period" data-value="1" type="radio" />
                     <label for="period1Day">1 day</label>
                     <input id="period1Week" name="period" data-value="7" type="radio" />
@@ -46,7 +46,9 @@
                     <label for="period1Year">1 year</label>
                     <input id="period2Years" name="period" data-value="730" type="radio" />
                     <label for="period2Years">2 years</label>
-                    <input id="periodAll" name="period" type="radio" checked="checked" />
+                    <input id="period5Years" name="period" data-value="1825" type="radio" />
+                    <label for="period5Years">5 years</label>
+                    <input id="period10Years" name="period" data-value="3650" type="radio" />
                     <label for="periodAll">All</label>
                 </span>
                 <br /><br />
@@ -60,6 +62,14 @@
                     <label for="eventPl">Pony Life</label>
                     <input id="eventG5" name="eventG5" type="checkbox" />
                     <label for="eventG5">Generation 5</label>
+                </span>
+                <br /><br />
+                <span id="dateRange">
+                    <strong>Year range:</strong>
+                    <label for="fromYear">From</label>
+                    <input id="fromYear" name="fromYear" type="text" size="4" />
+                    <label for="toYear">To</label>
+                    <input id="toYear" name="toYear" type="text" size="4" />
                 </span>
                 <!--
                 <br />

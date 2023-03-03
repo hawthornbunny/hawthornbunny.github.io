@@ -32,6 +32,8 @@ var global = {
         'loadingMessage',
         'subtitle',
         'tagsContainer',
+        'fromYear',
+        'toYear',
     ],
     'parameters': {
         'intervalLength': 60 * 60 * 24, // 1 day in seconds
@@ -101,6 +103,12 @@ const initialize = async function initialize() {
             eventMarkerCheckbox.onclick = showTrends;
         }
     );
+
+    const fromYearInput = document.querySelector('input[name=fromYear]');
+    const toYearInput = document.querySelector('input[name=toYear]');
+
+    fromYearInput.onchange = showTrends;
+    toYearInput.onchange = showTrends;
 
     // Add a simple loading progress message.
     const progressFunc = function(progressEvent) {
@@ -247,6 +255,14 @@ const start = function start() {
         + ' target="_blank">'
         + global.dataSources.fimfarchive.name + '</a> data ('
         + beginDateFormatted + ' \u2014 ' + endDateFormatted + ')';
+
+    // Populate the date range fields with appropriate default dates.
+    const beginYear = beginDate.toLocaleDateString('en-GB', {year: 'numeric'});
+    const endYear = endDate.toLocaleDateString('en-GB', {year: 'numeric'});
+
+    global.elements.fromYear.value = beginYear;
+    global.elements.toYear.value = endYear;
+
     showEmptyChart();
 }
 
@@ -276,16 +292,29 @@ const showTrends = function showTrends() {
         return;
     }
 
+    // Get the list of tag counts: a dictionary mapping time indices to a list
+    // of all tags and their counts that occurred at that time. It looks
+    // something like this:
+    //
+    // {
+    //     "1351408201": {"1": 23, "3": 6, "14": 10"},
+    //     "1351019401": {"5": 3, "9": 16},
+    //     ...
     const tagCounts = global.chartData.timeIntervals;
 
     // Convert the tag counts into a collection of data series for the selected
-    // tags.
+    // tags. A series is a list of [x, y] coordinates, or in our case,
+    // [time, count] coordinates. It looks something like this:
+    //
+    // {
+    //     "1": [ [1351408201, 23], [1351019401, 0], ...],
+    //     "3": [ [1351408201, 6], [1351019401, 0], ...],
+    //     ...
     const seriesCollection = getTagSeriesCollection(selectedTagIds, tagCounts);
 
     // Get a list of episodes (or just timeline events, really, but we're
     // calling them episodes) to display as vertical lines on the chart, to
     // provide historical points of reference.
-
     const eventMarkerCheckboxes = document.querySelectorAll(
         '#eventMarkers > input'
     );
@@ -300,6 +329,7 @@ const showTrends = function showTrends() {
             }
         }
     );
+
     let episodes = global.chartData.episodes;
     episodes = episodes.filter(
         episode => {
@@ -327,8 +357,11 @@ const showTrends = function showTrends() {
 //        }
 //    }
 
-    // Get the selected analysis type. There are currently 3 types: rolling
-    // total, rolling average, and rolling average derivative.
+    // Get the selected analysis type. There are currently 4 types:
+    // - moving average
+    // - rolling total
+    // - rolling average
+    // - rolling average derivative.
     // 2022-06-04 - Rolling average and derivative are disabled.
     let analysisType = undefined;
     analysisType = 'rollingTotal';
@@ -360,6 +393,17 @@ const showTrends = function showTrends() {
         }
     }
 
+    // If no period is defined, set it to be the entire length of the dataset
+    // (equivalent to "All").
+    if (!period) {
+        const tagIds = Object.keys(seriesCollection);
+        const firstSeries = seriesCollection[tagIds[0]];
+        period = firstSeries.length;
+    }
+
+    const fromYear = global.elements.fromYear.value;
+    const toYear = global.elements.toYear.value;
+
     // Show the selected chart.
 //    switch (chartType) {
 //        case 'line':
@@ -373,13 +417,19 @@ const showTrends = function showTrends() {
 //            break;
 //    }
 
-    if (!period) {
-        const tagIds = Object.keys(seriesCollection);
-        const firstSeries = seriesCollection[tagIds[0]];
-        period = firstSeries.length;
-    }
-
     switch (analysisType) {
+        case 'movingAverage':
+            const movingAverageSeriesCollection = {};
+            for (let tagId in seriesCollection) {
+                const series = seriesCollection[tagId];
+                movingAverageSeriesCollection[tagId] = getMovingAverageSeries(
+                    series,
+                    period
+                );
+            }
+
+            showLineChart(movingAverageSeriesCollection, episodes, fromYear, toYear);
+            break;
         case 'rollingTotal':
             const rollingTotalSeriesCollection = {};
             for (let tagId in seriesCollection) {
@@ -390,7 +440,7 @@ const showTrends = function showTrends() {
                 );
             }
 
-            showLineChart(rollingTotalSeriesCollection, period, episodes);
+            showLineChart(rollingTotalSeriesCollection, episodes, fromYear, toYear);
             break;
 /*
         case 'rollingAverage':
@@ -443,32 +493,21 @@ const showEmptyChart = function showEmptyChart() {
  * chart of those series, showing the cumulative number of fics at each time
  * interval.
  *
- * If `cutoff` is given, then the graph will use a cutoff when calculating the
- * cumulative value at each time interval, and will only show the cumulative
- * total of all fics within a given period. For example, if period is 30, then
- * each time interval will show the number of fics containing each tag within
- * the last 30 days. This allows the user to see more transient, short-term
- * trends.
+ * If `episodes` contains episode records, use those to also draw episode
+ * timeline markers on the chart.
  *
- * @param object seriesCollection
- * @param int cutoff
- * @param int[] tagIds
+ * If `fromYear` and/or `toYear` are given, use these to constrain the range of
+ * intervals drawn.
+ *
+ * @param {Object} seriesCollection
+ * @param {Object[]} episodes
  */
-const showLineChart = function showLineChart(seriesCollection, cutoff, episodes) {
-    // For each series, produce a corresponding cumulative series, where each
-    // data-point includes the sum of all preceding data points. In the context
-    // of our tag counts, this means that for each tag, we will get a series
-    // representing the total number of usages of the tag up to that point in
-    // time.
-//    const cumulativeSeriesCollection = {};
-//    for (let tagId in seriesCollection) {
-//        const series = seriesCollection[tagId];
-//        cumulativeSeriesCollection[tagId] = UTIL.getCumulativeSeries(
-//            series,
-//            cutoff
-//        );
-//    }
-
+const showLineChart = function showLineChart(
+    seriesCollection,
+    episodes,
+    fromYear,
+    toYear
+) {
     // Create an SVG to hold the chart.
     const svg = createChartSvg();
 
@@ -479,8 +518,49 @@ const showLineChart = function showLineChart(seriesCollection, cutoff, episodes)
     // from the first series.
     const tagIds = Object.keys(seriesCollection);
     const firstSeries = seriesCollection[tagIds[0]];
-    const timeLower = firstSeries[0][0];
-    const timeUpper = firstSeries[firstSeries.length - 1][0];
+    let timeLower = firstSeries[0][0];
+    let timeUpper = firstSeries[firstSeries.length - 1][0];
+
+    // If fromYear is given, find its timestamp, remove all datapoints that
+    // occur before it, and set that to be the new lower limit for the chart's
+    // time range.
+    if (fromYear) {
+        const fromYearDate = new Date(fromYear + '-01-01T00:00:00');
+        const fromYearTime = fromYearDate.getTime() / 1000;
+
+        if (fromYearTime > timeLower) {
+            for (let i = 0; i < tagIds.length; i++) {
+                const tagId = tagIds[i];
+                const series = seriesCollection[tagId];
+                seriesCollection[tagId] = series.filter(
+                    point => point[0] >= fromYearTime
+                );
+            }
+
+            timeLower = fromYearTime;
+        }
+    }
+
+    // If toYear is given, find its timestamp, remove all datapoints that
+    // occur after it, and set that to be the new upper limit for the chart's
+    // time range. For the toYear, we take the end of that year as the cutoff
+    // point.
+    if (toYear) {
+        const toYearDate = new Date(toYear + '-12-31T23:59:59');
+        const toYearTime = toYearDate.getTime() / 1000;
+
+        if (toYearTime < timeUpper) {
+            for (let i = 0; i < tagIds.length; i++) {
+                const tagId = tagIds[i];
+                const series = seriesCollection[tagId];
+                seriesCollection[tagId] = series.filter(
+                    point => point[0] <= toYearTime
+                );
+            }
+
+            timeUpper = toYearTime;
+        }
+    }
 
     // Get a list of all count values for every timestamp and for every series
     // in the collection.
@@ -503,6 +583,7 @@ const showLineChart = function showLineChart(seriesCollection, cutoff, episodes)
 
     const svgBoundingRect = svg.getBoundingClientRect();
 
+    // Create a mapping function to transform timestamps into chart positions.
     const xDomainToRange = UTIL.scaleLinear(
         timeLower,
         timeUpper,
@@ -833,7 +914,7 @@ const addYAxisLabelsToSvg = function addYAxisLabelsToSvg(
  * Add episode labels to an SVG chart.
  *
  * @param {Element} svg
- * @param {array} episodes
+ * @param {Object[]} episodes
  * @param {function} xDomainToRange
  */
 const addEpisodeLabelsToSvg = function addEpisodeLabelsToSvg(
@@ -1060,6 +1141,53 @@ function getTagSeriesCollection(tagIds, tagCounts) {
 
     return seriesCollection;
 }
+
+/**
+ * Given a list of [t, v] coordinates, where t is time and v is value at that
+ * time, and given a period p, return an equal-length list of [t, a]
+ * coordinates, where a is the average of the p values centred on the point t.
+ *
+ * It is assumed that the list of coordinates is in chronological order (ie.
+ * every subsequent t value is larger than the last). If that is not true, this
+ * method will produce incorrect results as it iterates through the points in
+ * order.
+ *
+ * @param {number[][]} series
+ * @param {number} period
+ */
+const getMovingAverageSeries = function getMovingAverageSeries(series, period) {
+    const movingAverageSeries = [];
+
+    for (let i = 0; i < series.length; i++) {
+        const dataPoint = series[i];
+        const t = dataPoint[0];
+
+        // Get the start and end of the period over which we will take the
+        // rolling total.
+        let periodStart = i - Math.floor(period / 2);
+        let periodEnd = i + Math.floor(period / 2);
+
+        // Clamp the start and end to the extent of the series.
+        periodStart = Math.max(0, periodStart);
+        periodEnd = Math.min(series.length - 1, periodEnd);
+
+        // Take the sum of all values over the period.
+        let periodSum = 0;
+        for (let j = periodStart; j <= periodEnd; j++) {
+            let periodDataPoint = series[j];
+            const pv = periodDataPoint[1];
+
+            periodSum += pv;
+        }
+
+        //const numberOfPeriods = (periodEnd - periodStart) + 1;
+        //const periodAverage = periodSum / numberOfPeriods;
+
+        movingAverageSeries.push([t, periodSum]);
+    }
+
+    return movingAverageSeries;
+};
 
 /**
  * Given a list of [t, v] coordinates, where t is time and v is value at that

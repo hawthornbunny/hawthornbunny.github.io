@@ -1,15 +1,20 @@
+## 1.7.0
+* Add year range inputs to zoom the chart
+* Add moving average analysis (although I didn't use it in the end as it's not as useful as the rolling total).
+* Update with fimfarchive-20230301 data.
+
 ## 1.6.1
-* Updated the compact index generator to ignore fics that are no longer available on Fimfiction.
+* Update the compact index generator to ignore fics that are no longer available on Fimfiction.
 
 ## 1.6.0
-* Updated the compact index generator to be able to process the full Fimfarchive index.json file without needing it to be reduced first.
-* Changed the compact format to remove redundant `date` and `tags` keys for fic data (the date and tag ids are now stored as a flat list for each fic)
-* Update with fimfarchive-20221201 data
+* Update the compact index generator to be able to process the full Fimfarchive index.json file without needing it to be reduced first.
+* Change the compact format to remove redundant `date` and `tags` keys for fic data (the date and tag ids are now stored as a flat list for each fic)
+* Update with fimfarchive-20221201 data.
 
 ## 1.5.0
 * Add event markers
 * Disable rolling average and rolling average derivative (they aren't very useful or meaningful measures)
-* Update with fimfarchive-20220601 data
+* Update with fimfarchive-20220601 data.
 
 ## 1.4.0
 * Update with fimfarchive-20211201 data.
