@@ -1,3 +1,7 @@
+## 1.8.0
+* Fix incorrectly-labelled period selector
+* Update with fimfarchive-20230601 data.
+
 ## 1.7.0
 * Add year range inputs to zoom the chart
 * Add moving average analysis (although I didn't use it in the end as it's not as useful as the rolling total).
