@@ -1507,12 +1507,22 @@
     },
     {
         "date": "2022-11-21",
-        "title": "Winter Wishday",
+        "title": "Make Your Mark: Chapter 3: Winter Wishday",
         "tags": ["Generation 5"]
     },
     {
         "date": "2023-06-06",
         "title": "Make Your Mark: Chapter 4",
+        "tags": ["Generation 5"]
+    },
+    {
+        "date": "2023-09-18",
+        "title": "Make Your Mark: Chapter 5",
+        "tags": ["Generation 5"]
+    },
+    {
+        "date": "2023-11-23",
+        "title": "Make Your Mark: Chapter 6",
         "tags": ["Generation 5"]
     }
 ]
