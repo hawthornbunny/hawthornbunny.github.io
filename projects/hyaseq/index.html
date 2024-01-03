@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="css/main.css">
+        <title>hyaseq</title>
+    </head>
+    <body>
+        <div id="main">
+            <div class="logo">
+                <img src="images/hyaseq.png" />
+            </div>
+            <div class="topBar">
+                <span id="commandsToggle"><span class="triangle">▶</span> Commands</span>
+                <span id="noteSyntaxToggle"><span class="triangle">▶</span> Note syntax</span>
+                <span id="examplesToggle"><span class="triangle">▶</span> Examples</span>
+            </div>
+            <div id="commandsList" style="display: none">
+                <ul>
+                    <li><pre>tempo: N</pre>Set song tempo to N, in bpm (default: 150)</li>
+                    <li><pre>seq: NOTE_1 NOTE_2 NOTE_3</pre>Define a note sequence</li>
+                    <li><pre>order: SEQ_A SEQ_B SEQ_C</pre>Define an ordered list of sequences</li>
+                </ul>
+            </div>
+            <div id="noteSyntax" style="display: none">
+            <p>Notes are specified as 3-character strings:<br />
+                <ul>
+                    <li>Character 1: Note name - One of c, C, d, D, e, f, F, g, G, a, A, b, or n for noise. Uppercase note names are sharps.</li>
+                    <li>Character 2: Octave/cutoff - 0 to 9 for medium-length notes of octaves 0 to 9. For long notes, replace 0 to 9 with A to J. For short notes, replace 0 to 9 with a to j.
+                    <li>Character 3: Modulation/volume - 0 to 9 for medium-volume notes with modulation level 0 to 9. For loud notes, replace 0 to 9 with A to J. For quiet notes, replace 0 to 9 with a to j. If the modulation is 0, this character can be omitted.</li>
+                </ul><br />
+                To specify a rest note, use --- or --.
+            </p>
+
+            </div>
+            <div id="examplesList" style="display: none">
+            </div>
+            <div class="scriptPanel">
+                <textarea id="script" cols="64" rows="16"></textarea>
+            </div>
+            <div id="songInfo"></div>
+            <div class="buttonPanel">
+                <button id="playButton" class="playButton" data-status="stopped">Play</button>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="js/main.js" type="text/javascript"></script>

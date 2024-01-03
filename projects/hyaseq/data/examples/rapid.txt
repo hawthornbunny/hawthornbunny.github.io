@@ -1,0 +1,11 @@
+tempo: 600
+seq: cd -- cd -- n4 cd -- --
+seq: cd -- -- cd n4 -- -- cd
+seq: cd -- -- cd n4 -- nf nf
+seq: d2 -- d3 -- d2 d3 -- --
+seq: f3 fd -- fd -- --
+
+order: 1 2 1 3 1 2 1 3
+order: 4
+order: 5
+

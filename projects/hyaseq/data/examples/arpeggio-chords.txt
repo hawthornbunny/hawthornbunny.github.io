@@ -1,0 +1,4 @@
+# Example of playing arpeggio chords. Note that sharps (eg. A#) use uppercase note names, while regular notes (eg. A) use lowercase.
+
+tempo: 250
+seq: c3 e3 g3 c3 e3 g3 e3 g3 b3 e3 g3 b3 A2 d3 f3 A2 d3 f3 f2 c3 f3 f2 c3 f3

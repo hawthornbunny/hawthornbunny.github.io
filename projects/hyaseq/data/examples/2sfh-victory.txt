@@ -1,0 +1,27 @@
+# 2 Steps From Hell - "Victory"
+tempo: 250
+
+seq: dd dd dd d3 f3 d3 f3 d3
+seq: cd cd cd c3 f3 c3 f3 c3
+seq: cd cd cd c3 e3 c3 e3 c3
+seq: d2 d2 d2 dc dc dc dc dc
+seq: c2 c2 c2 cc cc cc cc cc
+seq: gc gc gc d3 A3 d3 A3 d3
+seq: Ac Ac Ac f3 A3 f3 A3 f3
+seq: Ac Ac Ac f3 d4 c4 A3 a3
+seq: g2 g2 g2 gc gc gc gc gc
+seq: A2 A2 A2 Ac Ac Ac Ac Ac
+seq: fd fd fd f3 a3 f3 a3 f3
+seq: fd fd fd f3 c4 A3 a3 g3
+seq: f2 f2 f2 fc fc fc fc fc
+
+seq: cd cd cd c3 g3 c3 g3 c3
+seq: cd cd cd c3 g3 f3 e3 c3
+seq: ac ac ac a2 e3 a2 e3 a2
+seq: ac ac ac a2 g3 a2 f3 e3
+
+seq: c2 c2 c2 cc cc cc cc cc
+seq: a1 a1 a1 ab ab ab ab ab
+
+order: 1 1 2 3 6 6 7  8  1 1 11 12 14 15 16 17
+order: 4 4 5 5 9 9 10 10 4 4 13 13 18 18 19 19

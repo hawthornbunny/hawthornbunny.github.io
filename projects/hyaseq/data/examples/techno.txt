@@ -1,0 +1,13 @@
+# Techno song
+tempo: 350
+
+seq: aB1 aB1 aC1 aB1 aB1 aC1 aB1 aB1
+seq: gC1 aB1 aB1 aC1 aB1 aB1 gC1 aB1
+seq: dB1 dB1 dC1 dB1 dB1 dC1 dB1 dB1
+seq: fB1 fB1 fC1 fB1 fB1 fC1 fB1 fB1
+seq: cd  --  nE  --  --  cd  nE  --
+seq: cd  --  nE  cd  --  cd  nE  nG
+
+order: 1 2 3 4 1 2 3 4
+order: 5 6
+

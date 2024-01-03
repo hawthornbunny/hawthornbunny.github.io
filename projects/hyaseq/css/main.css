@@ -1,0 +1,141 @@
+html {
+    background-color: hsl(0, 0%, 0%);
+    color: hsl(180, 100%, 100%);
+}
+
+textarea {
+    background-color: hsl(180, 0%, 10%);
+    color: hsl(180, 100%, 100%);
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+div.logo {
+    text-align: center;
+    margin: 1em;
+}
+
+div.topBar {
+    text-align: center;
+    width: 50%;
+    margin: 1em auto;
+    padding: 1em;
+}
+
+div.topBar span {
+    text-align: center;
+    font-family: serif;
+    background-color: #6a1dcf;
+    color: hsl(0, 100%, 100%);
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+div.topBar span:hover {
+    font-weight: bold;
+}
+
+#commandsList {
+    width: 50%;
+    margin: 2em auto;
+}
+
+#noteSyntax {
+    width: 50%;
+    margin: 2em auto;
+}
+
+#examplesList {
+    width: 50%;
+    text-align: center;
+    margin: 2em auto;
+}
+
+span.exampleButton {
+    font-family: serif;
+    background-color: #40a020;
+    color: hsl(0, 100%, 100%);
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+span.exampleButton:hover {
+    font-weight: bold;
+}
+
+div.scriptPanel {
+    text-align: center;
+    margin: 1em;
+}
+
+div.buttonPanel {
+    text-align: center;
+    margin: 1em;
+}
+
+.error-message {
+    color: hsl(10, 90%, 60%);
+}
+
+#songInfo {
+    border: 1px solid hsl(180, 50%, 50%);
+    background-color: hsl(180, 0%, 10%);
+    color: hsl(180, 100%, 100%);
+    font-size: 1.5em;
+    width: 50%;
+    margin: 1em auto;
+    padding: 0.25em;
+}
+
+/*
+ * CSS button foundation adapted from
+ * <https://css-tricks.com/a-complete-guide-to-links-and-buttons/>. HTML is a
+ * bit backward when it comes to buttons - to get an unstyled button, you have
+ * to remove all the styles from the default button.
+ */
+button {
+    font-size: 1em;
+    font-weight: bold;
+    border: 2px solid #6a00cf;
+    border-radius: 0.25rem;
+    background-color: #8a2dff;
+    color: hsl(0, 100%, 100%);
+    font-family: -system-ui, sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    margin: 0.25rem;
+    cursor: pointer;
+}
+
+button.playButton {
+    border: 2px solid #6a00cf;
+    background-color: #8a2dff;
+    color: hsl(0, 100%, 100%);
+}
+
+button.playButton:hover {
+    background-color: #ba5dff;
+}
+
+button.playButton:active {
+    background-color: #da7dff;
+}
+
+button.stopButton {
+    border: 2px solid #6a1070;
+    background-color: #ca2da0;
+    color: hsl(0, 100%, 100%);
+}
+
+button.stopButton:hover {
+    background-color: #ea5dc8;
+}
+
+button.stopButton:active {
+    background-color: #f89fec;
+}
+
+
