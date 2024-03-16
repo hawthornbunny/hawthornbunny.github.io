@@ -1492,7 +1492,7 @@
     },
     {
         "date": "2022-04-07",
-        "title": "Tell Your Tale",
+        "title": "Tell Your Tale: Season 1",
         "tags": ["Generation 5"]
     },
     {
@@ -1523,6 +1523,11 @@
     {
         "date": "2023-11-23",
         "title": "Make Your Mark: Chapter 6",
+        "tags": ["Generation 5"]
+    },
+    {
+        "date": "2024-01-11",
+        "title": "Tell Your Tale: Season 2",
         "tags": ["Generation 5"]
     }
 ]
