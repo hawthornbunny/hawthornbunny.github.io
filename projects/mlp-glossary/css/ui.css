@@ -1,0 +1,63 @@
+/*******************************************************************************
+ * Styles for generic UI elements
+ ******************************************************************************/
+
+.option-list-selector .option-panel {
+    display: flex;
+    flex-direction: row;
+    background-color: hsl(270, 90%, 90%);
+    border: 1px solid hsl(270, 50%, 50%); 
+    padding: 0.5em;
+}
+
+.option-list-selector input[type=checkbox] {
+    width: 2em;
+    margin: 1em;
+}
+
+.option-list-selector .desc-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.option-list-selector .option-title {
+    margin: 0;
+}
+
+.option-list-selector .option-desc {
+    margin: 0;
+}
+
+.filter-list-panel {
+    display: flex;
+    flex-direction: row;
+    background-color: hsl(270, 90%, 90%);
+    border: 1px solid hsl(270, 50%, 50%); 
+    padding: 1em;
+}
+
+.filter-title {
+    font-weight: bold;
+    font-size: 1.25em;
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.filter-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.filter-list .filter-labeled-checkbox {
+    width: 150px;
+    margin: 0px 4px;
+}
+
+.checkable-option {
+    margin: 8px;
+}
+
+.checkable-option input[type=text] {
+    margin: 0 8px;
+}

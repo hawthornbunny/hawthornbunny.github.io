@@ -1,0 +1,78 @@
+/*******************************************************************************
+ * Main styles used on all pages.
+ ******************************************************************************/
+html {
+    background-color: hsl(270, 95%, 95%);
+    margin: 5% 20%;
+    font-family: sans-serif;
+}
+
+#logo {
+    font-size: 4em;
+    font-weight: bold;
+    text-align: center;
+    font-variant-caps: small-caps;
+    color: hsl(300, 70%, 60%);
+}
+
+#logoSmall {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    font-variant-caps: small-caps;
+    color: hsl(300, 70%, 60%);
+}
+
+#navigation {
+    font-size: 1.25em;
+    text-align: center;
+    margin: 1em;
+}
+
+.subtitle {
+    font-size: 1em;
+}
+
+a {
+    color: hsl(300, 70%, 60%);
+}
+
+a:hover {
+    background-color: hsl(300, 70%, 60%);
+    color: hsl(300, 70%, 95%);
+}
+
+/*
+ * CSS button foundation adapted from
+ * <https://css-tricks.com/a-complete-guide-to-links-and-buttons/>.
+ */
+button {
+    font-size: 1em;
+    font-weight: bold;
+    border: 2px solid hsl(300, 50%, 50%);
+    border-radius: 0.25rem;
+    background-color: hsl(300, 70%, 60%);
+    color: hsl(0, 100%, 100%);
+    font-family: -system-ui, sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    margin: 0.5rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: hsl(300, 80%, 80%);
+}
+
+button:active {
+    background-color: hsl(270, 70%, 60%);
+}
+
+button:disabled {
+    background-color: hsl(270, 10%, 60%);
+    color: hsl(0, 0%, 80%);
+    border: 2px solid hsl(300, 10%, 50%);
+}

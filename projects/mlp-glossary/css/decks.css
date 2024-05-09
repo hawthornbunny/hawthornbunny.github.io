@@ -1,0 +1,116 @@
+/*******************************************************************************
+ * Decks styles
+ ******************************************************************************/
+
+html {
+    margin: 0;
+}
+
+/* Deck selector */
+/******************************************************************************/
+
+div.decks-deck-info-panel {
+    display: flex;
+    flex-direction: row;
+}
+
+div.decks-deck-info-panel div {
+    margin: 1em;
+}
+
+div.decks-drawn-cards-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+/* Deck generator */
+/******************************************************************************/
+
+#deckGenerator {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Card count */
+/******************************************************************************/
+
+#cardCountPanel {
+    margin: 8px 0;
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.25em;
+}
+
+#cardCountDisplay {
+    margin-left: 16px;
+    font-weight: bold;
+}
+
+/* Proxy styles */
+/******************************************************************************/
+div.proxy {
+    min-width: 192px;
+    min-height: 267px;
+    width: 128px;
+    height: 178px;
+    border: 16px solid hsl(270, 80%, 70%);
+    border-radius: 16px;
+    background-color: hsl(270, 90%, 90%);
+    box-shadow: 2px 2px 4px hsla(0, 0%, 0%, 0.25);
+    margin: 1em;
+    padding: 1em;
+}
+
+p.proxy-item {
+}
+
+span.proxy-item-title {
+    font-weight: bold;
+    font-size: 1.25em;
+    background-color: hsl(270, 80%, 60%);
+    color: hsl(270, 95%, 95%);
+    box-shadow: 1px 1px 2px hsla(0, 0%, 0%, 0.25);
+    text-shadow: 2px 2px 0px hsla(0, 0%, 0%, 0.25);
+    padding: 0.2em;
+}
+
+p.proxy-media-category {
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+p.proxy-description {
+    font-family: serif;
+}
+
+/* List mode interface */
+/******************************************************************************/
+#listAndOptionsPanel {
+    margin: 8px;
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+}
+
+#listArea {
+    width: 50%;
+    padding: 8px;
+    font-size: 1.25em;
+    resize: none;
+}
+
+#listOptions {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    background-color: hsl(270, 90%, 90%);
+    border: 1px solid hsl(270, 50%, 50%); 
+    padding: 0.5em;
+}
+
+#listWarning {
+    color: hsl(0, 100%, 50%);
+}
