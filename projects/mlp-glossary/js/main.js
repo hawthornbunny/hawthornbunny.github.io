@@ -243,6 +243,7 @@ const parseJsonl = function parseJsonl(jsonl)
     const headerLine = lines[0];
     const parsedHeaderLine = JSON.parse(headerLine);
 
+    // Remove header line
     let dataLines = lines.slice(1);
     dataLines = dataLines.map(line => line.trim());
     dataLines = dataLines.filter(line => line.length > 0);

@@ -18,10 +18,15 @@ div.decks-deck-info-panel div {
     margin: 1em;
 }
 
+#deckButtonsPanel {
+}
+
 div.decks-drawn-cards-panel {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    height: 75vh;
+    overflow-y: scroll;
 }
 
 /* Deck generator */
@@ -114,3 +119,11 @@ p.proxy-description {
 #listWarning {
     color: hsl(0, 100%, 50%);
 }
+
+/*
+@media (max-width: 400px) {
+    body {
+        font-size: 200%;
+    }
+}
+*/

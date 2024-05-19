@@ -1,5 +1,5 @@
 /**
- * mlp-glossary decks: Randomized card deck application
+ * mlp-glossary decks: Randomized deck creator and list application
  * by hawthornbunny
  *
  * This is a single-page application with 3 modes:
@@ -56,7 +56,6 @@
  *
  * TODO:
  * - Add image capability to proxies
- * - Add warning when item names contain the delimiter
  */
 
 // Global namespace for holding decks application state
@@ -219,7 +218,7 @@ const createDeckConstructorInterface = function createDeckConstructorInterface()
     const buttonsPanel = createDeckConstructorButtons();
 
     deckConstructorPanel.id = 'deckConstructor';
-    setProps(title, {'id': 'logoSmall', 'innerHTML': 'MLP Glossary: Decks'});
+    setProps(title, {'id': 'logoSmall', 'innerHTML': '<a href="index.html">MLP Glossary</a><div class="subtitle">Decks</div>'});
     infoP.innerHTML = 'Use the deck constructor interface below to create a custom deck. You can select any number of pre-made decks, and/or use the deck generator to build a deck from selected glossary categories. The final deck will be composed of all your selections, with duplicates removed.';
     premadeDecksTitle.innerHTML = 'Pre-made decks';
     deckGeneratorTitle.innerHTML = 'Deck generator';
@@ -258,7 +257,7 @@ const createPremadeDeckSelector = function createPremadeDeckSelector()
         const deck = global.premadeDecks[deckName];
         const optionRecord = {
             'id': dataToId[deckName],
-            'title': `${deck.name} (${deck.items.length} cards)`,
+            'title': `${deck.name} (${deck.items.length} items)`,
             'description': deck.description,
         };
 
@@ -514,7 +513,7 @@ const handleContinueDeal = function handleContinueDeal()
 {
     // TODO: Finish
     saveDeckConstructorSelections();
-    switchToDeckMode();
+    switchMode('deck');
 };
 
 const handleCreateList = function handleCreateList()
@@ -536,14 +535,19 @@ const handleCreateList = function handleCreateList()
 const drawDeckInterface = function drawDeckInterface()
 {
     const main = query('#main');
+    const layoutTable = create('table');
+    const buttonsRow = create('tr');
+    const drawnCardsRow = create('tr');
+    const buttonsCell = create('td');
+    const drawnCardsCell = create('td');
     const buttonsPanel = create('div');
     const deckInfoPanel = create('div', 'decks-deck-info-panel');
     const drawnCardsPanel = create('div', 'decks-drawn-cards-panel');
-    
     const drawCardButton = create('button');
     const reshuffleButton = create('button');
     const changeDeckOptionsButton = create('button');
 
+    buttonsPanel.id = 'deckButtonsPanel';
     deckInfoPanel.id = 'deckInfoPanel';
     drawnCardsPanel.id = 'drawnCardsPanel';
 
@@ -565,7 +569,12 @@ const drawDeckInterface = function drawDeckInterface()
     changeDeckOptionsButton.addEventListener('click', handleChangeDeckOptions);
 
     append(buttonsPanel, drawCardButton, reshuffleButton, changeDeckOptionsButton);
-    append(main, buttonsPanel, deckInfoPanel, drawnCardsPanel);
+    append(buttonsCell, buttonsPanel, deckInfoPanel);
+    append(buttonsRow, buttonsCell);
+    append(drawnCardsCell, drawnCardsPanel);
+    append(drawnCardsRow, drawnCardsCell);
+    append(layoutTable, buttonsRow, drawnCardsRow);
+    append(main, layoutTable);
 
     updateDeckInterface();
 };
