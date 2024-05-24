@@ -19,6 +19,8 @@
  *
  * ## To-do
  * - Consider a global "tables" collection for all jsonl tables.
+ * - Consider a Table class to represent a flat, indexable data table.
+ * - Add auto-aliasing for certain common aliases (eg. "Mr.", "Dr.", etc.)
  ******************************************************************************/
 
 var global = {
@@ -50,13 +52,30 @@ var global = {
     // These properties are also used to populate the filters for the glossary
     // deck generator.
     'validatedProperties': {},
+
+    // Patterns which will cause aliases to be auto-generated for matching
+    // glossary items. For example, one of these patterns will detect the "Mr. "
+    // part of "Mr. Cake", and automatically generate the aliases "Mr Cake" and
+    // "Mister Cake", if they aren't already specified in the aliases file.
+    'autoAliases': {
+        " & ": [" and "],
+        " 'n' ": [" and "],
+        "^Dr\\. ": ["Dr ", "Doctor "],
+        " Jr\\.": [" Jr", " Junior"],
+        " Mc": [" Mac"],
+        "^Mount ": ["Mt. ", "Mt "],
+        "^Mr\\. ": ["Mr ", "Mister "],
+        "^Mrs\\. ": ["Mrs "],
+        "^Ms\\. ": ["Ms "],
+    },
+    // Various URLs for the data files.
     'urls': {
         'aliases': 'data/aliases.jsonl',
         'categories': 'data/categories.jsonl',
         'glossary': 'data/glossary.jsonl',
         'media': 'data/media.jsonl',
         'decks': 'data/decks.json',
-    }
+    },
 }
 /**
  * Entry function. Load the glossary data files and start the application.
@@ -113,6 +132,34 @@ const loadGlossary = async function loadGlossary()
         for (let i = 0; i < aliasRecord.aliases.length; i++) {
             const alias = aliasRecord.aliases[i];
             aliasesToGlossary[alias] = key;
+        }
+    }
+
+    // Auto-generate alias entries for glossary items that match any of the
+    // auto-alias patterns.
+    for (const pattern in global.autoAliases) {
+        const regexp = new RegExp(pattern);
+        const aliasReplacements = global.autoAliases[pattern];
+        for (const glossaryKey in indexedGlossary) {
+            const itemName = indexedGlossary[glossaryKey].item;
+            if (!regexp.test(itemName)) {
+                continue;
+            }
+
+            // If this index item matched the auto-alias regexp, generate
+            // aliases by replacing the pattern with the corresponding
+            // replacements.
+            const aliases = aliasReplacements.map(a => itemName.replace(regexp, a));
+
+            for (let i=0; i < aliases.length; i++) {
+                const alias = aliases[i];
+                // Add the generated aliases to the aliases dictionary.
+                if (aliasesToGlossary[alias] === undefined) {
+                    aliasesToGlossary[alias] = glossaryKey;
+                } else {
+                    console.warn(`Auto-generated alias "${alias}" already defined in aliases file`);
+                }
+            }
         }
     }
 
