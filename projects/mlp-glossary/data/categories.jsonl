@@ -9,6 +9,7 @@
 ["clothing", "An item of clothing, not including magical artifacts"]
 ["construct", "An artificial or magically-created being"]
 ["currency", "A form of money or coinage"]
+["device", "A mechanism or assemblage that performs a function"]
 ["event", "Something that happens, usually at a specific time, eg. a contest"]
 ["fashion line", "A collection of fashion items classed under a single brand"]
 ["food", "An edible item"]
