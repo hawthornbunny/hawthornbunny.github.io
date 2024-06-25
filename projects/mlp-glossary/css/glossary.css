@@ -10,6 +10,7 @@
 
 #search {
     font-size: 2em;
+    font-family: serif;
 }
 
 #searchResults {
@@ -22,9 +23,8 @@
  * Search result styles
  ******************************************************************************/
 div.result-entry {
-    border: 1px solid hsl(270, 80%, 80%);
-    background-color: hsl(270, 90%, 90%);
-    box-shadow: 2px 2px 4px hsla(0, 0%, 0%, 0.25);
+    border: 5px double #643830;
+    /*box-shadow: 2px 2px 4px hsla(0, 0%, 0%, 0.25);*/
     margin: 1em;
     padding: 1em;
 }
@@ -34,8 +34,8 @@ p.result-item {
 
 span.result-item-title {
     font-weight: bold;
-    font-size: 1.8em;
-    background-color: hsl(300, 70%, 60%);
+    font-size: 1.6em;
+    background-color: #643830;
     color: hsl(270, 95%, 95%);
     box-shadow: 1px 1px 2px hsla(0, 0%, 0%, 0.25);
     text-shadow: 2px 2px 0px hsla(0, 0%, 0%, 0.25);
@@ -47,7 +47,7 @@ p.result-aliases {
 }
 
 p.result-media-category {
-    font-family: sans-serif;
+    font-family: serif;
     font-weight: bold;
     font-size: 1.1em;
 }

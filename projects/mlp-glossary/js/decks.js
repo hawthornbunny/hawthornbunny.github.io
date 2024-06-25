@@ -56,6 +56,8 @@
  *
  * TODO:
  * - Add image capability to proxies
+ * - Add number of words filter (needed for skribblio)
+ * - Add character filter (eg. to remove apostrophes/hyphens/numbers)
  */
 
 // Global namespace for holding decks application state
@@ -768,12 +770,20 @@ const createListOptionsPanel = function createListOptionsPanel()
     const maxChars = new CheckableOption(
         'maxChars', 'checkbox', 'Max number of characters:'
     );
+    const maxWords = new CheckableOption(
+        'maxWords', 'checkbox', 'Max number of words:'
+    );
+    const disallowedChars = new CheckableOption(
+        'disallowedChars', 'checkbox', 'Disallowed characters:'
+    );
 
     newlineDelimited.setCheckableGroup('delimiter');
     commaDelimited.setCheckableGroup('delimiter');
     customDelimiter.setCheckableGroup('delimiter');
     customDelimiter.setField('customDelimiterField', '/');
     maxChars.setField('maxCharsField', '20');
+    maxWords.setField('maxWordsField', '5');
+    disallowedChars.setField('disallowedCharsField', "'-.,%");
 
     const delimiterOptionsList = createCheckableOptionsList(
         [
@@ -781,15 +791,14 @@ const createListOptionsPanel = function createListOptionsPanel()
             commaDelimited,
             customDelimiter,
             maxChars,
+            maxWords,
+            disallowedChars,
         ]
     );
 
     append(optionsPanel, delimiterOptionsList, listWarning);
 
     const newlineDelimitedRadio = optionsPanel.querySelector('#newlineDelimited');
-    const customDelimiterField = optionsPanel.querySelector('#customDelimiterField');
-    const maxCharsField = optionsPanel.querySelector('#maxCharsField');
-
     newlineDelimitedRadio.checked = true;
 
     return optionsPanel;
@@ -838,6 +847,38 @@ const updateListInterface = function updateListInterface()
         const maxCharsField = query('#maxCharsField');
         const maxChars = maxCharsField.value;
         itemNames = itemNames.filter(itemName => itemName.length <= maxChars);
+    }
+
+    // If the user selected the max words checkbox, filter out any item names
+    // that have too many words.
+    const maxWordsCheckbox = query('#maxWords');
+
+    if (maxWordsCheckbox.checked) {
+        const maxWordsField = query('#maxWordsField');
+        const maxWords = maxWordsField.value;
+        itemNames = itemNames.filter(itemName => itemName.split(/\s+/).length <= maxWords);
+    }
+
+    // If the user selected the disallowed words checkbox, filter out any item
+    // names that contain disallowed characters.
+    const disallowedCharsCheckbox = query('#disallowedChars');
+
+    if (disallowedCharsCheckbox.checked) {
+        const disallowedCharsField = query('#disallowedCharsField');
+        const disallowedCharsString = disallowedCharsField.value;
+        const disallowedChars = disallowedCharsString.split('');
+        
+        itemNames = itemNames.filter(
+            itemName => {
+                for (let i = 0; i < disallowedChars.length; i++) {
+                    const disallowedChar = disallowedChars[i];
+                    if (itemName.includes(disallowedChar)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        );
     }
 
     // Filter out any items that contain the delimiter itself (these would get

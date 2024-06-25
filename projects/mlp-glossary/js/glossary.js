@@ -64,7 +64,23 @@ const searchRecords = function searchRecords(string)
     
     const searchResults = getSearchResults(string, global.indexedGlossary, global.aliasesToGlossary);
 
-    for (const key in searchResults) {
+    let searchResultKeys = Object.keys(searchResults);
+
+    searchResultKeys = searchResultKeys.sort(
+        (keyA, keyB) => {
+            const resultA = searchResults[keyA];
+            const resultB = searchResults[keyB];
+            if (resultA.item < resultB.item) {
+                return -1;
+            } else if (resultA.item > resultB.item) {
+                return 1;
+            }
+            return 0;
+        }
+    );
+
+    for (let i = 0; i < searchResultKeys.length; i++) {
+        const key = searchResultKeys[i];
         const searchResult = searchResults[key];
         const resultEntry = createResultEntry(searchResult);
         append(searchResultsPanel, resultEntry);

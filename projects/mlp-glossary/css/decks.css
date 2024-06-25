@@ -33,8 +33,6 @@ div.decks-drawn-cards-panel {
 /******************************************************************************/
 
 #deckGenerator {
-    display: flex;
-    flex-direction: column;
 }
 
 /* Card count */
@@ -111,9 +109,9 @@ p.proxy-description {
     width: 50%;
     display: flex;
     flex-direction: column;
-    background-color: hsl(270, 90%, 90%);
-    border: 1px solid hsl(270, 50%, 50%); 
+    border: 5px double #643830;
     padding: 0.5em;
+    margin: 0 0.5em;
 }
 
 #listWarning {
