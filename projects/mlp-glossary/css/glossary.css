@@ -11,6 +11,8 @@
 #search {
     font-size: 2em;
     font-family: serif;
+    width: 75%;
+    margin: 0 auto;
 }
 
 #searchResults {
@@ -24,8 +26,10 @@
  ******************************************************************************/
 div.result-entry {
     border: 5px double #643830;
+    background-color: hsla(0, 100%, 100%, 0.25);
     /*box-shadow: 2px 2px 4px hsla(0, 0%, 0%, 0.25);*/
-    margin: 1em;
+    width: 75%;
+    margin: 1em auto;
     padding: 1em;
 }
 
