@@ -34,6 +34,7 @@
 ["room", "A named room of a building"]
 ["show", "A broadcasted production, such as a television show or livestream"]
 ["software", "An application that runs on computer hardware"]
+["song", "A named in-universe song"]
 ["species", "A type of non-sapient creature or lifeform, not including plants or fungi, eg. rabbit"]
 ["spell", "A magical invocation"]
 ["sport", "An organized competitive activity, eg. buckball"]
