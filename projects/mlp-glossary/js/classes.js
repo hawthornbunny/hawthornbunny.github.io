@@ -1,3 +1,40 @@
+/**
+ * Represents an indexable table.
+ *
+ * A table is a collection of records, each of which is a set of key-value
+ * pairs. Each record has the same set of keys.
+ *
+ * Each table defines an index function, which tells it how to derive a unique
+ * index for each record in the table. This index allows the table to be related
+ * to other tables that expose the same index.
+ */
+class Table
+{
+    constructor(name, fields, records, indexFunc)
+    {
+        this.indexedRecords = {};
+        this.indexRecord = indexFunc;
+
+        for (let i = 0; i < records.length; i++) {
+            const record = records[i];
+            const index = this.indexRecord(record);
+
+            if (record.length !== fields.length) {
+                throw new Error(`Cannot create table "${name}"; record "${index}" has ${record.length} fields but should have ${fields.length}`);
+            }
+            if (this.indexedRecords !== undefined) {
+                throw new Error(`Cannot create table "${name}"; index "${index}"  is not unique`);
+            }
+            this.indexedRecords[index] = record;
+        }
+    }
+
+    get(index)
+    {
+        return this.indexedRecords[index];
+    }
+}
+
 class SearchResult
 {
     constructor(media, category, item, description)

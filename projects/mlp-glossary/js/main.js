@@ -20,7 +20,6 @@
  * ## To-do
  * - Consider a global "tables" collection for all jsonl tables.
  * - Consider a Table class to represent a flat, indexable data table.
- * - Add auto-aliasing for certain common aliases (eg. "Mr.", "Dr.", etc.)
  ******************************************************************************/
 
 var global = {

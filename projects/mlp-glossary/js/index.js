@@ -1,4 +1,4 @@
-const initialize = function initialize()
+function initialize()
 {
     startApplication();
     const search = query('#search');
@@ -10,17 +10,17 @@ const initialize = function initialize()
     if (search.value) {
         searchRecords(search.value);
     }
-};
+}
 
-const handleSearch = function handleSearch(evt)
+function handleSearch(evt)
 {
-};
+}
 
-const handleChange = function handleChange(evt)
+function handleChange(evt)
 {
-};
+}
 
-const handleKey = function handleKey(evt)
+function handleKey(evt)
 {
     if (evt.ctrlKey || evt.shiftKey) {
         return;
@@ -32,13 +32,13 @@ const handleKey = function handleKey(evt)
     if (searchTerm.length >= 3) {
         searchRecords(evt.target.value);
     }
-};
+}
 
 /**
  * Empty the search results box.
  *
  */
-const clearSearchResults = function clearSearchResults()
+function clearSearchResults()
 {
     const searchResultsPanel = query('#searchResults');
     empty(searchResultsPanel);
@@ -50,7 +50,7 @@ const clearSearchResults = function clearSearchResults()
  *
  * @param {string} string
  */
-const searchRecords = function searchRecords(string)
+function searchRecords(string)
 {
     const searchResultsPanel = query('#searchResults');
     const resultEntries = [];
@@ -78,7 +78,7 @@ const searchRecords = function searchRecords(string)
         const resultEntry = createResultEntry(searchResult);
         append(searchResultsPanel, resultEntry);
     }
-};
+}
 
 /**
  * Create and return a search result element for the given data record.
@@ -86,10 +86,25 @@ const searchRecords = function searchRecords(string)
  * @param {SearchResult} searchResult
  * @return {Element}
  */
-const createResultEntry = function createResultEntry(searchResult)
+function createResultEntry(searchResult)
 {
     const resultEntry = create('div', 'result-entry');
     let resultHtml = '';
+
+    // Try to load the image for this search result. Image names are determined
+    // automatically from the glossary item's key - if there exists an image
+    // with that name, we can use that in the search result. If it doesn't
+    // exist, display the result without an image.
+    const image = new Image();
+    
+    const imageName = `${searchResult.media}-${searchResult.category}- ${searchResult.item}`;
+    const extensions = ["gif", "jpeg", "jpg", "png"];
+
+    const fileNames = [];
+    for (let i = 0; i < extensions.length; i++) {
+        fileNames.push(`${imageName}.${extensions[i]}`);
+    }
+
     resultHtml += `<p class="result-item"><span class="result-item-title">${searchResult.item}</span></p>`;
     if (searchResult.aliases.length > 0) {
         const aliasesText = searchResult.aliases.join(', ');
@@ -100,6 +115,6 @@ const createResultEntry = function createResultEntry(searchResult)
     resultEntry.innerHTML = resultHtml;
 
     return resultEntry;
-};
+}
 
 window.onload = initialize;
