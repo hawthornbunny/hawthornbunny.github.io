@@ -2,6 +2,7 @@
 ["ability", "A notable action that a being can perform"]
 ["alias", "An alternate name by which a being is known"]
 ["artifact", "An object with magical or historical significance"]
+["architecture", "A feature of a building"]
 ["award", "An honor bestowed upon someone, sometimes represented by an object such as a trophy or medal"]
 ["book", "A printed, cover-bound work of literature"]
 ["building", "A self-contained architectural construction, usually habitable"]
@@ -45,3 +46,4 @@
 ["term", "A word or phrase used to describe a concept"]
 ["time", "A time period or era of history"]
 ["vehicle", "A mobile means of transporting passengers"]
+["website", "Digital content accessed via the internet"]

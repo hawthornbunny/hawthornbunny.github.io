@@ -1,36 +1,114 @@
-function initialize()
+/*******************************************************************************
+ * Functions and handlers for the main glossary page.
+ ******************************************************************************/
+
+/**
+ * Initialize the application by setting up search field handlers and creating
+ * the media description popup.
+ */
+async function initialize()
 {
-    startApplication();
-    const search = query('#search');
-    search.addEventListener('search', handleSearch);
-    search.addEventListener('change', handleChange);
-    search.addEventListener('keyup', handleKey);
+    await startApplication();
+    const searchField = query('#searchField');
+    const aboutLink = query('#about');
+    const mediaLink = query('#media');
+    const mediaBox = query('#mediaBox');
+
+    // Add search field key handler
+    searchField.addEventListener('keyup', handleKey);
+    //searchField.addEventListener('search', handleSearch);
+    //searchField.addEventListener('change', handleChange);
+
+    // Add About and Media box handlers
+    aboutLink.addEventListener("click", handleAbout);
+    mediaLink.addEventListener("click", handleMedia);
+
+    // Populate the Media box with the glossary's media list.
+    let html = "";
+    html += '<span class="toggle-box-heading">Media list</span>';
+    global.tables.media.forEach((index, record) => {
+        html += `<p><span class="media-box-tag" style="background-color: ${record.color}">${record.abbreviation}</span>: `;
+        html += `<strong>${record.name}</strong><br />${record.description}</p>`;
+    });
+    mediaBox.innerHTML = html;
+
 
     // If search field retained value after a refresh, repeat the search
-    if (search.value) {
-        searchRecords(search.value);
+    // TODO: Currently not working
+    if (searchField.value) {
+        searchRecords(searchField.value);
     }
 }
 
-function handleSearch(evt)
-{
-}
-
-function handleChange(evt)
-{
-}
-
+/**
+ * Handle keypresses when focused on the search field.
+ */
 function handleKey(evt)
 {
+    // Ignore Ctrl or Shift presses
     if (evt.ctrlKey || evt.shiftKey) {
         return;
     }
+    initSearch(evt.target.value);
 
+}
+
+/**
+ * Toggle the About box when clicked.
+ */
+function handleAbout(evt)
+{
+    const aboutLink = evt.target;
+    const aboutBox = query("#aboutBox")
+    toggleBox(aboutLink, aboutBox);
+}
+
+/**
+ * Toggle the Media box when clicked.
+ */
+function handleMedia(evt)
+{
+    const mediaLink = evt.target;
+    const mediaBox = query("#mediaBox")
+    toggleBox(mediaLink, mediaBox);
+}
+
+/**
+ * Toggle the display of the given box element.
+ */
+function toggleBox(toggleLink, boxElement)
+{
+    if (toggleLink.classList.toggle("invert-toggle-link")) {
+        boxElement.style.display = "block";
+    } else {
+        boxElement.style.display = "none";
+    }
+}
+
+/**
+ * Toggle the given media tag between abbreviation and full name when clicked.
+ */
+function handleExpandMediaTag(evt)
+{
+    const mediaTag = evt.target;
+    if (mediaTag.innerHTML === mediaTag.dataset.abbrev) {
+        mediaTag.innerHTML = mediaTag.dataset.fullName;
+    } else {
+        mediaTag.innerHTML = mediaTag.dataset.abbrev;
+    }
+        
+}
+
+/**
+ * Clear the search results (if any) and, if enough characters were entered,
+ * search the glossary for the given term.
+ */
+function initSearch(searchTerm)
+{
     clearSearchResults();
 
-    const searchTerm = evt.target.value;
     if (searchTerm.length >= 3) {
-        searchRecords(evt.target.value);
+        searchRecords(searchTerm);
     }
 }
 
@@ -110,9 +188,20 @@ function createResultEntry(searchResult)
         const aliasesText = searchResult.aliases.join(', ');
         resultHtml += `<p class="result-aliases">AKA: ${aliasesText}</p>`;
     }
-    resultHtml += `<p class="result-media-category">${searchResult.media} &mdash; ${searchResult.category}</p>`;
+    resultHtml += '<p class="result-media-category">'
+    resultHtml += `<span class="result-media" data-abbrev="${searchResult.media}">${searchResult.media}</span>`;
+    resultHtml += ` &mdash; ${searchResult.category}</p>`;
     resultHtml += `<p class="result-description">${searchResult.description}</p>`;
     resultEntry.innerHTML = resultHtml;
+
+    // For each added media tag, color it in that media's color, add mouseover
+    // text, and a click handler to allow the tag to expand to its full
+    // definition.
+    const mediaTag = resultEntry.querySelector(".result-media");
+    const media = global.tables.media.get(searchResult.media);
+    mediaTag.dataset.fullName = media.name;
+    mediaTag.style.backgroundColor = media.color;
+    mediaTag.addEventListener("click", handleExpandMediaTag);
 
     return resultEntry;
 }

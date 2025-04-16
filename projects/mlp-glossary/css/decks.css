@@ -3,7 +3,7 @@
  ******************************************************************************/
 
 html {
-    margin: 0;
+    margin: 16px;
 }
 
 /* Deck selector */
@@ -58,9 +58,9 @@ div.proxy {
     min-height: 267px;
     width: 128px;
     height: 178px;
-    border: 16px solid hsl(270, 80%, 70%);
+    border: 16px solid #c48060;
     border-radius: 16px;
-    background-color: hsl(270, 90%, 90%);
+    background-color: #e8c0a0;
     box-shadow: 2px 2px 4px hsla(0, 0%, 0%, 0.25);
     margin: 1em;
     padding: 1em;
@@ -69,10 +69,19 @@ div.proxy {
 p.proxy-item {
 }
 
+.proxy-media {
+    font-family: serif;
+    font-weight: bold;
+    background-color: #643830;
+    color: hsl(270, 95%, 95%);
+    border-radius: 4px;
+    margin: 0.2em;
+    padding: 0.2em;
+}
 span.proxy-item-title {
     font-weight: bold;
     font-size: 1.25em;
-    background-color: hsl(270, 80%, 60%);
+    background-color: #a46040;
     color: hsl(270, 95%, 95%);
     box-shadow: 1px 1px 2px hsla(0, 0%, 0%, 0.25);
     text-shadow: 2px 2px 0px hsla(0, 0%, 0%, 0.25);

@@ -1,40 +1,106 @@
 /**
- * Represents an indexable table.
+ * Represents an indexable table, similar to those in a relational database.
+ * Tables store a set of records, and protect their integrity by defining a list
+ * of permitted fields and requiring a unique index for each record.
  *
- * A table is a collection of records, each of which is a set of key-value
- * pairs. Each record has the same set of keys.
- *
- * Each table defines an index function, which tells it how to derive a unique
- * index for each record in the table. This index allows the table to be related
- * to other tables that expose the same index.
+ * Each record's index is a unique key derived from one or more of its fields.
+ * This allows tables to reference other tables which contain the same indices.
  */
 class Table
 {
-    constructor(name, fields, records, indexFunc)
+    constructor(name, fields, indexFields)
     {
-        this.indexedRecords = {};
-        this.indexRecord = indexFunc;
-
-        for (let i = 0; i < records.length; i++) {
-            const record = records[i];
-            const index = this.indexRecord(record);
-
-            if (record.length !== fields.length) {
-                throw new Error(`Cannot create table "${name}"; record "${index}" has ${record.length} fields but should have ${fields.length}`);
-            }
-            if (this.indexedRecords !== undefined) {
-                throw new Error(`Cannot create table "${name}"; index "${index}"  is not unique`);
-            }
-            this.indexedRecords[index] = record;
-        }
+        this.name = name;
+        this.fields = fields;
+        this.indexFields = indexFields;
+        this.records = {};
     }
 
+    /**
+     * Add a new record to this table. An error will be thrown if the record's
+     * fields don't match the table's field definition, or if a record with the
+     * same index already exists in the table.
+     *
+     * @param {Object} record
+     */
+    add(record)
+    {
+        const keyComponents = this.indexFields.map(field => record[field]);
+        const index =  keyComponents.join('-');
+
+        // Verify that the record being added has the expected fields
+        for (let i = 0; i < this.fields.length; i++) {
+            const field = this.fields[i];
+            if (record[field] === undefined) {
+                throw new Error(`Cannot add record with index "${index}" to table "${this.name}"; record does not have required field "${field}"`);
+            }
+        }
+
+        // Verify that the record being added does not have any unexpected
+        // fields
+        const recordFields = Object.keys(record);
+        for (let i = 0; i < recordFields.length; i++) {
+            const recordField = recordFields[i];
+            if (!this.fields.includes(recordField)) {
+                throw new Error(`Cannot add record with index "${index}" to table "${this.name}"; record contains unexpected field "${recordField}". Expected fields are: ${this.fields.join(', ')}`);
+            }
+        }
+
+        // Verify that the same record isn't being added twice
+        if (this.has(index)) {
+            throw new Error(`Cannot add record with index "${index}" to table "${this.name}"; a record with that index already exists`);
+        }
+
+        this.records[index] = record;
+    }
+
+    /**
+     * Return the record with the given index.
+     *
+     * @return {Object}
+     */
     get(index)
     {
-        return this.indexedRecords[index];
+        return this.records[index];
+    }
+
+    /**
+     * Return true if the table contains a record with the given index.
+     *
+     * @return {boolean}
+     */
+    has(index)
+    {
+        return this.records[index] !== undefined;
+    }
+
+    /**
+     * Iterate over each index-record pair in the table and call
+     * func(index, record) on each.
+     *
+     * @param func
+     */
+    forEach(func)
+    {
+        const indices = Object.keys(this.records);
+        for (let i = 0; i < indices.length; i++) {
+            const index = indices[i];
+            const record = this.records[index];
+            func(index, record);
+        }
     }
 }
 
+/**
+ * Represents a search result - ie. a glossary item as it is displayed to the
+ * user.
+ *
+ * Sometimes, a search won't find a glossary item, but will find one or more of
+ * its aliases (eg. searching for "cade" yields "Cadance", because it matches
+ * the aliases "Cadence" and "Mi Amore Cadenza"). When a search matches this
+ * way, we add the aliases to the search result so that the user can see why the
+ * match occurred.
+ */
 class SearchResult
 {
     constructor(media, category, item, description)
@@ -46,6 +112,11 @@ class SearchResult
         this.aliases = [];
     }
 
+    /**
+     * Add an alias to this search result.
+     *
+     * @param {string} alias
+     */
     addAlias(alias)
     {
         this.aliases.push(alias)

@@ -69,38 +69,36 @@ const createOption = function createOption(optionRecord, checked)
  * @param {string} filterTitle
  * @param {Object[]} optionRecords
  */
-const createFilterList = function createFilterList(filterTitle, optionRecords)
+function createFilterList(filterTitle, optionRecords)
 {
     const listPanel = create('div', 'filter-list-panel');
 
     // Anonymous function to create a labeled checkbox, with optional toggle
     // handler.
     const createLabeledCheckbox = (id, title, toggleHandler) => {
-        const labeledCheckboxPanel = create('div', 'filter-labeled-checkbox');
-        const checkbox = create('input');
-        const label = create('label');
-        setProps(checkbox, {'id': id, 'type': 'checkbox'});
-        setProps(label, {'htmlFor': id, 'innerHTML': title});
+        const labeledCheckbox = create("div", "filter-labeled-checkbox");
+        const checkbox = create("input");
+        const label = create("label");
+        setProps(checkbox, {"id": id, "type": "checkbox"});                          
+        setProps(label, {"htmlFor": id, "innerHTML": title}); 
 
         if (toggleHandler !== undefined) {
-            checkbox.addEventListener('change', toggleHandler);
+            checkbox.addEventListener("change", toggleHandler);
         }
 
-        append(labeledCheckboxPanel, checkbox, label)
+        append(labeledCheckbox, checkbox, label)
 
-        return labeledCheckboxPanel;
+        return labeledCheckbox;
     };
 
     // Anonymous toggle handler for the "Select all/none" checkbox.
     const handleSelectAllNone = evt => {
         const selectAllNoneCheckbox = evt.currentTarget;
 
-        for (let i=0; i < optionRecords.length; i++) {
-            const optionRecord = optionRecords[i];
-
-            const checkbox = query(`#${optionRecord.id}`);
+        optionRecords.forEach(record => {
+            const checkbox = query(`#${record.id}`);
             checkbox.checked = selectAllNoneCheckbox.checked;
-        }
+        });
     };
 
     const filterTitleElement = create('div', 'filter-title');
@@ -109,14 +107,18 @@ const createFilterList = function createFilterList(filterTitle, optionRecords)
 
     // Create the "Select all/none" checkbox and attach a toggle handler that
     // sets/unsets all of the checkboxes in the filter list.
-    const selectAllNone = createLabeledCheckbox(`${filterTitle}-selectAllNone`, '<strong>Select all/none</strong>', handleSelectAllNone);
+    const selectAllNone = createLabeledCheckbox(
+        `${filterTitle}-selectAllNone`,
+        "<strong>Select all/none</strong>",
+        handleSelectAllNone
+    );
 
     append(filterList, selectAllNone);
 
     // Create the filter list.
     for (let i=0; i < optionRecords.length; i++) {
         const optionRecord = optionRecords[i];
-        const filterOption = createLabeledCheckbox(optionRecord.id, optionRecord.title)
+        const filterOption = createLabeledCheckbox(optionRecord.id, optionRecord.title) 
 
         append(filterList, filterOption);
     }
@@ -124,9 +126,9 @@ const createFilterList = function createFilterList(filterTitle, optionRecords)
     append(listPanel, filterTitleElement, filterList);
 
     return listPanel;
-};
+}
 
-const createCheckableOptionsList = function createCheckableOptionsList(checkableOptions)
+function createCheckableOptionsList(checkableOptions)
 {
     const optionsPanel = create('div', 'checkable-options-panel');
 
@@ -137,4 +139,4 @@ const createCheckableOptionsList = function createCheckableOptionsList(checkable
     }
 
     return optionsPanel;
-};
+}

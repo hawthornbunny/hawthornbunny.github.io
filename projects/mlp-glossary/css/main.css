@@ -3,9 +3,13 @@
  ******************************************************************************/
 html {
     background-color: #f8e8c8;
-    margin: 0.5% 5%;
+    margin: 0 5%;
     font-size: 1.1em;
     font-family: serif;
+}
+
+body {
+    margin: 0;
 }
 
 #logo {
@@ -29,6 +33,11 @@ html {
     font-size: 1.25em;
     text-align: center;
     margin: 1em;
+}
+
+#navigation a {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .subtitle {

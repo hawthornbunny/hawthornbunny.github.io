@@ -9,27 +9,43 @@
         <link rel="shortcut icon" href="images/favicon.png">
         <script src="js/misc.js" type="text/javascript"></script>
         <script src="js/classes.js" type="text/javascript"></script>
+        <script src="js/color.js" type="text/javascript"></script>
         <script src="js/main.js" type="text/javascript"></script>
         <script src="js/index.js" type="text/javascript"></script>
         <title>MLP Glossary</title>
     </head>
     <body>
-        <div id="main">
-            <div id="logo">
-                <img class="logo-image" src="images/ts-logo-r.png"/>
-                MLP Glossary
-                <img class="logo-image" src="images/ts-logo-l.png"/>
+        <div id="layout">
+            <header>
+                <div id="logo">
+                    <img class="logo-image" src="images/ts-logo-r.png"/>
+                    MLP Glossary
+                    <img class="logo-image" src="images/ts-logo-l.png"/>
+                </div>
+                <div id="navigation">
+                    <a id="about">About</a>
+                    &#8226; <a id="media">Media</a>
+                    &#8226; <a href="decks.html">Decks</a>
+                    <!--&#8226;<a href="games.html">Games</a>-->
+                </div>
+
+                <div id="aboutBox" class="toggle-box">
+                    <span class="toggle-box-heading">About</span>
+                    <p>MLP Glossary is a searchable glossary of terms relating to the canon universes of <i>My Little Pony</i> (MLP). Use it to look up unfamiliar terms, or to generate MLP-themed wordlists for games like <a href="https://codenames.game/">Codenames</a>, <a href="https://skribbl.io/">skribbl.io</a>, word bingo, etc.</p>
+                </div>
+                <div id="mediaBox" class="toggle-box">
+                </div>
+            </header>
+            <div id="search">
+                <div id="searchPanel">
+                    <input id="searchField" type="search" placeholder="Enter a search term (3+ letters)" />
+                </div>
+                <div id="searchResults">
+                </div>
             </div>
-            <div id="navigation">
-                <!--<a href="about.html">About</a>-->
-                <a href="decks.html">Decks</a>
-                <!--<a href="games.html">Games</a>-->
-            </div>
-            <div id="searchPanel">
-                <input id="search" type="search" placeholder="Enter a search term" />
-            </div>
-            <div id="searchResults">
-            </div>
+            <footer>
+                Created by <a href="https://equestria.social/@hawthornbunny">hawthornbunny</a>
+            </footer>
         </div>
     </body>
 </html>

@@ -17,31 +17,31 @@
  * The application builds a mapping from search term aliases to glossary
  * records (or more precisely, to glossary keys).
  *
- * ## To-do
- * - Consider a global "tables" collection for all jsonl tables.
- * - Consider a Table class to represent a flat, indexable data table.
+ * TODO: Add option to decks mode to append the media abbreviation after the
+ * item (eg. "Pinkie Pie (G3)"). This could allow for games which allow the
+ * same character from different media.
  ******************************************************************************/
 
 var global = {
     // A collection of glossary records, indexed by a unique key. Using an index
     // enables us to cross-reference glossary entries with other tables, and it
     // also allows us to detect and prevent duplicate entries.
-    'indexedGlossary': {},
+    "indexedGlossary": {},
 
     // A mapping from alias keys to glossary keys. This allows a glossary record
     // to have multiple alternate names.
-    'aliasesToGlossary': {},
+    "aliasesToGlossary": {},
 
+    // A collection of data tables. I aim to replace all the "indexed" objects
+    // with tables, but for now I'm just using this for the media records as a
+    // proof of concept.
+    "tables": {},
+    
     // A collection of premade "deck" objects. Each deck contains a number of
     // pre-selected glossary items. A check is performed on load to ensure the
     // glossary contains those items.
-    'premadeDecks': {},
+    "premadeDecks": {},
 
-    // A collection of property values, indexed by property name. For the
-    // glossary, the possible properties are media, category, item, and
-    // description. These property sets are used to populate the glossary deck
-    // generator. In practice, we only care about
-    //
     // A collection of glossary record properties that have been validated by
     // the application, and their permitted values. The properties that require
     // validation are "media" and "category", whose permitted values are listed
@@ -50,7 +50,7 @@ var global = {
     //
     // These properties are also used to populate the filters for the glossary
     // deck generator.
-    'validatedProperties': {},
+    "validatedProperties": {},
 
     // Patterns which will cause aliases to be auto-generated for matching
     // glossary items. For example, one of these patterns will detect the "Mr. "
@@ -68,12 +68,12 @@ var global = {
         "^Ms\\. ": ["Ms "],
     },
     // Various URLs for the data files.
-    'urls': {
-        'aliases': 'data/aliases.jsonl',
-        'categories': 'data/categories.jsonl',
-        'glossary': 'data/glossary.jsonl',
-        'media': 'data/media.jsonl',
-        'decks': 'data/decks.json',
+    "urls": {
+        "aliases": "data/aliases.jsonl",
+        "categories": "data/categories.jsonl",
+        "glossary": "data/glossary.jsonl",
+        "media": "data/media.jsonl",
+        "decks": "data/decks.json",
     },
 }
 /**
@@ -99,20 +99,25 @@ const loadGlossary = async function loadGlossary()
     const mediaRecords = await fetchJsonl(global.urls.media);
     const categoryRecords = await fetchJsonl(global.urls.categories);
 
-    // Check if any glossary entries are missing any fields. Every glossary
-    // entry is required to have all fields filled.
-    const glossaryRecordsWithEmptyFields = getRecordsWithEmptyFields(
+    // Check if any glossary entries are missing any fields, and raise an error
+    // if any are. This helps to catch oversights in the glossary.
+    const incompleteRecords = getRecordsWithEmptyFields(
         glossaryRecords, 'media', 'category', 'item', 'description'
     );
 
-    if (glossaryRecordsWithEmptyFields.length > 0) {
-        const recordsWithEmptyFieldsLabels = recordsWithEmptyFields.map(record => `${record.item} (${record.media})`);
+    if (incompleteRecords.length > 0) {
+        const recordsWithEmptyFieldsLabels = incompleteRecords.map(record => `${record.item} (${record.media})`);
         throw new Error(`Cannot load glossary; some records are missing field values: ${recordsWithEmptyFieldsLabels.join(', ')}`);
     }
 
     // Build the glossary and alias indices.
     const indexedGlossary = indexRecords(glossaryRecords, 'media', 'category', 'item');
     const indexedAliases = indexRecords(aliasRecords, 'media', 'category', 'item');
+    //tables.glossary = new Table(
+        //"glossary",
+        //["media", "category", "item", "description"],
+        //["media", "category", "item"]
+    //)
 
     // Create a mapping from alias entries to the keys of the glossary records
     // they are aliases for.
@@ -197,9 +202,9 @@ const loadGlossary = async function loadGlossary()
     const validatedProperties = {};
 
     for (const propertyName in permittedPropertyValues) {
-        if (propertyName.includes('_')) {
-            throw new Error(`Validation error: ${propertyName} contains the character "_", which is a reserved delimiter`);
-        }
+        //if (propertyName.includes('_')) {
+            //throw new Error(`Validation error: ${propertyName} contains the character "_", which is a reserved delimiter`);
+        //}
         const permittedValues = permittedPropertyValues[propertyName];
         const propertyCount = propertyCounts[propertyName];
         const usedValues = Object.keys(propertyCount);
@@ -210,9 +215,9 @@ const loadGlossary = async function loadGlossary()
             if (!contains(usedValues, permittedValue)) {
                 throw new Error(`Validation error: ${propertyName} value "${permittedValue}" is defined but not used in the glossary`);
             }
-            if (permittedValue.includes('_')) {
-                throw new Error(`Validation error: ${propertyName} value "${permittedValue}" contains the character "_", which is a reserved delimiter`);
-            }
+            //if (permittedValue.includes('_')) {
+                //throw new Error(`Validation error: ${propertyName} value "${permittedValue}" contains the character "_", which is a reserved delimiter`);
+            //}
         }
     }
 
@@ -220,6 +225,20 @@ const loadGlossary = async function loadGlossary()
     // reserve some characters for use as delimiters.
     for (const propertyName in validatedProperties) {
     }
+
+    // Build a collection of media types (e.g. FiM, G5), indexed by
+    // abbreviation. (I'm using the Table class for this, as a test of the
+    // concept).
+    global.tables.media = new Table(
+        "media",
+        ["abbreviation", "name", "color", "description"],
+        ["abbreviation"],
+    );
+
+    mediaRecords.forEach(record => {
+        global.tables.media.add(record);
+    });
+
 
     global.indexedGlossary = indexedGlossary;
     global.aliasesToGlossary = aliasesToGlossary;
@@ -531,14 +550,14 @@ const getMatchingAliases = function getMatchingAliases(string, aliasesToGlossary
  * @param {string} value
  * @return {boolean}
  */
-const hasMatchingField = function hasMatchingField(record, field, value)
+function hasMatchingField(record, field, value)
 {
     if (record[field]) {
         return isPartialStringMatch(value, record[field]);
     }
 
     return false;
-};
+}
 
 /**
  * Return true if stringA is a partial match for stringB. A string is a partial
@@ -549,20 +568,21 @@ const hasMatchingField = function hasMatchingField(record, field, value)
  * @param {string} stringB
  * @return {boolean}
  */
-const isPartialStringMatch = function isPartialStringMatch(stringA, stringB)
+function isPartialStringMatch(stringA, stringB)
 {
     return stringB.toLowerCase().includes(stringA.toLowerCase());
-};
+}
 
 /*******************************************************************************
  * Tests
  ******************************************************************************/
-const test = function test()
+function test()
 {
     testIndexRecords();
-};
+    testDecomposeHexColor();
+}
 
-const testIndexRecords = function testIndexRecords()
+function testIndexRecords()
 {
     let records = [
         {'media': 'FiM', 'category': 'character', 'item': 'Angel Bunny'},
@@ -591,4 +611,17 @@ const testIndexRecords = function testIndexRecords()
     assert(indexedRecords['EqG-group-Shadowbolts'].item === 'Shadowbolts');
     assert(indexedRecords['EqG-character-Fluttershy'].item === 'Fluttershy');
     assert(indexedRecords['G5-species-bunnicorn'].item === 'bunnicorn');
-};
+}
+
+function testDecomposeHexColor()
+{
+    let rgbColor = decomposeHexColor("#000000");
+    assert(rgbColor[0] === 0);
+    assert(rgbColor[1] === 0);
+    assert(rgbColor[2] === 0);
+
+    rgbColor = decomposeHexColor("#4080c0");
+    assert(rgbColor[0] === 64);
+    assert(rgbColor[1] === 128);
+    assert(rgbColor[2] === 192);
+}

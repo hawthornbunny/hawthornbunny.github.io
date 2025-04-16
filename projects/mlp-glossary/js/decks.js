@@ -62,8 +62,6 @@
 
 // Global namespace for holding decks application state
 DECKS = {
-    // Holds state for each of the 3 application modes, which allows transitions
-    // between modes without losing information.
     'mappings': {
         'dataToId': undefined,
         'idToData': undefined,
@@ -629,12 +627,49 @@ const createCardProxy = function createCardProxy(glossaryRecord, drawnCardIndex)
 {
     const cardProxy = create('div', 'proxy');
 
-    let html = '';
-    html += `<p class="proxy-item"><span class="proxy-item-title">${glossaryRecord.item}</span></p>`;
-    html += `<p class="proxy-media-category">${glossaryRecord.media} &mdash; ${glossaryRecord.category}</p>`;
+    // Look up the media this proxy is for, and generate a color palette for the
+    // proxy based on that media's tag color.
+    const media = global.tables.media.get(glossaryRecord.media);
+    const mediumRgb = decomposeHexColor(media.color);
+
+    // Get the RGB components as floats from 0 to 1.
+    const mediumRgbF = mediumRgb.map(component => component / 255)
+
+    // Convert the RGB components to HSL.
+    const mediumHslF = rgbToHsl(...mediumRgbF);
+    let mediumHsl = [mediumHslF[0] * 360, mediumHslF[1] * 100, mediumHslF[2] * 100];
+
+    // Generate light and dark color variants.
+    let lightHsl = [mediumHsl[0], mediumHsl[1], mediumHsl[2] * 1.5];
+    let darkHsl = [mediumHsl[0], mediumHsl[1], mediumHsl[2] * 0.75];
+
+    // Round and clamp the HSL values.
+    mediumHsl = mediumHsl.map(component => Math.floor(component));
+    lightHsl = lightHsl.map(component => Math.floor(component));
+    darkHsl = darkHsl.map(component => Math.floor(component));
+    lightHsl = [lightHsl[0], lightHsl[1], Math.min(lightHsl[2], 255)];
+
+    //let lightRgb = mediumRgb.map(component => component * 2);
+    //lightRgb = lightRgb.map(component => Math.floor(Math.min(component, 255)));
+    //let darkRgb = mediumRgb.map(component => component * 0.5);
+    //darkRgb = darkRgb.map(component => Math.floor(component));
+
+    //const mediumColor = `rgb(${mediumRgb[0]}, ${mediumgb[1]}, ${mediumRgb[2]})`;
+    //const lightColor = `rgb(${lightRgb[0]}, ${lightRgb[1]}, ${lightRgb[2]})`;
+    //const darkColor = `rgb(${darkRgb[0]}, ${darkRgb[1]}, ${darkRgb[2]})`;
+    const mediumColor = `hsl(${mediumHsl[0]}, ${mediumHsl[1]}%, ${mediumHsl[2]}%)`;
+    const lightColor = `hsl(${lightHsl[0]}, ${lightHsl[1]}%, ${lightHsl[2]}%)`;
+    const darkColor = `hsl(${darkHsl[0]}, ${darkHsl[1]}%, ${darkHsl[2]}%)`;
+
+    // Construct the proxy's HTML.
+    let html = "";
+    html += `<p class="proxy-item"><span class="proxy-item-title" style="background-color: ${darkColor}"}>${glossaryRecord.item}</span></p>`;
+    html += `<p class="proxy-media-category"><span class="proxy-media" style="background-color: ${mediumColor};">${glossaryRecord.media}</span> &mdash; ${glossaryRecord.category}</p>`;
     html += `<p class="proxy-description">${glossaryRecord.description}</p>`;
     cardProxy.innerHTML = html;
 
+    cardProxy.style.backgroundColor = lightColor;
+    cardProxy.style.borderColor = darkColor;
     cardProxy.dataset.index = drawnCardIndex;
     cardProxy.addEventListener('click', handleDiscardCard);
 
