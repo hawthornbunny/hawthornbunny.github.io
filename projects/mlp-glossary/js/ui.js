@@ -68,10 +68,18 @@ const createOption = function createOption(optionRecord, checked)
  *
  * @param {string} filterTitle
  * @param {Object[]} optionRecords
+ * @param {string} width
  */
-function createFilterList(filterTitle, optionRecords)
+function createFilterList(filterTitle, optionRecords, width)
 {
     const listPanel = create('div', 'filter-list-panel');
+
+    const allowedWidths = ["wide", "narrow"];
+    if (!allowedWidths.includes(width)) {
+        throw new Error(`Cannot create filter list "${filterTitle}"; invalid width specifier "${width}"`);
+    }
+
+    listPanel.classList.add(`filter-list-panel-${width}`)
 
     // Anonymous function to create a labeled checkbox, with optional toggle
     // handler.
@@ -102,6 +110,7 @@ function createFilterList(filterTitle, optionRecords)
     };
 
     const filterTitleElement = create('div', 'filter-title');
+    let filterListClass = `filter-list-${width}`;
     const filterList = create('div', 'filter-list');
     filterTitleElement.innerHTML = filterTitle;
 

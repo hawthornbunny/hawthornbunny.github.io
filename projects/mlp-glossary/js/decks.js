@@ -79,30 +79,35 @@ DECKS = {
  */
 const initialize = async function initialize()
 {
+    // Start the glossary application to provide the data source for the deck
+    // builder.
     await startApplication();
-    buildIdMappings();
+
+    // Build a set of mappings from glossary indices to checkbox ids. This will
+    // allow us to associate each checkbox with its glossary property.
+    DECKS.mappings = buildIdMappings();
 
     // Create global objects to represent each mode of operation. This makes it
     // easier to provide a consistent way of switching between modes in our
     // single-page app.
     DECKS.modes = {
-        'deckConstructor': new Mode(),
+        'construct': new Mode(),
         'deck': new Mode(),
         'list': new Mode(),
     };
 
     // Define draw functions for each mode.
-    DECKS.modes.deckConstructor.drawFunc = drawDeckConstructorInterface;
+    DECKS.modes.construct.drawFunc = drawConstructInterface;
     DECKS.modes.deck.drawFunc = drawDeckInterface;
     DECKS.modes.list.drawFunc = drawListInterface;
 
     // Define update functions for each mode.
-    DECKS.modes.deckConstructor.updateFunc = updateDeckConstructorInterface;
+    DECKS.modes.construct.updateFunc = updateConstructInterface;
     DECKS.modes.deck.updateFunc = updateDeckInterface;
     DECKS.modes.list.updateFunc = updateListInterface;
 
     // Begin by switching into deck constructor mode.
-    switchMode('deckConstructor');
+    switchMode('construct');
 };
 
 /**
@@ -146,7 +151,7 @@ const buildIdMappings = function buildIdMappings()
         }
     }
 
-    DECKS.mappings = mappings;
+    return mappings;
 };
 
 /**
@@ -190,85 +195,73 @@ const switchMode = function switchMode(mode)
 /**
  * Draw the deck constructor interface.
  */
-const drawDeckConstructorInterface = function drawDeckConstructorInterface()
+function drawConstructInterface()
 {
     const main = query('#main');
-    const deckConstructor = createDeckConstructorInterface();
-
-    append(main, deckConstructor);
-};
-
-/**
- * Create the deck constructor interface. The deck constructor consists of two
- * sections: a pre-made deck selector, and a glossary deck generator.
- *
- * @return {Element}
- */
-const createDeckConstructorInterface = function createDeckConstructorInterface()
-{
-    const deckConstructorPanel = create('div');
-    const header = create('div');
+    const constructPanel = create('div');
+    const header = create('header');
     const title = create('div')
-    const infoP = create('p');
-    const premadeDecksTitle = create('h2');
-    const premadeSelector = createPremadeDeckSelector();
-    const deckGeneratorTitle = create('h2');
+//    const infoP = create('p');
+//    const premadeDecksTitle = create('h2');
+//    const premadeSelector = createPremadeDeckSelector();
+//    const deckGeneratorTitle = create('h2');
     const deckGenerator = createGlossaryDeckGenerator();
     const cardCountDisplay = createCardCountDisplay();
-    const buttonsPanel = createDeckConstructorButtons();
+    const buttonsPanel = createConstructButtons();
 
-    deckConstructorPanel.id = 'deckConstructor';
+    constructPanel.id = 'deckConstructor';
     setProps(title, {'id': 'logoSmall', 'innerHTML': '<a href="index.html">MLP Glossary</a><div class="subtitle">Decks</div>'});
-    infoP.innerHTML = 'Use the deck constructor interface below to create a custom deck. You can select any number of pre-made decks, and/or use the deck generator to build a deck from selected glossary categories. The final deck will be composed of all your selections, with duplicates removed.';
-    premadeDecksTitle.innerHTML = 'Pre-made decks';
-    deckGeneratorTitle.innerHTML = 'Deck generator';
+//    infoP.innerHTML = 'Use the deck constructor interface below to create a custom deck. You can select any number of pre-made decks, and/or use the deck generator to build a deck from selected glossary categories. The final deck will be composed of all your selections, with duplicates removed.';
+//    premadeDecksTitle.innerHTML = 'Pre-made decks';
+//    deckGeneratorTitle.innerHTML = 'Deck generator';
 
-    append(header, title, infoP);
-    append(deckConstructorPanel, header, premadeDecksTitle, premadeSelector, deckGeneratorTitle, deckGenerator, cardCountDisplay, buttonsPanel);
+    append(header, title); //, infoP);
+//    append(constructPanel, header, premadeDecksTitle, premadeSelector, deckGeneratorTitle, deckGenerator, cardCountDisplay, buttonsPanel);
+    append(constructPanel, header, deckGenerator, cardCountDisplay, buttonsPanel);
 
     // Add toggle event handlers to all of the deck selector and deck generator
     // checkboxes to update the card count display when toggled.
-    const deckSelectorCheckboxes = premadeSelector.querySelectorAll('input[type=checkbox]');
-    for (let i=0; i < deckSelectorCheckboxes.length; i++) {
-        const checkbox = deckSelectorCheckboxes[i];
-        checkbox.addEventListener('change', updateDeckConstructorInterface);
-    }
+//    const deckSelectorCheckboxes = premadeSelector.querySelectorAll('input[type=checkbox]');
+//    for (let i=0; i < deckSelectorCheckboxes.length; i++) {
+//        const checkbox = deckSelectorCheckboxes[i];
+//        checkbox.addEventListener('change', updateConstructInterface);
+//    }
 
     const deckGeneratorCheckboxes = deckGenerator.querySelectorAll('input[type=checkbox]');
     for (let i=0; i < deckGeneratorCheckboxes.length; i++) {
         const checkbox = deckGeneratorCheckboxes[i];
-        checkbox.addEventListener('change', updateDeckConstructorInterface);
+        checkbox.addEventListener('change', updateConstructInterface);
     }
 
-    return deckConstructorPanel;
-};
+    append(main, constructPanel);
+}
 
 /**
  * Create the pre-made deck selector panel.
  *
  * @return {Element}
  */
-const createPremadeDeckSelector = function createPremadeDeckSelector()
-{
-    const optionRecords = [];
-    const dataToId = DECKS.mappings.dataToId.decks;
-
-    for (const deckName in dataToId) {
-        const deck = global.premadeDecks[deckName];
-        const optionRecord = {
-            'id': dataToId[deckName],
-            'title': `${deck.name} (${deck.items.length} items)`,
-            'description': deck.description,
-        };
-
-        optionRecords.push(optionRecord);
-    }
-
-    const deckSelector = createOptionListSelector(optionRecords);
-    deckSelector.id = 'deckSelector';
-
-    return deckSelector;
-};
+//const createPremadeDeckSelector = function createPremadeDeckSelector()
+//{
+//    const optionRecords = [];
+//    const dataToId = DECKS.mappings.dataToId.decks;
+//
+//    for (const deckName in dataToId) {
+//        const deck = global.premadeDecks[deckName];
+//        const optionRecord = {
+//            'id': dataToId[deckName],
+//            'title': `${deck.name} (${deck.items.length} items)`,
+//            'description': deck.description,
+//        };
+//
+//        optionRecords.push(optionRecord);
+//    }
+//
+//    const deckSelector = createOptionListSelector(optionRecords);
+//    deckSelector.id = 'deckSelector';
+//
+//    return deckSelector;
+//};
 
 /**
  * Create the glossary deck generator interface.
@@ -279,6 +272,10 @@ const createGlossaryDeckGenerator = function createGlossaryDeckGenerator()
 {
     const generatorPanel = create('div');
     const dataToId = DECKS.mappings.dataToId.props;
+    const filterListWidths = {
+        "media": "narrow",
+        "category": "wide",
+    };
 
     generatorPanel.id = 'deckGenerator';
 
@@ -292,8 +289,9 @@ const createGlossaryDeckGenerator = function createGlossaryDeckGenerator()
                 }
             }
         );
+        const width = filterListWidths[propName];
 
-        const filterList = createFilterList(propName, optionRecords);
+        const filterList = createFilterList(propName, optionRecords, width);
         append(generatorPanel, filterList);
     }
 
@@ -328,7 +326,7 @@ const createCardCountDisplay = function createCardCountDisplay()
  *
  * @return {Element}
  */
-const createDeckConstructorButtons = function createDeckConstructorButtons()
+const createConstructButtons = function createConstructButtons()
 {
     const buttonsPanel = create('div');
     const startDealButton = create('button');
@@ -382,12 +380,12 @@ const constructDeck = function constructDeck()
     };
 
     // Pre-made deck selector
-    let premadeCheckboxes = document.querySelectorAll('#deckSelector .option-panel input[type=checkbox]');
-    premadeCheckboxes = [...premadeCheckboxes];
-    for (let i=0; i < premadeCheckboxes.length; i++) {
-        const checkbox = premadeCheckboxes[i];
-        selections.premadeDecks[checkbox.id] = checkbox.checked;
-    }
+//    let premadeCheckboxes = document.querySelectorAll('#deckSelector .option-panel input[type=checkbox]');
+//    premadeCheckboxes = [...premadeCheckboxes];
+//    for (let i=0; i < premadeCheckboxes.length; i++) {
+//        const checkbox = premadeCheckboxes[i];
+//        selections.premadeDecks[checkbox.id] = checkbox.checked;
+//    }
 
     // Glossary deck generator
     let generatorCheckboxes = document.querySelectorAll('#deckGenerator .filter-list input[type=checkbox]');
@@ -398,25 +396,25 @@ const constructDeck = function constructDeck()
     }
 
     // Pre-made deck selector
-    let selectedPremade = Object.keys(selections.premadeDecks);
-    selectedPremade = selectedPremade.filter(k => selections.premadeDecks[k] === true);
-    const premadeDecks = selectedPremade.map(k => global.premadeDecks[DECKS.mappings.idToData.decks[k]]);
+//    let selectedPremade = Object.keys(selections.premadeDecks);
+//    selectedPremade = selectedPremade.filter(k => selections.premadeDecks[k] === true);
+//    const premadeDecks = selectedPremade.map(k => global.premadeDecks[DECKS.mappings.idToData.decks[k]]);
 
     // Glossary deck generator
     let selectedGenerator = Object.keys(selections.deckGenerator);
     selectedGenerator = selectedGenerator.filter(k => selections.deckGenerator[k] === true && !k.includes('selectAllNone'));
 
     // Get all glossary items for the pre-made decks.
-    for (let i=0; i < premadeDecks.length; i++) {
-        const premadeDeck = premadeDecks[i];
-        const items = premadeDeck.items;
-        for (let j=0; j < items.length; j++) {
-            const item = items[j];
-
-            const itemKey = makeCompositeKey(...item);
-            indexedItems[itemKey] = global.indexedGlossary[itemKey];
-        }
-    }
+//    for (let i=0; i < premadeDecks.length; i++) {
+//        const premadeDeck = premadeDecks[i];
+//        const items = premadeDeck.items;
+//        for (let j=0; j < items.length; j++) {
+//            const item = items[j];
+//
+//            const itemKey = makeCompositeKey(...item);
+//            indexedItems[itemKey] = global.indexedGlossary[itemKey];
+//        }
+//    }
 
     // Get all glossary items that match the selected deck generator properties.
     // The deck generator allows the selection of any number of possible values
@@ -461,7 +459,7 @@ const constructDeck = function constructDeck()
     return Object.keys(indexedItems);
 };
 
-const updateDeckConstructorInterface = function updateDeckConstructorInterface()
+const updateConstructInterface = function updateConstructInterface()
 {
     const cardCountDisplay = query('#cardCountDisplay');
     const startDealButton = query('#startDealButton');
@@ -473,7 +471,7 @@ const updateDeckConstructorInterface = function updateDeckConstructorInterface()
     createListButton.disabled = deck.length === 0;
 };
 
-const saveDeckConstructorSelections = function saveDeckConstructorSelections()
+const saveConstructSelections = function saveConstructSelections()
 {
     // Save deck constructor checkbox states
     let premadeCheckboxes = document.querySelectorAll('#deckSelector .option-panel input[type=checkbox]');
@@ -483,16 +481,16 @@ const saveDeckConstructorSelections = function saveDeckConstructorSelections()
 
     const checkboxes = premadeCheckboxes.concat(generatorCheckboxes);
 
-    DECKS.modes.deckConstructor.checkboxStates = {}
+    DECKS.modes.construct.checkboxStates = {}
     for (let i=0; i < checkboxes.length; i++) {
         const checkbox = checkboxes[i];
-        DECKS.modes.deckConstructor.checkboxStates[checkbox.id] = checkbox.checked;
+        DECKS.modes.construct.checkboxStates[checkbox.id] = checkbox.checked;
     }
 };
 
 const handleStartDeal = function handleStartDeal()
 {
-    saveDeckConstructorSelections();
+    saveConstructSelections();
 
     // Set up deck mode
     DECKS.modes.deck.state = {
@@ -512,13 +510,13 @@ const handleStartDeal = function handleStartDeal()
 const handleContinueDeal = function handleContinueDeal()
 {
     // TODO: Finish
-    saveDeckConstructorSelections();
+    saveConstructSelections();
     switchMode('deck');
 };
 
 const handleCreateList = function handleCreateList()
 {
-    saveDeckConstructorSelections();
+    saveConstructSelections();
 
     // Set up list mode
     DECKS.modes.list.state = {
@@ -670,6 +668,20 @@ const createCardProxy = function createCardProxy(glossaryRecord, drawnCardIndex)
 
     cardProxy.style.backgroundColor = lightColor;
     cardProxy.style.borderColor = darkColor;
+
+    // Some cards have long titles which tend to push the description out of the
+    // bottom of the card. Switch to a smaller title font if the title is too
+    // long.
+    const maxTitleLen = 35;
+    if (glossaryRecord.item.length > maxTitleLen) {
+        cardProxy.querySelector(".proxy-item-title").classList.add("small-title");
+    }
+
+    const maxDescLen = 100;
+    if (glossaryRecord.description.length > maxDescLen) {
+        cardProxy.querySelector(".proxy-description").classList.add("small-description");
+    }
+
     cardProxy.dataset.index = drawnCardIndex;
     cardProxy.addEventListener('click', handleDiscardCard);
 
@@ -726,7 +738,7 @@ const handleChangeDeckOptions = function handleChangeDeckOptions()
     // TODO: Deck state doesn't need to be saved as it's all in global storage.
     // However, list mode inputs do need to be saved when switching back to the
     // deck constructor.
-    switchMode('deckConstructor');
+    switchMode('construct');
 };
 
 const handleDiscardCard = function handleDiscardCard(evt)
@@ -765,7 +777,7 @@ const drawListInterface = function drawListInterface()
 
     setProps(
         listArea,
-        {'id': 'listArea', 'cols': 80, 'rows': 40}
+        {'id': 'listArea', 'cols': 80, 'rows': 32}
     );
 
     setProps(
@@ -789,36 +801,39 @@ const drawListInterface = function drawListInterface()
  */
 const createListOptionsPanel = function createListOptionsPanel()
 {
-    const optionsPanel = create('div');
-    const listWarning = create('p');
-    listWarning.id = 'listWarning';
+    const optionsPanel = create("div");
+    const listWarning = create("p");
+    listWarning.id = "listWarning";
 
     const newlineDelimited = new CheckableOption(
-        'newlineDelimited', 'radio', 'Newline-delimited (Codenames)'
+        "newlineDelimited", "radio", "Newline-delimited (Codenames)"
     );
     const commaDelimited = new CheckableOption(
-        'commaDelimited', 'radio', 'Comma-delimited (skribbl.io)'
+        "commaDelimited", "radio", "Comma-delimited (skribbl.io)"
     );
     const customDelimiter = new CheckableOption(
-        'customDelimiter', 'radio', 'Custom delimiter:'
+        "customDelimiter", "radio", "Custom delimiter:"
     );
     const maxChars = new CheckableOption(
-        'maxChars', 'checkbox', 'Max number of characters:'
+        "maxChars", "checkbox", "Max number of characters:"
     );
     const maxWords = new CheckableOption(
-        'maxWords', 'checkbox', 'Max number of words:'
+        "maxWords", "checkbox", "Max number of words:"
     );
     const disallowedChars = new CheckableOption(
-        'disallowedChars', 'checkbox', 'Disallowed characters:'
+        "disallowedChars", "checkbox", "Disallowed characters:"
+    );
+    const disambiguateNonUnique = new CheckableOption(
+        "disambiguateNonUnique", "checkbox", "Disambiguate non-unique items"
     );
 
-    newlineDelimited.setCheckableGroup('delimiter');
-    commaDelimited.setCheckableGroup('delimiter');
-    customDelimiter.setCheckableGroup('delimiter');
-    customDelimiter.setField('customDelimiterField', '/');
-    maxChars.setField('maxCharsField', '20');
-    maxWords.setField('maxWordsField', '5');
-    disallowedChars.setField('disallowedCharsField', "'-.,%");
+    newlineDelimited.setCheckableGroup("delimiter");
+    commaDelimited.setCheckableGroup("delimiter");
+    customDelimiter.setCheckableGroup("delimiter");
+    customDelimiter.setField("customDelimiterField", "/");
+    maxChars.setField("maxCharsField", "20");
+    maxWords.setField("maxWordsField", "5");
+    disallowedChars.setField("disallowedCharsField", "'-.,%");
 
     const delimiterOptionsList = createCheckableOptionsList(
         [
@@ -828,6 +843,7 @@ const createListOptionsPanel = function createListOptionsPanel()
             maxChars,
             maxWords,
             disallowedChars,
+            disambiguateNonUnique,
         ]
     );
 
@@ -835,6 +851,7 @@ const createListOptionsPanel = function createListOptionsPanel()
 
     const newlineDelimitedRadio = optionsPanel.querySelector('#newlineDelimited');
     newlineDelimitedRadio.checked = true;
+    disambiguateNonUnique.checked = false;
 
     return optionsPanel;
 }
@@ -843,41 +860,56 @@ const createListOptionsPanel = function createListOptionsPanel()
  * Update the list mode textarea based on the selections in the list options
  * panel.
  */
-const updateListInterface = function updateListInterface()
+function updateListInterface()
 {
-    const listArea = query('#listArea');
-    const listOptions = query('#listOptions');
-    const listWarning = query('#listWarning');
-    const customDelimiterString = query('#customDelimiterField').value;
-    const selectedDelimiterRadio = listOptions.querySelector('input[type=radio]:checked');
-    const items = DECKS.modes.list.state.items;
+    const listArea = query("#listArea");
+    const listOptions = query("#listOptions");
+    const listWarning = query("#listWarning");
+    const customDelimiterString = query("#customDelimiterField").value;
+    const selectedDelimiterRadio = listOptions.querySelector("input[type=radio]:checked");
+
+    // Set up the delimiter options.
     const delimiters = {
-        'newlineDelimited': '\n',
-        'commaDelimited': ',',
+        "newlineDelimited": "\n",
+        "commaDelimited": ",",
     };
 
-    listWarning.innerHTML = '';
-
     // Default to the newline delimiter.
-    let delimiter = delimiters['newlineDelimited'];
+    let delimiter = delimiters["newlineDelimited"];
 
     // Set the delimiter based on the user's selected option.
     if (selectedDelimiterRadio !== null) {
-        if (selectedDelimiterRadio.id === 'customDelimiter') {
+        if (selectedDelimiterRadio.id === "customDelimiter") {
             delimiter = customDelimiterString;
         } else if (delimiters[selectedDelimiterRadio.id] !== undefined) {
             delimiter = delimiters[selectedDelimiterRadio.id];
         }
     }
 
-    // Fetch the list of item names from the glossary.
-    let itemNames = items.map(key => global.indexedGlossary[key].item);
-    itemNames = itemNames.sort();
+    // Clear the warning message.
+    listWarning.innerHTML = "";
+
+    // Fetch the list of selected glossary items, based on the selections the
+    // user made in constuct mode. This is a list of glossary keys which was
+    // placed in the list mode state when "Create list" was clicked.
+    const items = DECKS.modes.list.state.items;
+
+    // In list mode, we only display the glossary item's name (e.g.
+    // "Applejack"). However, in some cases, the same name could refer to
+    // multiple glossary items (eg. "FiM-character-Applejack",
+    // "EqG-character-Applejack"). For these cases, disambiguate the item.
+    // (Note that it isn't always just different incarnations of the same
+    // character - for example, in FiM, "Somnambula" is the both the name
+    // of a character and of a location).
+    const disambiguatedItems = disambiguateItems(items, global.indexedGlossary);
+
+    // The disambiguated item list provides us with a unique list of item names.
+    // We now need to filter that list depending on the user's selections.
+    let itemNames = Object.keys(disambiguatedItems);
 
     // If the user selected the max chars checkbox, filter out any item names
     // that are too long.
     const maxCharsCheckbox = query('#maxChars');
-
     if (maxCharsCheckbox.checked) {
         const maxCharsField = query('#maxCharsField');
         const maxChars = maxCharsField.value;
@@ -887,7 +919,6 @@ const updateListInterface = function updateListInterface()
     // If the user selected the max words checkbox, filter out any item names
     // that have too many words.
     const maxWordsCheckbox = query('#maxWords');
-
     if (maxWordsCheckbox.checked) {
         const maxWordsField = query('#maxWordsField');
         const maxWords = maxWordsField.value;
@@ -897,23 +928,20 @@ const updateListInterface = function updateListInterface()
     // If the user selected the disallowed words checkbox, filter out any item
     // names that contain disallowed characters.
     const disallowedCharsCheckbox = query('#disallowedChars');
-
     if (disallowedCharsCheckbox.checked) {
         const disallowedCharsField = query('#disallowedCharsField');
         const disallowedCharsString = disallowedCharsField.value;
         const disallowedChars = disallowedCharsString.split('');
         
-        itemNames = itemNames.filter(
-            itemName => {
-                for (let i = 0; i < disallowedChars.length; i++) {
-                    const disallowedChar = disallowedChars[i];
-                    if (itemName.includes(disallowedChar)) {
-                        return false;
-                    }
+        itemNames = itemNames.filter(itemName => {
+            for (let i = 0; i < disallowedChars.length; i++) {
+                const disallowedChar = disallowedChars[i];
+                if (itemName.includes(disallowedChar)) {
+                    return false;
                 }
-                return true;
             }
-        );
+            return true;
+        });
     }
 
     // Filter out any items that contain the delimiter itself (these would get
@@ -929,24 +957,162 @@ const updateListInterface = function updateListInterface()
         delimiter: ${removedItems}`;
     }
 
+    // With filtering of the item names complete, we can now add back in any
+    // items that had multiple disambiguated versions if the user requested that
+    // they be included.
+    const disambiguateCheckbox = query('#disambiguateNonUnique');
+    if (disambiguateCheckbox.checked) {
+        let i = 0;
+        while (i < itemNames.length) {
+            const itemName = itemNames[i];
+            const disambiguatedNames = disambiguatedItems[itemName];
+            if (disambiguatedNames.length === 1) {
+                // No need to disambiguate if there's only one possible version.
+                i++;
+                continue;
+            }
+            // Remove the ambiguous name and add the disambiguated ones.
+            itemNames.splice(i, 1, ...disambiguatedNames);
+
+            // Move the index forward to account for the added names.
+            i += disambiguatedNames.length - 1;
+            i++;
+        }
+    }
+
+    // Sort the list alphabetically for presentation.
+    itemNames.sort();
+
+    // Display the completed list in the textarea.
     const itemList = itemNames.join(delimiter);
     listArea.value = itemList;
-};
+}
+
+/**
+ * Given a list of glossary keys which refer to a set of glossary records,
+ * return an object which maps each name in the glossary to a list of its
+ * possible disambiguations.
+ *
+ * For example, if the glossary records referred to are as follows:
+ *
+ *     {
+ *         "EqG-character-Applejack": {
+ *             media: "EqG",
+ *             category: "character",
+ *             item: "Applejack"
+ *         },
+ *         "FiM-character-Applejack": {
+ *             media: "FiM",
+ *             category: "character",
+ *             item: "Applejack"
+ *         },
+ *         "FiM-character-Somnambula": {
+ *             media: "FiM",
+ *             category: "character",
+ *             item: "Somnambula"
+ *         },
+ *         "FiM-location-Somnambula": {
+ *             media: "FiM",
+ *             category: "location",
+ *             item: "Somnambula"
+ *         }
+ *     }
+ *
+ * then the disambiguated object is:
+ *
+ *     {
+ *         "Applejack": ["Applejack (EqG)", "Applejack (FiM)"],
+ *         "Somnambula": ["Somnambula (character)", "Somnambula (location)"],
+ *     }
+ */
+function disambiguateItems(glossaryKeys, indexedGlossary)
+{
+    // Create an object mapping glossary item names to lists of records with
+    // those names (ie. group together records that have the same `item` value).
+    const namesToRecords = {};
+    glossaryKeys.forEach(key => {
+        const record = indexedGlossary[key];
+        const name = record.item;
+
+        if (namesToRecords[name] === undefined) {
+            namesToRecords[name] = [];
+        }
+
+        namesToRecords[name].push(record);
+    });
+
+    // Names which map to more than one record are those which need to be
+    // disambiguated. However, in order to do so, we need to find which property
+    // the names differ by. For most, they will differ by media (e.g. different
+    // incarnations of the same character), but there are rare cases where
+    // names differ by category (e.g. Somnambula, which is both a character and
+    // a location in FiM).
+    const disambiguatedItems = {};
+    for (const name in namesToRecords) {
+        const records = namesToRecords[name];
+        disambiguatedItems[name] = [];
+
+        // If there's only one record with this name, no disambiguation is
+        // needed.
+        if (records.length === 1) {
+            disambiguatedItems[name].push(records[0].item);
+            continue;
+        }
+
+        // If there are multiple records with this name, find out which property
+        // those records differ by. We're only interested in the media and
+        // category properties.
+        const props = ["media", "category"];
+
+        // First, get all values for each property.
+        const propValues = {};
+        props.forEach(prop => {
+            propValues[prop] = records.map(record => record[prop]);
+        });
+
+        // For each property, check if all the values we have for it are unique
+        // (i.e. no record has the same value for that property as another).
+        // Take the first one that has all unique values. We'll use this as the
+        // distinguishing property for the purpose of disambiguation.
+        let differingProp = null;
+        for (const prop in propValues) {
+            const propValuesList = propValues[prop];
+            const dedupPropValuesList = dedupList(propValuesList);
+            // Compare list to deduplicated list to confirm uniqueness
+            if (propValuesList.length === dedupPropValuesList.length) {
+                differingProp = prop;
+                break;
+            }
+        }
+
+        // If we couldn't find a differing property, throw an error.
+        if (differingProp === null) {
+            throw new Error(`Could not disambiguate glossary records with item "${name}"; unable to find a property with unique values which could be used to disambiguate the records`);
+        }
+
+        // Use the differing property to disambiguate the records.
+        propValues[differingProp].forEach(value => {
+            disambiguatedItems[name].push(`${name} (${value})`);
+        });
+    }
+
+    return disambiguatedItems;
+}
 
 /*******************************************************************************
  * Other functions
  ******************************************************************************/
-const emptyMain = function emptyMain()
+function emptyMain()
 {
     const main = query('#main');
     empty(main);
-};
+}
 
-const rndi = function(max) {
+function rndi(max) {
     return Math.floor(Math.random() * max);
-};
+}
 
-const shuffle = function shuffle(array)
+function shuffle(array)
 {
     const shuffledArray = [];
     for (let i = 0; i < array.length; i++) {
@@ -955,6 +1121,18 @@ const shuffle = function shuffle(array)
         shuffledArray.splice(insertIndex, 0, element);
     }
     return shuffledArray;
-};
+}
+
+function dedupList(list)
+{
+    const dedupedList = [];
+    list.forEach(item => {
+        if (!dedupedList.includes(item)) {
+            dedupedList.push(item);
+        }
+    });
+
+    return dedupedList;
+}
 
 window.onload = initialize;

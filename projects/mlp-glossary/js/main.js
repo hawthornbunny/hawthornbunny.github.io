@@ -141,6 +141,7 @@ const loadGlossary = async function loadGlossary()
 
     // Auto-generate alias entries for glossary items that match any of the
     // auto-alias patterns.
+    const autoAliasesToGlossary = {};
     for (const pattern in global.autoAliases) {
         const regexp = new RegExp(pattern);
         const aliasReplacements = global.autoAliases[pattern];
@@ -153,17 +154,24 @@ const loadGlossary = async function loadGlossary()
             // If this index item matched the auto-alias regexp, generate
             // aliases by replacing the pattern with the corresponding
             // replacements.
-            const aliases = aliasReplacements.map(a => itemName.replace(regexp, a));
+            const autoAliases = aliasReplacements.map(a => itemName.replace(regexp, a));
 
-            for (let i=0; i < aliases.length; i++) {
-                const alias = aliases[i];
-                // Add the generated aliases to the aliases dictionary.
-                if (aliasesToGlossary[alias] === undefined) {
-                    aliasesToGlossary[alias] = glossaryKey;
-                } else {
-                    console.warn(`Auto-generated alias "${alias}" already defined in aliases file`);
-                }
+            for (let i=0; i < autoAliases.length; i++) {
+                const autoAlias = autoAliases[i];
+                autoAliasesToGlossary[autoAlias] = glossaryKey;
             }
+        }
+    }
+
+    // Merge the auto-aliases into the aliases obtained from the aliases file.
+    // Raise a warning if we detect that the aliases file contains an alias that
+    // would be generated automatically.
+    for (autoAlias in autoAliasesToGlossary) {
+        const glossaryKey = autoAliasesToGlossary[autoAlias];
+        if (aliasesToGlossary[autoAlias] === undefined) {
+            aliasesToGlossary[autoAlias] = glossaryKey;
+        } else {
+            console.warn(`Auto-generated alias "${autoAlias}" already defined in aliases file`);
         }
     }
 

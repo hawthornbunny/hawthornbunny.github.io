@@ -5,8 +5,7 @@
     display: flex;
     flex-direction: column;
     /* Ensures the layout is always at least 100% of the viewport height, i.e.
-     * full screen height.
-     */
+     * full screen height. */
     min-height: 100vh;
 }
 
