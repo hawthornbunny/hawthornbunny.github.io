@@ -40,6 +40,13 @@ body {
     cursor: pointer;
 }
 
+div.section {
+    background-color: hsla(0, 100%, 100%, 0.25);
+    border: 1px solid #643830;
+    margin: 2em 0;
+    padding: 1em;
+}
+
 .subtitle {
     font-size: 0.9em;
 }

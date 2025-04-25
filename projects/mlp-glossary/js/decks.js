@@ -280,7 +280,8 @@ const createGlossaryDeckGenerator = function createGlossaryDeckGenerator()
     generatorPanel.id = 'deckGenerator';
 
     for (const propName in dataToId) {
-        const propValues = Object.keys(dataToId[propName]);
+        let propValues = Object.keys(dataToId[propName]);
+        propValues.sort();
         optionRecords = propValues.map(
             propValue => {
                 return {
