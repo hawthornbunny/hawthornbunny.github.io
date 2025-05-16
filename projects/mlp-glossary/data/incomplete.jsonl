@@ -63,26 +63,18 @@ socks
 
 ## IDW Comics
 Anon-A-Miss
-bookworm
 Bramble
-camouflage slug
-Cassie
 Cosmos
 Grootslang
 Kelpie
 King Aspen
 King Vorak
 Medley Brook
-Nightmare Forces
-Nightmare Rarity
 pigasus
-Ponyacci
 Prancy Drew
 Princess Eris
 Rabia
 Radiant Hope
-Secretariat Comet
-Shadowfright
 Tiberius
 umbrum
 Well-to-Do
@@ -103,8 +95,7 @@ Prismia
 ["G3", "character", "Star Beam", "Ponyville mare"]
 ["G3", "character", "Triple Treat", "Ponyville mare"]
 ["G3", "event", "Friendship Ball?", "Evening ball held in Ponyville"]
-["IDW", "character", "Nightmare Rarity", "Rarity's corrupted form when possessed by the Nightmare"]
-["IDW", "character", "Prancy Drew", "Unicorn filly, private investigator"]
-
-["IDW",  "IDW Comics",                          "#79bd55", "Series of comics produced by IDW alongside Friendship is Magic, which features some unique characters and alternate continuity."]
+["G3", "saying", "\"Catch a kite and you catch a wish\"", "Proverb about wish acquisition"]
+["IDW", "character", "Tealove", ""]
 ["G3.5", "Generation 3.5",                      "#e58967", "The animated series from the latter portion of Generation 3, focusing on the Core 7 ponies Cheerilee, Pinkie Pie, Rainbow Dash, Scootaloo, Starsong, Sweetie Belle, and Toola Roola."]
+["G5", "character", "Shimmerwing", "Butterfly guide in the A Maretime Bay Adventure game"]

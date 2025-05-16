@@ -27,7 +27,7 @@ async function initialize()
     let html = "";
     html += '<span class="toggle-box-heading">Media list</span>';
     global.tables.media.forEach((index, record) => {
-        html += `<p><span class="media-box-tag" style="background-color: ${record.color}">${record.abbreviation}</span>: `;
+        html += `<p><span class="media-box-tag" style="background-color: ${record.color}">${record.abbreviation}</span> &mdash; `;
         html += `<strong>${record.name}</strong><br />${record.description}</p>`;
     });
     mediaBox.innerHTML = html;
