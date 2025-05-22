@@ -1,0 +1,96 @@
+html {
+    width: 80%;
+    margin: 0 auto;
+    font-size: 1.1em;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+header {
+    background-color: #3c589c;
+    color: #ffffff;
+    font-size: 3em;
+    padding: 1em;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.7em;
+    margin: 0.5em;
+}
+
+div.tickets {
+    display: flex;
+    flex-direction: column;
+}
+
+div.ticket {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em 0.5em 2em 0.5em;
+    border: 1px solid #808080;
+    padding: 0.5em;
+    box-shadow: 0.25em 0.25em 4px rgba(128, 128, 128, 0.5);
+}
+
+div.ticket img {
+    object-fit: cover;
+    height: 300px;
+    margin: 0 1em 0 0;
+}
+
+p.remaining {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+p.bought {
+    font-weight: bold;
+    color: #008000;
+}
+
+button {
+    display: inline-block;
+    border: none;
+    padding: 1rem 2rem;
+    margin: 0;
+    text-decoration: none;
+    background: #1470af;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, 
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+button:hover,
+button:focus {
+    background: #0053ba;
+}
+
+button:focus {
+    outline: 1px solid #fff;
+    outline-offset: -4px;
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+@media (max-width: 700px) {
+    html {
+        width: 100%;
+        margin: 0;
+    }
+    div.ticket {
+        flex-direction: column;
+    } 
+}
