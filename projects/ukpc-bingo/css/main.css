@@ -1,0 +1,107 @@
+html {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 1.1em;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+header {
+    padding: 2em 0;
+    text-align: center;
+}
+
+.title {
+    font-size: 3em;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.7em;
+    margin: 1em;
+}
+
+table.sheet {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 1px solid #000000;
+    width: 700px;
+    margin: 0 auto;
+}
+/*
+table.sheet tr {
+    height: 5em;
+}
+*/
+
+table.sheet td {
+    border: 1px solid #000000;
+    text-align: center;
+    padding: 0.5em;
+    font-size: 1.1em;
+    user-select: none;
+}
+
+table.sheet td.checked {
+    background-color: #c0f0c0;
+}
+
+table.sheet td:hover {
+    cursor: pointer;
+    background-color: #c0c0c0;
+}
+#buttonPanel {
+    text-align: center;
+    margin: 1em;
+}
+
+table.sheet td.checked:hover {
+    background-color: #a0e0a0;
+}
+button {
+    display: inline-block;
+    border: 1px solid #000000;
+    padding: 1rem 2rem;
+    margin: 0;
+    text-decoration: none;
+    background: #ffffff;
+    color: #000000;
+    font-family: sans-serif;
+    font-size: 1.3rem;
+    cursor: pointer;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+button:hover {
+    background: #c0c0c0;
+}
+
+
+
+@media (max-width: 800px) {
+    html {
+        width: 100%;
+        margin: 0;
+    }
+
+    table.sheet {
+        width: 500px;
+    } 
+
+    table.sheet td {
+        font-size: 0.8em;
+    } 
+}
