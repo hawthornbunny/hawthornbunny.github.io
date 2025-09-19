@@ -94,14 +94,14 @@ button:hover {
 @media (max-width: 800px) {
     html {
         width: 100%;
-        margin: 0;
+        margin: 0 auto;
     }
 
     table.sheet {
-        width: 500px;
+        width: 97%;
     } 
 
     table.sheet td {
-        font-size: 0.8em;
+        font-size: 0.7em;
     } 
 }
