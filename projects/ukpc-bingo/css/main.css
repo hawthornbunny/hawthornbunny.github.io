@@ -46,7 +46,7 @@ table.sheet tr {
 */
 
 table.sheet td {
-    border: 1px solid #000000;
+    border: 2px solid #000000;
     text-align: center;
     padding: 0.5em;
     font-size: 1.1em;
@@ -61,6 +61,7 @@ table.sheet td:hover {
     cursor: pointer;
     background-color: #c0c0c0;
 }
+
 #buttonPanel {
     text-align: center;
     margin: 1em;
@@ -69,6 +70,7 @@ table.sheet td:hover {
 table.sheet td.checked:hover {
     background-color: #a0e0a0;
 }
+
 button {
     display: inline-block;
     border: 1px solid #000000;
@@ -103,5 +105,6 @@ button:hover {
 
     table.sheet td {
         font-size: 0.7em;
+        font-weight: bold;
     } 
 }
