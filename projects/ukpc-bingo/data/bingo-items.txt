@@ -1,13 +1,17 @@
 ## UKPC-specific
 Faolan or Charlie YDM vlogging
+Faolan Cortez with Sparky merch
+New Leaf with Izzy merch
+Lightning Pitch with Thorax merch
 Compare Birmingham and Nottingham
 Nottingham
-Con other than UKPC
+Mascot of a different con
 Take something from freebie table
 Donate something to freebie table
 Bexi snorts
 Bexi cries or mentions crying
-Insulting Ember
+Bexi mentions BTS
+Making fun of Ember
 Yorkshire / the North
 Misspelling in auction slide
 Charity auction bidding war
@@ -29,18 +33,24 @@ Knee high boots
 Extravagant dress
 Rainbow Road
 Duplicates of same Kayou card
-Aldi Sunny
 Wearing pony horn and ears
 Pony footwear
 Human and pony Sunset together
 Bacon hair joke
-Applejack cosplayer wearing denim
-Multiple Britannias
-Mention of pre-2010 UKPC
-Britannia bag
+#Applejack cosplayer wearing denim
 "Family-friendly con" reminder
+Mention of pre-2010 UKPC
 Lanyard from a previous UKPC
-Bexi mentions BTS
+Britannia plushie
+Britannia fursuit
+Multiple Britannias
+Britannia bag
+DC Sparks with at least 4 plushies
+Vendor item costing £300+
+Auction item over £500
+Karaoke song longer than 6 minutes
+Karaoke duet
+Tell Your Tale
 
 ## Pony-specific
 Yay
@@ -63,7 +73,10 @@ Talk to a vendor
 Spent too much
 Oversized plushie
 Plushie in a bag
-Not for sale
+Plushie pile
+Shoulder plushie
+Kirin plushie
+OC plushie
 New insider information from guest
 Pony-themed food or drink
 Cider!
@@ -77,18 +90,13 @@ Tennis ball
 Custom pony figures
 Blind bag
 Standee
-Britannia plushie
-Britannia fursuit
 Pony YouTuber
 Vendor mystery bag
 3D-printed item
 Merch from non-MLP franchise
 Fallout: Equestria
-Plushie pile
-Shoulder plushie
 Stack of 3+ ponies
 Person holding at least 2 plushies
-Karaoke
 Pride flag
 Pride bracelet
 Transgender pride
@@ -101,26 +109,22 @@ Glowstick
 Letter bracelet
 Audience singalong
 Signature
-Kirin plushie
 Bat pony
+Flutterbat
 Pony backpack
 Off-duty musician
 Applejack background pony joke
 Pipp is short
 Inflatable pony
-Pre- and post-reformation Misty
 Gothic pony
-OC plushie
+Pre- and post-reformation Misty
+Mysterious absence of Hitch
 The Unity Crystals
-Vendor item costing £300+
-Auction item over £500
 Auroricorn
 Pony crossover
-DC Sparks with at least 4 plushies
 Rainbow hair or clothing
 Unicorn Twilight
 Wild Manes
-Mysterious absence of Hitch
 G3 My Little Pony logo
 Funko Pop figure
 Someone drawing 
@@ -143,9 +147,12 @@ Mighty Jaxx Dissectible
 IDW comic
 3+ Wonderbolts together
 Glitter!
-Karaoke song longer than 6 minutes
 Party cannon
 Character from the 2017 MLP movie
+Sea pony
+Pony hoodie
+Someone wins at Pony Kart
+Britannia Buddy
 
 ## Convention-specific
 AV staff
@@ -159,7 +166,8 @@ Queueing
 Phone needs charging
 Out of order
 Wet floor / cleaning sign
-Misplaced con book
+Not for sale
+"Do not touch" sign
 Lost item
 Seemingly unattended vendor stall
 Area off-limits
@@ -167,7 +175,7 @@ Bemused non-attendee
 Evidence of previous venue occupants
 Interesting hat
 Camera other than phone
-"Do not touch" sign
+Misplaced con book
 Fancy electronic conbadge
 Conbadge flipped the wrong way
 Wrong room
