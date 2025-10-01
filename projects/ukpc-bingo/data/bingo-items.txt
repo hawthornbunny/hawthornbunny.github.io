@@ -26,6 +26,8 @@ Ridiculously hard quiz question
 Road sign
 Bread
 Pith helmet
+Cowboy hat
+Horseshoe
 On-theme cosplayer
 Wub wub wub
 Vendor in costume 
@@ -45,7 +47,7 @@ Britannia plushie
 Britannia fursuit
 Multiple Britannias
 Britannia bag
-DC Sparks with at least 4 plushies
+#DC Sparks with at least 4 plushies
 Vendor item costing £300+
 Auction item over £500
 Karaoke song longer than 6 minutes
@@ -151,6 +153,7 @@ Party cannon
 Character from the 2017 MLP movie
 Sea pony
 Pony hoodie
+Pony in a hoodie
 Someone wins at Pony Kart
 Britannia Buddy
 
@@ -206,7 +209,6 @@ Drinking tea/coffee
 Not enough sleep
 Something thrown in the air
 Sandwich
-Lego
 #AI
 An actual muffin
 Boba tea

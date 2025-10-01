@@ -4,4 +4,3 @@ function initIndex()
 }
 
 window.onload = initIndex;
-

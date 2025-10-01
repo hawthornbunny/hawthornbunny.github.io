@@ -1,15 +1,6 @@
-## Zenfox-specific
-#Trains (free square)
-#Class 180
-#Captain Scarlet
-#Catch the Pigeon
-#Tickets please
-#1970s public safety films
-#Kaiser Wilhelm
-
 ## Worcester-specific
-#Batman
 #Worcester
+#Batman
 #Swindon
 #Father Ted
 The Trainline
@@ -36,7 +27,8 @@ Flutterdash
 "Oh no"
 Pointedly avoiding a subject
 The £1350 Britannia plushie
-Hawthorn beatboxing or whistling
+Hawthorn beatboxing, tapping, or whistling
 Wetherspoons
 A named rollercoaster
 Culdee!
+Lego
