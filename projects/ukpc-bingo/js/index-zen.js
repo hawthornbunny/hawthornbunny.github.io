@@ -1,6 +1,6 @@
 function initIndex()
 {
-    initialize("data/zen-bingo-items.txt");
+    initialize("zen", "data/zen-bingo-items.txt");
 }
 
 window.onload = initIndex;

@@ -1,6 +1,6 @@
 function initIndex()
 {
-    initialize("data/bingo-items.txt");
+    initialize("main", "data/bingo-items.txt");
 }
 
 window.onload = initIndex;

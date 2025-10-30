@@ -1,8 +1,9 @@
+var bingoNamespace = undefined;
 var loadedItems = [];
 var items = [];
 var checked = [];
 
-async function initialize(...dataUrls)
+async function initialize(namespace, ...dataUrls)
 {
     const sheetDiv = document.querySelector("#sheet");
     const genButton = document.querySelector("#generateButton");
@@ -10,22 +11,31 @@ async function initialize(...dataUrls)
         throw new Error("Cannot initialize application - the initialize function must be called with one or more data urls");
     }
 
+    if (namespace === undefined) {
+        throw new Error("Cannot initialize application - the initialize function must be called with a bingo namespace to identify the variant");
+    }
+
+    bingoNamespace = namespace;
+
     for (let i = 0; i < dataUrls.length; i++) {
         const fileItems = await loadBingoItems(dataUrls[i]);
         loadedItems = loadedItems.concat(fileItems);
     }
             
-    //loadedItems = await loadBingoItems("data/bingo-items.txt");
-
     // Load bingo sheet state from local storage if present.
     // Object destructuring syntax requires parentheses
-    ({items, checked} = loadState());
+    const state = loadState(bingoNamespace);
+    console.log(state);
+    console.log(items);
+    if (state !== null) {
+        ({items, checked} = state);
+    }
 
     // Generate randomized bingo sheet if none saved
-    if (items === null) {
+    if (items.length === 0) {
         initItems();
     }
-    if (checked === null) {
+    if (checked.length === 0) {
         initChecked();
     }
 
@@ -127,42 +137,50 @@ function handleCheck(evt)
         checked[squareIdx] = true;
     }
 
-    saveState();
+    saveState(bingoNamespace);
 }
 
 function handleGenerate(evt)
 {
     const sheetDiv = document.querySelector("#sheet");
 
-    localStorage.clear();
+    localStorage.removeItem(bingoNamespace);
     initItems();
     initChecked();
     drawBingoSheet(sheetDiv);
 }
 
 /**
- * Load bingo sheet state from local storage if present
+ * Load bingo sheet state from local storage if present.
+ *
  */
-function loadState()
+function loadState(namespace)
 {
-    function getJson(key) {
-        const json = localStorage.getItem(key);
-        if (json !== null) {
-            return JSON.parse(json);
-        }
+    const json = localStorage.getItem(namespace);
+    if (json === null) {
         return null;
     }
 
-    return {
-        "items": getJson("items"),
-        "checked": getJson("checked"),
-    }
+    return JSON.parse(json);
 }
 
-function saveState()
+/**
+ * Save the current bingo sheet items (including which ones are checked) to
+ * local storage, so that the sheet can be recreated if the page is refreshed.
+ *
+ * localStorage is specific to the document's web domain - this means that
+ * different pages will still use the same local storage. That caused a problem
+ * before when I had multiple different bingo variants on the same domain. To
+ * fix this, a namespace must be supplied to identify the variant.
+ */
+function saveState(namespace)
 {
-    localStorage.setItem("items", JSON.stringify(items));
-    localStorage.setItem("checked", JSON.stringify(checked));
+    const state = {
+        "items": items,
+        "checked": checked,
+    };
+
+    localStorage.setItem(namespace, JSON.stringify(state));
 }
 
 function sample(items, amount)
