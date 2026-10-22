@@ -1,9 +1,10 @@
 ## Worcester-specific
 #Worcester
-#Batman
 #Swindon
-#Father Ted
-The Trainline
+#Culdee!
+#The Trainline
+Batman
+Father Ted reference
 Zen uses "this one" to refer to a person
 Chase the Ace
 Custard
@@ -30,5 +31,4 @@ The £1350 Britannia plushie
 Hawthorn beatboxing, tapping, or whistling
 Wetherspoons
 A named rollercoaster
-Culdee!
 Lego

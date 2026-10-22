@@ -12,7 +12,7 @@ body {
 }
 
 header {
-    padding: 2em 0;
+    padding: 1em 0;
     text-align: center;
 }
 
@@ -24,6 +24,11 @@ header {
 .subtitle {
     font-size: 1.5em;
     margin: 0;
+}
+
+#description {
+    text-align: center;
+    padding: 2em 0;
 }
 
 footer {

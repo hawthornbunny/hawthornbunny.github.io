@@ -25,8 +25,6 @@ async function initialize(namespace, ...dataUrls)
     // Load bingo sheet state from local storage if present.
     // Object destructuring syntax requires parentheses
     const state = loadState(bingoNamespace);
-    console.log(state);
-    console.log(items);
     if (state !== null) {
         ({items, checked} = state);
     }
@@ -38,6 +36,12 @@ async function initialize(namespace, ...dataUrls)
     if (checked.length === 0) {
         initChecked();
     }
+
+    // Save bingo sheet state so that it persists after a refresh (previously,
+    // I only saved the state after the player checks their first square, but
+    // I've changed it so that you have to press the "Generate another" button
+    // to get a new sheet).
+    saveState(bingoNamespace);
 
     // Add click handler for generate button
     genButton.addEventListener("click", handleGenerate);
@@ -60,7 +64,8 @@ function initChecked()
 }
 
 /**
- * Load bingo items from text file, ignore empty lines and lines starting with #
+ * Load bingo items from text file, trim any space from start/end of lines.
+ * After trimming, ignore empty lines and lines starting with #.
  */
 async function loadBingoItems(url)
 {
@@ -101,12 +106,14 @@ function drawBingoSheet(container)
         for (let i = 0; i < 5; i++) {
             const sheetCell = document.createElement('td');
             sheetCell.innerHTML = items[itemIdx];
+
             //if (itemIdx === 12) {
                 //sheetCell.innerHTML = "<strong>FREE</strong>";
             //}
 
             if (checked[itemIdx]) {
                 sheetCell.className = "checked";
+                setSquareColor(sheetCell, itemIdx);
             }
             sheetCell.dataset.idx = itemIdx;
             sheetCell.addEventListener("click", handleCheck);
@@ -121,6 +128,29 @@ function drawBingoSheet(container)
 }
 
 /**
+ * Set the given square's background to a color depending on its index (0 to
+ * 24).
+ */
+function setSquareColor(element, idx)
+{
+    const [h, s, l] = calcSquareColor(idx);
+    element.style.backgroundColor = `hsl(${h}, ${s}%, ${l}%)`;
+}
+
+/**
+ * Return an HSL triplet representing the color for the bingo square at the
+ * given index (0 to 24).
+ */
+function calcSquareColor(idx)
+{
+    const h = 360 * (idx / 25);
+    const s = 50;
+    const l = 80;
+
+    return [h, s, l];
+}
+
+/**
  * Handle checking of bingo square
  */
 function handleCheck(evt)
@@ -131,9 +161,11 @@ function handleCheck(evt)
     // Toggle square, save state
     if (square.className === "checked") {
         square.className = "";
+        square.style.backgroundColor = "";
         checked[squareIdx] = false;
     } else {
         square.className = "checked";
+        setSquareColor(square, squareIdx);
         checked[squareIdx] = true;
     }
 
@@ -147,6 +179,7 @@ function handleGenerate(evt)
     localStorage.removeItem(bingoNamespace);
     initItems();
     initChecked();
+    saveState(bingoNamespace);
     drawBingoSheet(sheetDiv);
 }
 
