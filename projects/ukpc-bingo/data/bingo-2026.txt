@@ -138,7 +138,6 @@
     3+ Wonderbolts together
     Character from the 2017 MLP movie
     Pre- and post-reformation Misty
-    Mysterious absence of Hitch
 
     ### Generations
     Generation 1
@@ -291,3 +290,4 @@
 #Applejack background pony joke
 #Use a lift
 #Mayonnaise / Bing bong
+#Mysterious absence of Hitch

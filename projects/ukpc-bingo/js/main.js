@@ -101,19 +101,12 @@ function drawBingoSheet(container)
     const sheetTable = document.createElement('table');
     sheetTable.className = "sheet";
 
-    // Perform the same media query as the CSS stylesheet to check if the bingo
-    // sheet is being viewed on a mobile device. If so, there is some special
-    // dynamic text-resizing behavior for small texts.
-    const mq = window.matchMedia("(max-width: 800px)");
-    const isMobile = mq.matches;
-
     let itemIdx = 0;
     for (let j = 0; j < 5; j++) {
         const sheetRow = document.createElement('tr');
         for (let i = 0; i < 5; i++) {
             const sheetCell = document.createElement('td');
             const item = items[itemIdx];
-            const isShortItem = item.length <= 14;
             sheetCell.innerHTML = item;
 
             //if (itemIdx === 12) {
@@ -125,10 +118,8 @@ function drawBingoSheet(container)
                 setSquareColor(sheetCell, itemIdx);
             }
 
-            if (isMobile && isShortItem) {
-                sheetCell.classList.add("large");
-            }
-                
+            setSquareTextSize(sheetCell, itemIdx);
+
             sheetCell.dataset.idx = itemIdx;
             sheetCell.addEventListener("click", handleCheck);
 
@@ -149,6 +140,25 @@ function setSquareColor(element, idx)
 {
     const [h, s, l] = calcSquareColor(idx);
     element.style.backgroundColor = `hsl(${h}, ${s}%, ${l}%)`;
+}
+
+/**
+ * Set the text size of the square's item depending on its content, and whether
+ * the app is in mobile mode or not.
+ */
+function setSquareTextSize(element, idx)
+{
+    // Perform the same media query as the CSS stylesheet to check if the bingo
+    // sheet is being viewed on a mobile device. If so, there is some special
+    // dynamic text-resizing behavior for small texts.
+    const mq = window.matchMedia("(max-width: 800px)");
+    const isMobile = mq.matches;
+    const item = items[idx];
+    const isShortItem = item.length <= 14;
+
+    if (isMobile && isShortItem) {
+        element.classList.add("large");
+    }
 }
 
 /**
@@ -173,13 +183,14 @@ function handleCheck(evt)
     const squareIdx = square.dataset.idx
 
     // Toggle square, save state
-    if (square.className === "checked") {
-        square.className = "";
+    if (square.classList.contains("checked")) {
+        square.classList.remove("checked");
         square.style.backgroundColor = "";
         checked[squareIdx] = false;
     } else {
-        square.className = "checked";
+        square.classList.add("checked");
         setSquareColor(square, squareIdx);
+        setSquareTextSize(square, squareIdx);
         checked[squareIdx] = true;
     }
 
