@@ -62,6 +62,7 @@
     Off-duty musician
     Someone drawing 
     Guest VA uses character voice
+    Non-pony OC
 
     ### Cosplay/clothing
     Vendor in costume 
@@ -83,7 +84,9 @@
     Blind bag
     Standee
     Glowstick
+    Glowstick ring
     Kandi/letter bracelet
+    5+ bracelets on same arm
     Signature
     Pony backpack
     Funko Pop figure
@@ -111,7 +114,9 @@
     ### Non-MLP franchises
     Hasbro franchise other than MLP
     MLP crossover with something else
+    Pokémon
     The Amazing Digital Circus
+    Helluva Boss / Hazbin Hotel
     "My Little Pony" in a different language
 
     ### Miscellaneous
@@ -148,6 +153,7 @@
     Generation 6
     Newborn Cuties
     Pony Life
+    G1 rainbow logo
     G3 My Little Pony logo
     Comparing two MLP generations
     G6 character / art style
@@ -180,7 +186,7 @@
     Party cannon
 
     ### Pony variants
-    Gothic pony
+    Gothic/emo pony
     Bat pony
     Sea pony
     Pony in a hoodie
