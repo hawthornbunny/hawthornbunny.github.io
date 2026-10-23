@@ -74,7 +74,6 @@
     Rainbow hair or clothing
     Cowboy hat
     Wearing pony horn and ears
-    Lolita fashion
     Cutie Mark on costume
     Wings as part of cosplay 
     Pony hoodie
@@ -85,7 +84,7 @@
     Standee
     Glowstick
     Glowstick ring
-    Kandi/letter bracelet
+    Kandi / letter bracelet
     5+ bracelets on same arm
     Signature
     Pony backpack
@@ -186,7 +185,7 @@
     Party cannon
 
     ### Pony variants
-    Gothic/emo pony
+    Gothic / emo pony
     Bat pony
     Sea pony
     Pony in a hoodie
@@ -297,3 +296,4 @@
 #Use a lift
 #Mayonnaise / Bing bong
 #Mysterious absence of Hitch
+#Lolita fashion
