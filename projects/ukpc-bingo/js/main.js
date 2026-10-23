@@ -2,6 +2,7 @@ var bingoNamespace = undefined;
 var loadedItems = [];
 var items = [];
 var checked = [];
+var isMobile = false;
 
 async function initialize(namespace, ...dataUrls)
 {
@@ -21,7 +22,7 @@ async function initialize(namespace, ...dataUrls)
         const fileItems = await loadBingoItems(dataUrls[i]);
         loadedItems = loadedItems.concat(fileItems);
     }
-            
+
     // Load bingo sheet state from local storage if present.
     // Object destructuring syntax requires parentheses
     const state = loadState(bingoNamespace);
@@ -100,21 +101,34 @@ function drawBingoSheet(container)
     const sheetTable = document.createElement('table');
     sheetTable.className = "sheet";
 
+    // Perform the same media query as the CSS stylesheet to check if the bingo
+    // sheet is being viewed on a mobile device. If so, there is some special
+    // dynamic text-resizing behavior for small texts.
+    const mq = window.matchMedia("(max-width: 800px)");
+    const isMobile = mq.matches;
+
     let itemIdx = 0;
     for (let j = 0; j < 5; j++) {
         const sheetRow = document.createElement('tr');
         for (let i = 0; i < 5; i++) {
             const sheetCell = document.createElement('td');
-            sheetCell.innerHTML = items[itemIdx];
+            const item = items[itemIdx];
+            const isShortItem = item.length <= 14;
+            sheetCell.innerHTML = item;
 
             //if (itemIdx === 12) {
                 //sheetCell.innerHTML = "<strong>FREE</strong>";
             //}
 
             if (checked[itemIdx]) {
-                sheetCell.className = "checked";
+                sheetCell.classList.add("checked");
                 setSquareColor(sheetCell, itemIdx);
             }
+
+            if (isMobile && isShortItem) {
+                sheetCell.classList.add("large");
+            }
+                
             sheetCell.dataset.idx = itemIdx;
             sheetCell.addEventListener("click", handleCheck);
 

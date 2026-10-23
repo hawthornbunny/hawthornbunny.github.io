@@ -112,4 +112,9 @@ button:hover {
         font-size: 0.7em;
         font-weight: bold;
     } 
+
+    table.sheet td.large {
+        font-size: 0.85em;
+    }
+
 }
