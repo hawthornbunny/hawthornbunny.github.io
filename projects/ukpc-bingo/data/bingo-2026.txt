@@ -192,7 +192,7 @@
 
     ### Pony variants
     Gothic / emo pony
-    Bat pony
+    Bat pony other than Flutterbat
     Sea pony
     Pony in a hoodie
 
