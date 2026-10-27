@@ -35,10 +35,12 @@
     Pumpkin
     Spooky bat
     Spooky ghost
-    Skeleton
+    Spooky skeleton
+    Spooky spider
     Both Trick + Treat messenger bags
-    Nightmare Moon / Nightmarity
+    Nightmare Moon or Nightmarity
     Ga-Ga-Ga-Ga-Ga-GalaCon
+    Stamp rally vendor
 
     ### Britannia
     Britannia plushie
@@ -79,6 +81,8 @@
     Pony hoodie
 
     ### Items
+    8+ ponies in a row
+    Pony in a box
     Custom pony figures
     Blind bag
     Standee
@@ -152,6 +156,7 @@
     Generation 6
     Newborn Cuties
     Pony Life
+    Equestria Girls
     G1 rainbow logo
     G3 My Little Pony logo
     Comparing two MLP generations
@@ -183,6 +188,7 @@
     20% cooler
     Glitter!
     Party cannon
+    Sunset Shimmer
 
     ### Pony variants
     Gothic / emo pony
@@ -259,11 +265,12 @@
     Tea or coffee
     Not enough sleep
     Something thrown in the air
-    Sandwich
-    Muffin (real or fake)
-    Boba tea
-    Graffiti (artistic or otherwise)
 
+## Other
+Sandwich
+Muffin (real or fake)
+Boba tea
+Graffiti (artistic or otherwise)
 
 ## Removed for 2026
 #New Leaf with Izzy merch
