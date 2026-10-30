@@ -22,6 +22,8 @@
  * same character from different media.
  ******************************************************************************/
 
+var tables = {};
+
 var global = {
     // A collection of glossary records, indexed by a unique key. Using an index
     // enables us to cross-reference glossary entries with other tables, and it
@@ -56,7 +58,7 @@ var global = {
     // glossary items. For example, one of these patterns will detect the "Mr. "
     // part of "Mr. Cake", and automatically generate the aliases "Mr Cake" and
     // "Mister Cake", if they aren't already specified in the aliases file.
-    'autoAliases': {
+    "autoAliases": {
         " & ": [" and "],
         " 'n' ": [" and "],
         "^Dr\\. ": ["Dr ", "Doctor "],
@@ -94,15 +96,17 @@ const startApplication = async function startApplication()
 const loadGlossary = async function loadGlossary()
 {
     // Load all data tables.
-    const glossaryRecords = await fetchJsonl(global.urls.glossary);
-    const aliasRecords = await fetchJsonl(global.urls.aliases);
-    const mediaRecords = await fetchJsonl(global.urls.media);
-    const categoryRecords = await fetchJsonl(global.urls.categories);
+    const loadedRecords = {
+        glossary: await fetchJsonl(global.urls.glossary),
+        aliases: await fetchJsonl(global.urls.aliases),
+        media: await fetchJsonl(global.urls.media),
+        categories: await fetchJsonl(global.urls.categories),
+    };
 
     // Check if any glossary entries are missing any fields, and raise an error
     // if any are. This helps to catch oversights in the glossary.
     const incompleteRecords = getRecordsWithEmptyFields(
-        glossaryRecords, 'media', 'category', 'item', 'description'
+        loadedRecords.glossary, 'media', 'category', 'item', 'description'
     );
 
     if (incompleteRecords.length > 0) {
@@ -110,147 +114,174 @@ const loadGlossary = async function loadGlossary()
         throw new Error(`Cannot load glossary; some records are missing field values: ${recordsWithEmptyFieldsLabels.join(', ')}`);
     }
 
-    // Build the glossary and alias indices.
-    const indexedGlossary = indexRecords(glossaryRecords, 'media', 'category', 'item');
-    const indexedAliases = indexRecords(aliasRecords, 'media', 'category', 'item');
-    //tables.glossary = new Table(
-        //"glossary",
-        //["media", "category", "item", "description"],
-        //["media", "category", "item"]
-    //)
+    // Create all tables.
+    tables.glossary = new Table(
+        ["media", "category", "item", "description"],
+        ["media", "category", "item"]
+    );
 
-    // Create a mapping from alias entries to the keys of the glossary records
-    // they are aliases for.
-    const aliasesToGlossary = {};
-    for (const key in indexedAliases) {
-        const aliasRecord = indexedAliases[key];
+    tables.media = new Table(
+        ["abbreviation", "name", "color", "description"],
+        ["abbreviation"]
+    );
 
-        // Any key in the aliases table must also be in the glossary; if it
-        // isn't, then we could end up trying to look up a nonexistent glossary
-        // key, which we don't want. Throw an error if a nonexistent key is
-        // detected.
-        if (indexedGlossary[key] === undefined) {
-            throw new Error(`Cannot load aliases; alias "${aliasRecord.item} (${aliasRecord.media})" does not have a corresponding glossary record`);
+    tables.categories = new Table(
+        ["category", "description"],
+        ["category"]
+    );
+
+    // Create a table that maps glossary items to aliases.
+    tables.glossaryAliases = new Table(
+        ["media", "category", "item", "alias"],
+        ["media", "category", "item", "alias"]
+    )
+
+    // Add the glossary's relationships to other tables.
+    tables.glossary.addRelation("category", tables.categories, ["category"]);
+    tables.glossary.addRelation("media", tables.media, ["media"]);
+
+    // Add a relationship mapping the glossaryAliases table to the glossary.
+    tables.glossaryAliases.addRelation(
+        "glossary", tables.glossary, ["media", "category", "item"]
+    );
+
+    // Add the loaded records to each table. The order matters here: categories
+    // and media must be populated first, so that the glossary can fetch related
+    // records from those tables when it gets populated.
+    const addRecords = tableName => {
+        const table = tables[tableName];
+        const records = loadedRecords[tableName];
+        for (let i=0; i < records.length; i++) {
+            table.add(records[i]);
+        }
+    };
+    addRecords("categories");
+    addRecords("media");
+    addRecords("glossary");
+
+    // Populate the glossary aliases mapping table. It stores one record for
+    // each alias (unlike the aliases.json data, which stores all the aliases for a given
+    // glossary item in the same array for compactness). 
+    for (let i=0; i < loadedRecords.aliases.length; i++) {
+        const loadedAliasRecord = loadedRecords.aliases[i];
+
+        // Throw an error if the glossary table does not contain a record
+        // corresponding to this alias.
+        if (!tables.glossary.has([loadedAliasRecord.media, loadedAliasRecord.category, loadedAliasRecord.item])) {
+            throw new Error(`Cannot load aliases - alias record "${loadedAliasRecord.item} (${loadedAliasRecord.media})" does not have a corresponding glossary record`);
         }
 
-        for (let i = 0; i < aliasRecord.aliases.length; i++) {
-            const alias = aliasRecord.aliases[i];
-            aliasesToGlossary[alias] = key;
+        const aliases = loadedAliasRecord.aliases;
+        // Check if aliases is an array (which does have typeof "object", for
+        // some reason). This picks up on the common mistake of forgetting to
+        // use an array in aliases.json.
+        if (typeof(aliases) !== "object") {
+            throw new Error(`Cannot load aliases - alias record "${loadedAliasRecord.item} (${loadedAliasRecord.media})" does not specify a list of aliases`);
+        }
+
+        for (let j=0; j < aliases.length; j++) {
+            const alias = aliases[j];
+            tables.glossaryAliases.add({
+                media: loadedAliasRecord.media,
+                category: loadedAliasRecord.category,
+                item: loadedAliasRecord.item,
+                alias: alias
+            });
         }
     }
 
-    // Auto-generate alias entries for glossary items that match any of the
+    // Auto-generate alias records for glossary items that match any of the
     // auto-alias patterns.
-    const autoAliasesToGlossary = {};
     for (const pattern in global.autoAliases) {
         const regexp = new RegExp(pattern);
         const aliasReplacements = global.autoAliases[pattern];
-        for (const glossaryKey in indexedGlossary) {
-            const itemName = indexedGlossary[glossaryKey].item;
-            if (!regexp.test(itemName)) {
+        for (let i = 0; i < loadedRecords.glossary.length; i++) {
+            const record = loadedRecords.glossary[i];
+
+            if (!regexp.test(record.item)) {
                 continue;
             }
 
-            // If this index item matched the auto-alias regexp, generate
+            // If this glossary item matched an auto-alias regexp, generate
             // aliases by replacing the pattern with the corresponding
             // replacements.
-            const autoAliases = aliasReplacements.map(a => itemName.replace(regexp, a));
-
+            const autoAliases = aliasReplacements.map(
+                a => record.item.replace(regexp, a)
+            );
+            
+            // Add an alias record for each auto-generated alias.
             for (let i=0; i < autoAliases.length; i++) {
                 const autoAlias = autoAliases[i];
-                autoAliasesToGlossary[autoAlias] = glossaryKey;
+
+                // Raise a warning if the auto-generated alias has already been
+                // added - this suggests it's been redundantly defined in the
+                // aliases file.
+                if (tables.glossaryAliases.has([record.media, record.category, record.item, autoAlias])) {
+                    console.warn(`Auto-generated alias "${autoAlias}" already defined in aliases file`);
+                }
+
+                tables.glossaryAliases.add({
+                    media: record.media,
+                    category: record.category,
+                    item: record.item,
+                    alias: autoAlias
+                });
             }
         }
     }
 
-    // Merge the auto-aliases into the aliases obtained from the aliases file.
-    // Raise a warning if we detect that the aliases file contains an alias that
-    // would be generated automatically.
-    for (autoAlias in autoAliasesToGlossary) {
-        const glossaryKey = autoAliasesToGlossary[autoAlias];
-        if (aliasesToGlossary[autoAlias] === undefined) {
-            aliasesToGlossary[autoAlias] = glossaryKey;
-        } else {
-            console.warn(`Auto-generated alias "${autoAlias}" already defined in aliases file`);
-        }
-    }
-
-    // Validate the media and category properties on each glossary entry. Throw
-    // an error if any unknown media values are found. Also keep a count of how
-    // many times each property is used in the glossary, so that we can identify
-    // unused ones.
-    const permittedPropertyValues = {
-        'media': mediaRecords.map(record => record.abbreviation),
-        'category': categoryRecords.map(record => record.category),
+    // Validate each glossary record. Throw an error if the record references
+    // an unknown media or category. Also count how many times each media or
+    // category is referenced.
+    const validations = {
+        media: {
+            table: tables.media,
+            relationName: "media",
+            propertyCounts: {},
+        },
+        category: {
+            table: tables.categories,
+            relationName: "category",
+            propertyCounts: {},
+        },
     };
-    const propertyCounts = {
-        'media': {},
-        'category': {},
-    };
-     
-    for (const propertyName in permittedPropertyValues) {
-        const permittedValues = permittedPropertyValues[propertyName];
-        for (const key in indexedGlossary) {
-            const glossaryRecord = indexedGlossary[key];
-            const glossaryValue = glossaryRecord[propertyName];
-            if (!contains(permittedValues, glossaryValue)) {
-                throw new Error(`Validation failure; invalid ${propertyName} value "${glossaryValue}" for glossary record ${key}`);
+            
+    tables.glossary.forEach(record => {
+        for (fieldName in validations) {
+            // The glossary has relationships with the media and category
+            // tables, so we should be able to find every referenced media and
+            // category via those relations. Throw an error if not.
+            const validation = validations[fieldName];
+            const relationName = validation.relationName;
+            const relatedRecord = record._rel[relationName];
+            const fieldValue = record[fieldName];
+            if (relatedRecord === undefined) {
+                throw new Error(`Validation failure - unknown ${fieldName} "${fieldValue}" for glossary record "${record.item} (${record.media})"`);
             }
 
-            if (propertyCounts[propertyName][glossaryValue] === undefined) {
-                propertyCounts[propertyName][glossaryValue] = 0;
-            }
+            const propertyCounts = validation.propertyCounts;
 
-            propertyCounts[propertyName][glossaryValue]++;
+            if (propertyCounts[fieldValue] === undefined) {
+                propertyCounts[fieldValue] = 0;
+            }
+            propertyCounts[fieldValue]++;
         }
-    }
-
-    // Check if there are any media or category property values that aren't
-    // being used, or which contain characters that are reserved for delimiters.
-    const validatedProperties = {};
-
-    for (const propertyName in permittedPropertyValues) {
-        //if (propertyName.includes('_')) {
-            //throw new Error(`Validation error: ${propertyName} contains the character "_", which is a reserved delimiter`);
-        //}
-        const permittedValues = permittedPropertyValues[propertyName];
-        const propertyCount = propertyCounts[propertyName];
-        const usedValues = Object.keys(propertyCount);
-        
-        validatedProperties[propertyName] = usedValues;
-        for (let i = 0; i < permittedValues.length; i++) {
-            const permittedValue = permittedValues[i];
-            if (!contains(usedValues, permittedValue)) {
-                throw new Error(`Validation error: ${propertyName} value "${permittedValue}" is defined but not used in the glossary`);
-            }
-            //if (permittedValue.includes('_')) {
-                //throw new Error(`Validation error: ${propertyName} value "${permittedValue}" contains the character "_", which is a reserved delimiter`);
-            //}
-        }
-    }
-
-    // Check that the property names aren't using any invalid characters. We
-    // reserve some characters for use as delimiters.
-    for (const propertyName in validatedProperties) {
-    }
-
-    // Build a collection of media types (e.g. FiM, G5), indexed by
-    // abbreviation. (I'm using the Table class for this, as a test of the
-    // concept).
-    global.tables.media = new Table(
-        "media",
-        ["abbreviation", "name", "color", "description"],
-        ["abbreviation"],
-    );
-
-    mediaRecords.forEach(record => {
-        global.tables.media.add(record);
     });
 
-
-    global.indexedGlossary = indexedGlossary;
-    global.aliasesToGlossary = aliasesToGlossary;
-    global.validatedProperties = validatedProperties;
+    // Check if there are any media or category property values which were not
+    // referenced by any glossary entry.
+    for (fieldName in validations) {
+        const validation = validations[fieldName];
+        const propertyCounts = validation.propertyCounts;
+        const usedValues = Object.keys(propertyCounts);
+        validation.table.forEach(record => {
+            const recordIndex = validation.table.deriveRecordIndex(record);
+            const fieldValue = recordIndex[0];
+            if (!contains(usedValues, fieldValue)) {
+                throw new Error(`Validation error: ${fieldName} value "${fieldValue}" is defined but not used in the glossary`);
+            }
+        });
+    }
 };
 
 /**
@@ -268,9 +299,8 @@ const loadPremadeDecks = async function loadPremadeDecks()
         const deck = decks[i];
         for (let j = 0; j < deck.items.length; j++) {
             const item = deck.items[j];
-            const itemKey = makeCompositeKey(...item);
-            if (global.indexedGlossary[itemKey] === undefined) {
-                throw new Error(`Cannot load deck "${deck.name}"; key ${itemKey} was not found in glossary`);
+            if (!tables.glossary.has(item)) {
+                throw new Error(`Cannot load deck "${deck.name}"; item "${item[0]}, ${item[1]}, ${item[2]}" was not found in glossary`);
             }
         }
         premadeDecks[deck.name] = deck;
@@ -303,8 +333,9 @@ const fetchJsonl = async function fetchJsonl(url)
 };
 
 /**
- * Parse a string in JSON Lines (jsonl) format and return the data array parsed
- * from it.
+ * Parse a JSON Lines (jsonl) string as a list of record objects. The header
+ * line must contain the field names. All subsequent lines are the field values
+ * for each record.
  *
  * @param {string} jsonl
  * @return {Object[]}
@@ -449,65 +480,67 @@ const getRecordsWithEmptyFields = function getRecordsWithEmptyFields(records, ..
 };
 
 /**
- * Search the given indexed glossary for the given string, and return an array
- * of search result objects. Also search the given alias-to-glossary mapping and
- * include any additional results obtained from that, along with the specific
- * aliases that were matched for each.
+ * Search the provided glossary table, and glossary aliases table, for the given
+ * term. Create search results from any matching records. If a record was found
+ * via an alias, include any such aliases in that result.
  *
- * @param {string} string
- * @param {Object} indexedGlossary
- * @param {Object} aliasesToGlossary
- * @return {SearchResult[]}
+ * @param {string} term
+ * @param {Table} glossary
+ * @param {Table} glossaryAliases
+ * @return {Object[]}
  */
-const getSearchResults = function getSearchResults(string, indexedGlossary, aliasesToGlossary)
+const getSearchResults = function getSearchResults(term, glossary, glossaryAliases)
 {
-    // Create an object to hold the search results, indexed by glossary key.
-    // Indexing it ensures the search results are unique, and allows us to add
-    // alias information to results if any of them are the result of an alias.
-    const indexedSearchResults = {}; 
-    const aliasedSearchResults = {}; 
-
     // Search the glossary for all matching records, and the alias mappings for
     // all matching aliases.
-    const matchingGlossaryKeys = getKeysForMatchingRecords(string, 'item', indexedGlossary);
-    const matchingAliases = getMatchingAliases(string, aliasesToGlossary);
+    const glossaryMatches = glossary.where("item", term);
+    const aliasMatches = glossaryAliases.where("alias", term);
 
-    // Add the matching glossary records first, as these require no processing.
-    for (let i = 0; i < matchingGlossaryKeys.length; i++) {
-        const key = matchingGlossaryKeys[i];
-        const record = indexedGlossary[key];
-        const searchResult = new SearchResult(record.media, record.category, record.item, record.description);
-        indexedSearchResults[key] = searchResult;
+    // Create a temporary table for the search results.
+    const searchResults = new Table(
+        ["media", "category", "item", "description", "aliases"],
+        ["media", "category", "item"]
+    );
+
+    // Add search results for the matching glossary records first.
+    for (let i = 0; i < glossaryMatches.length; i++) {
+        const glossaryRecord = glossaryMatches[i];
+        searchResults.add({
+            media: glossaryRecord.media,
+            category: glossaryRecord.category,
+            item: glossaryRecord.item,
+            description: glossaryRecord.description,
+            aliases: []
+        });
     }
 
-    // Add the aliased records. If the aliased record was already found in the
-    // glossary, ignore it. If the aliased record was already found under a
-    // different alias, add this new alias to its list.  Otherwise, add the
-    // aliased record and add this alias to its list.
-    for (const alias in matchingAliases) {
-        const glossaryKey = matchingAliases[alias];
-        assert(glossaryKey !== undefined, alias);
+    // Add results for any aliased records that were found.
+    for (let i = 0; i < aliasMatches.length; i++) {
+        const alias = aliasMatches[i];
+        const aliasedRecord = alias._rel.glossary;
 
-        if (indexedSearchResults[glossaryKey] !== undefined) {
-            continue;
-        }
-
-        let searchResult = aliasedSearchResults[glossaryKey];
+        // Search the already-found results to see if we already have a match
+        // for this alias. If we do, add this alias to that result, otherwise
+        // create a new search result and add this alias.
+        const index = glossary.deriveRecordIndex(aliasedRecord);
+        let searchResult = searchResults.get(index);
         if (searchResult === undefined) {
-            const record = indexedGlossary[glossaryKey];
-            searchResult = new SearchResult(record.media, record.category, record.item, record.description);
-        }
+            searchResult = {
+                media: aliasedRecord.media,
+                category: aliasedRecord.category,
+                item: aliasedRecord.item,
+                description: aliasedRecord.description,
+                aliases: []
+            };
+            searchResults.add(searchResult);
+        };
 
-        searchResult.addAlias(alias);
-        aliasedSearchResults[glossaryKey] = searchResult;
+        searchResult.aliases.push(alias.alias);
     }
 
-    for (const key in aliasedSearchResults) {
-        indexedSearchResults[key] = aliasedSearchResults[key];
-    }
+    // Return a list of the records from the search result table.
 
-    return indexedSearchResults;
-
+    return searchResults.all();
 };
 
 /**
@@ -527,6 +560,8 @@ const getKeysForMatchingRecords = function getKeysForMatchingRecords(string, fie
 };
 
 /**
+ * Search the aliasToGlossary table for aliases that match the given string
+ *
  * Search the alias-to-glossary mapping for the given string, and return an
  * alias-to-glossary mapping for only those aliases that match the string.
  *
@@ -579,57 +614,4 @@ function hasMatchingField(record, field, value)
 function isPartialStringMatch(stringA, stringB)
 {
     return stringB.toLowerCase().includes(stringA.toLowerCase());
-}
-
-/*******************************************************************************
- * Tests
- ******************************************************************************/
-function test()
-{
-    testIndexRecords();
-    testDecomposeHexColor();
-}
-
-function testIndexRecords()
-{
-    let records = [
-        {'media': 'FiM', 'category': 'character', 'item': 'Angel Bunny'},
-        {'media': 'FiM', 'category': 'character', 'item': 'Fluttershy'},
-        {'media': 'FiM', 'category': 'group', 'item': 'Power Ponies'},
-        {'media': 'EqG', 'category': 'group', 'item': 'Shadowbolts'},
-        {'media': 'EqG', 'category': 'character', 'item': 'Fluttershy'},
-        {'media': 'G5', 'category': 'species', 'item': 'bunnicorn'},
-    ];
-
-
-    let indexedRecords = indexRecords(records, 'media', 'category', 'item');
-
-    assert(indexedRecords['FiM-character-Angel Bunny'] !== undefined);
-    assert(indexedRecords['FiM-character-Fluttershy'] !== undefined);
-    assert(indexedRecords['FiM-group-Power Ponies'] !== undefined);
-    assert(indexedRecords['EqG-group-Shadowbolts'] !== undefined);
-    assert(indexedRecords['EqG-character-Fluttershy'] !== undefined);
-    assert(indexedRecords['G5-species-bunnicorn'] !== undefined);
-
-    assert(indexedRecords['FiM-character-Angel Bunny'].media === 'FiM');
-    assert(indexedRecords['FiM-character-Angel Bunny'].category === 'character');
-    assert(indexedRecords['FiM-character-Angel Bunny'].item === 'Angel Bunny');
-    assert(indexedRecords['FiM-character-Fluttershy'].item === 'Fluttershy');
-    assert(indexedRecords['FiM-group-Power Ponies'].item === 'Power Ponies');
-    assert(indexedRecords['EqG-group-Shadowbolts'].item === 'Shadowbolts');
-    assert(indexedRecords['EqG-character-Fluttershy'].item === 'Fluttershy');
-    assert(indexedRecords['G5-species-bunnicorn'].item === 'bunnicorn');
-}
-
-function testDecomposeHexColor()
-{
-    let rgbColor = decomposeHexColor("#000000");
-    assert(rgbColor[0] === 0);
-    assert(rgbColor[1] === 0);
-    assert(rgbColor[2] === 0);
-
-    rgbColor = decomposeHexColor("#4080c0");
-    assert(rgbColor[0] === 64);
-    assert(rgbColor[1] === 128);
-    assert(rgbColor[2] === 192);
 }

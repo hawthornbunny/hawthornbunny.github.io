@@ -62,9 +62,9 @@
 
 // Global namespace for holding decks application state
 DECKS = {
-    'mappings': {
-        'dataToId': undefined,
-        'idToData': undefined,
+    "mappings": {
+        "dataToId": undefined,
+        "idToData": undefined,
     },
 };
 
@@ -79,21 +79,22 @@ DECKS = {
  */
 const initialize = async function initialize()
 {
+    test();
+
     // Start the glossary application to provide the data source for the deck
     // builder.
     await startApplication();
 
-    // Build a set of mappings from glossary indices to checkbox ids. This will
-    // allow us to associate each checkbox with its glossary property.
-    DECKS.mappings = buildIdMappings();
+    // Build a set of mappings from checkbox ids to glossary records.
+    DECKS.idsToRecords = generateIdsToRecords();
 
     // Create global objects to represent each mode of operation. This makes it
     // easier to provide a consistent way of switching between modes in our
     // single-page app.
     DECKS.modes = {
-        'construct': new Mode(),
-        'deck': new Mode(),
-        'list': new Mode(),
+        construct: new Mode(),
+        deck: new Mode(),
+        list: new Mode(),
     };
 
     // Define draw functions for each mode.
@@ -107,52 +108,42 @@ const initialize = async function initialize()
     DECKS.modes.list.updateFunc = updateListInterface;
 
     // Begin by switching into deck constructor mode.
-    switchMode('construct');
+    switchMode("construct");
 };
 
 /**
- * Build a set of mappings from data to input ids, and vice-versa. This makes it
- * easier to map the user's selections to the data they're selecting, and to
- * restore the selections after changing mode. It's also necessary because some
- * characters (eg. spaces) aren't allowed in ids, so we can't map some names
- * directly to ids.
+ * Generate ids for the media and category checkboxes. Map each id to the
+ * appropriate table record.
+ *
+ * For example, the id "media-EqG" will be mapped to the Equestria Girls record
+ * in the media table.
  */
-const buildIdMappings = function buildIdMappings()
+function generateIdsToRecords()
 {
-    const mappings = {
-        'dataToId': {
-            'decks': {},
-            'props': {},
-        },
-        'idToData': {
-            'decks': {},
-            'props': {},
-        }
+    const idsToRecords = {};
+
+    const propTables = {
+        "media": tables.media,
+        "category": tables.categories
     };
 
-    const toId = string => string.replace(/\W/g, '-');
+    // ids can't have spaces in, so replace any that occur in the generated id.
+    const toId = string => string.replace(/\W/g, "-");
 
-    for (const deckName in global.premadeDecks) {
-        const id = toId(deckName);
-        mappings.dataToId.decks[deckName] = id;
-        mappings.idToData.decks[id] = deckName;
+    for (const tableName in propTables) {
+        const propTable = propTables[tableName];
+        const indexField = propTable.indexFields[0];
+
+        propTable.forEach(record => {
+            const propValue = record[indexField];
+            const id = toId(`${tableName}-${propValue}`);
+            idsToRecords[id] = record;
+        });
     }
 
-    for (const propName in global.validatedProperties) {
-        const propValues = global.validatedProperties[propName];
+    return idsToRecords;
 
-        mappings.dataToId.props[propName] = {};
-
-        for (let i = 0; i < propValues.length; i++) {
-            const propValue = propValues[i];
-            const id = toId(`${propName}-${propValue}`);
-            mappings.dataToId.props[propName][propValue] = id;
-            mappings.idToData.props[id] = [propName, propValue];
-        }
-    }
-
-    return mappings;
-};
+}
 
 /**
  * Mode switcher, to provide a consistent interface for switching between
@@ -197,40 +188,40 @@ const switchMode = function switchMode(mode)
  */
 function drawConstructInterface()
 {
-    const main = query('#main');
-    const constructPanel = create('div');
-    const header = create('header');
-    const title = create('div')
-//    const infoP = create('p');
-//    const premadeDecksTitle = create('h2');
+    const main = query("#main");
+    const constructPanel = create("div");
+    const header = create("header");
+    const title = create("div")
+    const infoP = create("p");
+//    const premadeDecksTitle = create("h2");
 //    const premadeSelector = createPremadeDeckSelector();
-//    const deckGeneratorTitle = create('h2');
+//    const deckGeneratorTitle = create("h2");
     const deckGenerator = createGlossaryDeckGenerator();
     const cardCountDisplay = createCardCountDisplay();
     const buttonsPanel = createConstructButtons();
 
-    constructPanel.id = 'deckConstructor';
-    setProps(title, {'id': 'logoSmall', 'innerHTML': '<a href="index.html">MLP Glossary</a><div class="subtitle">Decks</div>'});
-//    infoP.innerHTML = 'Use the deck constructor interface below to create a custom deck. You can select any number of pre-made decks, and/or use the deck generator to build a deck from selected glossary categories. The final deck will be composed of all your selections, with duplicates removed.';
-//    premadeDecksTitle.innerHTML = 'Pre-made decks';
-//    deckGeneratorTitle.innerHTML = 'Deck generator';
+    constructPanel.id = "deckConstructor";
+    setProps(title, {"id": "logoSmall", "innerHTML": '<a href="index.html">MLP Glossary</a><div class="subtitle">Decks</div>'});
+    infoP.innerHTML = "Use the deck constructor interface below to create a custom deck of glossary entries.<br /><br /><strong>Start a new deal</strong> allows you to deal out random glossary entries as cards from a deck, for when you need to make a random selection.<br /><br /><strong>List mode</strong> will list out the names of all items in your deck, which can be used to create lists of items for word games.";
+//    premadeDecksTitle.innerHTML = "Pre-made decks";
+//    deckGeneratorTitle.innerHTML = "Deck generator";
 
-    append(header, title); //, infoP);
+    append(header, title, infoP);
 //    append(constructPanel, header, premadeDecksTitle, premadeSelector, deckGeneratorTitle, deckGenerator, cardCountDisplay, buttonsPanel);
     append(constructPanel, header, deckGenerator, cardCountDisplay, buttonsPanel);
 
     // Add toggle event handlers to all of the deck selector and deck generator
     // checkboxes to update the card count display when toggled.
-//    const deckSelectorCheckboxes = premadeSelector.querySelectorAll('input[type=checkbox]');
+//    const deckSelectorCheckboxes = premadeSelector.querySelectorAll("input[type=checkbox]");
 //    for (let i=0; i < deckSelectorCheckboxes.length; i++) {
 //        const checkbox = deckSelectorCheckboxes[i];
-//        checkbox.addEventListener('change', updateConstructInterface);
+//        checkbox.addEventListener("change", updateConstructInterface);
 //    }
 
-    const deckGeneratorCheckboxes = deckGenerator.querySelectorAll('input[type=checkbox]');
+    const deckGeneratorCheckboxes = deckGenerator.querySelectorAll("input[type=checkbox]");
     for (let i=0; i < deckGeneratorCheckboxes.length; i++) {
         const checkbox = deckGeneratorCheckboxes[i];
-        checkbox.addEventListener('change', updateConstructInterface);
+        checkbox.addEventListener("change", updateConstructInterface);
     }
 
     append(main, constructPanel);
@@ -249,55 +240,78 @@ function drawConstructInterface()
 //    for (const deckName in dataToId) {
 //        const deck = global.premadeDecks[deckName];
 //        const optionRecord = {
-//            'id': dataToId[deckName],
-//            'title': `${deck.name} (${deck.items.length} items)`,
-//            'description': deck.description,
+//            "id": dataToId[deckName],
+//            "title": `${deck.name} (${deck.items.length} items)`,
+//            "description": deck.description,
 //        };
 //
 //        optionRecords.push(optionRecord);
 //    }
 //
 //    const deckSelector = createOptionListSelector(optionRecords);
-//    deckSelector.id = 'deckSelector';
+//    deckSelector.id = "deckSelector";
 //
 //    return deckSelector;
 //};
 
 /**
- * Create the glossary deck generator interface.
+ * Create the glossary deck generator interface. This consists of 2 panels: one
+ * for selecting media, one for selecting category.
  *
  * @return {Element}
  */
-const createGlossaryDeckGenerator = function createGlossaryDeckGenerator()
+function createGlossaryDeckGenerator()
 {
-    const generatorPanel = create('div');
-    const dataToId = DECKS.mappings.dataToId.props;
+    const generatorPanel = create("div");
     const filterListWidths = {
         "media": "narrow",
         "category": "wide",
     };
 
-    generatorPanel.id = 'deckGenerator';
+    generatorPanel.id = "deckGenerator";
 
-    for (const propName in dataToId) {
-        let propValues = Object.keys(dataToId[propName]);
-        propValues.sort();
-        optionRecords = propValues.map(
-            propValue => {
+    // Divide the checkbox id list into media ids and category ids, so that we
+    // can populate each filter with the correct ids.
+    const filterIdsToRecords = {};
+    for (const checkboxId in DECKS.idsToRecords) {
+        const record = DECKS.idsToRecords[checkboxId];
+        const propName = checkboxId.split("-")[0];
+
+        if (filterIdsToRecords[propName] === undefined) {
+            filterIdsToRecords[propName] = {};
+        }
+
+        filterIdsToRecords[propName][checkboxId] = record;
+    }
+
+    // Create one filter list for each filter (media and category)
+    for (const tableName in filterIdsToRecords) {
+        // Get the list of ids and sort them so the filter options are always in
+        // order.
+        let filterCheckboxIds = Object.keys(filterIdsToRecords[tableName]);
+        filterCheckboxIds.sort();
+
+        // Create the option records (id-title pairs) for the checkboxes.
+        let optionRecords = filterCheckboxIds.map(
+            checkboxId => {
+                const propRecord = filterIdsToRecords[tableName][checkboxId];
+                const propTable = propRecord._parent;
+                const propIndex = propTable.indexFields[0];
                 return {
-                    'id': dataToId[propName][propValue],
-                    'title': propValue
+                    "id": checkboxId,
+                    "title": propRecord[propIndex]
                 }
             }
         );
-        const width = filterListWidths[propName];
+        const width = filterListWidths[tableName];
 
-        const filterList = createFilterList(propName, optionRecords, width);
+        // Create and add the filter list to the deck generator panel.
+        const filterList = createFilterList(tableName, optionRecords, width);
         append(generatorPanel, filterList);
     }
 
     return generatorPanel;
-};
+}
 
 /**
  * Create the card count display, which gives a running total for the size of
@@ -307,14 +321,14 @@ const createGlossaryDeckGenerator = function createGlossaryDeckGenerator()
  */
 const createCardCountDisplay = function createCardCountDisplay()
 {
-    const panel = create('div');
-    const label = create('p');
-    const display = create('p');
+    const panel = create("div");
+    const label = create("p");
+    const display = create("p");
 
-    panel.id = 'cardCountPanel';
-    label.innerHTML = 'Total cards in deck:'
-    display.id = 'cardCountDisplay';
-    display.innerHTML = '0';
+    panel.id = "cardCountPanel";
+    label.innerHTML = "Total cards in deck:"
+    display.id = "cardCountDisplay";
+    display.innerHTML = "0";
 
     append(panel, label, display)
 
@@ -329,32 +343,32 @@ const createCardCountDisplay = function createCardCountDisplay()
  */
 const createConstructButtons = function createConstructButtons()
 {
-    const buttonsPanel = create('div');
-    const startDealButton = create('button');
-    const resumeDealButton = create('button');
-    const createListButton = create('button');
+    const buttonsPanel = create("div");
+    const startDealButton = create("button");
+    const resumeDealButton = create("button");
+    const createListButton = create("button");
     const deckModeState = DECKS.modes.deck.state;
 
     setProps(
         startDealButton,
-        {'id': 'startDealButton', 'innerHTML': 'Start a new deal', 'disabled': true}
+        {"id": "startDealButton", "innerHTML": "Start a new deal", "disabled": true}
     ); // with new options
     setProps(
         resumeDealButton,
-        {'id': 'resumeDealButton', 'innerHTML': 'Resume previous deal'}
+        {"id": "resumeDealButton", "innerHTML": "Resume previous deal"}
     ); // with previous options
     setProps(
         createListButton,
-        {'id': 'createListButton', 'innerHTML': 'Create list', 'disabled': true}
+        {"id": "createListButton", "innerHTML": "Create list", "disabled": true}
     );
 
     if (deckModeState === undefined) {
-        resumeDealButton.style.display = 'none'; 
+        resumeDealButton.style.display = "none"; 
     }
 
-    startDealButton.addEventListener('click', handleStartDeal);
-    resumeDealButton.addEventListener('click', handleContinueDeal);
-    createListButton.addEventListener('click', handleCreateList);
+    startDealButton.addEventListener("click", handleStartDeal);
+    resumeDealButton.addEventListener("click", handleContinueDeal);
+    createListButton.addEventListener("click", handleCreateList);
     append(buttonsPanel, startDealButton, resumeDealButton, createListButton);
 
     return buttonsPanel;
@@ -362,34 +376,32 @@ const createConstructButtons = function createConstructButtons()
 
 /**
  * Read the current state of the deck constructor and use the selected options
- * to construct and return a deck. The deck is returned as an array of glossary
- * keys.
+ * to construct and return a deck. The deck is returned as a list of glossary
+ * records.
  *
- * @return {string[]}
+ * @return {Object[]}
  */
-const constructDeck = function constructDeck()
+function constructDeck()
 {
-    // Create a collection to hold the glossary items that will be used to
-    // create the deck and/or list. The collection is indexed by key to avoid
-    // duplicates.
-    const indexedItems = {};
-
     // Get the current selections from the deck constructor interface.
     const selections = {
-        'premadeDecks': {},
-        'deckGenerator': {},
+        "premadeDecks": {},
+        "deckGenerator": {},
     };
 
     // Pre-made deck selector
-//    let premadeCheckboxes = document.querySelectorAll('#deckSelector .option-panel input[type=checkbox]');
+//    let premadeCheckboxes = document.querySelectorAll("#deckSelector .option-panel input[type=checkbox]");
 //    premadeCheckboxes = [...premadeCheckboxes];
 //    for (let i=0; i < premadeCheckboxes.length; i++) {
 //        const checkbox = premadeCheckboxes[i];
 //        selections.premadeDecks[checkbox.id] = checkbox.checked;
 //    }
 
+    // For every deck generator checkbox, record whether it is checked or
+    // unchecked.
+
     // Glossary deck generator
-    let generatorCheckboxes = document.querySelectorAll('#deckGenerator .filter-list input[type=checkbox]');
+    let generatorCheckboxes = document.querySelectorAll("#deckGenerator .filter-list input[type=checkbox]");
     generatorCheckboxes = [...generatorCheckboxes];
     for (let i=0; i < generatorCheckboxes.length; i++) {
         const checkbox = generatorCheckboxes[i];
@@ -403,7 +415,7 @@ const constructDeck = function constructDeck()
 
     // Glossary deck generator
     let selectedGenerator = Object.keys(selections.deckGenerator);
-    selectedGenerator = selectedGenerator.filter(k => selections.deckGenerator[k] === true && !k.includes('selectAllNone'));
+    selectedGenerator = selectedGenerator.filter(k => selections.deckGenerator[k] === true && !k.includes("selectAllNone"));
 
     // Get all glossary items for the pre-made decks.
 //    for (let i=0; i < premadeDecks.length; i++) {
@@ -437,34 +449,48 @@ const constructDeck = function constructDeck()
     // out. What remains must then be the desired set.
 
     // First, get the ids of all checkboxes that weren't selected.
-    const idToData = DECKS.mappings.idToData.props;
-    const nonSelectedIds = Object.keys(idToData).filter(k => !contains(selectedGenerator, k));
+    const unselectedIds = Object.keys(DECKS.idsToRecords).filter(k =>
+        !contains(selectedGenerator, k)
+    );
 
-    // For each non-selected property value, filter out all glossary items that
-    // have it.
-    let glossaryItems = Object.keys(global.indexedGlossary);
-    for (let i = 0; i < nonSelectedIds.length; i++) {
-        const nonSelectedId = nonSelectedIds[i];
-        const propNameValuePair = idToData[nonSelectedId];
-        const propName = propNameValuePair[0];
-        const propValue = propNameValuePair[1];
-        glossaryItems = glossaryItems.filter(key => global.indexedGlossary[key][propName] !== propValue)
+    // Get the records associated with each non-selected checkbox. Sort them into media
+    // and category so that we can check the correct field when filtering them
+    // from the glossary table.
+    const unselectedProps = {
+        media: [],
+        category: [],
     }
 
-    // Add the glossary items to the deck.
-    for (let i = 0; i < glossaryItems.length; i++) {
-        const glossaryKey = glossaryItems[i];
-        indexedItems[glossaryKey] = global.indexedGlossary[glossaryKey];
+    for (let i = 0; i < unselectedIds.length; i++) {
+        const unselectedId = unselectedIds[i];
+        const propRecord = DECKS.idsToRecords[unselectedId]
+        const propTable = propRecord._parent;
+        const tableName = unselectedId.split("-")[0];
+        const propName = propTable.indexFields[0];
+        unselectedProps[tableName].push(propRecord[propName]);
     }
 
-    return Object.keys(indexedItems);
-};
+    // For each non-selected checkbox, filter out every record from the glossary
+    // that has that value. Every record that doesn't get filtered must, by
+    // elimination, contain one of the selected properties.
+    const validRecords = tables.glossary.filter(record => {
+        if (contains(unselectedProps.media, record.media)) {
+            return false;
+        }
+        if (contains(unselectedProps.category, record.category)) {
+            return false;
+        }
+        return true;
+    });
+
+    return validRecords;
+}
 
 const updateConstructInterface = function updateConstructInterface()
 {
-    const cardCountDisplay = query('#cardCountDisplay');
-    const startDealButton = query('#startDealButton');
-    const createListButton = query('#createListButton');
+    const cardCountDisplay = query("#cardCountDisplay");
+    const startDealButton = query("#startDealButton");
+    const createListButton = query("#createListButton");
     const deck = constructDeck();
 
     cardCountDisplay.innerHTML = deck.length;
@@ -475,8 +501,8 @@ const updateConstructInterface = function updateConstructInterface()
 const saveConstructSelections = function saveConstructSelections()
 {
     // Save deck constructor checkbox states
-    let premadeCheckboxes = document.querySelectorAll('#deckSelector .option-panel input[type=checkbox]');
-    let generatorCheckboxes = document.querySelectorAll('#deckGenerator .filter-list input[type=checkbox]');
+    let premadeCheckboxes = document.querySelectorAll("#deckSelector .option-panel input[type=checkbox]");
+    let generatorCheckboxes = document.querySelectorAll("#deckGenerator .filter-list input[type=checkbox]");
     premadeCheckboxes = [...premadeCheckboxes];
     generatorCheckboxes = [...generatorCheckboxes];
 
@@ -495,24 +521,24 @@ const handleStartDeal = function handleStartDeal()
 
     // Set up deck mode
     DECKS.modes.deck.state = {
-        'cards': {
-            'inDeck': constructDeck(),
-            'onScreen': [],
-            'discarded': [],
+        "cards": {
+            "inDeck": constructDeck(),
+            "onScreen": [],
+            "discarded": [],
         }
     }
 
     // Shuffle deck before starting deal
     shuffleDeck();
 
-    switchMode('deck');
+    switchMode("deck");
 };
 
 const handleContinueDeal = function handleContinueDeal()
 {
     // TODO: Finish
     saveConstructSelections();
-    switchMode('deck');
+    switchMode("deck");
 };
 
 const handleCreateList = function handleCreateList()
@@ -521,10 +547,10 @@ const handleCreateList = function handleCreateList()
 
     // Set up list mode
     DECKS.modes.list.state = {
-        'items': constructDeck(),
-    }
+        "items": constructDeck(),
+    };
 
-    switchMode('list');
+    switchMode("list");
 };
 
 /*******************************************************************************
@@ -533,39 +559,39 @@ const handleCreateList = function handleCreateList()
 
 const drawDeckInterface = function drawDeckInterface()
 {
-    const main = query('#main');
-    const layoutTable = create('table');
-    const buttonsRow = create('tr');
-    const drawnCardsRow = create('tr');
-    const buttonsCell = create('td');
-    const drawnCardsCell = create('td');
-    const buttonsPanel = create('div');
-    const deckInfoPanel = create('div', 'decks-deck-info-panel');
-    const drawnCardsPanel = create('div', 'decks-drawn-cards-panel');
-    const drawCardButton = create('button');
-    const reshuffleButton = create('button');
-    const changeDeckOptionsButton = create('button');
+    const main = query("#main");
+    const layoutTable = create("table");
+    const buttonsRow = create("tr");
+    const drawnCardsRow = create("tr");
+    const buttonsCell = create("td");
+    const drawnCardsCell = create("td");
+    const buttonsPanel = create("div");
+    const deckInfoPanel = create("div", "decks-deck-info-panel");
+    const drawnCardsPanel = create("div", "decks-drawn-cards-panel");
+    const drawCardButton = create("button");
+    const reshuffleButton = create("button");
+    const changeDeckOptionsButton = create("button");
 
-    buttonsPanel.id = 'deckButtonsPanel';
-    deckInfoPanel.id = 'deckInfoPanel';
-    drawnCardsPanel.id = 'drawnCardsPanel';
+    buttonsPanel.id = "deckButtonsPanel";
+    deckInfoPanel.id = "deckInfoPanel";
+    drawnCardsPanel.id = "drawnCardsPanel";
 
     setProps(
         drawCardButton,
-        {'id': 'drawCardButton', 'innerHTML': '🂠 Draw card'}
+        {"id": "drawCardButton", "innerHTML": "🂠 Draw card"}
     );
     setProps(
         reshuffleButton,
-        {'id': 'reshuffleButton', 'innerHTML': '↺ Reshuffle'}
+        {"id": "reshuffleButton", "innerHTML": "↺ Reshuffle"}
     );
     setProps(
         changeDeckOptionsButton,
-        {'id': 'changeDeckOptionsButton', 'innerHTML': '← Change deck options'}
+        {"id": "changeDeckOptionsButton", "innerHTML": "← Change deck options"}
     );
 
-    drawCardButton.addEventListener('click', handleDrawCard);
-    reshuffleButton.addEventListener('click', handleReshuffle);
-    changeDeckOptionsButton.addEventListener('click', handleChangeDeckOptions);
+    drawCardButton.addEventListener("click", handleDrawCard);
+    reshuffleButton.addEventListener("click", handleReshuffle);
+    changeDeckOptionsButton.addEventListener("click", handleChangeDeckOptions);
 
     append(buttonsPanel, drawCardButton, reshuffleButton, changeDeckOptionsButton);
     append(buttonsCell, buttonsPanel, deckInfoPanel);
@@ -578,11 +604,11 @@ const drawDeckInterface = function drawDeckInterface()
     updateDeckInterface();
 };
 
-const updateDeckInterface = function updateDeckInterface()
+function updateDeckInterface()
 {
-    const deckInfoPanel = query('#deckInfoPanel');
-    const drawnCardsPanel = query('#drawnCardsPanel');
-    const drawCardButton = query('#drawCardButton');
+    const deckInfoPanel = query("#deckInfoPanel");
+    const drawnCardsPanel = query("#drawnCardsPanel");
+    const drawCardButton = query("#drawCardButton");
     const deckModeCards = DECKS.modes.deck.state.cards;
     const numDrawnCards = deckModeCards.onScreen.length + deckModeCards.discarded.length;
     const drawnCards = deckModeCards.onScreen;
@@ -591,7 +617,7 @@ const updateDeckInterface = function updateDeckInterface()
     empty(drawnCardsPanel);
 
     // Update card info panel
-    let html = '';
+    let html = "";
     html += `<div><strong>Cards drawn:</strong> ${numDrawnCards}</div>`;
     html += `<div><strong>Cards left in deck:</strong> ${deckModeCards.inDeck.length}</div>`;
     deckInfoPanel.innerHTML = html;
@@ -599,36 +625,35 @@ const updateDeckInterface = function updateDeckInterface()
     // Update cards display
     for (let i = 0; i < drawnCards.length; i++) {
         const drawnCard = drawnCards[i];
-        const glossaryRecord = global.indexedGlossary[drawnCard];
-        const cardProxy = createCardProxy(glossaryRecord, i);
+        const cardProxy = createCardProxy(drawnCard, i);
 
         append(drawnCardsPanel, cardProxy);
     }    
 
     // Disable draw card button if no cards left in deck
     drawCardButton.disabled = deckModeCards.inDeck.length === 0;
-};
+}
 
 /**
  * Given a glossary record, create an DOM element representing that record as
  * a card ("proxy" here is used in the Magic: the Gathering sense of "something
  * that represents a card").
  *
- * `drawnCardIndex` represents the index of that card in the list of drawn
- * cards; this is needed so that we can target the card with an event when the
- * user chooses to discard it.
+ * `drawnCardIndex` represents the numerical index of that card in the list of
+ * drawn cards; this is needed so that we can target the card with an event when
+ * the user chooses to discard it.
  *
  * @param {Object} glossaryRecord
  * @param {number} drawnCardIndex
  * @return {Element}
  */
-const createCardProxy = function createCardProxy(glossaryRecord, drawnCardIndex)
+function createCardProxy(glossaryRecord, drawnCardIndex)
 {
-    const cardProxy = create('div', 'proxy');
+    const cardProxy = create("div", "proxy");
 
     // Look up the media this proxy is for, and generate a color palette for the
     // proxy based on that media's tag color.
-    const media = global.tables.media.get(glossaryRecord.media);
+    const media = glossaryRecord._rel.media;
     const mediumRgb = decomposeHexColor(media.color);
 
     // Get the RGB components as floats from 0 to 1.
@@ -662,7 +687,7 @@ const createCardProxy = function createCardProxy(glossaryRecord, drawnCardIndex)
 
     // Construct the proxy's HTML.
     let html = "";
-    html += `<p class="proxy-item"><span class="proxy-item-title" style="background-color: ${darkColor}"}>${glossaryRecord.item}</span></p>`;
+    html += `<p class="proxy-item"><span class="proxy-item-title" style="background-color: ${darkColor}";>${glossaryRecord.item}</span></p>`;
     html += `<p class="proxy-media-category"><span class="proxy-media" style="background-color: ${mediumColor};">${glossaryRecord.media}</span> &mdash; ${glossaryRecord.category}</p>`;
     html += `<p class="proxy-description">${glossaryRecord.description}</p>`;
     cardProxy.innerHTML = html;
@@ -684,16 +709,16 @@ const createCardProxy = function createCardProxy(glossaryRecord, drawnCardIndex)
     }
 
     cardProxy.dataset.index = drawnCardIndex;
-    cardProxy.addEventListener('click', handleDiscardCard);
+    cardProxy.addEventListener("click", handleDiscardCard);
 
     return cardProxy;
-};
+}
 
 /**
  * Return all cards that have currently been dealt or discarded in deck mode
  * back to the deck, and shuffle it.
  */
-const shuffleDeck = function shuffleDeck()
+function shuffleDeck()
 {
     const deckModeCards = DECKS.modes.deck.state.cards;
 
@@ -702,7 +727,7 @@ const shuffleDeck = function shuffleDeck()
     deckModeCards.inDeck = shuffle(deckModeCards.inDeck);
     deckModeCards.onScreen = [];
     deckModeCards.discarded = [];
-};
+}
 
 /**
  * Handle the "Draw card" button.
@@ -739,7 +764,7 @@ const handleChangeDeckOptions = function handleChangeDeckOptions()
     // TODO: Deck state doesn't need to be saved as it's all in global storage.
     // However, list mode inputs do need to be saved when switching back to the
     // deck constructor.
-    switchMode('construct');
+    switchMode("construct");
 };
 
 const handleDiscardCard = function handleDiscardCard(evt)
@@ -760,33 +785,33 @@ const handleDiscardCard = function handleDiscardCard(evt)
 
 const drawListInterface = function drawListInterface()
 {
-    const main = query('#main');
-    const buttonsPanel = create('div');
-    const listAndOptionsPanel = create('div');
-    const listArea = create('textarea');
+    const main = query("#main");
+    const buttonsPanel = create("div");
+    const listAndOptionsPanel = create("div");
+    const listArea = create("textarea");
     const optionsPanel = createListOptionsPanel();
-    const changeDeckOptionsButton = create('button');
-    const optionsPanelInputs = optionsPanel.querySelectorAll('input');
+    const changeDeckOptionsButton = create("button");
+    const optionsPanelInputs = optionsPanel.querySelectorAll("input");
 
     for (let i=0; i < optionsPanelInputs.length; i++) {
         const input = optionsPanelInputs[i];
-        input.addEventListener('change', evt => updateListInterface());
+        input.addEventListener("change", evt => updateListInterface());
     }
 
-    listAndOptionsPanel.id = 'listAndOptionsPanel';
-    optionsPanel.id = 'listOptions';
+    listAndOptionsPanel.id = "listAndOptionsPanel";
+    optionsPanel.id = "listOptions";
 
     setProps(
         listArea,
-        {'id': 'listArea', 'cols': 80, 'rows': 32}
+        {"id": "listArea", "cols": 80, "rows": 32}
     );
 
     setProps(
         changeDeckOptionsButton,
-        {'id': 'changeDeckOptionsButton', 'innerHTML': '← Change deck options'}
+        {"id": "changeDeckOptionsButton", "innerHTML": "← Change deck options"}
     );
 
-    changeDeckOptionsButton.addEventListener('click', handleChangeDeckOptions);
+    changeDeckOptionsButton.addEventListener("click", handleChangeDeckOptions);
 
     append(buttonsPanel, changeDeckOptionsButton);
     append(listAndOptionsPanel, listArea, optionsPanel);
@@ -850,7 +875,7 @@ const createListOptionsPanel = function createListOptionsPanel()
 
     append(optionsPanel, delimiterOptionsList, listWarning);
 
-    const newlineDelimitedRadio = optionsPanel.querySelector('#newlineDelimited');
+    const newlineDelimitedRadio = optionsPanel.querySelector("#newlineDelimited");
     newlineDelimitedRadio.checked = true;
     disambiguateNonUnique.checked = false;
 
@@ -902,7 +927,7 @@ function updateListInterface()
     // (Note that it isn't always just different incarnations of the same
     // character - for example, in FiM, "Somnambula" is the both the name
     // of a character and of a location).
-    const disambiguatedItems = disambiguateItems(items, global.indexedGlossary);
+    const disambiguatedItems = disambiguateItems(items, tables.glossary);
 
     // The disambiguated item list provides us with a unique list of item names.
     // We now need to filter that list depending on the user's selections.
@@ -910,29 +935,29 @@ function updateListInterface()
 
     // If the user selected the max chars checkbox, filter out any item names
     // that are too long.
-    const maxCharsCheckbox = query('#maxChars');
+    const maxCharsCheckbox = query("#maxChars");
     if (maxCharsCheckbox.checked) {
-        const maxCharsField = query('#maxCharsField');
+        const maxCharsField = query("#maxCharsField");
         const maxChars = maxCharsField.value;
         itemNames = itemNames.filter(itemName => itemName.length <= maxChars);
     }
 
     // If the user selected the max words checkbox, filter out any item names
     // that have too many words.
-    const maxWordsCheckbox = query('#maxWords');
+    const maxWordsCheckbox = query("#maxWords");
     if (maxWordsCheckbox.checked) {
-        const maxWordsField = query('#maxWordsField');
+        const maxWordsField = query("#maxWordsField");
         const maxWords = maxWordsField.value;
         itemNames = itemNames.filter(itemName => itemName.split(/\s+/).length <= maxWords);
     }
 
     // If the user selected the disallowed words checkbox, filter out any item
     // names that contain disallowed characters.
-    const disallowedCharsCheckbox = query('#disallowedChars');
+    const disallowedCharsCheckbox = query("#disallowedChars");
     if (disallowedCharsCheckbox.checked) {
-        const disallowedCharsField = query('#disallowedCharsField');
+        const disallowedCharsField = query("#disallowedCharsField");
         const disallowedCharsString = disallowedCharsField.value;
-        const disallowedChars = disallowedCharsString.split('');
+        const disallowedChars = disallowedCharsString.split("");
         
         itemNames = itemNames.filter(itemName => {
             for (let i = 0; i < disallowedChars.length; i++) {
@@ -953,7 +978,7 @@ function updateListInterface()
     itemNames = itemNames.filter(i => !containsDelimiter(i));
 
     if (itemsContainingDelimiter.length > 0) {
-        const removedItems = itemsContainingDelimiter.map(i => `"${i}"`).join(', ');
+        const removedItems = itemsContainingDelimiter.map(i => `"${i}"`).join(", ");
         listWarning.innerHTML = `Some items were removed as they contain the
         delimiter: ${removedItems}`;
     }
@@ -961,7 +986,7 @@ function updateListInterface()
     // With filtering of the item names complete, we can now add back in any
     // items that had multiple disambiguated versions if the user requested that
     // they be included.
-    const disambiguateCheckbox = query('#disambiguateNonUnique');
+    const disambiguateCheckbox = query("#disambiguateNonUnique");
     if (disambiguateCheckbox.checked) {
         let i = 0;
         while (i < itemNames.length) {
@@ -990,34 +1015,17 @@ function updateListInterface()
 }
 
 /**
- * Given a list of glossary keys which refer to a set of glossary records,
- * return an object which maps each name in the glossary to a list of its
+ * Given a list of glossary records,
+ * return an object which maps each item in the glossary to a list of its
  * possible disambiguations.
  *
  * For example, if the glossary records referred to are as follows:
  *
- *     {
- *         "EqG-character-Applejack": {
- *             media: "EqG",
- *             category: "character",
- *             item: "Applejack"
- *         },
- *         "FiM-character-Applejack": {
- *             media: "FiM",
- *             category: "character",
- *             item: "Applejack"
- *         },
- *         "FiM-character-Somnambula": {
- *             media: "FiM",
- *             category: "character",
- *             item: "Somnambula"
- *         },
- *         "FiM-location-Somnambula": {
- *             media: "FiM",
- *             category: "location",
- *             item: "Somnambula"
- *         }
- *     }
+ *     media   category    item
+ *     EqG     character   Applejack
+ *     FiM     character   Applejack
+ *     FiM     character   Somnambula
+ *     FiM     location    Somnambula
  *
  * then the disambiguated object is:
  *
@@ -1026,13 +1034,12 @@ function updateListInterface()
  *         "Somnambula": ["Somnambula (character)", "Somnambula (location)"],
  *     }
  */
-function disambiguateItems(glossaryKeys, indexedGlossary)
+function disambiguateItems(glossary)
 {
     // Create an object mapping glossary item names to lists of records with
-    // those names (ie. group together records that have the same `item` value).
+    // those names (i.e. group together records that have the same `item` value)
     const namesToRecords = {};
-    glossaryKeys.forEach(key => {
-        const record = indexedGlossary[key];
+    glossary.forEach(record => {
         const name = record.item;
 
         if (namesToRecords[name] === undefined) {
@@ -1105,7 +1112,7 @@ function disambiguateItems(glossaryKeys, indexedGlossary)
  ******************************************************************************/
 function emptyMain()
 {
-    const main = query('#main');
+    const main = query("#main");
     empty(main);
 }
 

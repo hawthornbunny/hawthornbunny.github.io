@@ -64,7 +64,8 @@ const createOption = function createOption(optionRecord, checked)
 
 /**
  * Create a vertical filter list for the given set of values, with a "Select
- * all/none" checkbox at the top.
+ * all/none" checkbox at the top. optionRecords is a list of objects containing
+ * id and title properties. width is either "wide" or "narrow".
  *
  * @param {string} filterTitle
  * @param {Object[]} optionRecords

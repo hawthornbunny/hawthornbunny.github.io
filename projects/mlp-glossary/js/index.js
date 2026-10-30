@@ -8,6 +8,7 @@
  */
 async function initialize()
 {
+    test();
     await startApplication();
     const searchField = query('#searchField');
     const aboutLink = query('#about');
@@ -26,7 +27,7 @@ async function initialize()
     // Populate the Media box with the glossary's media list.
     let html = "";
     html += '<span class="toggle-box-heading">Media list</span>';
-    global.tables.media.forEach((index, record) => {
+    tables.media.forEach(record => {
         html += `<p><span class="media-box-tag" style="background-color: ${record.color}">${record.abbreviation}</span> &mdash; `;
         html += `<strong>${record.name}</strong><br />${record.description}</p>`;
     });
@@ -133,14 +134,10 @@ function searchRecords(string)
     const searchResultsPanel = query('#searchResults');
     const resultEntries = [];
     
-    const searchResults = getSearchResults(string, global.indexedGlossary, global.aliasesToGlossary);
+    let searchResults = getSearchResults(string, tables.glossary, tables.glossaryAliases);
 
-    let searchResultKeys = Object.keys(searchResults);
-
-    searchResultKeys = searchResultKeys.sort(
-        (keyA, keyB) => {
-            const resultA = searchResults[keyA];
-            const resultB = searchResults[keyB];
+    searchResults = searchResults.sort(
+        (resultA, resultB) => {
             if (resultA.item < resultB.item) {
                 return -1;
             } else if (resultA.item > resultB.item) {
@@ -150,9 +147,8 @@ function searchRecords(string)
         }
     );
 
-    for (let i = 0; i < searchResultKeys.length; i++) {
-        const key = searchResultKeys[i];
-        const searchResult = searchResults[key];
+    for (let i = 0; i < searchResults.length; i++) {
+        const searchResult = searchResults[i];
         const resultEntry = createResultEntry(searchResult);
         append(searchResultsPanel, resultEntry);
     }
@@ -161,7 +157,7 @@ function searchRecords(string)
 /**
  * Create and return a search result element for the given data record.
  *
- * @param {SearchResult} searchResult
+ * @param {Object} searchResult
  * @return {Element}
  */
 function createResultEntry(searchResult)
@@ -198,7 +194,7 @@ function createResultEntry(searchResult)
     // text, and a click handler to allow the tag to expand to its full
     // definition.
     const mediaTag = resultEntry.querySelector(".result-media");
-    const media = global.tables.media.get(searchResult.media);
+    const media = tables.media.get([searchResult.media]);
     mediaTag.dataset.fullName = media.name;
     mediaTag.style.backgroundColor = media.color;
     mediaTag.addEventListener("click", handleExpandMediaTag);
